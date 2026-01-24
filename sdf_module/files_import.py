@@ -21,5 +21,5 @@ from lxml import html #type: ignore
 import json
 import math
 import pdb
-
-base_dir = "C:/Users/shanj/OneDrive/Desktop/web-scrapping-pipeline"
+import pika #type: ignore
+base_dir = "C:/Users/shanj/OneDrive/Desktop/SARA"

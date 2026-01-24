@@ -1,6 +1,6 @@
 from sdf_module.url_discovery import *
 
-class AjioComInternalFeasibility(UrlDiscovery):
+class AjioComInternalFeasibility():
     def get_category_url(self, url, depth, current_depth_level):
         page_url = []
         cat_url = []

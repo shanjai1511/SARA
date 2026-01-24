@@ -10,16 +10,48 @@ class UrlDiscovery:
         self.site_name = site_name
         self.count = 0
 
-    def write_url_in_txt(self, result_url):
+    def push_urls_to_queue(self, result_url,schedule_key):
+        sdfFetch.print_info_message(
+            "info",
+            f"Pushing URLs to RabbitMQ for project: {self.project_name}, site: {self.site_name}"
+        )
+
+        connection, channel = sdfFetch.get_rabbitmq_channel()
+        
+
+        queue_name = f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
+
+        # Durable queue (survives restarts)
+        channel.queue_declare(queue=queue_name, durable=True)
+
+        for url in result_url:
+            channel.basic_publish(
+                exchange="",
+                routing_key=queue_name,
+                body=url,
+                properties=pika.BasicProperties(
+                    delivery_mode=2  # make message persistent
+                )
+            )
+            import pdb; pdb.set_trace()
+
+        connection.close()
+
+        sdfFetch.print_info_message(
+            "success",
+            f"URLs pushed to RabbitMQ successfully for project: {self.project_name}, site: {self.site_name}"
+        )
+
+    def write_url_in_txt(self, result_url,schedule_key):
         sdfFetch.print_info_message("info", f"Writing URLs to file for project: {self.project_name} and site: {self.site_name}")
-        filepath = Path(self.output_dir) / f"{self.site_name}_{self.project_name}.txt"
+        filepath = Path(self.output_dir) / f"{self.site_name}_{self.project_name}_{schedule_key}.txt"
         filepath.parent.mkdir(parents=True, exist_ok=True)
         with open(filepath, 'a') as file:
             for item in result_url:
                 file.write(f"{item}\n")
         sdfFetch.print_info_message("success", f"URLs written to file successfully for project: {self.project_name} and site: {self.site_name}")
 
-    def get_final_url(self, url, depth, current_depth_level, max_depth, module_instance):
+    def get_final_url(self, url, depth, current_depth_level, max_depth, module_instance,schedule_key):
         sdfFetch.print_info_message("info", f"Getting final URL for project: {self.project_name} and site: {self.site_name}")
         current_depth = depth[f"depth{current_depth_level}"]
         method_name = current_depth["method_name"]
@@ -35,12 +67,13 @@ class UrlDiscovery:
                 logging.exception("URL fetching failed")
                 continue
             if current_depth_level == max_depth:
-                self.write_url_in_txt(result_url)
+                self.push_urls_to_queue(result_url,schedule_key)
+                #self.write_url_in_txt(result_url,schedule_key) enable it to same it in the txt file
                 self.count += len(result_url)
             else:
-                self.get_final_url(result_url, depth, current_depth_level + 1, max_depth, module_instance)
+                self.get_final_url(result_url, depth, current_depth_level + 1, max_depth, module_instance,schedule_key)
 
-    def main_execution(self):
+    def main_execution(self,schedule_key):
         sdfFetch.print_info_message("info", f"Starting main execution for project: {self.project_name} and site: {self.site_name}")
         try:
             yaml_file_path = Path(self.collector_dir) / f"{self.site_name}_{self.project_name}.yml"
@@ -65,31 +98,31 @@ class UrlDiscovery:
 
             seed_url = depth["depth0"]["seed_url"]
 
-            self.get_final_url(seed_url, depth, 0, len(depth) - 1, site_instance)
+            self.get_final_url(seed_url, depth, 0, len(depth) - 1, site_instance, schedule_key)
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")
             logging.exception("Unhandled error during execution")
             raise
 
-    def main(self):
+    def main(self,schedule_key):
         sdfFetch.print_info_message("info", f"Starting script execution of url_discovery for project: {self.project_name} and site: {self.site_name}")
         self.output_dir = Path(self.base_dir) / f"scrape_output/discovery_output/{self.project_name}"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.collector_dir = Path(self.base_dir) / f"url_discovery/{self.project_name}"
-        filepath = self.output_dir / f"{self.site_name}_{self.project_name}.txt"
+        filepath = self.output_dir / f"{self.site_name}_{self.project_name}_{schedule_key}.txt"
         
         with open(filepath, 'w') as file:
             file.write('')
-        self.main_execution()
+        self.main_execution(schedule_key)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Usage: python url_fetcher.py <project_name> <site_name>")
         sys.exit(1)
     project_name = sys.argv[1]
     site_name = sys.argv[2]
-    base_dir = "C:/Users/shanj/OneDrive/Desktop/SARA"
+    schedule_key = sys.argv[3]
     url_discovery = UrlDiscovery(base_dir,project_name,site_name)
-    url_discovery.main()
+    url_discovery.main(schedule_key)
