@@ -20,6 +20,16 @@ class sdfFetch:
         json_message = json.dumps(status_message, indent=4)
         logging.error(json_message)
 
+    CLOUDAMQP_URL = "amqps://fwgxshpc:6VNXrVYFv3yAVEjPdsd001qClkj3JTAS@puffin.rmq2.cloudamqp.com/fwgxshpc"
+
+    @staticmethod
+    def get_rabbitmq_channel():
+        params = pika.URLParameters(sdfFetch.CLOUDAMQP_URL)
+        connection = pika.BlockingConnection(params)
+        channel = connection.channel()
+        return connection, channel
+
+
     @staticmethod
     def print_info_message(status, info=None, url=None):
         status_message = {
