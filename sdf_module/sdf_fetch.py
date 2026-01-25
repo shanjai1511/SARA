@@ -20,8 +20,6 @@ class sdfFetch:
         json_message = json.dumps(status_message, indent=4)
         logging.error(json_message)
 
-    CLOUDAMQP_URL = "amqps://fwgxshpc:6VNXrVYFv3yAVEjPdsd001qClkj3JTAS@puffin.rmq2.cloudamqp.com/fwgxshpc"
-
     @staticmethod
     def get_rabbitmq_channel():
         params = pika.URLParameters(sdfFetch.CLOUDAMQP_URL)
@@ -75,7 +73,7 @@ class sdfFetch:
             }
 
             if response.status_code == 200:
-                output_dir = Path("C:/Users/shanj/OneDrive/Desktop/web-scrapping-pipeline/cache/")
+                output_dir = Path(f"{base_dir}/cache/")
                 output_dir.mkdir(parents=True, exist_ok=True)
 
                 output_file = output_dir / f"{sdfFetch.encode(url)}.html"
@@ -92,9 +90,7 @@ class sdfFetch:
                     "error",
                     f"Failed to fetch page content for URL: {url}"
                 )
-
             return result
-
         except requests.RequestException as e:
             sdfFetch.print_error_message(
                 "error",
@@ -106,7 +102,6 @@ class sdfFetch:
                 "status_code": None,
                 "url": url
             }
-
         finally:
             session.close()
 
