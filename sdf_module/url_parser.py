@@ -1,4 +1,4 @@
-from sdf_fetch import *
+from .sdf_fetch import *
 
 class UrlParser:
     def __init__(self, base_dir, project_name, site_name):
@@ -22,6 +22,8 @@ class UrlParser:
         """
         # Use the site-specific method to modify the page_doc
         subsections = site_instance.modify_page_doc(output, page_doc)
+        if not subsections:
+            subsections = [page_doc]  # If no subsections, treat the whole page_doc as one record
 
         records = []
         for sub_doc in subsections:
@@ -32,7 +34,7 @@ class UrlParser:
                     extraction_method = getattr(site_instance, method_name)
                     try:
                         # Call the respective extraction method with the sub_doc and field rules
-                        record[field] = extraction_method(sub_doc, {**rules, 'url': config.get('domain', '')})
+                        record[field] = extraction_method(sub_doc, output)
                     except Exception as e:
                         record[field] = None
                         logging.warning(f"Error extracting field {field}: {e}")
@@ -42,7 +44,7 @@ class UrlParser:
         sdfFetch.print_info_message("success", f"Records extracted successfully for project: {self.project_name} and site: {self.site_name}")
         return records
 
-    def main(self):
+    def main(self,schedule_key):
         sdfFetch.print_info_message("info", f"Starting script execution of url_parser for project: {self.project_name} and site: {self.site_name}")
         try:
             yaml_file_path = self.parser_dir / f"{self.project_name}/{self.site_name}_{self.project_name}.yml"
@@ -65,22 +67,20 @@ class UrlParser:
                 return
 
             # Fetching file paths (where URLs are stored)
-            today = date.today()
-            formatted_date = today.strftime('%Y%m%d')
-            output_queue = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{formatted_date}/{self.site_name}_{self.project_name}.txt"
+            output_queue = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/{schedule_key}_queue.txt"
             with open(output_queue, 'r') as file:
                 # Read all lines and strip any leading/trailing whitespaces
                 file_paths = [line.strip() for line in file.readlines()]
             # Extract records for each file
             for output in file_paths:
-                output_key = eval(output) 
+                output_key = eval(output)
                 output = output_key.get("output_file")
                 with open(output, 'r', encoding='utf-8') as file:
                     page_content = file.read()
                 page_doc = etree.HTML(page_content)
                 extracted_data = self.extract_records(output_key.get("url"),  page_doc, config, site_instance)
                 # Write extracted data to CSV
-                output_file = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{formatted_date}"
+                output_file = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{self.site_name}_{self.project_name}_{schedule_key}"
                 output_file.mkdir(parents=True, exist_ok=True)
                 output_file = output_file / f"{self.site_name}_{self.project_name}.csv"
                 
@@ -96,10 +96,11 @@ class UrlParser:
             raise
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Usage: python url_retriever.py <project_name> <site_name>")
         sys.exit(1)
     project_name = sys.argv[1]
     site_name = sys.argv[2]
+    schedule_key = sys.argv[3]
     url_parser = UrlParser(base_dir,project_name,site_name)
-    url_parser.main()
+    url_parser.main(schedule_key)
