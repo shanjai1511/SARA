@@ -1,5 +1,5 @@
 ---
-domain: jbhifi.nz.com
+domain: styleunion.com
 fields:
   crawl_timestamp:
     desc_of_xpath:
@@ -36,12 +36,12 @@ fields:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  size:
+  color:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  colour:
+  size:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
@@ -52,76 +52,6 @@ fields:
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
   sku:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  fit:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  origin:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  is_parent:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  stock_status:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  variant_id:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  primary_category:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  primary_category_url:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  secondary_category:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  secondary_category_url:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  tertiary_category:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  tertiary_category_url:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  product_rank:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  star_rating:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  reviews_count:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"

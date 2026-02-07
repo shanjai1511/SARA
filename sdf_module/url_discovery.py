@@ -33,7 +33,6 @@ class UrlDiscovery:
                     delivery_mode=2  # make message persistent
                 )
             )
-            import pdb; pdb.set_trace()
 
         connection.close()
 
@@ -98,7 +97,7 @@ class UrlDiscovery:
 
             seed_url = depth["depth0"]["seed_url"]
 
-            self.get_final_url(seed_url, depth, 0, len(depth) - 1, site_instance, schedule_key)
+            self.get_final_url(seed_url, depth, 0, len(depth)-1, site_instance, schedule_key)
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")

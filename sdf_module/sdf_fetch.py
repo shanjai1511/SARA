@@ -22,7 +22,7 @@ class sdfFetch:
 
     @staticmethod
     def get_rabbitmq_channel():
-        params = pika.URLParameters(sdfFetch.CLOUDAMQP_URL)
+        params = pika.URLParameters(CLOUDAMQP_URL)
         connection = pika.BlockingConnection(params)
         channel = connection.channel()
         return connection, channel
