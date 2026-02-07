@@ -13,6 +13,7 @@ logging.basicConfig(
 class sdfFetch:
     @staticmethod
     def print_error_message(status, info):
+        sleep(2)  # Sleep for 1 second before logging the error message
         status_message = {
             "status": status,
             "info": info
@@ -30,6 +31,7 @@ class sdfFetch:
 
     @staticmethod
     def print_info_message(status, info=None, url=None):
+        sleep(2)  # Sleep for 1 second before logging the info message
         status_message = {
             "status": status,
             "info": info

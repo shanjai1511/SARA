@@ -23,7 +23,7 @@ class UrlRetriever:
 
             channel.queue_declare(queue=queue_name, durable=True)
 
-            MAX_URLS = 50
+            MAX_URLS = 500
 
             for _ in range(MAX_URLS):
                 method, properties, body = channel.basic_get(queue=queue_name)
@@ -68,6 +68,7 @@ class UrlRetriever:
                 continue
             url = key.split("|")[0]
             data = {}
+            sleep(10)  # Sleep for 10 seconds before each request to avoid overwhelming the server
             if extended_header:
                 result = sdfFetch.get_page_content_hash(url, extended_header)
             else:

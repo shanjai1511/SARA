@@ -23,7 +23,7 @@ class StyleunionComInternalFeasibility():
                 return [keyurl]
         except Exception as e:
             print(f"Exception occurred: {e}")
-        return pagination_url[:10]
+        return pagination_url
 
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
@@ -44,4 +44,4 @@ class StyleunionComInternalFeasibility():
                 product_url.append(f"https://styleunion.in{prod}|{category}")
         except Exception as e:
             print(f"Exception occurred: {e}")
-        return product_url[:10]
+        return product_url
