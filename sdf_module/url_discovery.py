@@ -59,6 +59,7 @@ class UrlDiscovery:
             return
         
         for i in url:
+            sleep(5)  # Sleep for 5 seconds before making the next request
             try:
                 result_url = method_to_call(i, depth, current_depth_level)
             except Exception as e:

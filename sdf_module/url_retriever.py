@@ -23,7 +23,7 @@ class UrlRetriever:
 
             channel.queue_declare(queue=queue_name, durable=True)
 
-            MAX_URLS = 2
+            MAX_URLS = 50
 
             for _ in range(MAX_URLS):
                 method, properties, body = channel.basic_get(queue=queue_name)
