@@ -24,5 +24,6 @@ import pdb
 from asyncio import sleep
 import pika #type: ignore
 import re
+import pandas as pd #type: ignore
 base_dir = "C:/Users/shanj/OneDrive/Desktop/SARA"
 CLOUDAMQP_URL = "amqps://fwgxshpc:6VNXrVYFv3yAVEjPdsd001qClkj3JTAS@puffin.rmq2.cloudamqp.com/fwgxshpc"
