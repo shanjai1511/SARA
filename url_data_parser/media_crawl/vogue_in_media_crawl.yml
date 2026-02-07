@@ -16,42 +16,32 @@ fields:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  product_name:
+  article_title:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  list_price:
+  sub_title:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  selling_price:
+  author_name:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  discount_percentage:
+  post_date:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  color:
+  article_content:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  size:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  description:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  sku:
+  image_url:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"

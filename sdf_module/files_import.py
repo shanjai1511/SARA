@@ -1,6 +1,8 @@
 import os
 import glob
 import requests
+import subprocess
+import sys
 import hashlib
 import json
 import sys

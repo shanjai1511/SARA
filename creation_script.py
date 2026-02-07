@@ -84,7 +84,7 @@ retry_attempt_per_url:"""
     
     parser_py_content = f"""from sdf_module.url_parser import *
 
-class StyleunionComInternalFeasibility():
+class {class_name_in_site_script}():
 
     @staticmethod
     def modify_page_doc(inhash, page_doc):
