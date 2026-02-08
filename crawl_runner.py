@@ -1,17 +1,17 @@
 from sdf_module.files_import import *
 
 if len(sys.argv) != 4:
-    print("Usage: python run_pipeline.py <project> <site> <date>")
+    print("Usage: python run_pipeline.py <project> <site> <scheduler_id>")
     sys.exit(1)
 
 project = sys.argv[1]
 site = sys.argv[2]
-date = sys.argv[3]
+scheduler_id = sys.argv[3]
 
 commands = [
-    ["python", "-m", "sdf_module.url_discovery", project, site, date],
-    ["python", "-m", "sdf_module.url_retriever", project, site, date],
-    ["python", "-m", "sdf_module.url_parser", project, site, date],
+    ["python", "-m", "sdf_module.url_discovery", project, site, scheduler_id],
+    ["python", "-m", "sdf_module.url_retriever", project, site, scheduler_id],
+    ["python", "-m", "sdf_module.url_parser", project, site, scheduler_id],
 ]
 
 for cmd in commands:
