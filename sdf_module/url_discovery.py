@@ -105,8 +105,17 @@ class UrlDiscovery:
             logging.exception("Unhandled error during execution")
             raise
 
-    def main(self,schedule_key):
-        sdfFetch.print_info_message("info", f"Starting script execution of url_discovery for project: {self.project_name} and site: {self.site_name}")
+    def main(self, schedule_key):
+        sdfFetch.set_crawl_context(
+            stage="discovery",
+            schedule_id=schedule_key,
+            project=self.project_name,
+            site=self.site_name,
+        )
+        sdfFetch.print_info_message(
+            "info",
+            f"[discovery] Starting for project={self.project_name}, site={self.site_name}, schedule_id={schedule_key}"
+        )
         self.output_dir = Path(self.base_dir) / f"scrape_output/discovery_output/{self.project_name}"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.collector_dir = Path(self.base_dir) / f"url_discovery/{self.project_name}"
@@ -115,6 +124,10 @@ class UrlDiscovery:
         with open(filepath, 'w') as file:
             file.write('')
         self.main_execution(schedule_key)
+        sdfFetch.print_info_message(
+            "success",
+            f"[discovery] Completed schedule_id={schedule_key} | URLs discovered: {self.count}"
+        )
 
 
 if __name__ == "__main__":

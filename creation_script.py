@@ -78,9 +78,11 @@ class {class_name_in_site_script}():
         return page_content
 """
     retriever_yml_content = """request_type: curl
-verification_xpath:
-ingnore_cache_for_retries:
-retry_attempt_per_url:"""
+request_params:
+  max_retries: 3
+  timeout: 30
+  # extended_header: {}
+"""
     
     parser_py_content = f"""from sdf_module.url_parser import *
 
@@ -90,9 +92,10 @@ class {class_name_in_site_script}():
     def modify_page_doc(inhash, page_doc):
         final_data = []
         try:
-            url,category = str(inhash).split("|")
+            if isinstance(inhash, str) and "|" in inhash:
+                url, category = inhash.split("|", 1)
         except Exception as e:
-            print(f"Exception occurred: e")
+            print(f"Exception occurred: {e}")
         return final_data
 
     @staticmethod
@@ -108,39 +111,39 @@ class {class_name_in_site_script}():
 
     @staticmethod
     def get_page_url(page_doc, inhash):
-        return value
+        return inhash.split("|")[0] if isinstance(inhash, str) and "|" in inhash else inhash
 
     @staticmethod
     def get_product_name(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
 
     @staticmethod
     def get_list_price(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
     
     @staticmethod
     def get_selling_price(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
 
     @staticmethod
     def get_discount_percentage(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
     
     @staticmethod
     def get_size(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
     
     @staticmethod
     def get_color(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
     
     @staticmethod
     def get_description(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
     
     @staticmethod
     def get_sku(page_doc, inhash):
-        return value
+        return None  # Implement site-specific XPath extraction
 """
     parser_yml_content = f"""---
 domain: {site_name.replace("_",".")}
