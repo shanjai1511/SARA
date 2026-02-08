@@ -1,7 +1,7 @@
 from sdf_module.files_import import *
 
 if len(sys.argv) != 4:
-    print("Usage: python run_pipeline.py <project> <site> <scheduler_id>")
+    print("Usage: python crawl_runner.py <project> <site> <scheduler_id>")
     sys.exit(1)
 
 project = sys.argv[1]
@@ -14,12 +14,15 @@ commands = [
     ["python", "-m", "sdf_module.url_parser", project, site, scheduler_id],
 ]
 
-for cmd in commands:
+stage_names = ["discovery", "retriever", "parser"]
+for stage, cmd in zip(stage_names, commands):
+    print(f"[schedule_id={scheduler_id}] Starting stage: {stage}")
     print(f"Running: {' '.join(cmd)}")
     result = subprocess.run(cmd)
 
     if result.returncode != 0:
-        print(f"Failed: {' '.join(cmd)}")
+        print(f"[schedule_id={scheduler_id}] Failed stage: {stage}")
         sys.exit(result.returncode)
+    print(f"[schedule_id={scheduler_id}] Completed stage: {stage}")
 
-print("Pipeline completed successfully")
+print(f"[schedule_id={scheduler_id}] Pipeline completed successfully")

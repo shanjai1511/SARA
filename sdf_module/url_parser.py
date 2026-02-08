@@ -44,8 +44,17 @@ class UrlParser:
         sdfFetch.print_info_message("success", f"Records extracted successfully for project: {self.project_name} and site: {self.site_name}")
         return records
 
-    def main(self,schedule_key):
-        sdfFetch.print_info_message("info", f"Starting script execution of url_parser for project: {self.project_name} and site: {self.site_name}")
+    def main(self, schedule_key):
+        sdfFetch.set_crawl_context(
+            stage="parser",
+            schedule_id=schedule_key,
+            project=self.project_name,
+            site=self.site_name,
+        )
+        sdfFetch.print_info_message(
+            "info",
+            f"[parser] Starting for project={self.project_name}, site={self.site_name}, schedule_id={schedule_key}"
+        )
         try:
             yaml_file_path = self.parser_dir / f"{self.project_name}/{self.site_name}_{self.project_name}.yml"
             sdfFetch.print_info_message("info", f"Loading configuration file: {yaml_file_path}")
@@ -69,26 +78,36 @@ class UrlParser:
             # Fetching file paths (where URLs are stored)
             output_queue = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/{schedule_key}_queue.txt"
             with open(output_queue, 'r') as file:
-                # Read all lines and strip any leading/trailing whitespaces
                 file_paths = [line.strip() for line in file.readlines()]
-            # Extract records for each file
+
+            sdfFetch.print_info_message(
+                "info",
+                f"[parser] Processing {len(file_paths)} pages for schedule_id={schedule_key}"
+            )
+
+            total_records = 0
             for output in file_paths:
                 output_key = eval(output)
                 output = output_key.get("output_file")
                 with open(output, 'r', encoding='utf-8') as file:
                     page_content = file.read()
                 page_doc = etree.HTML(page_content)
-                extracted_data = self.extract_records(output_key.get("url"),  page_doc, config, site_instance)
-                # Write extracted data to CSV
+                extracted_data = self.extract_records(output_key.get("url"), page_doc, config, site_instance)
+                total_records += len(extracted_data)
                 output_file = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{self.site_name}_{self.project_name}_{schedule_key}"
                 output_file.mkdir(parents=True, exist_ok=True)
                 output_file = output_file / f"{self.site_name}_{self.project_name}.csv"
-                
+
                 with open(output_file, mode='a', newline='', encoding='utf-8') as file:
                     writer = csv.DictWriter(file, fieldnames=config['fields'].keys())
                     if file.tell() == 0:
                         writer.writeheader()
                     writer.writerows(extracted_data)
+
+            sdfFetch.print_info_message(
+                "success",
+                f"[parser] Completed schedule_id={schedule_key} | Records extracted: {total_records} from {len(file_paths)} pages"
+            )
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")
