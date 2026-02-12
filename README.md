@@ -34,46 +34,6 @@ python crawl_runner.py <project> <site> <schedule_id>
 
 ---
 
-## High‑Level Architecture
-
-```mermaid
-flowchart LR
-    subgraph User
-      U[Run crawl_runner.py<br/>project, site, schedule_id]
-    end
-
-    subgraph SDF[Core SARA Pipeline]
-      D[UrlDiscovery<br/>(sdf_module.url_discovery)]
-      R[UrlRetriever<br/>(sdf_module.url_retriever)]
-      P[UrlParser<br/>(sdf_module.url_parser)]
-    end
-
-    subgraph RMQ[RabbitMQ]
-      Q[(site_project_schedule_queue)]
-    end
-
-    subgraph FS[Filesystem (base_dir)]
-      DO[discovery_output/]
-      RO[retriever_output/]
-      PO[parser_output/]
-      CA[cache/]
-      LG[logs/pipeline.log]
-    end
-
-    U --> D
-    D --> Q
-    Q --> R
-    R --> RO
-    R --> CA
-    P --> PO
-
-    D --> LG
-    R --> LG
-    P --> LG
-```
-
----
-
 ## Directory Layout
 
 ```text
