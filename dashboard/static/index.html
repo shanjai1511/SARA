@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARA – Crawl Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4d;
+      --text: #e7e9ea;
+      --muted: #8b98a5;
+      --accent: #1d9bf0;
+      --accent-hover: #1a8cd8;
+      --success: #00ba7c;
+      --error: #f4212e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.25rem;
+      font-size: 14px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .header .meta { color: var(--muted); font-size: 0.85rem; }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .run-card input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-width: 120px;
+    }
+    .run-card .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .run-card .row:last-child { margin-bottom: 0; }
+    .run-msg { font-size: 0.85rem; margin-top: 0.5rem; }
+    .run-msg.ok { color: var(--success); }
+    .run-msg.err { color: var(--error); }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .filters label {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .filters select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-width: 140px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card h2 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+    .stat {
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.25rem; }
+    .stat-value { font-size: 1.1rem; font-weight: 600; font-family: ui-monospace, monospace; }
+    .stages {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .stage-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+    }
+    .stage-box h3 {
+      margin: 0 0 0.35rem 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .stage-box .count { font-size: 1rem; font-weight: 600; font-family: ui-monospace, monospace; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    tr:last-child td { border-bottom: none; }
+    .mono { font-family: ui-monospace, monospace; }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge.ok { background: rgba(0,186,124,0.2); color: var(--success); }
+    .badge.fail { background: rgba(244,33,46,0.2); color: var(--error); }
+    .badge.run { background: rgba(29,155,240,0.2); color: var(--accent); }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+    .empty code { background: var(--bg); padding: 0.2rem 0.4rem; border-radius: 4px; }
+    .empty a { color: var(--accent); }
+    .detail-view .stages { margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>SARA Crawl Board</h1>
+      <p class="meta">Stage-by-stage crawl stats</p>
+    </div>
+    <button type="button" class="btn" id="btn-refresh">Refresh</button>
+  </header>
+
+  <section class="card run-card">
+    <h2>Run crawl</h2>
+    <div class="row">
+      <label>Project</label>
+      <select id="run-project">
+        <option value="">Select project</option>
+      </select>
+      <label>Site</label>
+      <select id="run-site">
+        <option value="">Select site</option>
+      </select>
+      <label>Schedule ID</label>
+      <input type="text" id="run-schedule" placeholder="e.g. 20260215" value="">
+      <button type="button" class="btn" id="btn-run">Run</button>
+    </div>
+    <div id="run-msg" class="run-msg"></div>
+  </section>
+
+  <div class="filters">
+    <label>Project</label>
+    <select id="sel-project">
+      <option value="">—</option>
+    </select>
+    <label>Site</label>
+    <select id="sel-site">
+      <option value="">—</option>
+    </select>
+    <label>Schedule</label>
+    <select id="sel-schedule">
+      <option value="">Latest 3</option>
+    </select>
+  </div>
+
+  <section class="card" id="current-card" style="display: none;">
+    <h2>Current run</h2>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-label">Project</div><div class="stat-value" id="cur-project">—</div></div>
+      <div class="stat"><div class="stat-label">Site</div><div class="stat-value" id="cur-site">—</div></div>
+      <div class="stat"><div class="stat-label">Schedule ID</div><div class="stat-value" id="cur-schedule">—</div></div>
+      <div class="stat"><div class="stat-label">Stage</div><div class="stat-value" id="cur-stage">—</div></div>
+    </div>
+    <div class="stages" id="cur-stages"></div>
+  </section>
+
+  <section class="card">
+    <h2 id="table-title">Runs</h2>
+    <div id="runs-empty" class="empty">No crawl data yet. Data appears when you run the pipeline:<br><code>python crawl_runner.py &lt;project&gt; &lt;site&gt; &lt;schedule_id&gt;</code><br>Example: <code>python crawl_runner.py media_crawl vogue_in 20260215</code>. Then click Refresh.</div>
+    <table id="runs-table" style="display: none;">
+      <thead>
+        <tr>
+          <th>Schedule ID</th>
+          <th>Discovery</th>
+          <th>Retriever</th>
+          <th>Parser</th>
+          <th>Status</th>
+          <th>Completed</th>
+        </tr>
+      </thead>
+      <tbody id="runs-body"></tbody>
+    </table>
+  </section>
+
+  <section class="card detail-view" id="detail-card" style="display: none;">
+    <h2>Schedule: <span id="detail-schedule" class="mono"></span></h2>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-label">Project</div><div class="stat-value" id="detail-project">—</div></div>
+      <div class="stat"><div class="stat-label">Site</div><div class="stat-value" id="detail-site">—</div></div>
+      <div class="stat"><div class="stat-label">Status</div><div id="detail-status"></div></div>
+      <div class="stat"><div class="stat-label">Completed</div><div class="stat-value" id="detail-completed">—</div></div>
+    </div>
+    <div class="stages" id="detail-stages"></div>
+  </section>
+
+  <script>
+    var BASE = location.port && location.hostname ? location.origin : 'http://127.0.0.1:5000';
+    if (location.protocol === 'file:') BASE = 'http://127.0.0.1:5000';
+    var API = BASE + '/api/status';
+    var API_RUN = BASE + '/api/run';
+    var API_PROJECTS = BASE + '/api/projects';
+    let data = { current_run: null, last_runs: [] };
+    let projectsData = {};
+
+    function formatTime(iso) {
+      if (!iso) return '—';
+      try {
+        return new Date(iso).toLocaleString();
+      } catch (_) { return iso; }
+    }
+
+    function progressSummary(p) {
+      if (!p) return { discovery: '—', retriever: '—', parser: '—' };
+      const discovery = p.discovery_urls != null ? p.discovery_urls + ' URLs' : '—';
+      const retriever = (p.retriever_total != null)
+        ? (p.retriever_fetched ?? 0) + ' / ' + p.retriever_total + ' pages'
+        : '—';
+      const parser = (p.parser_pages != null)
+        ? (p.parser_records ?? 0) + ' records, ' + (p.parser_pages_done ?? 0) + '/' + p.parser_pages + ' pages'
+        : '—';
+      return { discovery, retriever, parser };
+    }
+
+    function runsForFilter() {
+      const project = document.getElementById('sel-project').value;
+      const site = document.getElementById('sel-site').value;
+      let runs = data.last_runs || [];
+      if (data.current_run) runs = [data.current_run, ...runs];
+      return runs.filter(r => {
+        if (project && r.project !== project) return false;
+        if (site && r.site !== site) return false;
+        return true;
+      });
+    }
+
+    function fillSelects() {
+      const runs = data.last_runs || [];
+      const current = data.current_run;
+      const all = current ? [current, ...runs] : runs;
+      const projects = [...new Set(all.map(r => r.project).filter(Boolean))].sort();
+      const sites = [...new Set(all.map(r => r.site).filter(Boolean))].sort();
+
+      const selProject = document.getElementById('sel-project');
+      const selSite = document.getElementById('sel-site');
+      const selSchedule = document.getElementById('sel-schedule');
+
+      const prevProject = selProject.value;
+      const prevSite = selSite.value;
+      const prevSchedule = selSchedule.value;
+
+      selProject.innerHTML = '<option value="">All</option>' + projects.map(p => `<option value="${p}">${p}</option>`).join('');
+      if (prevProject && projects.includes(prevProject)) selProject.value = prevProject;
+      else if (projects.length) selProject.value = selProject.value || projects[0];
+
+      const filteredForSites = runsForFilter();
+      const sitesForProject = [...new Set(filteredForSites.map(r => r.site).filter(Boolean))].sort();
+      selSite.innerHTML = '<option value="">All</option>' + sitesForProject.map(s => `<option value="${s}">${s}</option>`).join('');
+      if (prevSite && sitesForProject.includes(prevSite)) selSite.value = prevSite;
+      else if (sitesForProject.length) selSite.value = selSite.value || sitesForProject[0];
+
+      const filtered = runsForFilter();
+      const scheduleIds = [...new Set(filtered.map(r => r.schedule_id).filter(Boolean))];
+      selSchedule.innerHTML = '<option value="">Latest 3</option>' + scheduleIds.map(s => `<option value="${s}">${s}</option>`).join('');
+      if (prevSchedule && scheduleIds.includes(prevSchedule)) selSchedule.value = prevSchedule;
+    }
+
+    function renderCurrentRun() {
+      const run = data.current_run;
+      const card = document.getElementById('current-card');
+      if (!run) {
+        card.style.display = 'none';
+        return;
+      }
+      card.style.display = 'block';
+      document.getElementById('cur-project').textContent = run.project || '—';
+      document.getElementById('cur-site').textContent = run.site || '—';
+      document.getElementById('cur-schedule').textContent = run.schedule_id || '—';
+      document.getElementById('cur-stage').textContent = (run.stage || 'discovery').replace(/^./, c => c.toUpperCase());
+
+      const p = run.progress || {};
+      const sum = progressSummary(p);
+      document.getElementById('cur-stages').innerHTML = [
+        '<div class="stage-box"><h3>Discovery</h3><div class="count">' + sum.discovery + '</div></div>',
+        '<div class="stage-box"><h3>Retriever</h3><div class="count">' + sum.retriever + '</div></div>',
+        '<div class="stage-box"><h3>Parser</h3><div class="count">' + sum.parser + '</div></div>'
+      ].join('');
+    }
+
+    function renderTable() {
+      const filtered = runsForFilter();
+      const latest3 = filtered.slice(0, 3);
+      const emptyEl = document.getElementById('runs-empty');
+      const table = document.getElementById('runs-table');
+      const body = document.getElementById('runs-body');
+      const scheduleVal = document.getElementById('sel-schedule').value;
+
+      if (scheduleVal) {
+        const run = filtered.find(r => r.schedule_id === scheduleVal);
+        if (run) {
+          showDetail(r);
+          emptyEl.style.display = 'none';
+          table.style.display = 'none';
+          return;
+        }
+      }
+
+      document.getElementById('detail-card').style.display = 'none';
+      if (latest3.length === 0) {
+        emptyEl.style.display = 'block';
+        table.style.display = 'none';
+        return;
+      }
+      emptyEl.style.display = 'none';
+      table.style.display = 'table';
+      document.getElementById('table-title').textContent = 'Latest 3 crawls';
+      body.innerHTML = latest3.map(r => {
+        const sum = progressSummary(r.progress);
+        const isCurrent = data.current_run && r.schedule_id === data.current_run.schedule_id && r.project === data.current_run.project && r.site === data.current_run.site;
+        const status = isCurrent ? '<span class="badge run">Running</span>' : (r.success !== false ? '<span class="badge ok">Success</span>' : '<span class="badge fail">Failed</span>');
+        const completed = r.completed_at ? formatTime(r.completed_at) : '—';
+        return '<tr>' +
+          '<td class="mono">' + (r.schedule_id || '—') + '</td>' +
+          '<td class="mono">' + sum.discovery + '</td>' +
+          '<td class="mono">' + sum.retriever + '</td>' +
+          '<td class="mono">' + sum.parser + '</td>' +
+          '<td>' + status + '</td>' +
+          '<td>' + completed + '</td></tr>';
+      }).join('');
+    }
+
+    function showDetail(run) {
+      const card = document.getElementById('detail-card');
+      card.style.display = 'block';
+      document.getElementById('detail-schedule').textContent = run.schedule_id || '—';
+      document.getElementById('detail-project').textContent = run.project || '—';
+      document.getElementById('detail-site').textContent = run.site || '—';
+      document.getElementById('detail-completed').textContent = formatTime(run.completed_at);
+      const isCurrent = data.current_run && run.schedule_id === data.current_run.schedule_id && run.project === data.current_run.project && run.site === data.current_run.site;
+      document.getElementById('detail-status').innerHTML = isCurrent
+        ? '<span class="badge run">Running</span>'
+        : (run.success !== false ? '<span class="badge ok">Success</span>' : '<span class="badge fail">Failed</span>');
+      const sum = progressSummary(run.progress);
+      document.getElementById('detail-stages').innerHTML = [
+        '<div class="stage-box"><h3>Discovery</h3><div class="count">' + sum.discovery + '</div></div>',
+        '<div class="stage-box"><h3>Retriever</h3><div class="count">' + sum.retriever + '</div></div>',
+        '<div class="stage-box"><h3>Parser</h3><div class="count">' + sum.parser + '</div></div>'
+      ].join('');
+    }
+
+    function refresh() {
+      fetch(API)
+        .then(function(res) {
+          if (!res.ok) throw new Error('Server ' + res.status);
+          return res.json();
+        })
+        .then(function(d) {
+          data = { current_run: d.current_run || null, last_runs: d.last_runs || [] };
+          fillSelects();
+          renderCurrentRun();
+          renderTable();
+        })
+        .catch(function() {
+          var el = document.getElementById('runs-empty');
+          el.innerHTML = 'Cannot reach the dashboard server. Start it from the project root: <code>python dashboard/app.py</code>, then open <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a> and click Refresh.';
+          el.style.display = 'block';
+          document.getElementById('runs-table').style.display = 'none';
+          document.getElementById('detail-card').style.display = 'none';
+        });
+    }
+
+    function loadProjects() {
+      fetch(API_PROJECTS)
+        .then(function(res) { return res.json(); })
+        .then(function(obj) {
+          projectsData = obj;
+          var sel = document.getElementById('run-project');
+          sel.innerHTML = '<option value="">Select project</option>';
+          Object.keys(obj).sort().forEach(function(p) {
+            sel.innerHTML += '<option value="' + p + '">' + p + '</option>';
+          });
+          updateRunSites();
+        })
+        .catch(function() {});
+    }
+    function updateRunSites() {
+      var proj = document.getElementById('run-project').value;
+      var sel = document.getElementById('run-site');
+      sel.innerHTML = '<option value="">Select site</option>';
+      if (projectsData[proj]) {
+        projectsData[proj].forEach(function(s) {
+          sel.innerHTML += '<option value="' + s + '">' + s + '</option>';
+        });
+      }
+    }
+    function runCrawl() {
+      var project = document.getElementById('run-project').value;
+      var site = document.getElementById('run-site').value;
+      var scheduleId = (document.getElementById('run-schedule').value || '').trim();
+      var msgEl = document.getElementById('run-msg');
+      msgEl.textContent = '';
+      msgEl.className = 'run-msg';
+      if (!project || !site || !scheduleId) {
+        msgEl.className = 'run-msg err';
+        msgEl.textContent = 'Choose project, site, and enter schedule ID.';
+        return;
+      }
+      document.getElementById('btn-run').disabled = true;
+      fetch(API_RUN, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ project: project, site: site, schedule_id: scheduleId })
+      })
+        .then(function(res) { return res.json().then(function(j) { return { ok: res.ok, j: j }; }); })
+        .then(function(r) {
+          document.getElementById('btn-run').disabled = false;
+          if (r.ok && r.j.ok) {
+            msgEl.className = 'run-msg ok';
+            msgEl.textContent = r.j.message || 'Crawl started.';
+            refresh();
+          } else {
+            msgEl.className = 'run-msg err';
+            msgEl.textContent = r.j.error || 'Failed to start crawl.';
+          }
+        })
+        .catch(function() {
+          document.getElementById('btn-run').disabled = false;
+          msgEl.className = 'run-msg err';
+          msgEl.textContent = 'Could not reach server.';
+        });
+    }
+
+    document.getElementById('btn-refresh').addEventListener('click', refresh);
+    document.getElementById('run-project').addEventListener('change', updateRunSites);
+    document.getElementById('btn-run').addEventListener('click', runCrawl);
+    document.getElementById('sel-project').addEventListener('change', function() { fillSelects(); renderTable(); });
+    document.getElementById('sel-site').addEventListener('change', function() { fillSelects(); renderTable(); });
+    document.getElementById('sel-schedule').addEventListener('change', function() { fillSelects(); renderTable(); });
+
+    loadProjects();
+    refresh();
+  </script>
+</body>
+</html>

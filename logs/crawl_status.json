@@ -1,0 +1,22 @@
+{
+  "current_run": null,
+  "last_runs": [
+    {
+      "project": "media_crawl",
+      "site": "vogue_in",
+      "schedule_id": "20260215",
+      "stage": "parser",
+      "started_at": "2026-02-15T04:11:58Z",
+      "progress": {
+        "discovery_urls": 382,
+        "retriever_total": 382,
+        "retriever_fetched": 382,
+        "parser_pages": 382,
+        "parser_records": 382,
+        "parser_pages_done": 382
+      },
+      "completed_at": "2026-02-15T10:30:43Z",
+      "success": true
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 from .sdf_fetch import *
+from . import crawl_status
 
 class UrlRetriever:
 
@@ -68,9 +69,14 @@ class UrlRetriever:
         max_retries = request_params.get("max_retries", 3)
         timeout = request_params.get("timeout", 30)
         output_queue = self.fetch_retriever_output(schedule_key)
+        total_urls = len(output_queue)
+        crawl_status.update_progress(
+            self.project_name, self.site_name, schedule_key,
+            stage="retriever", retriever_total=total_urls, retriever_fetched=0
+        )
         sdfFetch.print_info_message(
             "info",
-            f"[retriever] Fetched {len(output_queue)} URLs from queue for schedule_id={schedule_key}"
+            f"[retriever] Fetched {total_urls} URLs from queue for schedule_id={schedule_key}"
         )
         today = date.today()
         formatted_date = today.strftime('%Y%m%d')
@@ -102,7 +108,11 @@ class UrlRetriever:
                 sdfFetch.print_info_message("success", f"Successfully fetched page content for URL: {url}")
             else:
                 sdfFetch.print_error_message("error", f"Failed to fetch page content for URL: {url}")
-            
+
+            crawl_status.update_progress(
+                self.project_name, self.site_name, schedule_key,
+                retriever_fetched=fetched_count
+            )
             metadata_file = output_dir / f"{schedule_key}_queue.txt"
             with open(metadata_file, "a") as file:
                 file.write(str(data) + "\n")
