@@ -1,4 +1,5 @@
 from .sdf_fetch import *
+from . import crawl_status
 
 class UrlDiscovery:
     def __init__(self, base_dir, project_name, site_name):
@@ -124,6 +125,10 @@ class UrlDiscovery:
         with open(filepath, 'w') as file:
             file.write('')
         self.main_execution(schedule_key)
+        crawl_status.update_progress(
+            self.project_name, self.site_name, schedule_key,
+            stage="discovery", discovery_urls=self.count
+        )
         sdfFetch.print_info_message(
             "success",
             f"[discovery] Completed schedule_id={schedule_key} | URLs discovered: {self.count}"

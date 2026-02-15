@@ -1,4 +1,5 @@
 from .sdf_fetch import *
+from . import crawl_status
 
 class UrlParser:
     def __init__(self, base_dir, project_name, site_name):
@@ -80,13 +81,18 @@ class UrlParser:
             with open(output_queue, 'r') as file:
                 file_paths = [line.strip() for line in file.readlines()]
 
+            total_pages = len(file_paths)
+            crawl_status.update_progress(
+                self.project_name, self.site_name, schedule_key,
+                stage="parser", parser_pages=total_pages, parser_records=0
+            )
             sdfFetch.print_info_message(
                 "info",
-                f"[parser] Processing {len(file_paths)} pages for schedule_id={schedule_key}"
+                f"[parser] Processing {total_pages} pages for schedule_id={schedule_key}"
             )
 
             total_records = 0
-            for output in file_paths:
+            for page_num, output in enumerate(file_paths, 1):
                 output_key = eval(output)
                 output = output_key.get("output_file")
                 with open(output, 'r', encoding='utf-8') as file:
@@ -103,6 +109,11 @@ class UrlParser:
                     if file.tell() == 0:
                         writer.writeheader()
                     writer.writerows(extracted_data)
+
+                crawl_status.update_progress(
+                    self.project_name, self.site_name, schedule_key,
+                    parser_records=total_records, parser_pages_done=page_num
+                )
 
             sdfFetch.print_info_message(
                 "success",

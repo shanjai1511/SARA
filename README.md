@@ -45,6 +45,11 @@ SARA/
   proxy_config.py           # proxy list & env override
   logs/
     pipeline.log            # structured logs (JSON)
+    crawl_status.json       # current/last run status (for dashboard)
+  dashboard/
+    app.py                  # Flask app for real-time dashboard
+    static/index.html       # dashboard UI
+  sdf_module/
   scrape_output/
     discovery_output/
     retriever_output/
@@ -448,6 +453,26 @@ What happens:
 3. **Parser**: `python -m sdf_module.url_parser <project> <site> <schedule_id>`
 
 `crawl_runner.py` prints stage start/complete messages with `schedule_id`. Each subprocess writes its own logs to `logs/pipeline.log`.
+
+---
+
+## Real-time dashboard
+
+A web dashboard shows **live progress** for the current crawl (stage, URLs discovered, pages fetched, records extracted) and a table of recent completed runs.
+
+**Run the dashboard** (from project root):
+
+```bash
+pip install -r dashboard/requirements.txt
+python dashboard/app.py
+```
+
+Then open **http://127.0.0.1:5000** in your browser. The page polls `/api/status` every 2 seconds. Start a crawl with `crawl_runner.py` in another terminal to see progress update in real time.
+
+- **Current run**: project, site, schedule id, active stage (Discovery → Retriever → Parser), and a progress bar for retriever (pages fetched) and parser (pages processed / records).
+- **Last runs**: table of recent runs with success/failure and completion time.
+
+Status is stored in `logs/crawl_status.json` and updated by `crawl_runner.py` and each stage.
 
 ---
 
