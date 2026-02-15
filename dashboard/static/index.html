@@ -212,6 +212,7 @@
     <select id="sel-schedule">
       <option value="">Latest 3</option>
     </select>
+    <button type="button" class="btn" id="btn-download">Download CSV</button>
   </div>
 
   <section class="card" id="current-card" style="display: none;">
@@ -260,6 +261,7 @@
     var API = BASE + '/api/status';
     var API_RUN = BASE + '/api/run';
     var API_PROJECTS = BASE + '/api/projects';
+    var API_DOWNLOAD = BASE + '/api/download';
     let data = { current_run: null, last_runs: [] };
     let projectsData = {};
 
@@ -490,7 +492,39 @@
         });
     }
 
+    function downloadCsv() {
+      var project = document.getElementById('sel-project').value;
+      var site = document.getElementById('sel-site').value;
+      var scheduleId = document.getElementById('sel-schedule').value;
+      if (!scheduleId) {
+        var filtered = runsForFilter();
+        if (filtered.length) scheduleId = filtered[0].schedule_id;
+      }
+      if (!project || !site || !scheduleId) {
+        alert('Select project, site, and a schedule (or choose "Latest 3" after a run) to download.');
+        return;
+      }
+      var url = API_DOWNLOAD + '?project=' + encodeURIComponent(project) + '&site=' + encodeURIComponent(site) + '&schedule_id=' + encodeURIComponent(scheduleId);
+      fetch(url)
+        .then(function(res) {
+          if (!res.ok) {
+            return res.json().then(function(j) {
+              alert(j.error || 'Download failed.');
+            }).catch(function() { alert('Download failed.'); });
+          }
+          return res.blob().then(function(blob) {
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = (site + '_' + project + '.csv');
+            a.click();
+            URL.revokeObjectURL(a.href);
+          });
+        })
+        .catch(function() { alert('Could not reach server.'); });
+    }
+
     document.getElementById('btn-refresh').addEventListener('click', refresh);
+    document.getElementById('btn-download').addEventListener('click', downloadCsv);
     document.getElementById('run-project').addEventListener('change', updateRunSites);
     document.getElementById('btn-run').addEventListener('click', runCrawl);
     document.getElementById('sel-project').addEventListener('change', function() { fillSelects(); renderTable(); });
