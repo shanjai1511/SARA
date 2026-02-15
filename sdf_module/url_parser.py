@@ -1,5 +1,8 @@
 from .sdf_fetch import *
 from . import crawl_status
+from concurrent.futures import ThreadPoolExecutor
+
+NUM_PARSE_WORKERS = 4
 
 class UrlParser:
     def __init__(self, base_dir, project_name, site_name):
@@ -45,6 +48,18 @@ class UrlParser:
         sdfFetch.print_info_message("success", f"Records extracted successfully for project: {self.project_name} and site: {self.site_name}")
         return records
 
+    def _process_batch(self, batch, config, site_instance):
+        """Process a batch of metadata lines; return list of record dicts (for threaded parse)."""
+        records = []
+        for line in batch:
+            output_key = eval(line)
+            output_path = output_key.get("output_file")
+            with open(output_path, "r", encoding="utf-8") as f:
+                page_content = f.read()
+            page_doc = etree.HTML(page_content)
+            records.extend(self.extract_records(output_key.get("url"), page_doc, config, site_instance))
+        return records
+
     def main(self, schedule_key):
         sdfFetch.set_crawl_context(
             stage="parser",
@@ -79,7 +94,7 @@ class UrlParser:
             # Fetching file paths (where URLs are stored)
             output_queue = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/{schedule_key}_queue.txt"
             with open(output_queue, 'r') as file:
-                file_paths = [line.strip() for line in file.readlines()]
+                file_paths = [line.strip() for line in file.readlines() if line.strip()]
 
             total_pages = len(file_paths)
             crawl_status.update_progress(
@@ -88,33 +103,42 @@ class UrlParser:
             )
             sdfFetch.print_info_message(
                 "info",
-                f"[parser] Processing {total_pages} pages for schedule_id={schedule_key}"
+                f"[parser] Processing {total_pages} pages for schedule_id={schedule_key} (threaded)"
             )
 
-            total_records = 0
-            for page_num, output in enumerate(file_paths, 1):
-                output_key = eval(output)
-                output = output_key.get("output_file")
-                with open(output, 'r', encoding='utf-8') as file:
-                    page_content = file.read()
-                page_doc = etree.HTML(page_content)
-                extracted_data = self.extract_records(output_key.get("url"), page_doc, config, site_instance)
-                total_records += len(extracted_data)
-                output_file = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{self.site_name}_{self.project_name}_{schedule_key}"
-                output_file.mkdir(parents=True, exist_ok=True)
-                output_file = output_file / f"{self.site_name}_{self.project_name}.csv"
+            # Split into chunks for worker threads; each thread parses its segment
+            n_workers = min(NUM_PARSE_WORKERS, total_pages) or 1
+            chunk_size = (total_pages + n_workers - 1) // n_workers
+            chunks = [file_paths[i:i + chunk_size] for i in range(0, total_pages, chunk_size)]
 
-                with open(output_file, mode='a', newline='', encoding='utf-8') as file:
-                    writer = csv.DictWriter(file, fieldnames=config['fields'].keys())
-                    if file.tell() == 0:
-                        writer.writeheader()
-                    writer.writerows(extracted_data)
+            all_records = []
+            pages_done_so_far = 0
+            with ThreadPoolExecutor(max_workers=n_workers) as executor:
+                futures = [executor.submit(self._process_batch, ch, config, site_instance) for ch in chunks]
+                for i, fut in enumerate(futures):
+                    records = fut.result()
+                    all_records.extend(records)
+                    pages_done_so_far += len(chunks[i])
+                    crawl_status.update_progress(
+                        self.project_name, self.site_name, schedule_key,
+                        parser_records=len(all_records),
+                        parser_pages_done=min(pages_done_so_far, total_pages)
+                    )
 
-                crawl_status.update_progress(
-                    self.project_name, self.site_name, schedule_key,
-                    parser_records=total_records, parser_pages_done=page_num
-                )
+            # Single combined CSV
+            output_dir = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{self.site_name}_{self.project_name}_{schedule_key}"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            csv_path = output_dir / f"{self.site_name}_{self.project_name}.csv"
+            with open(csv_path, mode="w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=config["fields"].keys())
+                writer.writeheader()
+                writer.writerows(all_records)
 
+            total_records = len(all_records)
+            crawl_status.update_progress(
+                self.project_name, self.site_name, schedule_key,
+                parser_records=total_records, parser_pages_done=total_pages
+            )
             sdfFetch.print_info_message(
                 "success",
                 f"[parser] Completed schedule_id={schedule_key} | Records extracted: {total_records} from {len(file_paths)} pages"

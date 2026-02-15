@@ -12,9 +12,15 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, send_from_directory, jsonify, request, send_file, redirect
 
 app = Flask(__name__, static_folder="static", static_url_path="")
+
+
+@app.route("/api/download/", methods=["GET"])
+def api_download_slash():
+    """Redirect to /api/download so trailing slash doesn't 404."""
+    return redirect("/api/download" + ("?" + request.query_string.decode() if request.query_string else ""), code=302)
 
 
 def list_projects_sites():
@@ -78,6 +84,27 @@ def api_run():
         return jsonify({"ok": True, "message": "Crawl started. Click Refresh to see progress."})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@app.route("/api/download", methods=["GET"])
+def api_download():
+    """Serve CSV for the given project, site, schedule_id."""
+    project = (request.args.get("project") or "").strip()
+    site = (request.args.get("site") or "").strip()
+    schedule_id = (request.args.get("schedule_id") or "").strip()
+    if not project or not site or not schedule_id:
+        return jsonify({"ok": False, "error": "project, site, and schedule_id are required"}), 400
+    dir_name = f"{site}_{project}_{schedule_id}"
+    csv_name = f"{site}_{project}.csv"
+    csv_path = (ROOT / "scrape_output" / "parser_output" / project / dir_name / csv_name).resolve()
+    if not csv_path.is_file():
+        return jsonify({"ok": False, "error": "CSV not found for this run. Run the parser first."}), 404
+    return send_file(
+        str(csv_path),
+        as_attachment=True,
+        download_name=csv_name,
+        mimetype="text/csv",
+    )
 
 
 if __name__ == "__main__":

@@ -1,5 +1,10 @@
 from .sdf_fetch import *
 from . import crawl_status
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
+
+NUM_FETCH_WORKERS = 4
+FETCH_SLEEP_SEC = 2  # per-request delay when using threads (lower than single-threaded 10s)
 
 class UrlRetriever:
 
@@ -82,40 +87,47 @@ class UrlRetriever:
         formatted_date = today.strftime('%Y%m%d')
         output_dir = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/"
         output_dir.mkdir(parents=True, exist_ok=True)
+        metadata_file = output_dir / f"{schedule_key}_queue.txt"
 
         fetched_count = 0
-        for key in output_queue:
+        fetch_lock = threading.Lock()
+
+        def fetch_one(key):
+            nonlocal fetched_count
             if not key:
-                continue
+                return
             url = key.split("|")[0]
-            data = {}
-            sleep(10)  # Sleep before each request to avoid overwhelming the server
+            sleep(FETCH_SLEEP_SEC)
             result = sdfFetch.get_page_content_hash(
                 url,
                 extended_header=extended_header or None,
                 max_retries=max_retries,
                 timeout=timeout,
             )
-            data["url"] = key
-            output_file = output_dir / f"{formatted_date}{sdfFetch.encode(key)}.html"
-            data["output_file"] = str(output_file)            
+            data = {"url": key, "output_file": str(output_dir / f"{formatted_date}{sdfFetch.encode(key)}.html")}
             if result["status_code"] == 200:
-                fetched_count += 1
                 page_content = result["page_doc"]
                 content_bytes = page_content.encode("utf-8") if isinstance(page_content, str) else page_content
-                with open(output_file, "wb") as f:
+                with open(data["output_file"], "wb") as f:
                     f.write(content_bytes)
                 sdfFetch.print_info_message("success", f"Successfully fetched page content for URL: {url}")
+                with fetch_lock:
+                    fetched_count += 1
+                    crawl_status.update_progress(
+                        self.project_name, self.site_name, schedule_key,
+                        retriever_fetched=fetched_count
+                    )
             else:
                 sdfFetch.print_error_message("error", f"Failed to fetch page content for URL: {url}")
+            with fetch_lock:
+                with open(metadata_file, "a", encoding="utf-8") as f:
+                    f.write(str(data) + "\n")
 
-            crawl_status.update_progress(
-                self.project_name, self.site_name, schedule_key,
-                retriever_fetched=fetched_count
-            )
-            metadata_file = output_dir / f"{schedule_key}_queue.txt"
-            with open(metadata_file, "a") as file:
-                file.write(str(data) + "\n")
+        keys = [k for k in output_queue if k]
+        if keys:
+            n_workers = min(NUM_FETCH_WORKERS, len(keys))
+            with ThreadPoolExecutor(max_workers=n_workers) as executor:
+                list(executor.map(fetch_one, keys))
 
         sdfFetch.print_info_message(
             "success",
