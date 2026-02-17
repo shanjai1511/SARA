@@ -2,6 +2,23 @@
   "current_run": null,
   "last_runs": [
     {
+      "project": "internal_feasibility",
+      "site": "styleunion_com",
+      "schedule_id": "20260215",
+      "stage": "parser",
+      "started_at": "2026-02-15T13:13:34Z",
+      "progress": {
+        "discovery_urls": 68,
+        "retriever_total": 68,
+        "retriever_fetched": 68,
+        "parser_pages": 68,
+        "parser_records": 68,
+        "parser_pages_done": 68
+      },
+      "completed_at": "2026-02-15T13:24:13Z",
+      "success": true
+    },
+    {
       "project": "media_crawl",
       "site": "vogue_in",
       "schedule_id": "20260215",

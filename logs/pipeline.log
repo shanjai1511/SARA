@@ -89188,3 +89188,3707 @@
         "site": "vogue_in"
     }
 }
+2026-02-15 18:43:38,275 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:43:40,276 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:42,293 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:44,294 [INFO] {
+    "status": "info",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:46,330 [INFO] {
+    "status": "info",
+    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:53,332 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:56,648 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:43:58,662 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:00,666 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\d46fc8e4a6e768c4493c83626f02583d.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:02,776 [INFO] {
+    "status": "info",
+    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:09,778 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:12,335 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:14,336 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:16,340 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\d46fc8e4a6e768c4493c83626f02583d.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:18,419 [INFO] {
+    "status": "info",
+    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:18,499 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-02-15 18:44:18,579 [INFO] Socket connected: <socket.socket fd=1860, family=2, type=1, proto=6, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:18,640 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1860, family=2, type=1, proto=0, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:18,642 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-02-15 18:44:18,928 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:18,928 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:18,928 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:18,928 [INFO] Created channel=1
+2026-02-15 18:44:19,084 [INFO] Closing connection (200): Normal shutdown
+2026-02-15 18:44:19,084 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:44:19,135 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB1328B30> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:44:19,137 [INFO] Closing connection (200): 'Normal shutdown'
+2026-02-15 18:44:19,238 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1860, family=2, type=1, proto=0, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:19,238 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1860, family=2, type=1, proto=0, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:19,238 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1860, family=2, type=1, proto=0, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:19,238 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:44:19,240 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:44:19,240 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1860, family=2, type=1, proto=0, laddr=('192.168.29.128', 65260), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:19,241 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-02-15 18:44:21,243 [INFO] {
+    "status": "success",
+    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:28,244 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:31,410 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:33,410 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:35,414 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\95484462a3c3983cffc80c34a4452ac8.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:37,542 [INFO] {
+    "status": "info",
+    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:44,544 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:46,881 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:48,883 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:50,886 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\95484462a3c3983cffc80c34a4452ac8.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:53,012 [INFO] {
+    "status": "info",
+    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:44:53,191 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-02-15 18:44:53,337 [INFO] Socket connected: <socket.socket fd=1880, family=2, type=1, proto=6, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,444 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,446 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-02-15 18:44:53,748 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:53,748 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:53,748 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:44:53,751 [INFO] Created channel=1
+2026-02-15 18:44:53,857 [INFO] Closing connection (200): Normal shutdown
+2026-02-15 18:44:53,857 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:44:53,900 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAFD433B0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:44:53,901 [INFO] Closing connection (200): 'Normal shutdown'
+2026-02-15 18:44:53,954 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,954 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,954 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,954 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:44:53,954 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:44:53,954 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61869), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:44:53,954 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-02-15 18:44:55,956 [INFO] {
+    "status": "success",
+    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:02,958 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:06,365 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:08,366 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:10,371 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\2fe2b4f8df6d6d6c59a1350b9d19352d.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:12,476 [INFO] {
+    "status": "info",
+    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:19,478 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks?page=1",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:22,846 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:24,847 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:26,851 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\99a7d05bd8109e5a605a27feafb8e37f.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:28,959 [INFO] {
+    "status": "info",
+    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:29,043 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-02-15 18:45:29,082 [INFO] Socket connected: <socket.socket fd=1880, family=2, type=1, proto=6, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,131 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,131 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-02-15 18:45:29,257 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:29,257 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:29,257 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:29,257 [INFO] Created channel=1
+2026-02-15 18:45:29,356 [INFO] Closing connection (200): Normal shutdown
+2026-02-15 18:45:29,356 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:45:29,397 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCB15B7710> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:45:29,397 [INFO] Closing connection (200): 'Normal shutdown'
+2026-02-15 18:45:29,438 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,439 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,440 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,440 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:45:29,440 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:45:29,441 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1880, family=2, type=1, proto=0, laddr=('192.168.29.128', 61875), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:29,441 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-02-15 18:45:31,442 [INFO] {
+    "status": "success",
+    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:38,444 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks?page=2",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:41,680 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:43,682 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:45,686 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\58fcdc9666e20dd4ed390c58447baf51.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:47,774 [INFO] {
+    "status": "info",
+    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:47,833 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-02-15 18:45:47,922 [INFO] Socket connected: <socket.socket fd=2020, family=2, type=1, proto=6, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:47,971 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=2020, family=2, type=1, proto=0, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:47,973 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-02-15 18:45:48,098 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:48,098 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:48,099 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:45:48,099 [INFO] Created channel=1
+2026-02-15 18:45:48,218 [INFO] Closing connection (200): Normal shutdown
+2026-02-15 18:45:48,218 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:45:48,263 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001DCAF31F230> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:45:48,265 [INFO] Closing connection (200): 'Normal shutdown'
+2026-02-15 18:45:48,313 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=2020, family=2, type=1, proto=0, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:48,313 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=2020, family=2, type=1, proto=0, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:48,313 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=2020, family=2, type=1, proto=0, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:48,313 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:45:48,316 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:45:48,316 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=2020, family=2, type=1, proto=0, laddr=('192.168.29.128', 60515), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:45:48,316 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-02-15 18:45:50,317 [INFO] {
+    "status": "success",
+    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:52,322 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=20260215 | URLs discovered: 68",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:45:56,967 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlRetriever for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:45:58,969 [INFO] {
+    "status": "info",
+    "info": "[retriever] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:46:00,970 [INFO] {
+    "status": "info",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:46:02,974 [INFO] {
+    "status": "info",
+    "info": "Fetching discovery_output for project: internal_feasibility and site: styleunion_com",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:46:03,060 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-02-15 18:46:03,097 [INFO] Socket connected: <socket.socket fd=804, family=2, type=1, proto=6, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:03,181 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=804, family=2, type=1, proto=0, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:03,181 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-02-15 18:46:03,486 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:46:03,488 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:46:03,488 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-02-15 18:46:03,488 [INFO] Created channel=1
+2026-02-15 18:46:09,263 [INFO] Closing connection (200): Normal shutdown
+2026-02-15 18:46:09,267 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:46:09,303 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000001EDBE02CF20> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-02-15 18:46:09,305 [INFO] Closing connection (200): 'Normal shutdown'
+2026-02-15 18:46:09,420 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=804, family=2, type=1, proto=0, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:09,420 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=804, family=2, type=1, proto=0, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:09,421 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=804, family=2, type=1, proto=0, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:09,421 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:46:09,421 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-02-15 18:46:09,421 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=804, family=2, type=1, proto=0, laddr=('192.168.29.128', 64534), raddr=('15.206.140.228', 5671)>
+2026-02-15 18:46:09,423 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-02-15 18:46:11,451 [INFO] {
+    "status": "info",
+    "info": "[retriever] Fetched 68 URLs from queue for schedule_id=20260215",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:46:15,456 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0001?variant=44200059437305"
+}
+2026-02-15 18:46:15,457 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0003?variant=44200062386425"
+}
+2026-02-15 18:46:15,457 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:46:15,457 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0002?variant=44200060584185"
+}
+2026-02-15 18:46:18,854 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:18,879 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:18,889 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:19,176 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:20,855 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:20,880 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:20,890 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:21,177 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:22,860 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\16229206587656df25d89b6f0855f8d4.html"
+}
+2026-02-15 18:46:22,883 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\8853c5093ff83d97bdeddbc92035f5e0.html"
+}
+2026-02-15 18:46:22,893 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\41c2e0ff34ca31181d6348d0ba042d06.html"
+}
+2026-02-15 18:46:23,181 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\7d6fd4eb7d72230acd8f95289fc2dc8f.html"
+}
+2026-02-15 18:46:24,867 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:24,889 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:24,900 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:25,190 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:26,868 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:26,890 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:26,900 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:27,191 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:28,875 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0001?variant=44200059437305"
+}
+2026-02-15 18:46:28,898 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0003?variant=44200062386425"
+}
+2026-02-15 18:46:28,920 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/cotton-embroidered-cap-lac0002?variant=44200060584185"
+}
+2026-02-15 18:46:29,202 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:46:32,903 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:46:32,941 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:46:32,993 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:46:33,227 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:46:35,475 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:36,470 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:36,497 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:36,879 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:37,476 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:38,471 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:38,498 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:38,880 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:39,480 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\82847b3d3b53cbacdfd8a42ecf2609c2.html"
+}
+2026-02-15 18:46:40,475 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\7729b3fee888db969d63902c8a58bdc3.html"
+}
+2026-02-15 18:46:40,503 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\f83a2ac1cbf0be8a2cdf744f78ca84d3.html"
+}
+2026-02-15 18:46:40,884 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\51b3753e9c685ee229c1313511f6c291.html"
+}
+2026-02-15 18:46:41,487 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:42,481 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:42,511 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:42,891 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:43,487 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:44,482 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:44,512 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:44,892 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:45,496 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:46:46,492 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:46:46,521 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:46:46,902 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:46:49,524 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:46:50,522 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:46:50,548 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:46:50,926 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/boys-printed-backpack-nkbb0002?variant=46935028990201"
+}
+2026-02-15 18:46:53,176 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:53,989 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:53,999 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:54,177 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:46:55,177 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:55,990 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:56,001 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:56,178 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:46:57,182 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e74caa9f868bb1764ae0463b89aad63d.html"
+}
+2026-02-15 18:46:57,994 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e39c20568d940d43f429da46628cd88e.html"
+}
+2026-02-15 18:46:58,005 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\dd3ef76b3c5e70f2be7df193c48e1d74.html"
+}
+2026-02-15 18:46:58,182 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e86ef5094fdcfb2017fa588e40b15a38.html"
+}
+2026-02-15 18:46:59,193 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:00,001 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:00,012 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:00,189 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:01,193 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:02,002 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:02,013 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:02,190 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:03,204 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:47:04,013 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:47:04,022 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/women-caps/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:47:04,200 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/boys-printed-backpack-nkbb0002?variant=46935028990201"
+}
+2026-02-15 18:47:07,232 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/boys-union-print-backpack-nkbb0001?variant=46687693734137"
+}
+2026-02-15 18:47:08,041 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/girls-printed-backpack-nkgb0002?variant=46935029022969"
+}
+2026-02-15 18:47:08,066 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/girls-unicorn-print-backpack-nkgb0001?variant=46687693766905"
+}
+2026-02-15 18:47:08,230 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:47:10,542 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:10,827 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:11,388 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:11,494 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:12,544 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:12,828 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:13,389 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:13,495 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:14,549 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\457b52afb2889bcf36e80173489e2b25.html"
+}
+2026-02-15 18:47:14,832 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\bdbf872415a36fa8db434ae1d3a75254.html"
+}
+2026-02-15 18:47:15,393 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\ad79143cba6ae515b2145251fa436a26.html"
+}
+2026-02-15 18:47:15,499 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\1551b46cb49dc6138745c95ddc4c0b1b.html"
+}
+2026-02-15 18:47:16,555 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:16,840 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:17,399 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:17,505 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:18,556 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:18,842 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:19,400 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:19,506 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:20,564 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/boys-union-print-backpack-nkbb0001?variant=46687693734137"
+}
+2026-02-15 18:47:20,852 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:47:21,408 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/girls-unicorn-print-backpack-nkgb0001?variant=46687693766905"
+}
+2026-02-15 18:47:21,514 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/girls-printed-backpack-nkgb0002?variant=46935029022969"
+}
+2026-02-15 18:47:24,603 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:47:24,889 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:47:25,433 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:47:25,537 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:47:27,158 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:27,536 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:27,958 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:28,145 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:29,159 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:29,537 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:29,959 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:30,146 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:31,183 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\560446909d696ba45be97fa11a66c980.html"
+}
+2026-02-15 18:47:31,541 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\b4f97e6c91da33215fc185ed13e2d37b.html"
+}
+2026-02-15 18:47:31,964 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\20c5615c8c75d791bfd29f9b90ca98bd.html"
+}
+2026-02-15 18:47:32,149 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\4af798b8a03d715e59fc75e0633df8e2.html"
+}
+2026-02-15 18:47:33,189 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:33,548 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:33,972 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:34,157 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:35,190 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:35,549 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:35,973 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:36,158 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:37,200 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:47:37,558 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:47:37,984 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:47:38,168 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:47:41,207 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:47:41,586 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:47:42,009 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:47:42,196 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0013?variant=46254739194105"
+}
+2026-02-15 18:47:43,822 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:44,292 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:44,660 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:45,754 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:45,823 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:46,293 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:46,661 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:47,755 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:47,828 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\15829bbf6538b9655a85be6bfd708599.html"
+}
+2026-02-15 18:47:48,303 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e11a7c7e32b58bb83d3b07c205622928.html"
+}
+2026-02-15 18:47:48,665 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\03c8265d8d5472ffa31bc669beb9eb5c.html"
+}
+2026-02-15 18:47:49,759 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\6d86bfae651b6779f206d32ca59ba6d3.html"
+}
+2026-02-15 18:47:49,837 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:50,314 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:50,673 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:51,768 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:47:51,838 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:52,315 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:52,674 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:53,769 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:47:53,851 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:47:54,324 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:47:54,683 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/kids-bag/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:47:55,777 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0013?variant=46254739194105"
+}
+2026-02-15 18:47:57,979 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-ankle-length-socks-lso0013?variant=46254739161337"
+}
+2026-02-15 18:47:58,351 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/women-cotton-solid-socks-lso0021-lso0021lavenderpink?variant=46219032232185"
+}
+2026-02-15 18:47:58,710 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0018?variant=44988530131193"
+}
+2026-02-15 18:47:59,804 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-solid-low-cut-socks-lso0021brownmelnavymel?variant=46299060076793"
+}
+2026-02-15 18:48:01,792 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:01,805 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:02,396 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:03,038 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:03,793 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:03,807 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:04,396 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:05,039 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:05,797 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\14a80972713db7d58e318adf9251e5c3.html"
+}
+2026-02-15 18:48:05,811 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\b01b8870c564ad7426211d43a18d4b0b.html"
+}
+2026-02-15 18:48:06,400 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\5f2b3bd9b407c54c5b59ead9dd1c60af.html"
+}
+2026-02-15 18:48:07,045 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\a7d759378a137c0a5bcce9355b402741.html"
+}
+2026-02-15 18:48:07,801 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:07,817 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:08,405 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:09,052 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:09,802 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:09,818 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:10,406 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:11,053 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:11,812 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/women-cotton-solid-socks-lso0021-lso0021lavenderpink?variant=46219032232185"
+}
+2026-02-15 18:48:11,826 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0018?variant=44988530131193"
+}
+2026-02-15 18:48:12,426 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-ankle-length-socks-lso0013?variant=46254739161337"
+}
+2026-02-15 18:48:13,060 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-solid-low-cut-socks-lso0021brownmelnavymel?variant=46299060076793"
+}
+2026-02-15 18:48:15,842 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-2?variant=44994436628729"
+}
+2026-02-15 18:48:15,865 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-3?variant=44994436661497"
+}
+2026-02-15 18:48:16,452 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-1?variant=44994436595961"
+}
+2026-02-15 18:48:17,085 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0015?variant=44988133867769"
+}
+2026-02-15 18:48:19,247 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:19,383 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:19,439 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:20,421 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:21,248 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:21,384 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:21,440 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:22,421 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:23,252 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\44b7c59fd56b94324950f6edc074812e.html"
+}
+2026-02-15 18:48:23,387 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\00c44aff3ada037747be53f1b10ba9a8.html"
+}
+2026-02-15 18:48:23,445 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\14ed7a41326e36ff7bae94572018a1f4.html"
+}
+2026-02-15 18:48:24,426 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\0a5103256219fe1c57f9642d42c0d735.html"
+}
+2026-02-15 18:48:25,257 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:25,393 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:25,451 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:26,432 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:27,258 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:27,394 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:27,451 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:28,433 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:29,279 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-3?variant=44994436661497"
+}
+2026-02-15 18:48:29,402 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-2?variant=44994436628729"
+}
+2026-02-15 18:48:29,460 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0014-1?variant=44994436595961"
+}
+2026-02-15 18:48:30,442 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-solid-socks-lso0015?variant=44988133867769"
+}
+2026-02-15 18:48:33,311 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0020?variant=44988530327801"
+}
+2026-02-15 18:48:33,426 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-ankle-length-socks-lso0015?variant=46254740799737"
+}
+2026-02-15 18:48:33,491 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/women-striped-ankle-length-socks-pack-of-2-lso0003?variant=46935028695289"
+}
+2026-02-15 18:48:34,467 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021offwhitebrown?variant=46838460776697"
+}
+2026-02-15 18:48:36,641 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:36,675 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:36,785 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:37,773 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:38,643 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:38,676 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:38,786 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:39,774 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:40,648 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\5f811feda09e14e876fdaff68003cbc8.html"
+}
+2026-02-15 18:48:40,680 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\ca41ade6231bfa1ff3ad238abde7a91e.html"
+}
+2026-02-15 18:48:40,790 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e1701a7c552caedcdb70b3a98b30b554.html"
+}
+2026-02-15 18:48:41,778 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\4aa72063a7ebbebbee261c7f9dadd48e.html"
+}
+2026-02-15 18:48:42,653 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:42,687 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:42,795 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:43,787 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:44,654 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:44,688 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:44,796 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:45,788 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:46,661 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-ankle-length-socks-lso0015?variant=46254740799737"
+}
+2026-02-15 18:48:46,696 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/women-striped-ankle-length-socks-pack-of-2-lso0003?variant=46935028695289"
+}
+2026-02-15 18:48:46,803 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0020?variant=44988530327801"
+}
+2026-02-15 18:48:47,796 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021offwhitebrown?variant=46838460776697"
+}
+2026-02-15 18:48:50,698 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021navymelmidgrey?variant=46838460743929"
+}
+2026-02-15 18:48:50,727 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021mintblack?variant=46838460645625"
+}
+2026-02-15 18:48:50,840 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-solid-low-cut-socks-lso0021midgreyanthra?variant=46299060732153"
+}
+2026-02-15 18:48:51,823 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/women-cotton-solid-socks-lso0021-lso0021ltskyblueltgrey?variant=46219028037881"
+}
+2026-02-15 18:48:54,096 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:54,154 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:54,409 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:55,013 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:48:56,097 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:56,155 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:56,409 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:57,014 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:48:58,100 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\bf52831a669cdb2a2619595862b8ba0f.html"
+}
+2026-02-15 18:48:58,160 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\87083ee361f43a2e4b12a5468986006d.html"
+}
+2026-02-15 18:48:58,415 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\033eada0c7514e9735df7617f3ad688a.html"
+}
+2026-02-15 18:48:59,018 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\4e930d025aa00c51b82353774c27c221.html"
+}
+2026-02-15 18:49:00,107 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:00,168 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:00,422 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:01,027 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:02,108 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:02,169 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:02,423 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:03,029 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:04,117 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021mintblack?variant=46838460645625"
+}
+2026-02-15 18:49:04,178 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-solid-low-cut-socks-lso0021midgreyanthra?variant=46299060732153"
+}
+2026-02-15 18:49:04,431 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/solid-low-cut-socks-lso0021navymelmidgrey?variant=46838460743929"
+}
+2026-02-15 18:49:05,037 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/women-cotton-solid-socks-lso0021-lso0021ltskyblueltgrey?variant=46219028037881"
+}
+2026-02-15 18:49:08,148 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0003-2?variant=46254736933113"
+}
+2026-02-15 18:49:08,228 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0003?variant=46254739915001"
+}
+2026-02-15 18:49:08,459 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/assorted-free-size-ankle-socks-suwfaknt14?variant=46254746599673"
+}
+2026-02-15 18:49:09,063 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:49:11,526 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:11,774 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:11,828 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:11,989 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:13,527 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:13,775 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:13,829 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:13,989 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:15,530 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\c5865bbaaf77aede66dc0bdbe7c8f46b.html"
+}
+2026-02-15 18:49:15,781 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\6e469e55fef678b8d5162051f856e305.html"
+}
+2026-02-15 18:49:15,833 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e9c6785e574f72effe1cf342a4229c7f.html"
+}
+2026-02-15 18:49:15,994 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\35e5d95878e413ee3bf2ff7d39404510.html"
+}
+2026-02-15 18:49:17,535 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:17,787 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:17,841 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:18,001 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:19,536 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:19,788 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:19,842 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:20,002 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:21,543 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0003?variant=46254739915001"
+}
+2026-02-15 18:49:21,797 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0003-2?variant=46254736933113"
+}
+2026-02-15 18:49:21,852 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:49:22,011 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/assorted-free-size-ankle-socks-suwfaknt14?variant=46254746599673"
+}
+2026-02-15 18:49:25,569 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:49:25,823 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:49:25,874 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:49:26,044 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:49:28,278 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:28,506 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:28,523 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:28,650 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:30,279 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:30,507 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:30,524 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:30,651 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:32,283 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\bb5a2df3d0413fb0e733ce4c0da1c219.html"
+}
+2026-02-15 18:49:32,517 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\f6ea02dafb72ba84a3a0a8e05ef5add4.html"
+}
+2026-02-15 18:49:32,539 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\90f446a05fc2fa5091d64a9596e88afe.html"
+}
+2026-02-15 18:49:32,655 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\ef06a27b2ca07f7e852fb5566a6ad115.html"
+}
+2026-02-15 18:49:34,291 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:34,525 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:34,563 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:34,660 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:36,293 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:36,527 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:36,564 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:36,662 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:38,303 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:49:38,537 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:49:38,573 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:49:38,672 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:49:42,332 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:49:42,562 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:49:42,598 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:49:42,701 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/assorted-free-size-ankle-socks-suwfaknt03?variant=46254746632441"
+}
+2026-02-15 18:49:44,971 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:45,203 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:45,244 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:45,819 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:46,972 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:47,204 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:47,245 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:47,820 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:48,976 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\fa434a68a8e64f724eba22b848f20c99.html"
+}
+2026-02-15 18:49:49,208 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\980ef4d0a76b353468d5282439262c92.html"
+}
+2026-02-15 18:49:49,251 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\d9dfbb0927191b27f049625a7cb007fb.html"
+}
+2026-02-15 18:49:49,823 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\c76553190b7cc1b97b5ba6d9a91e0a40.html"
+}
+2026-02-15 18:49:50,984 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:51,216 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:51,259 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:51,830 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:49:52,985 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:53,218 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:53,260 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:53,831 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:49:55,000 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:49:55,229 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:49:55,269 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:49:55,840 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/assorted-free-size-ankle-socks-suwfaknt03?variant=46254746632441"
+}
+2026-02-15 18:49:59,030 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s108?variant=46254745387257"
+}
+2026-02-15 18:49:59,258 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s110?variant=46254745354489"
+}
+2026-02-15 18:49:59,300 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-ankle-length-socks-lso0001?variant=46254740865273"
+}
+2026-02-15 18:49:59,866 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0010?variant=46254739390713"
+}
+2026-02-15 18:50:02,105 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:02,592 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:02,657 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:03,225 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:04,106 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:04,593 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:04,658 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:05,226 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:06,110 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\fec29d5ccda944849748582c37bd3d10.html"
+}
+2026-02-15 18:50:06,597 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\c198d0c73e4b6bb3ef6a80616bed6dcb.html"
+}
+2026-02-15 18:50:06,661 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\ab8c58c805e75d9abb2c6b93bd0c0d1c.html"
+}
+2026-02-15 18:50:07,230 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\314d5a01799f09f08e8e13b3e42ca5d3.html"
+}
+2026-02-15 18:50:08,116 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:08,603 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:08,668 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:09,236 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:10,118 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:10,604 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:10,669 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:11,237 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:12,125 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s108?variant=46254745387257"
+}
+2026-02-15 18:50:12,626 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s110?variant=46254745354489"
+}
+2026-02-15 18:50:12,676 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-ankle-length-socks-lso0001?variant=46254740865273"
+}
+2026-02-15 18:50:13,245 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-ankle-length-socks-lso0010?variant=46254739390713"
+}
+2026-02-15 18:50:16,151 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s110-2?variant=46254738014457"
+}
+2026-02-15 18:50:16,656 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-striped-socks-pack-of-2-lso0005?variant=45012215398649"
+}
+2026-02-15 18:50:16,700 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-striped-socks-pack-of-2-lso0009?variant=45012215300345"
+}
+2026-02-15 18:50:17,271 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0019?variant=44988530295033"
+}
+2026-02-15 18:50:19,384 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:19,916 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:19,953 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:20,515 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:21,385 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:21,916 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:21,954 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:22,516 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:23,389 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\0d264e58332da2094139b151115efd95.html"
+}
+2026-02-15 18:50:23,920 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e6a85f3f7d99f79d7c1f8fef2738c2fc.html"
+}
+2026-02-15 18:50:23,958 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\a380199edb7a74974e004117b83410c9.html"
+}
+2026-02-15 18:50:24,520 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\8dad46ee6b8c4e8431f70f24dfb066b0.html"
+}
+2026-02-15 18:50:25,394 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:25,927 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:25,964 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:26,527 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:27,395 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:27,928 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:27,965 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:28,528 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:29,404 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/cotton-blend-ankle-length-socks-s110-2?variant=46254738014457"
+}
+2026-02-15 18:50:29,938 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-striped-socks-pack-of-2-lso0005?variant=45012215398649"
+}
+2026-02-15 18:50:29,974 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-striped-socks-pack-of-2-lso0009?variant=45012215300345"
+}
+2026-02-15 18:50:30,538 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/womens-cotton-polyester-printed-socks-lso0019?variant=44988530295033"
+}
+2026-02-15 18:50:33,432 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:50:33,966 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:50:34,014 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:50:34,572 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:50:36,163 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:36,662 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:36,981 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:37,050 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:38,164 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:38,663 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:38,982 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:39,050 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:40,168 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e9c6785e574f72effe1cf342a4229c7f.html"
+}
+2026-02-15 18:50:40,667 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\bb5a2df3d0413fb0e733ce4c0da1c219.html"
+}
+2026-02-15 18:50:40,986 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\90f446a05fc2fa5091d64a9596e88afe.html"
+}
+2026-02-15 18:50:41,055 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\f6ea02dafb72ba84a3a0a8e05ef5add4.html"
+}
+2026-02-15 18:50:42,175 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:42,676 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:42,993 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:43,063 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:44,176 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:44,677 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:44,994 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:45,064 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:46,187 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00003?variant=46284011372793"
+}
+2026-02-15 18:50:46,686 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/air-polo-solid-t-shirt-atpo00002?variant=46634704929017"
+}
+2026-02-15 18:50:47,003 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/solid-running-shorts-pfst00002?variant=47058344476921"
+}
+2026-02-15 18:50:47,074 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/slim-fit-high-rise-pant-espt00003?variant=47009478738169"
+}
+2026-02-15 18:50:50,195 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:50:50,713 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:50:51,014 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:50:51,101 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:50:52,834 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:53,326 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:53,519 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:53,765 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:54,836 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:55,327 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:55,520 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:55,767 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:50:56,841 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\ef06a27b2ca07f7e852fb5566a6ad115.html"
+}
+2026-02-15 18:50:57,332 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\fa434a68a8e64f724eba22b848f20c99.html"
+}
+2026-02-15 18:50:57,525 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\980ef4d0a76b353468d5282439262c92.html"
+}
+2026-02-15 18:50:57,772 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\d9dfbb0927191b27f049625a7cb007fb.html"
+}
+2026-02-15 18:50:58,849 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:59,340 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:59,531 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:50:59,778 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:00,850 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:01,341 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:01,532 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:01,783 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:02,858 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/mid-flare-solid-high-rise-leggings-wacl00002?variant=46284949979385"
+}
+2026-02-15 18:51:03,351 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-solid-jacket-pfjk00001?variant=46284008194297"
+}
+2026-02-15 18:51:03,541 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/elastomultiester-fabric-ultra-light-weight-enhanced-flexibility-and-stretch-wicking-technology-fast-dry-and-breathable-mobile-pocket-air-shorts-atst00001?variant=46284196675833"
+}
+2026-02-15 18:51:03,793 [INFO] {
+    "status": "success",
+    "info": "Successfully fetched page content for URL: https://styleunion.in/collections/womens-socks/products/regular-fit-jacquard-t-shirt-pfct00004?variant=46630374080761"
+}
+2026-02-15 18:51:05,817 [INFO] {
+    "status": "success",
+    "info": "[retriever] Completed schedule_id=20260215 | Pages fetched: 68/68",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:51:10,087 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlParser for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:12,088 [INFO] {
+    "status": "info",
+    "info": "[parser] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:51:14,089 [INFO] {
+    "status": "info",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_data_parser\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:51:16,159 [INFO] {
+    "status": "info",
+    "info": "[parser] Processing 68 pages for schedule_id=20260215 (threaded)",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
+2026-02-15 18:51:20,264 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:20,348 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:20,441 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:20,537 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:22,265 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:22,349 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:22,442 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:22,538 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:24,266 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:24,350 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:24,443 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:24,539 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:26,278 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:26,362 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:26,453 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:26,551 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:30,252 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:30,382 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:30,489 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:30,832 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:32,253 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:32,383 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:32,490 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:32,833 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:34,254 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:34,383 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:34,491 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:34,834 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:36,265 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:36,395 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:36,503 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:36,847 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:40,282 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:40,381 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:40,473 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:41,011 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:42,283 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:42,382 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:42,473 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:43,012 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:44,284 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:44,383 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:44,474 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:45,013 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:46,293 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:46,392 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:46,486 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:47,024 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:50,506 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:50,684 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:50,843 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:51,776 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:52,507 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:52,685 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:52,844 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:53,781 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:51:54,508 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:54,686 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:54,845 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:55,783 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:51:56,526 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:56,707 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:56,857 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:51:57,800 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:00,562 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:00,748 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:01,204 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:02,115 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:02,563 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:02,749 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:03,206 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:04,115 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:04,563 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:04,750 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:05,207 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:06,117 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:06,575 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:06,759 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:07,219 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:08,131 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:10,696 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:10,910 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:11,666 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:12,498 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:12,698 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:12,911 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:13,668 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:14,499 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:14,699 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:14,913 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:15,669 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:16,518 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:16,707 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:16,923 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:17,682 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:18,537 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:20,883 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:21,077 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:21,986 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:22,540 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:22,884 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:23,079 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:23,988 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:24,541 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:24,886 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:25,080 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:25,989 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:26,542 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:26,897 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:27,090 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:27,999 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:28,553 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:31,060 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:31,182 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:32,511 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:32,712 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:33,061 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:33,183 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:34,512 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:34,713 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:35,063 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:35,184 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:36,513 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:36,714 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:37,074 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:37,193 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:38,523 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:38,724 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:40,937 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:41,357 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:42,685 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:42,938 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:43,008 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:43,359 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:44,686 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:44,939 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:45,009 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:45,360 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:46,687 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:46,954 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:47,010 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:47,371 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:48,697 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:49,029 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:51,302 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:51,405 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:52,541 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:53,089 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:53,304 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:53,406 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:54,542 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:55,091 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:52:55,305 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:55,407 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:56,543 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:57,092 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:52:57,316 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:57,417 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:58,553 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:52:59,103 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:01,796 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:01,887 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:02,647 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:03,367 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:03,797 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:03,888 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:04,648 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:05,367 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:05,798 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:05,889 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:06,649 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:07,369 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:07,811 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:07,900 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:08,659 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:09,388 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:12,489 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:12,575 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:12,844 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:13,434 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:14,490 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:14,576 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:14,846 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:15,435 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:16,491 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:16,577 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:16,847 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:17,436 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:18,502 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:18,589 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:18,859 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:19,449 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:22,849 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:22,942 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:23,011 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:23,471 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:24,851 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:24,944 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:25,013 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:25,472 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:26,852 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:26,945 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:27,016 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:27,473 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:28,863 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:28,955 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:29,038 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:29,485 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:33,108 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:33,242 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:33,373 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:33,639 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:35,109 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:35,244 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:35,374 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:35,653 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:37,110 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:37,244 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:37,375 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:37,656 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:39,122 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:39,258 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:39,389 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:39,668 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:43,373 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:43,854 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:44,175 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:44,290 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:45,374 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:45,855 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:46,176 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:46,291 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:47,375 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:47,855 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:48,177 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:48,293 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:49,387 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:49,865 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:50,210 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:50,317 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:53,699 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:54,075 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:54,697 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:54,787 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:53:55,701 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:56,076 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:56,699 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:56,788 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:53:57,702 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:58,086 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:58,700 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:58,789 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:53:59,712 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:00,151 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:00,710 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:00,800 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:03,898 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:04,580 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:05,170 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:05,301 [INFO] {
+    "status": "info",
+    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:05,899 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:54:06,581 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:54:07,172 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:54:07,302 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-02-15 18:54:07,900 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:54:08,582 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:54:09,173 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:54:09,303 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-02-15 18:54:09,909 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:10,593 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:11,187 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:11,318 [INFO] {
+    "status": "success",
+    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+}
+2026-02-15 18:54:13,448 [INFO] {
+    "status": "success",
+    "info": "[parser] Completed schedule_id=20260215 | Records extracted: 68 from 68 pages",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "20260215",
+        "project": "internal_feasibility",
+        "site": "styleunion_com"
+    }
+}
