@@ -205,7 +205,7 @@ This centralizes **resiliency and caching** for all HTTP calls.
 
 ### Discovery configuration (YAML)
 
-Example: `url_discovery/internal_feasibility/styleunion_com_internal_feasibility.yml`:
+Example: `url_discovery/commerce_crawl/styleunion_com_commerce_crawl.yml`:
 
 ```yaml
 depth0:
@@ -220,7 +220,7 @@ depth1:
 
 ### Site‑specific discovery (Python)
 
-Example: `url_discovery/internal_feasibility/styleunion_com_internal_feasibility.py`:
+Example: `url_discovery/commerce_crawl/styleunion_com_commerce_crawl.py`:
 
 - **`get_pagination_url(keyurl, depth, current_depth_level)`**:
   - Fetch category page.
@@ -352,7 +352,7 @@ request_params:
 
 ### Parser configuration (YAML)
 
-Example: `url_data_parser/internal_feasibility/styleunion_com_internal_feasibility.yml`:
+Example: `url_data_parser/commerce_crawl/styleunion_com_commerce_crawl.yml`:
 
 ```yaml
 ---
@@ -440,7 +440,7 @@ Examples:
 
 ```bash
 # Internal feasibility on styleunion.com
-python crawl_runner.py internal_feasibility styleunion_com 20260207
+python crawl_runner.py commerce_crawl styleunion_com 20260207
 
 # Media crawl on vogue.in
 python crawl_runner.py media_crawl vogue_in 20260207
@@ -529,7 +529,7 @@ This creates:
     "crawl": {
       "stage": "retriever",
       "schedule_id": "20260207",
-      "project": "internal_feasibility",
+      "project": "commerce_crawl",
       "site": "styleunion_com"
     }
     ```
@@ -547,11 +547,11 @@ For direct module runs (bypassing `crawl_runner.py`):
 
 ```bash
 # Discovery only
-python -m sdf_module.url_discovery internal_feasibility styleunion_com 20260207
+python -m sdf_module.url_discovery commerce_crawl styleunion_com 20260207
 
 # Retriever only
-python -m sdf_module.url_retriever internal_feasibility styleunion_com 20260207
+python -m sdf_module.url_retriever commerce_crawl styleunion_com 20260207
 
 # Parser only
-python -m sdf_module.url_parser internal_feasibility styleunion_com 20260207
+python -m sdf_module.url_parser commerce_crawl styleunion_com 20260207
 ```

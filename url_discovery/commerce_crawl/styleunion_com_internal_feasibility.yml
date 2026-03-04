@@ -1,0 +1,5 @@
+depth0:
+  seed_url: ["https://styleunion.in/collections/women-caps", "https://styleunion.in/collections/kids-bag", "https://styleunion.in/collections/womens-socks"]
+  method_name: get_pagination_url
+depth1:
+  method_name: get_product_url
