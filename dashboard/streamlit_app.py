@@ -931,7 +931,7 @@ elif page == "Manage Data":
                 
                 # Show preview
                 try:
-                    import pandas as pd
+                    import pandas as pd #type: ignore
                     df = pd.read_csv(csv_path)
                     
                     st.markdown(f"**Preview** ({len(df)} rows)")
