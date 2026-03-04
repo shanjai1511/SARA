@@ -2,7 +2,7 @@
   "current_run": null,
   "last_runs": [
     {
-      "project": "internal_feasibility",
+      "project": "commerce_crawl",
       "site": "styleunion_com",
       "schedule_id": "20260215",
       "stage": "parser",

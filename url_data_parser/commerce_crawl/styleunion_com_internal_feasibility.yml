@@ -1,5 +1,5 @@
 ---
-domain: vogue.in
+domain: styleunion.com
 fields:
   crawl_timestamp:
     desc_of_xpath:
@@ -16,32 +16,42 @@ fields:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  article_title:
+  product_name:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  sub_title:
+  list_price:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  author_name:
+  selling_price:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  post_date:
+  discount_percentage:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  article_content:
+  color:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"
     standard_post_processing_functions: "remove_line_and_spaces"
-  image_url:
+  size:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  description:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  sku:
     desc_of_xpath:
     standard_nodeset_range: first
     standard_nodeset_join_char: "|"

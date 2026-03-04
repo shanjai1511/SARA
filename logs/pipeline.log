@@ -89190,45 +89190,45 @@
 }
 2026-02-15 18:43:38,275 [INFO] {
     "status": "info",
-    "info": "Initializing UrlDiscovery for project: internal_feasibility and site: styleunion_com"
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:43:40,276 [INFO] {
     "status": "info",
-    "info": "[discovery] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "info": "[discovery] Starting for project=commerce_crawl, site=styleunion_com, schedule_id=20260215",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:43:42,293 [INFO] {
     "status": "info",
-    "info": "Starting main execution for project: internal_feasibility and site: styleunion_com",
+    "info": "Starting main execution for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:43:44,294 [INFO] {
     "status": "info",
-    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\commerce_crawl\\styleunion_com_commerce_crawl.yml",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:43:46,330 [INFO] {
     "status": "info",
-    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "info": "Getting final URL for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89238,7 +89238,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89248,7 +89248,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89258,7 +89258,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89269,17 +89269,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:44:02,776 [INFO] {
     "status": "info",
-    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "info": "Getting final URL for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89289,7 +89289,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89299,7 +89299,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89309,7 +89309,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89320,17 +89320,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:44:18,419 [INFO] {
     "status": "info",
-    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "info": "Pushing URLs to RabbitMQ for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89355,11 +89355,11 @@
 2026-02-15 18:44:19,241 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
 2026-02-15 18:44:21,243 [INFO] {
     "status": "success",
-    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "info": "URLs pushed to RabbitMQ successfully for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89369,7 +89369,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89379,7 +89379,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89389,7 +89389,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89400,17 +89400,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:44:37,542 [INFO] {
     "status": "info",
-    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "info": "Getting final URL for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89420,7 +89420,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89430,7 +89430,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89440,7 +89440,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89451,17 +89451,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:44:53,012 [INFO] {
     "status": "info",
-    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "info": "Pushing URLs to RabbitMQ for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89486,11 +89486,11 @@
 2026-02-15 18:44:53,954 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
 2026-02-15 18:44:55,956 [INFO] {
     "status": "success",
-    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "info": "URLs pushed to RabbitMQ successfully for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89500,7 +89500,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89510,7 +89510,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89520,7 +89520,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89531,17 +89531,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:45:12,476 [INFO] {
     "status": "info",
-    "info": "Getting final URL for project: internal_feasibility and site: styleunion_com",
+    "info": "Getting final URL for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89551,7 +89551,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89561,7 +89561,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89571,7 +89571,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89582,17 +89582,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:45:28,959 [INFO] {
     "status": "info",
-    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "info": "Pushing URLs to RabbitMQ for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89617,11 +89617,11 @@
 2026-02-15 18:45:29,441 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
 2026-02-15 18:45:31,442 [INFO] {
     "status": "success",
-    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "info": "URLs pushed to RabbitMQ successfully for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89631,7 +89631,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89641,7 +89641,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89651,7 +89651,7 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89662,17 +89662,17 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:45:47,774 [INFO] {
     "status": "info",
-    "info": "Pushing URLs to RabbitMQ for project: internal_feasibility, site: styleunion_com",
+    "info": "Pushing URLs to RabbitMQ for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89697,11 +89697,11 @@
 2026-02-15 18:45:48,316 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
 2026-02-15 18:45:50,317 [INFO] {
     "status": "success",
-    "info": "URLs pushed to RabbitMQ successfully for project: internal_feasibility, site: styleunion_com",
+    "info": "URLs pushed to RabbitMQ successfully for project: commerce_crawl, site: styleunion_com",
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89711,41 +89711,41 @@
     "crawl": {
         "stage": "discovery",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:45:56,967 [INFO] {
     "status": "info",
-    "info": "Initializing UrlRetriever for project: internal_feasibility and site: styleunion_com"
+    "info": "Initializing UrlRetriever for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:45:58,969 [INFO] {
     "status": "info",
-    "info": "[retriever] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "info": "[retriever] Starting for project=commerce_crawl, site=styleunion_com, schedule_id=20260215",
     "crawl": {
         "stage": "retriever",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:46:00,970 [INFO] {
     "status": "info",
-    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_discovery\\commerce_crawl\\styleunion_com_commerce_crawl.yml",
     "crawl": {
         "stage": "retriever",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:46:02,974 [INFO] {
     "status": "info",
-    "info": "Fetching discovery_output for project: internal_feasibility and site: styleunion_com",
+    "info": "Fetching discovery_output for project: commerce_crawl and site: styleunion_com",
     "crawl": {
         "stage": "retriever",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -89774,7 +89774,7 @@
     "crawl": {
         "stage": "retriever",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -91756,31 +91756,31 @@
     "crawl": {
         "stage": "retriever",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:51:10,087 [INFO] {
     "status": "info",
-    "info": "Initializing UrlParser for project: internal_feasibility and site: styleunion_com"
+    "info": "Initializing UrlParser for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:12,088 [INFO] {
     "status": "info",
-    "info": "[parser] Starting for project=internal_feasibility, site=styleunion_com, schedule_id=20260215",
+    "info": "[parser] Starting for project=commerce_crawl, site=styleunion_com, schedule_id=20260215",
     "crawl": {
         "stage": "parser",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:51:14,089 [INFO] {
     "status": "info",
-    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_data_parser\\internal_feasibility\\styleunion_com_internal_feasibility.yml",
+    "info": "Loading configuration file: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\url_data_parser\\commerce_crawl\\styleunion_com_commerce_crawl.yml",
     "crawl": {
         "stage": "parser",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
@@ -91790,25 +91790,25 @@
     "crawl": {
         "stage": "parser",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }
 2026-02-15 18:51:20,264 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:20,348 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:20,441 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:20,537 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:22,265 [INFO] {
     "status": "info",
@@ -91844,35 +91844,35 @@
 }
 2026-02-15 18:51:26,278 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:26,362 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:26,453 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:26,551 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:30,252 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:30,382 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:30,489 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:30,832 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:32,253 [INFO] {
     "status": "info",
@@ -91908,35 +91908,35 @@
 }
 2026-02-15 18:51:36,265 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:36,395 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:36,503 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:36,847 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:40,282 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:40,381 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:40,473 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:41,011 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:42,283 [INFO] {
     "status": "info",
@@ -91972,35 +91972,35 @@
 }
 2026-02-15 18:51:46,293 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:46,392 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:46,486 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:47,024 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:50,506 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:50,684 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:50,843 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:51,776 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:52,507 [INFO] {
     "status": "info",
@@ -92036,35 +92036,35 @@
 }
 2026-02-15 18:51:56,526 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:56,707 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:56,857 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:51:57,800 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:00,562 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:00,748 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:01,204 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:02,115 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:02,563 [INFO] {
     "status": "info",
@@ -92100,35 +92100,35 @@
 }
 2026-02-15 18:52:06,575 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:06,759 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:07,219 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:08,131 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:10,696 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:10,910 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:11,666 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:12,498 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:12,698 [INFO] {
     "status": "info",
@@ -92164,35 +92164,35 @@
 }
 2026-02-15 18:52:16,707 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:16,923 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:17,682 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:18,537 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:20,883 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:21,077 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:21,986 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:22,540 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:22,884 [INFO] {
     "status": "info",
@@ -92228,35 +92228,35 @@
 }
 2026-02-15 18:52:26,897 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:27,090 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:27,999 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:28,553 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:31,060 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:31,182 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:32,511 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:32,712 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:33,061 [INFO] {
     "status": "info",
@@ -92292,31 +92292,31 @@
 }
 2026-02-15 18:52:37,074 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:37,193 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:38,523 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:38,724 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:40,937 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:41,357 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:42,685 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:42,938 [INFO] {
     "status": "info",
@@ -92324,7 +92324,7 @@
 }
 2026-02-15 18:52:43,008 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:43,359 [INFO] {
     "status": "info",
@@ -92352,7 +92352,7 @@
 }
 2026-02-15 18:52:46,954 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:47,010 [INFO] {
     "status": "success",
@@ -92360,31 +92360,31 @@
 }
 2026-02-15 18:52:47,371 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:48,697 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:49,029 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:51,302 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:51,405 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:52,541 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:53,089 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:53,304 [INFO] {
     "status": "info",
@@ -92420,35 +92420,35 @@
 }
 2026-02-15 18:52:57,316 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:57,417 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:58,553 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:52:59,103 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:01,796 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:01,887 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:02,647 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:03,367 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:03,797 [INFO] {
     "status": "info",
@@ -92484,35 +92484,35 @@
 }
 2026-02-15 18:53:07,811 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:07,900 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:08,659 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:09,388 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:12,489 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:12,575 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:12,844 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:13,434 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:14,490 [INFO] {
     "status": "info",
@@ -92548,35 +92548,35 @@
 }
 2026-02-15 18:53:18,502 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:18,589 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:18,859 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:19,449 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:22,849 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:22,942 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:23,011 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:23,471 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:24,851 [INFO] {
     "status": "info",
@@ -92612,35 +92612,35 @@
 }
 2026-02-15 18:53:28,863 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:28,955 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:29,038 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:29,485 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:33,108 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:33,242 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:33,373 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:33,639 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:35,109 [INFO] {
     "status": "info",
@@ -92676,35 +92676,35 @@
 }
 2026-02-15 18:53:39,122 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:39,258 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:39,389 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:39,668 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:43,373 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:43,854 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:44,175 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:44,290 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:45,374 [INFO] {
     "status": "info",
@@ -92740,35 +92740,35 @@
 }
 2026-02-15 18:53:49,387 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:49,865 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:50,210 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:50,317 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:53,699 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:54,075 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:54,697 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:54,787 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:53:55,701 [INFO] {
     "status": "info",
@@ -92804,35 +92804,35 @@
 }
 2026-02-15 18:53:59,712 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:00,151 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:00,710 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:00,800 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:03,898 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:04,580 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:05,170 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:05,301 [INFO] {
     "status": "info",
-    "info": "Extracting records for project: internal_feasibility and site: styleunion_com"
+    "info": "Extracting records for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:05,899 [INFO] {
     "status": "info",
@@ -92868,19 +92868,19 @@
 }
 2026-02-15 18:54:09,909 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:10,593 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:11,187 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:11,318 [INFO] {
     "status": "success",
-    "info": "Records extracted successfully for project: internal_feasibility and site: styleunion_com"
+    "info": "Records extracted successfully for project: commerce_crawl and site: styleunion_com"
 }
 2026-02-15 18:54:13,448 [INFO] {
     "status": "success",
@@ -92888,7 +92888,7 @@
     "crawl": {
         "stage": "parser",
         "schedule_id": "20260215",
-        "project": "internal_feasibility",
+        "project": "commerce_crawl",
         "site": "styleunion_com"
     }
 }

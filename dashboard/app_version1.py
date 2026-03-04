@@ -6,10 +6,8 @@ Run: streamlit run dashboard/streamlit_app.py
 import sys
 import subprocess
 from pathlib import Path
-import streamlit as st #type: ignore
+import streamlit as st
 from datetime import datetime
-import base64
-
 import json
 import os
 from typing import Dict, List, Tuple
@@ -32,34 +30,6 @@ st.set_page_config(
 # Custom CSS for 3D Design with elegant color scheme
 st.markdown("""
 <style>
-    /* override default Streamlit padding & toolbar */
-    .block-container {
-        padding-top: 0rem;
-        padding-bottom: 1rem;
-    }
-    header { visibility: hidden; }
-
-    /* custom header bar (logo + title) */
-    .custom-header {
-        display: flex;
-        align-items: center;      /* vertical center logo & text */
-        justify-content: flex-start;  /* left align the whole block */
-        gap: 1rem;
-        padding: 0.5rem 0;
-    }
-    .custom-title {
-        margin: 0 0 0.2rem 0;   /* small bottom margin to bring subtitle closer */
-        font-size: 2rem;
-        font-weight: 600;
-        line-height: 1.1;
-    }
-    .custom-subtitle {
-        margin: 0;              /* already zero, keep it tight */
-        font-size: 0.95rem;
-        color: #374151;
-        line-height: 1.2;
-    }
-
     /* Main container styling - elegant soft background */
     [data-testid="stMainBlockContainer"] {
         background: linear-gradient(135deg, 0%, #f0f0f0 100%);
@@ -503,30 +473,26 @@ fields:
 
 logo_path = Path(__file__).parent / "logo.png"
 
-# render header as a single block so logo and text sit side-by-side
 if logo_path.exists():
-    # embed the logo as base64 so it never breaks
-    with open(logo_path, "rb") as img_file:
-        b64 = base64.b64encode(img_file.read()).decode()
-    img_tag = f'<img src="data:image/png;base64,{b64}" width="70" style="margin-right:1rem;" />'
+    header_col1, header_col2 = st.columns([0.08, 0.92], gap="medium", vertical_alignment="center")
+    with header_col1:
+        st.image(str(logo_path), use_container_width=True)
+    with header_col2:
+        st.markdown('<h1 class="main-title" style="margin: 0 0 0.1rem 20px;">SARA</h1><p style="margin: 0 0 0 20px; font-size: 0.95rem; color: #374151;">Comprehensive Web Crawling & Data Extraction</p>', unsafe_allow_html=True)
 else:
-    img_tag = ''
+    st.markdown('<h1 class="main-title">SARA</h1>\n**Comprehensive Web Crawling & Data Extraction**', unsafe_allow_html=True)
 
-st.markdown(f"""
-<div class="custom-header">
-    {img_tag}
-    <div>
-        <h1 class="custom-title">SARA</h1>
-        <p class="custom-subtitle">Comprehensive Web Crawling & Data Extraction</p>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("---")
 
 # Sidebar navigation
 page = st.sidebar.radio(
     "Navigation",
     ["Dashboard", "Run Crawl", "Create Project", "Delete Project", "Manage Data", "Settings"]
 )
+
+# Update header
+st.markdown('<h1 class="main-title">SARA</h1>\n**Comprehensive Web Crawling & Data Extraction**', unsafe_allow_html=True)
+st.markdown("---")
 
 # ============================================================================
 # PAGE: DASHBOARD
@@ -541,6 +507,7 @@ if page == "Dashboard":
     
     # Current Run Status
     if current_run:
+        st.markdown("---")
         st.markdown('<div class="section-header">⚡ Current Run</div>', unsafe_allow_html=True)
         
         col1, col2, col3, col4 = st.columns(4)
@@ -583,13 +550,13 @@ if page == "Dashboard":
             """, unsafe_allow_html=True)
         
         # Auto refresh
-        
+        st.markdown("---")
         if st.button("🔄 Refresh Status", use_container_width=True):
             st.rerun()
     
     # History
     if last_runs:
-        
+        st.markdown("---")
         st.markdown('<div class="section-header">📜 Recent Runs</div>', unsafe_allow_html=True)
         
         table_data = []
@@ -646,7 +613,7 @@ elif page == "Run Crawl":
                 key="run_schedule"
             )
         
-        
+        st.markdown("---")
         
         col1, col2 = st.columns(2)
         
@@ -678,7 +645,7 @@ elif page == "Run Crawl":
             if st.button("🔄 Refresh", use_container_width=True):
                 st.rerun()
         
-        
+        st.markdown("---")
         st.info("**Pipeline stages:**\n1. 🔍 Discovery - Find URLs\n2. 📥 Retriever - Fetch content\n3. 📊 Parser - Extract data")
 
 # ============================================================================
@@ -704,7 +671,7 @@ elif page == "Create Project":
                 help="Lowercase, use underscores for spaces"
             )
         
-        
+        st.markdown("---")
         
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -714,7 +681,7 @@ elif page == "Create Project":
         with col3:
             create_parser = st.checkbox("Parser", value=True)
         
-        
+        st.markdown("---")
         
         submitted = st.form_submit_button("✅ Create Project", use_container_width=True, type="primary")
         
@@ -776,7 +743,7 @@ elif page == "Create Project":
                     else:
                         error_messages.append(f"Parser: {msg}")
                 
-                
+                st.markdown("---")
                 
                 if error_messages:
                     for error in error_messages:
@@ -814,7 +781,7 @@ elif page == "Delete Project":
                 key="del_site"
             )
         
-        
+        st.markdown("---")
         
         col1, col2, col3 = st.columns(3)
         
@@ -825,7 +792,7 @@ elif page == "Delete Project":
         with col3:
             del_parser = st.checkbox("Delete from Parser", value=True, key="del_pars")
         
-        
+        st.markdown("---")
         
         if st.button("🗑️ Delete Project", use_container_width=True, type="secondary"):
             success_count = 0
@@ -858,7 +825,7 @@ elif page == "Delete Project":
                 else:
                     error_messages.append(f"Parser: {msg}")
             
-            
+            st.markdown("---")
             
             if error_messages:
                 for error in error_messages:
@@ -905,7 +872,7 @@ elif page == "Manage Data":
         if filter_schedule:
             filtered_runs = [r for r in filtered_runs if r.get("schedule_id") == filter_schedule]
         
-        
+        st.markdown("---")
         
         if filtered_runs:
             run = filtered_runs[0]
@@ -933,7 +900,7 @@ elif page == "Manage Data":
                 try:
                     import pandas as pd
                     df = pd.read_csv(csv_path)
-                    
+                    st.markdown("---")
                     st.markdown(f"**Preview** ({len(df)} rows)")
                     st.dataframe(df.head(20), use_container_width=True)
                 except Exception as e:
@@ -966,7 +933,7 @@ elif page == "Settings":
         parser_count = len(list(parser_path.glob("*"))) if parser_path.exists() else 0
         st.metric("Parser Projects", parser_count)
     
-    
+    st.markdown("---")
     
     st.subheader("📊 Output Data")
     
@@ -987,7 +954,7 @@ elif page == "Settings":
         retriever_files = len(list(retriever_output.glob("*/*/*.txt"))) if retriever_output.exists() else 0
         st.metric("Retriever Outputs", retriever_files)
     
-    
+    st.markdown("---")
     
     st.subheader("🔧 Environment Info")
     
@@ -1000,7 +967,7 @@ elif page == "Settings":
     for key, value in env_info.items():
         st.text(f"{key}: {value}")
     
-    
+    st.markdown("---")
     
     st.subheader("📚 Documentation")
     
