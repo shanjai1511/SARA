@@ -1,22 +1,97 @@
 {
-  "current_run": null,
+  "current_run": {
+    "project": "commerce_crawl",
+    "site": "amazon_in",
+    "schedule_id": "test234",
+    "stage": "discovery",
+    "started_at": "2026-03-11T18:28:45Z",
+    "progress": {}
+  },
   "last_runs": [
     {
-      "project": "commerce_crawl",
-      "site": "styleunion_com",
-      "schedule_id": "20260215",
+      "project": "media_crawl",
+      "site": "business_of_fashion",
+      "schedule_id": "test123",
       "stage": "parser",
-      "started_at": "2026-02-15T13:13:34Z",
+      "started_at": "2026-03-11T17:47:16Z",
       "progress": {
-        "discovery_urls": 68,
-        "retriever_total": 68,
-        "retriever_fetched": 68,
-        "parser_pages": 68,
-        "parser_records": 68,
-        "parser_pages_done": 68
+        "discovery_urls": 30,
+        "retriever_total": 30,
+        "retriever_fetched": 30,
+        "parser_pages": 30,
+        "parser_records": 30,
+        "parser_pages_done": 30
       },
-      "completed_at": "2026-02-15T13:24:13Z",
-      "success": true
+      "completed_at": "2026-03-11T17:56:55Z",
+      "status": "completed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "business_of_fashion_media_crawl",
+      "schedule_id": "test123",
+      "stage": "discovery",
+      "started_at": "2026-03-11T17:46:27Z",
+      "progress": {},
+      "completed_at": "2026-03-11T17:46:38Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "test123",
+      "stage": "parser",
+      "started_at": "2026-03-11T17:38:40Z",
+      "progress": {
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
+      },
+      "completed_at": "2026-03-11T17:40:48Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "test123",
+      "stage": "parser",
+      "started_at": "2026-03-11T17:36:04Z",
+      "progress": {
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
+      },
+      "completed_at": "2026-03-11T17:38:11Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "test123",
+      "stage": "discovery",
+      "started_at": "2026-03-11T17:35:06Z",
+      "progress": {},
+      "completed_at": "2026-03-11T17:35:16Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "test123",
+      "stage": "discovery",
+      "started_at": "2026-03-11T17:34:46Z",
+      "progress": {},
+      "completed_at": "2026-03-11T17:34:46Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "test123",
+      "stage": "discovery",
+      "started_at": "2026-03-11T17:34:01Z",
+      "progress": {},
+      "completed_at": "2026-03-11T17:34:01Z",
+      "status": "failed"
     },
     {
       "project": "media_crawl",
@@ -33,7 +108,7 @@
         "parser_pages_done": 382
       },
       "completed_at": "2026-02-15T10:30:43Z",
-      "success": true
+      "status": "completed"
     }
   ]
 }

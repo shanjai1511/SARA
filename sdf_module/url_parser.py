@@ -1,12 +1,17 @@
 from .sdf_fetch import *
 from . import crawl_status
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import ast
+from typing import Any, Dict, List
 
 NUM_PARSE_WORKERS = 4
 
 class UrlParser:
-    def __init__(self, base_dir, project_name, site_name):
-        sdfFetch.print_info_message("info", f"Initializing UrlParser for project: {project_name} and site: {site_name}")
+    def __init__(self, base_dir: str | Path, project_name: str, site_name: str) -> None:
+        sdfFetch.print_info_message(
+            "info",
+            f"Initializing UrlParser for project: {project_name} and site: {site_name}",
+        )
         self.base_dir = base_dir
         self.project_name = project_name
         self.site_name = site_name
@@ -48,19 +53,22 @@ class UrlParser:
         sdfFetch.print_info_message("success", f"Records extracted successfully for project: {self.project_name} and site: {self.site_name}")
         return records
 
-    def _process_batch(self, batch, config, site_instance):
+    def _process_batch(self, batch: list, config: dict, site_instance: Any) -> List[Dict]:
         """Process a batch of metadata lines; return list of record dicts (for threaded parse)."""
-        records = []
+        records: List[Dict] = []
         for line in batch:
-            output_key = eval(line)
+            # metadata lines are Python dicts written as strings; use literal_eval for safety
+            output_key = ast.literal_eval(line)
             output_path = output_key.get("output_file")
             with open(output_path, "r", encoding="utf-8") as f:
                 page_content = f.read()
             page_doc = etree.HTML(page_content)
-            records.extend(self.extract_records(output_key.get("url"), page_doc, config, site_instance))
+            records.extend(
+                self.extract_records(output_key.get("url"), page_doc, config, site_instance)
+            )
         return records
 
-    def main(self, schedule_key):
+    def main(self, schedule_key: str) -> None:
         sdfFetch.set_crawl_context(
             stage="parser",
             schedule_id=schedule_key,
@@ -79,8 +87,8 @@ class UrlParser:
                 config = yaml.safe_load(file)  # Load the configuration from the YAML file
 
             module_path = self.parser_dir / f"{self.project_name}/{self.site_name}_{self.project_name}.py"
-            class_name_in_site_script = f"{self.site_name}_{self.project_name}"
-            class_name_in_site_script = ''.join([word.capitalize() for word in class_name_in_site_script.split('_')])
+            # derive class name using shared utility
+            class_name_in_site_script = normalize_class_name(self.project_name, self.site_name)
             try:
                 spec = importlib.util.spec_from_file_location(class_name_in_site_script, module_path)
                 module = importlib.util.module_from_spec(spec)
@@ -109,20 +117,26 @@ class UrlParser:
             # Split into chunks for worker threads; each thread parses its segment
             n_workers = min(NUM_PARSE_WORKERS, total_pages) or 1
             chunk_size = (total_pages + n_workers - 1) // n_workers
-            chunks = [file_paths[i:i + chunk_size] for i in range(0, total_pages, chunk_size)]
+            chunks = [file_paths[i : i + chunk_size] for i in range(0, total_pages, chunk_size)]
 
-            all_records = []
-            pages_done_so_far = 0
+            all_records: List[dict] = []
+            pages_done = 0
             with ThreadPoolExecutor(max_workers=n_workers) as executor:
-                futures = [executor.submit(self._process_batch, ch, config, site_instance) for ch in chunks]
-                for i, fut in enumerate(futures):
-                    records = fut.result()
+                futures = {executor.submit(self._process_batch, ch, config, site_instance): len(ch) for ch in chunks}
+                for fut in as_completed(futures):
+                    try:
+                        records = fut.result()
+                    except Exception:
+                        logging.exception("Batch processing failed")
+                        continue
                     all_records.extend(records)
-                    pages_done_so_far += len(chunks[i])
+                    pages_done += futures[fut]
                     crawl_status.update_progress(
-                        self.project_name, self.site_name, schedule_key,
+                        self.project_name,
+                        self.site_name,
+                        schedule_key,
                         parser_records=len(all_records),
-                        parser_pages_done=min(pages_done_so_far, total_pages)
+                        parser_pages_done=min(pages_done, total_pages),
                     )
 
             # Single combined CSV

@@ -1,36 +1,46 @@
-import os
+from __future__ import annotations
+
+import csv
 import glob
-import requests
+import hashlib
+import importlib.util
+import json
+import logging
+import math
+import os
+import random
+import re
 import subprocess
 import sys
-import hashlib
-import json
-import sys
-import csv
-import yaml
-import importlib.util
-import logging
-from openpyxl import load_workbook  # type: ignore
-from datetime import datetime
 import time
-from bs4 import BeautifulSoup
+from datetime import date, datetime
 from pathlib import Path
-from datetime import date
-from lxml import etree #type: ignore
-from proxy_config import *
-import random
-from lxml import html #type: ignore
-import json
-import math
-import pdb
 from time import sleep
-import pika #type: ignore
-import re
-import pandas as pd  # type: ignore
-from contextvars import ContextVar
+from typing import Any, Dict, List, Optional, Tuple
+
+# pandas is an optional dependency used only by the dashboard preview
+# import locally where needed to avoid forcing it to all scripts
+import pika  # type: ignore
+import requests
+import yaml
+from bs4 import BeautifulSoup
+from lxml import etree, html  # type: ignore
+
+from proxy_config import webshare_proxy  # type: ignore  # explicit proxy list
+
 # Base directory: project root (parent of sdf_module)
-base_dir = str(Path(__file__).resolve().parent.parent)
+base_dir = Path(__file__).resolve().parent.parent
 CLOUDAMQP_URL = os.environ.get(
     "CLOUDAMQP_URL",
     "amqps://fwgxshpc:6VNXrVYFv3yAVEjPdsd001qClkj3JTAS@puffin.rmq2.cloudamqp.com/fwgxshpc",
 )
+
+
+def normalize_class_name(project: str, site: str) -> str:
+    """Return a PascalCase class name for a given project/site pair.
+
+    Example: project="commerce_crawl", site="styleunion_com"  ->
+    "StyleunionComCommerceCrawl".
+    """
+    raw = f"{site}_{project}"
+    return "".join(word.capitalize() for word in raw.split("_"))

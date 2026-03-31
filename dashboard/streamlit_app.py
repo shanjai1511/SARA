@@ -284,16 +284,21 @@ st.markdown("""
 # HELPER FUNCTIONS
 # ============================================================================
 
+@st.cache_data(show_spinner=False)
 def list_projects_sites() -> Dict[str, List[str]]:
-    """Scan url_discovery/ for project/site configs."""
+    """Scan url_discovery/ for project/site configs.
+
+    Results are cached in Streamlit to avoid repeated disk walks when the UI
+    refreshes often.
+    """
     discovery = ROOT / "url_discovery"
-    result = {}
+    result: Dict[str, List[str]] = {}
     if not discovery.exists():
         return result
-    
+
     for project_dir in discovery.iterdir():
         if project_dir.is_dir() and not project_dir.name.startswith("."):
-            sites = []
+            sites: List[str] = []
             for f in project_dir.glob("*.yml"):
                 base = f.stem
                 if "_" in base and base.endswith(project_dir.name):
@@ -302,7 +307,7 @@ def list_projects_sites() -> Dict[str, List[str]]:
                         sites.append(site)
             if sites:
                 result.setdefault(project_dir.name, []).extend(sites)
-    
+
     for k in result:
         result[k] = sorted(set(result[k]))
     return result
@@ -347,16 +352,17 @@ def progress_summary(progress):
     return {"discovery": discovery, "retriever": retriever, "parser": parser}
 
 
+@st.cache_data(ttl=5, show_spinner=False)
 def get_status_data():
-    """Fetch crawl status data."""
+    """Fetch crawl status data.
+
+    The TTL ensures that rapid UI refreshes don't hammer the JSON file but
+    still update every few seconds.
+    """
     try:
         return get_status()
     except Exception as e:
-        return {
-            "current_run": None,
-            "last_runs": [],
-            "_error": str(e)
-        }
+        return {"current_run": None, "last_runs": [], "_error": str(e)}
 
 def create_project_structure(base_path: str, project_name: str, site_name: str, py_content: str, yml_content: str) -> Tuple[bool, str]:
     """Create project structure for discovery, retriever, and parser."""
@@ -398,11 +404,16 @@ def delete_project_structure(base_path: str, project_name: str, site_name: str) 
     except Exception as e:
         return False, str(e)
 
+@st.cache_data(show_spinner=False)
 def get_template_content(project_name: str, site_name: str) -> Dict[str, str]:
-    """Generate template content for discovery, retriever, and parser."""
+    """Generate template content for discovery, retriever, and parser.
+
+    The results are deterministic and relatively heavy to build, so cache them
+    between Streamlit reruns.
+    """
     class_name = f"{site_name}_{project_name}"
-    class_name = ''.join([word.capitalize() for word in class_name.split('_')])
-    
+    class_name = "".join(word.capitalize() for word in class_name.split("_"))
+
     discovery_py = f"""from sdf_module.url_discovery import *
 
 class {class_name}():
@@ -418,18 +429,18 @@ class {class_name}():
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
         try:
-            url = url.replace("-page","")
+            url = url.replace("-page", "")
         except Exception as e:
             print(f"Exception occurred: {{e}}")
         return product_url[:10]
 """
-    
+
     discovery_yml = """depth0:
-  seed_url: ["",""]
+  seed_url: ["", ""]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url"""
-    
+
     retriever_py = f"""from sdf_module.url_retriever import *
 
 class {class_name}():
@@ -437,12 +448,12 @@ class {class_name}():
         page_content = sdfFetch.get_page_content_hash(url, args_hash)
         return page_content
 """
-    
+
     retriever_yml = """request_type: curl
 request_params:
   max_retries: 3
   timeout: 30"""
-    
+
     parser_py = f"""from sdf_module.url_parser import *
 
 class {class_name}():
@@ -474,9 +485,9 @@ class {class_name}():
     def get_selling_price(page_doc, inhash):
         return None
 """
-    
+
     parser_yml = f"""---
-domain: {site_name.replace("_",".")}
+domain: {site_name.replace("_", ".")}
 fields:
   product_name:
     desc_of_xpath: "Product name XPath"
@@ -487,7 +498,7 @@ fields:
   selling_price:
     desc_of_xpath: "Selling price XPath"
     standard_nodeset_range: first"""
-    
+
     return {
         "discovery_py": discovery_py,
         "discovery_yml": discovery_yml,
@@ -525,7 +536,7 @@ st.markdown(f"""
 # Sidebar navigation
 page = st.sidebar.radio(
     "Navigation",
-    ["Dashboard", "Run Crawl", "Create Project", "Delete Project", "Manage Data", "Settings"]
+    ["Dashboard", "Run Crawl", "Create Project", "Delete Project", "Manage Data", "Projects and sites"]
 )
 
 # ============================================================================
@@ -587,15 +598,104 @@ if page == "Dashboard":
         if st.button("🔄 Refresh Status", use_container_width=True):
             st.rerun()
     
-    # History
+    # History with Filters
     if last_runs:
+        # Extract unique values for filters
+        all_projects = sorted(set(run.get("project") for run in last_runs if run.get("project")))
+        all_sites = sorted(set(run.get("site") for run in last_runs if run.get("site")))
+        all_schedule_ids = sorted(set(run.get("schedule_id") for run in last_runs if run.get("schedule_id")))
         
-        st.markdown('<div class="section-header">📜 Recent Runs</div>', unsafe_allow_html=True)
+        # Filter controls
+        col1, col2, col3 = st.columns([1, 1, 1], gap="medium")
         
+        with col1:
+            filter_project = st.selectbox(
+                "Filter by Project",
+                options=["All Projects"] + all_projects,
+                key="filter_project"
+            )
+        
+        with col2:
+            # Filter sites based on selected project
+            if filter_project == "All Projects":
+                filtered_sites = all_sites
+            else:
+                filtered_sites = sorted(set(
+                    run.get("site") for run in last_runs 
+                    if run.get("project") == filter_project
+                ))
+            
+            filter_site = st.selectbox(
+                "Filter by Site",
+                options=["All Sites"] + filtered_sites,
+                key="filter_site"
+            )
+        
+        with col3:
+            # Filter schedule_ids based on project and site
+            if filter_project == "All Projects" and filter_site == "All Sites":
+                filtered_schedule_ids = all_schedule_ids
+            elif filter_project != "All Projects" and filter_site == "All Sites":
+                filtered_schedule_ids = sorted(set(
+                    run.get("schedule_id") for run in last_runs 
+                    if run.get("project") == filter_project
+                ))
+            elif filter_project == "All Projects" and filter_site != "All Sites":
+                filtered_schedule_ids = sorted(set(
+                    run.get("schedule_id") for run in last_runs 
+                    if run.get("site") == filter_site
+                ))
+            else:
+                filtered_schedule_ids = sorted(set(
+                    run.get("schedule_id") for run in last_runs 
+                    if run.get("project") == filter_project and run.get("site") == filter_site
+                ))
+            
+            filter_schedule_id = st.selectbox(
+                "Filter by Schedule ID",
+                options=["All Schedule IDs"] + filtered_schedule_ids,
+                key="filter_schedule"
+            )
+        
+        # Apply filters to data
+        filtered_runs = last_runs
+        if filter_project != "All Projects":
+            filtered_runs = [r for r in filtered_runs if r.get("project") == filter_project]
+        if filter_site != "All Sites":
+            filtered_runs = [r for r in filtered_runs if r.get("site") == filter_site]
+        if filter_schedule_id != "All Schedule IDs":
+            filtered_runs = [r for r in filtered_runs if r.get("schedule_id") == filter_schedule_id]
+        
+        # Display stage counts summary
+        if filtered_runs:
+            total_discovery = 0
+            total_retriever = 0
+            total_parser = 0
+            
+            for run in filtered_runs:
+                progress = run.get("progress", {})
+                total_discovery += progress.get("discovery_urls", 0)
+                total_retriever += progress.get("retriever_fetched", 0)
+                total_parser += progress.get("parser_records", 0)
+            
+            st.markdown("**📊 Stage Counts (Filtered Results):**")
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.metric("🔍 Discovery URLs", total_discovery)
+            with col2:
+                st.metric("📥 Retrieved URLs", total_retriever)
+            with col3:
+                st.metric("📊 Parsed Records", total_parser)
+            with col4:
+                st.metric("📋 Total Runs", len(filtered_runs))
+        
+        # Build and display table
         table_data = []
-        for run in last_runs[:20]:
+        for run in filtered_runs[:50]:
             summary = progress_summary(run.get("progress", {}))
-            status = "✅ Success" if run.get("success") else "❌ Failed"
+            run_status = run.get("status", "in_progress")
+            status_display = "✅ Completed" if run_status == "completed" else ("❌ Failed" if run_status == "failed" else "⏳ In Progress")
             completed = format_time(run.get("completed_at")) if run.get("completed_at") else "—"
             
             table_data.append({
@@ -603,11 +703,16 @@ if page == "Dashboard":
                 "Project": run.get("project", "—"),
                 "Site": run.get("site", "—"),
                 "Discovery": summary["discovery"],
-                "Status": status,
+                "Retriever": summary["retriever"],
+                "Parser": summary["parser"],
+                "Status": status_display,
                 "Completed": completed
             })
         
-        st.dataframe(table_data, use_container_width=True, hide_index=True)
+        if table_data:
+            st.dataframe(table_data, use_container_width=True, hide_index=True)
+        else:
+            st.info("📌 No runs match the selected filters.")
     else:
         st.info("📌 No crawl history yet. Start your first crawl using the 'Run Crawl' page.")
 
@@ -942,10 +1047,10 @@ elif page == "Manage Data":
                 st.error(f"❌ CSV not found: {csv_path.relative_to(ROOT)}")
 
 # ============================================================================
-# PAGE: SETTINGS
+# PAGE: Projects and sites
 # ============================================================================
-elif page == "Settings":
-    st.markdown('<div class="section-header">⚙️ Settings</div>', unsafe_allow_html=True)
+elif page == "Projects and sites":
+    st.markdown('<div class="section-header">⚙️ Projects and sites</div>', unsafe_allow_html=True)
     
     st.subheader("📁 Project Structure")
     
@@ -986,34 +1091,3 @@ elif page == "Settings":
         retriever_output = ROOT / "scrape_output" / "retriever_output"
         retriever_files = len(list(retriever_output.glob("*/*/*.txt"))) if retriever_output.exists() else 0
         st.metric("Retriever Outputs", retriever_files)
-    
-    
-    
-    st.subheader("🔧 Environment Info")
-    
-    env_info = {
-        "Project Root": str(ROOT),
-        "Python Version": sys.version.split()[0],
-        "Working Directory": os.getcwd(),
-    }
-    
-    for key, value in env_info.items():
-        st.text(f"{key}: {value}")
-    
-    
-    
-    st.subheader("📚 Documentation")
-    
-    st.info("""
-    **Quick Start Guide:**
-    
-    1. **Create a Project**: Go to "Create Project" and set up a new project with discovery, retriever, and parser
-    2. **Run a Crawl**: Use "Run Crawl" to start the pipeline with a schedule ID (e.g., 20260215)
-    3. **Monitor**: Check "Dashboard" to see real-time crawl progress
-    4. **Manage Data**: Download and preview results in "Manage Data"
-    
-    **Pipeline Stages:**
-    - 🔍 **Discovery**: Finds URLs on target websites
-    - 📥 **Retriever**: Fetches page content/HTML
-    - 📊 **Parser**: Extracts structured data into CSV
-    """)

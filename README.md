@@ -18,19 +18,23 @@ python crawl_runner.py <project> <site> <schedule_id>
 
 - **Three‑stage pipeline**
   - **URL Discovery**: find all URLs to crawl (e.g. product pages, articles).
-  - **URL Retrieval**: robust, retried HTTP fetches, HTML caching.
-  - **URL Parsing**: extract structured fields into CSV.
+  - **URL Retrieval**: robust, retried HTTP fetches with optional proxy support, HTML caching and concurrent workers.
+  - **URL Parsing**: extract structured fields into CSV using threaded batches.
 
 - **Pluggable per‑site logic**
-  - Site‑specific logic lives in `url_discovery/`, `url_retriever/`, `url_data_parser/`.
-  - Quickly scaffold new sites with `creation_script.py`.
+  - Site‑specific code and YAML configuration lives under `url_discovery/`, `url_retriever/`, and `url_data_parser/`.
+  - New sites can be scaffolded via `creation_script.py`; corresponding cleanup is in `delete_files_automated.py`.
+  - Class names are generated consistently via a shared `normalize_class_name` helper.
 
 - **Queue‑based decoupling**
-  - Stages communicate via RabbitMQ queues.
-  - Easy to add more retriever/parser workers later.
+  - Stages communicate via RabbitMQ queues (configurable via `CLOUDAMQP_URL`).
+  - Retriever pulls up to 500 URLs at a time and acknowleges them.
+  - Parallel workers use `concurrent.futures` with `as_completed` to catch failures.
 
-- **Structured logging**
+- **Structured logging & observability**
   - Every log can include `stage`, `schedule_id`, `project`, and `site`.
+  - Dashboard reads `crawl_status.json` and caches it for 5 s to reduce I/O.
+  - Template generation and project lists are also cached to speed UI reruns.
 
 ---
 
@@ -78,6 +82,19 @@ SARA/
 
 ## Core Modules
 
+_All core Python modules have been enhanced with type hints,
+clearer logging, and utility functions to ease maintenance and static
+analysis._
+
+### Utility scripts
+
+The repository includes two helper scripts:
+
+* `creation_script.py` – scaffolds new project/site modules (discovery, retriever, parser) with boilerplate content. Uses `Path` and returns status messages via JSON and has typed signatures.
+* `delete_files_automated.py` – symmetric cleanup; removes the Python and YAML files for a site and removes empty directories. Path handling and messaging were modernized.
+
+These scripts underpin the related dashboard pages and can be run standalone.
+
 ### `sdf_module/files_import.py`
 
 **Role**: central place for imports and shared constants.
@@ -100,7 +117,21 @@ Every core module does:
 from .files_import import *
 ```
 
-so it shares the same environment.
+so it shares the same environment, constants and helper functions (see below).
+
+The dashboard (`dashboard/streamlit_app.py`) now uses several cached helpers to avoid
+excessive filesystem work:
+
+```python
+@st.cache_data
+ def list_projects_sites(): ...
+@st.cache_data(ttl=5)  # status behind short ttl
+ def get_status_data(): ...
+@st.cache_data
+ def get_template_content(...): ...
+```
+
+These improvements make the UI snappy even on repeated reruns.
 
 ### `sdf_module/sdf_fetch.py` – Fetching, Parsing, Logging, RabbitMQ
 
@@ -123,6 +154,13 @@ so it shares the same environment.
     "site": "<site>"
   }
   ```
+
+- Logging is configured once with a file handler writing to `logs/pipeline.log`.
+  Messages are JSON formatted and optionally enriched with crawl context.
+
+- Constants such as `DEFAULT_RETRY_STATUSES` and `LOG_FILE` live here for easy
+  adjustment.  `get_page_content_hash()` now uses a shared `requests.Session` and
+  implements exponential backoff, proxy rotation, and automatic HTML caching.
 
 - **`sdfFetch.set_crawl_context(stage, schedule_id, project, site)`**
   - Called at the start of `UrlDiscovery.main`, `UrlRetriever.main`, `UrlParser.main`.

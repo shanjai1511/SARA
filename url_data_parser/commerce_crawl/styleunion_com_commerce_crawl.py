@@ -1,6 +1,6 @@
 from sdf_module.url_parser import *
 
-class StyleunionComInternalFeasibility():
+class StyleunionComCommerceCrawl():
 
     @staticmethod
     def modify_page_doc(inhash, page_doc):

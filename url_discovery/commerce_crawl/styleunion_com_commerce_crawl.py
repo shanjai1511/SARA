@@ -1,6 +1,6 @@
 from sdf_module.url_discovery import *
 
-class StyleunionComInternalFeasibility():
+class StyleunionComCommerceCrawl():
 
     def  get_pagination_url(self, keyurl, depth, current_depth_level):
         pagination_url = []

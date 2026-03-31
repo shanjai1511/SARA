@@ -1,16 +1,17 @@
+from pathlib import Path
 from sdf_module.files_import import *
+from typing import Optional
 
-def print_status(status, file_name, project, site_name, info):
-    status_message = {
+
+def print_status(status: str, file_name: str, project: str, site_name: str, info: str) -> None:
+    message = {
         "status": status,
         "file_name": file_name,
         "project": project,
         "site_name": site_name,
-        "info": info
+        "info": info,
     }
-    json_message = json.dumps(status_message, indent=4)
-    
-    print(json_message)
+    print(json.dumps(message, indent=4))
 
 def create_project_structure(base_path, project_name, site_name, py_content, yml_content):
     project_path = os.path.join(base_path, project_name)
@@ -37,11 +38,11 @@ def main():
     project_name = sys.argv[1]
     site_name = sys.argv[2]
 
-    base_dir = os.getcwd()
+    base_dir = Path.cwd()
 
-    url_discovery_path = os.path.join(base_dir, 'url_discovery')
-    url_retriever_path = os.path.join(base_dir, 'url_retriever')
-    url_parser_path = os.path.join(base_dir, 'url_data_parser')
+    url_discovery_path = base_dir / 'url_discovery'
+    url_retriever_path = base_dir / 'url_retriever'
+    url_parser_path = base_dir / 'url_data_parser'
     class_name_in_site_script = f"{site_name}_{project_name}"
     class_name_in_site_script = ''.join([word.capitalize() for word in class_name_in_site_script.split('_')])
     # Content for each file type

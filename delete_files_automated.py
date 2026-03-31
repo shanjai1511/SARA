@@ -1,39 +1,36 @@
+from pathlib import Path
 from sdf_module.files_import import *
+from typing import Union
 
-def print_status(status, path, project, site_name, info):
+
+def print_status(status: str, path: Union[str, Path], project: str, site_name: str, info: str) -> None:
     status_message = {
         "status": status,
-        "path": path,
+        "path": str(path),
         "project": project,
         "site_name": site_name,
-        "info": info
+        "info": info,
     }
     print(json.dumps(status_message, indent=4))
 
 
-def delete_project_structure(base_path, project_name, site_name):
-    project_path = os.path.join(base_path, project_name)
+def delete_project_structure(base_path: Union[str, Path], project_name: str, site_name: str) -> None:
+    project_path = Path(base_path) / project_name
+    py_file = project_path / f"{site_name}_{project_name}.py"
+    yml_file = project_path / f"{site_name}_{project_name}.yml"
 
-    py_file = os.path.join(project_path, f"{site_name}_{project_name}.py")
-    yml_file = os.path.join(project_path, f"{site_name}_{project_name}.yml")
+    for fp, desc in ((py_file, "Python"), (yml_file, "YAML")):
+        if fp.exists():
+            fp.unlink()
+            print_status("deleted", fp, project_name, site_name, f"{desc} file deleted")
 
-    # delete python file
-    if os.path.exists(py_file):
-        os.remove(py_file)
-        print_status("deleted", py_file, project_name, site_name, "Python file deleted")
-
-    # delete yml file
-    if os.path.exists(yml_file):
-        os.remove(yml_file)
-        print_status("deleted", yml_file, project_name, site_name, "YAML file deleted")
-
-    # delete directory only if empty
-    if os.path.exists(project_path) and not os.listdir(project_path):
-        os.rmdir(project_path)
+    # remove directory if empty
+    if project_path.exists() and not any(project_path.iterdir()):
+        project_path.rmdir()
         print_status("deleted", project_path, project_name, site_name, "Directory deleted")
 
 
-def main():
+def main() -> None:
     if len(sys.argv) != 3:
         print("Usage: python cleanup_script.py <project_name> <site_name>")
         sys.exit(1)
@@ -41,15 +38,10 @@ def main():
     project_name = sys.argv[1]
     site_name = sys.argv[2]
 
-    base_dir = os.getcwd()
+    base_dir = Path.cwd()
 
-    url_discovery_path = os.path.join(base_dir, "url_discovery")
-    url_retriever_path = os.path.join(base_dir, "url_retriever")
-    url_parser_path = os.path.join(base_dir, "url_data_parser")
-
-    delete_project_structure(url_discovery_path, project_name, site_name)
-    delete_project_structure(url_retriever_path, project_name, site_name)
-    delete_project_structure(url_parser_path, project_name, site_name)
+    for sub in ("url_discovery", "url_retriever", "url_data_parser"):
+        delete_project_structure(base_dir / sub, project_name, site_name)
 
 
 if __name__ == "__main__":

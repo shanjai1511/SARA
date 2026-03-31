@@ -1,0 +1,12 @@
+---
+domain: nykaa.fashion.com
+fields:
+  product_name:
+    desc_of_xpath: "Product name XPath"
+    standard_nodeset_range: first
+  list_price:
+    desc_of_xpath: "List price XPath"
+    standard_nodeset_range: first
+  selling_price:
+    desc_of_xpath: "Selling price XPath"
+    standard_nodeset_range: first
