@@ -1,5 +1,6 @@
 depth0:
-  seed_url: ["",""]
+  # primary sections to crawl
+  seed_url: ["https://www.businessoffashion.com/articles","https://www.businessoffashion.com/news"]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

@@ -1,12 +1,48 @@
 ---
-domain: business.of.fashion
+domain: businessoffashion.com
 fields:
-  product_name:
-    desc_of_xpath: "Product name XPath"
+  crawl_timestamp:
+    desc_of_xpath:
     standard_nodeset_range: first
-  list_price:
-    desc_of_xpath: "List price XPath"
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  uniq_id:
+    desc_of_xpath:
     standard_nodeset_range: first
-  selling_price:
-    desc_of_xpath: "Selling price XPath"
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  page_url:
+    desc_of_xpath:
     standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  article_title:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  sub_title:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  author_name:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  post_date:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  article_content:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"
+  image_url:
+    desc_of_xpath:
+    standard_nodeset_range: first
+    standard_nodeset_join_char: "|"
+    standard_post_processing_functions: "remove_line_and_spaces"

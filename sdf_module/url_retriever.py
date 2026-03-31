@@ -2,58 +2,58 @@ from .sdf_fetch import *
 from . import crawl_status
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
+import logging
+from pathlib import Path
+from typing import Any, List
 
 NUM_FETCH_WORKERS = 4
 FETCH_SLEEP_SEC = 2  # per-request delay when using threads (lower than single-threaded 10s)
 
 class UrlRetriever:
 
-    def __init__(self, base_dir, project_name, site_name):
-        sdfFetch.print_info_message("info", f"Initializing UrlRetriever for project: {project_name} and site: {site_name}")
+    def __init__(self, base_dir: str | Path, project_name: str, site_name: str) -> None:
+        sdfFetch.print_info_message(
+            "info",
+            f"Initializing UrlRetriever for project: {project_name} and site: {site_name}",
+        )
         self.base_dir = base_dir
         self.output_dir = ""
         self.project_name = project_name
         self.site_name = site_name
 
-    def fetch_retriever_output(self, schedule_key):
+    def fetch_retriever_output(self, schedule_key: str) -> List[str]:
         sdfFetch.print_info_message(
             "info",
-            f"Fetching discovery_output for project: {self.project_name} and site: {self.site_name}"
+            f"Fetching discovery_output for project: {self.project_name} and site: {self.site_name}",
         )
 
-        urls = []
+        urls: List[str] = []
+        queue_name = f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
 
         try:
-            queue_name = f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
             connection, channel = sdfFetch.get_rabbitmq_channel()
-
             channel.queue_declare(queue=queue_name, durable=True)
 
             MAX_URLS = 500
-
             for _ in range(MAX_URLS):
                 method, properties, body = channel.basic_get(queue=queue_name)
-
-                if body is None:
-                    # queue empty
+                if body is None:  # queue empty
                     break
-
                 url = body.decode()
                 urls.append(url)
-
-                # acknowledge → remove from queue
                 channel.basic_ack(delivery_tag=method.delivery_tag)
-
-            connection.close()
-
         except Exception as e:
             sdfFetch.print_error_message("error", str(e))
             logging.exception("RabbitMQ fetch failed")
-
+        finally:
+            try:
+                connection.close()
+            except Exception:
+                pass
         return urls
 
 
-    def main(self, schedule_key):
+    def main(self, schedule_key: str) -> None:
         sdfFetch.set_crawl_context(
             stage="retriever",
             schedule_id=schedule_key,
@@ -64,28 +64,37 @@ class UrlRetriever:
             "info",
             f"[retriever] Starting for project={self.project_name}, site={self.site_name}, schedule_id={schedule_key}"
         )
-        yaml_file_path = Path(self.base_dir) / f"url_discovery/{self.project_name}/{self.site_name}_{self.project_name}.yml"
+        yaml_file_path = Path(self.base_dir) / "url_discovery" / self.project_name / f"{self.site_name}_{self.project_name}.yml"
         sdfFetch.print_info_message("info", f"Loading configuration file: {yaml_file_path}")
-        with open(yaml_file_path, 'r') as file:
-            yaml_content = yaml.safe_load(file)
+        with open(yaml_file_path, "r", encoding="utf-8") as file:
+            yaml_content = yaml.safe_load(file) or {}
 
         request_params = yaml_content.get("request_params", {})
-        extended_header = request_params.get("extended_header", {})
+        extended_header = request_params.get("extended_header")
         max_retries = request_params.get("max_retries", 3)
         timeout = request_params.get("timeout", 30)
+
         output_queue = self.fetch_retriever_output(schedule_key)
         total_urls = len(output_queue)
         crawl_status.update_progress(
             self.project_name, self.site_name, schedule_key,
-            stage="retriever", retriever_total=total_urls, retriever_fetched=0
+            stage="retriever", retriever_total=total_urls, retriever_fetched=0,
         )
         sdfFetch.print_info_message(
             "info",
-            f"[retriever] Fetched {total_urls} URLs from queue for schedule_id={schedule_key}"
+            f"[retriever] Fetched {total_urls} URLs from queue for schedule_id={schedule_key}",
         )
+
         today = date.today()
-        formatted_date = today.strftime('%Y%m%d')
-        output_dir = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/"
+        formatted_date = today.strftime("%Y%m%d")
+        output_dir = (
+            Path(self.base_dir)
+            / "scrape_output"
+            / "retriever_output"
+            / self.project_name
+            / f"{self.site_name}_{self.project_name}"
+            / schedule_key
+        )
         output_dir.mkdir(parents=True, exist_ok=True)
         metadata_file = output_dir / f"{schedule_key}_queue.txt"
 
@@ -127,7 +136,12 @@ class UrlRetriever:
         if keys:
             n_workers = min(NUM_FETCH_WORKERS, len(keys))
             with ThreadPoolExecutor(max_workers=n_workers) as executor:
-                list(executor.map(fetch_one, keys))
+                futures = {executor.submit(fetch_one, k): k for k in keys}
+                for fut in as_completed(futures):
+                    try:
+                        fut.result()
+                    except Exception as exc:
+                        logging.exception("Worker failed for %s", futures[fut])
 
         sdfFetch.print_info_message(
             "success",

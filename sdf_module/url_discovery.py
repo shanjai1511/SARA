@@ -1,9 +1,18 @@
 from .sdf_fetch import *
 from . import crawl_status
+import logging
+from pathlib import Path
+from typing import Any, List, Union
+
+# small delay between calls to site-specific methods to avoid hammering
+FETCH_DELAY = 5
 
 class UrlDiscovery:
-    def __init__(self, base_dir, project_name, site_name):
-        sdfFetch.print_info_message("info", f"Initializing UrlDiscovery for project: {project_name} and site: {site_name}")
+    def __init__(self, base_dir: str | Path, project_name: str, site_name: str) -> None:
+        sdfFetch.print_info_message(
+            "info",
+            f"Initializing UrlDiscovery for project: {project_name} and site: {site_name}",
+        )
         self.base_dir = base_dir
         self.output_dir = ""
         self.collector_dir = ""
@@ -51,28 +60,46 @@ class UrlDiscovery:
                 file.write(f"{item}\n")
         sdfFetch.print_info_message("success", f"URLs written to file successfully for project: {self.project_name} and site: {self.site_name}")
 
-    def get_final_url(self, url, depth, current_depth_level, max_depth, module_instance,schedule_key):
+    def get_final_url(
+        self,
+        urls: List[str],
+        depth: dict,
+        current_depth_level: int,
+        max_depth: int,
+        module_instance: Any,
+        schedule_key: str,
+    ) -> None:
         sdfFetch.print_info_message("info", f"Getting final URL for project: {self.project_name} and site: {self.site_name}")
         current_depth = depth[f"depth{current_depth_level}"]
         method_name = current_depth["method_name"]
-        method_to_call = getattr(module_instance, method_name)
+        method_to_call = getattr(module_instance, method_name, None)
         if method_to_call is None:
+            logger = logging.getLogger(__name__)
+            logger.warning("No method '%s' found on %s", method_name, module_instance)
             return
-        
-        for i in url:
-            sleep(5)  # Sleep for 5 seconds before making the next request
+
+        for url in urls:
+            sleep(FETCH_DELAY)  # configurable delay
             try:
-                result_url = method_to_call(i, depth, current_depth_level)
+                result_url = method_to_call(url, depth, current_depth_level)
             except Exception as e:
                 sdfFetch.print_error_message("error", f"URL fetching failed with error: {e}")
                 logging.exception("URL fetching failed")
                 continue
             if current_depth_level == max_depth:
-                self.push_urls_to_queue(result_url,schedule_key)
-                #self.write_url_in_txt(result_url,schedule_key) enable it to same it in the txt file
+                self.push_urls_to_queue(result_url, schedule_key)
+                # self.write_url_in_txt(result_url, schedule_key) enable it to save to file if needed
                 self.count += len(result_url)
             else:
-                self.get_final_url(result_url, depth, current_depth_level + 1, max_depth, module_instance,schedule_key)
+                # tail recursion; convert to iteration to avoid deep recursion if necessary
+                self.get_final_url(
+                    result_url,
+                    depth,
+                    current_depth_level + 1,
+                    max_depth,
+                    module_instance,
+                    schedule_key,
+                )
 
     def main_execution(self,schedule_key):
         sdfFetch.print_info_message("info", f"Starting main execution for project: {self.project_name} and site: {self.site_name}")
@@ -84,8 +111,8 @@ class UrlDiscovery:
 
             module_path = Path(self.collector_dir) / f"{self.site_name}_{self.project_name}.py"
 
-            class_name_in_site_script = f"{self.site_name}_{self.project_name}"
-            class_name_in_site_script = ''.join([word.capitalize() for word in class_name_in_site_script.split('_')])
+            # use shared helper for consistent class naming
+            class_name_in_site_script = normalize_class_name(self.project_name, self.site_name)
             try:
                 spec = importlib.util.spec_from_file_location(class_name_in_site_script, module_path)
                 module = importlib.util.module_from_spec(spec)
@@ -106,7 +133,7 @@ class UrlDiscovery:
             logging.exception("Unhandled error during execution")
             raise
 
-    def main(self, schedule_key):
+    def main(self, schedule_key: str) -> None:
         sdfFetch.set_crawl_context(
             stage="discovery",
             schedule_id=schedule_key,

@@ -1,17 +1,25 @@
 from .files_import import *
+from contextvars import ContextVar
 
 # Crawl context for structured logging (stage, schedule_id, project, site)
 _crawl_context: ContextVar[dict] = ContextVar("crawl_context", default={})
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    handlers=[
-        logging.FileHandler(f"{base_dir}/logs/pipeline.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
+# constants and shared objects
+DEFAULT_RETRY_STATUSES = (429, 500, 502, 503, 504)
+LOG_FILE = Path(base_dir) / "logs" / "pipeline.log"
+WAIT_LOG_SECONDS = 2
+
+# Configure logging only once so imports don't reconfigure
+if not logging.getLogger().handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(LOG_FILE),
+            logging.StreamHandler(sys.stdout)
+        ],
+    )
+logger = logging.getLogger(__name__)
 
 class sdfFetch:
     @staticmethod
@@ -58,104 +66,96 @@ class sdfFetch:
         logging.info(json.dumps(status_message, indent=4))
 
     @staticmethod
-    def get_page_content_hash(url, proxy=None, extended_header=None, max_retries=3, timeout=30, retry_statuses=None):
+    def get_page_content_hash(
+        url: str,
+        proxy: str | None = None,
+        extended_header: dict | None = None,
+        max_retries: int = 3,
+        timeout: int = 30,
+        retry_statuses: tuple[int, ...] | None = None,
+    ) -> dict:
         """
-        Fetch page content with retries.
+        Fetch page content with retries and optional proxy.
 
-        Args:
-            url: URL to fetch
-            proxy: "webshare_proxy" to use proxy, or None
-            extended_header: Optional dict of headers
-            max_retries: Number of retries on failure (default 3)
-            timeout: Request timeout in seconds (default 30)
-            retry_statuses: HTTP status codes to retry (default 429, 500, 502, 503, 504)
+        Uses a single :class:`requests.Session` across attempts to reduce overhead.
+        Returns a dictionary with ``page_doc`` (text), ``status_code`` and ``url``.
         """
         if not url:
             sdfFetch.print_error_message("error", "Invalid URL")
             return {"page_doc": "", "status_code": None, "url": url}
 
-        if retry_statuses is None:
-            retry_statuses = (429, 500, 502, 503, 504)
+        retry_statuses = retry_statuses or DEFAULT_RETRY_STATUSES
 
-        last_exception = None
+        session = requests.Session()
+        # provide a realistic browser User-Agent and language by default
+        session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                              "AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/116.0.0.0 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9",
+        })
+        if extended_header:
+            session.headers.update(extended_header)
+        if proxy == "webshare_proxy":
+            host, port, username, password = random.choice(webshare_proxy)
+            proxy_url = f"http://{username}:{password}@{host}:{port}"
+            session.proxies.update({"http": proxy_url, "https": proxy_url})
+
         last_response = None
+        # ensure session is always closed once we've finished all attempts
+        try:
+            for attempt in range(max_retries + 1):
+                try:
+                    msg = f"Fetching page content for URL: {url}"
+                    if attempt > 0:
+                        msg += f" (attempt {attempt + 1}/{max_retries + 1})"
+                    sdfFetch.print_info_message("info", msg)
+                    response = session.get(url, verify=False, timeout=timeout)
+                    last_response = response
 
-        for attempt in range(max_retries + 1):
-            session = requests.Session()
-            try:
-                sdfFetch.print_info_message(
-                    "info",
-                    f"Fetching page content for URL: {url}" + (f" (attempt {attempt + 1}/{max_retries + 1})" if attempt > 0 else "")
-                )
+                    status = response.status_code
+                    if status == 200:
+                        output_dir = Path(base_dir) / "cache"
+                        output_dir.mkdir(parents=True, exist_ok=True)
+                        output_file = output_dir / f"{sdfFetch.encode(url)}.html"
+                        with open(output_file, "wb") as f:
+                            f.write(response.content)
+                        sdfFetch.print_info_message("success", "Page fetched successfully.", url=str(output_file))
+                        return {"page_doc": response.text, "status_code": status, "url": url}
 
-                if extended_header:
-                    session.headers.update(extended_header)
+                    if status in retry_statuses and attempt < max_retries:
+                        backoff = 2 ** attempt
+                        sdfFetch.print_info_message("info", f"Retrying in {backoff}s (status {status})")
+                        sleep(backoff)
+                        continue
 
-                if proxy == "webshare_proxy":
-                    host, port, username, password = random.choice(webshare_proxy)
-                    proxy_url = f"http://{username}:{password}@{host}:{port}"
-                    session.proxies.update({"http": proxy_url, "https": proxy_url})
-
-                response = session.get(url, verify=False, timeout=timeout)
-                last_response = response
-
-                if response.status_code == 200:
-                    output_dir = Path(f"{base_dir}/cache/")
-                    output_dir.mkdir(parents=True, exist_ok=True)
-                    output_file = output_dir / f"{sdfFetch.encode(url)}.html"
-                    with open(output_file, "wb") as file:
-                        file.write(response.content)
-                    sdfFetch.print_info_message(
-                        "success",
-                        "Page fetched successfully.",
-                        url=str(output_file)
-                    )
-                    return {
-                        "page_doc": response.text,
-                        "status_code": response.status_code,
-                        "url": url
-                    }
-
-                if response.status_code in retry_statuses and attempt < max_retries:
-                    backoff = 2 ** attempt
-                    sdfFetch.print_info_message(
-                        "info",
-                        f"Retrying in {backoff}s (status {response.status_code})"
-                    )
-                    sleep(backoff)
-                else:
                     sdfFetch.print_error_message(
                         "error",
-                        f"Failed to fetch page content for URL: {url} (status {response.status_code})"
+                        f"Failed to fetch page content for URL: {url} (status {status})",
                     )
-                    return {
-                        "page_doc": "",
-                        "status_code": response.status_code,
-                        "url": url
-                    }
+                    return {"page_doc": "", "status_code": status, "url": url}
 
-            except requests.RequestException as e:
-                last_exception = e
-                if attempt < max_retries:
-                    backoff = 2 ** attempt
-                    sdfFetch.print_info_message(
-                        "info",
-                        f"Request failed ({e}), retrying in {backoff}s"
-                    )
-                    sleep(backoff)
-                else:
+                except requests.RequestException as e:
+                    if attempt < max_retries:
+                        backoff = 2 ** attempt
+                        sdfFetch.print_info_message("info", f"Request failed ({e}), retrying in {backoff}s")
+                        sleep(backoff)
+                        continue
                     sdfFetch.print_error_message(
                         "error",
-                        f"Request failed for URL: {url} after {max_retries + 1} attempts: {e}"
+                        f"Request failed for URL: {url} after {max_retries + 1} attempts: {e}",
                     )
-                    logging.exception("Request failed")
-            finally:
-                session.close()
+                    logger.exception("Request failed")
+                    break
+        finally:
+            session.close()
 
         return {
             "page_doc": "",
-            "status_code": getattr(last_response, "status_code", None) if last_response else None,
-            "url": url
+            "status_code": getattr(last_response, "status_code", None)
+            if last_response
+            else None,
+            "url": url,
         }
 
     @staticmethod

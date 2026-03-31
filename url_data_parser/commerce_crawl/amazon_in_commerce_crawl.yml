@@ -10,3 +10,18 @@ fields:
   selling_price:
     desc_of_xpath: "Selling price XPath"
     standard_nodeset_range: first
+  discount_percentage:
+    desc_of_xpath: "Discount percentage XPath"
+    standard_nodeset_range: first
+  size:
+    desc_of_xpath: "Size selection XPath"
+    standard_nodeset_range: first
+  color:
+    desc_of_xpath: "Color selection XPath"
+    standard_nodeset_range: first
+  description:
+    desc_of_xpath: "Product description XPath"
+    standard_nodeset_range: first
+  sku:
+    desc_of_xpath: "ASIN or SKU XPath"
+    standard_nodeset_range: first
