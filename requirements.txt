@@ -34,6 +34,9 @@ pandas>=2.0.0             # dashboard data tables + analytics
 plotly>=5.20.0            # charts in Streamlit analytics page
 httpx>=0.27.0             # dashboard → API calls
 
+# ── Scheduler ─────────────────────────────────────────────────────────────────
+APScheduler>=3.10.0       # per-site crawl scheduling
+
 # ── Elasticsearch ─────────────────────────────────────────────────────────────
 elasticsearch>=8.0.0      # ES client + bulk helpers (optional — only needed if ELASTICSEARCH_URL set)
 

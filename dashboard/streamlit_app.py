@@ -598,6 +598,7 @@ page = st.sidebar.radio(
         "Manage Data",
         "Projects and sites",
         "─────────────",          # visual separator (SaaS section)
+        "Schedules",
         "Analytics",
         "DLQ Inspector",
         "System Health",
@@ -1179,6 +1180,127 @@ elif page == "Projects and sites":
 # ── Separator item: do nothing ────────────────────────────────────────────────
 elif page == "─────────────":
     st.info("Select a page from the sidebar.")
+
+# ============================================================================
+# ============================================================================
+# PAGE: SCHEDULES
+# ============================================================================
+elif page == "Schedules":
+    st.markdown('<div class="section-header">🕐 Crawl Schedules</div>', unsafe_allow_html=True)
+    st.markdown("Set per-site crawl frequency. The scheduler picks up changes within 5 minutes.")
+
+    SCHEDULES_FILE = ROOT / "config" / "schedules.json"
+
+    def _load_schedules():
+        if not SCHEDULES_FILE.exists():
+            return {}
+        with open(SCHEDULES_FILE, encoding="utf-8") as f:
+            return json.load(f)
+
+    def _save_schedules(data):
+        with open(SCHEDULES_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+
+    projects_data = list_projects_sites()
+    schedules = _load_schedules()
+
+    if not projects_data:
+        st.error("No projects found. Create a project first.")
+    else:
+        # ── Scheduler status ──────────────────────────────────────────────────
+        sched_running = False
+        try:
+            result = subprocess.run(
+                ["systemctl", "is-active", "sara-scheduler"],
+                capture_output=True, text=True
+            )
+            sched_running = result.stdout.strip() == "active"
+        except Exception:
+            pass
+
+        if sched_running:
+            st.success("✅ Scheduler service is running")
+        else:
+            st.warning("⚠️ Scheduler service is not running — start it with: `sudo systemctl start sara-scheduler`")
+
+        st.divider()
+
+        # ── Per-site schedule editor ──────────────────────────────────────────
+        FREQ_OPTIONS = ["disabled", "hourly", "daily", "weekly", "custom"]
+        DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+        updated = False
+
+        for project, sites in sorted(projects_data.items()):
+            st.markdown(f"### {project.replace('_', ' ').title()}")
+            proj_schedules = schedules.setdefault(project, {})
+
+            for site in sorted(sites):
+                site_cfg = proj_schedules.setdefault(site, {
+                    "frequency": "disabled", "hour": 2, "minute": 0,
+                    "day_of_week": "mon", "cron": "0 2 * * *",
+                    "enabled": False, "last_run": None
+                })
+
+                with st.expander(f"**{site}**  —  _{site_cfg.get('frequency', 'disabled')}_", expanded=False):
+                    col1, col2, col3, col4 = st.columns([1.5, 1, 1, 1.5])
+
+                    with col1:
+                        freq = st.selectbox(
+                            "Frequency", FREQ_OPTIONS,
+                            index=FREQ_OPTIONS.index(site_cfg.get("frequency", "disabled")),
+                            key=f"freq_{project}_{site}"
+                        )
+                    with col2:
+                        hour = st.number_input(
+                            "Hour (0-23)", 0, 23,
+                            value=int(site_cfg.get("hour", 2)),
+                            key=f"hour_{project}_{site}"
+                        )
+                    with col3:
+                        minute = st.number_input(
+                            "Minute (0-59)", 0, 59,
+                            value=int(site_cfg.get("minute", 0)),
+                            key=f"min_{project}_{site}"
+                        )
+                    with col4:
+                        if freq == "weekly":
+                            day_of_week = st.selectbox(
+                                "Day of week", DAYS,
+                                index=DAYS.index(site_cfg.get("day_of_week", "mon")),
+                                key=f"dow_{project}_{site}"
+                            )
+                        elif freq == "custom":
+                            cron_expr = st.text_input(
+                                "Cron expression",
+                                value=site_cfg.get("cron", "0 2 * * *"),
+                                key=f"cron_{project}_{site}"
+                            )
+                        else:
+                            day_of_week = site_cfg.get("day_of_week", "mon")
+                            cron_expr = site_cfg.get("cron", "0 2 * * *")
+
+                    last_run = site_cfg.get("last_run")
+                    if last_run:
+                        st.caption(f"Last run: {last_run[:19]}")
+
+                    if st.button(f"💾 Save", key=f"save_{project}_{site}"):
+                        proj_schedules[site] = {
+                            "frequency": freq,
+                            "hour": int(hour),
+                            "minute": int(minute),
+                            "day_of_week": day_of_week if freq == "weekly" else site_cfg.get("day_of_week", "mon"),
+                            "cron": cron_expr if freq == "custom" else site_cfg.get("cron", "0 2 * * *"),
+                            "enabled": freq != "disabled",
+                            "last_run": site_cfg.get("last_run"),
+                        }
+                        schedules[project] = proj_schedules
+                        _save_schedules(schedules)
+                        st.success(f"✅ Saved schedule for {site}")
+                        updated = True
+
+        if updated:
+            st.info("Scheduler will pick up changes within 5 minutes.")
 
 # ============================================================================
 # PAGE: ANALYTICS

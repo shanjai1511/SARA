@@ -74,9 +74,38 @@ EOF
 done
 echo "Done."
 
-# ── 4. Cron schedule for crawls (runs daily at 2 AM) ─────────────────────────
-echo "[4/4] Setting up daily crawl cron job..."
-(crontab -l 2>/dev/null | grep -v 'crawl_runner'; echo "0 2 * * * cd $SARA_DIR && $SARA_DIR/venv/bin/python crawl_runner.py >> $SARA_DIR/logs/cron.log 2>&1") | crontab -
+# ── 4. Scheduler systemd service ──────────────────────────────────────────────
+echo "[4/5] Installing APScheduler and creating scheduler service..."
+source "$SARA_DIR/venv/bin/activate"
+pip install -q "APScheduler>=3.10.0"
+
+sudo tee /etc/systemd/system/sara-scheduler.service > /dev/null <<EOF
+[Unit]
+Description=SARA Crawl Scheduler
+After=network.target sara-dashboard.service rabbitmq-server.service
+
+[Service]
+User=$USER
+WorkingDirectory=$SARA_DIR
+EnvironmentFile=$SARA_DIR/.env
+ExecStart=$SARA_DIR/venv/bin/python -m services.scheduler.worker
+Restart=always
+RestartSec=15
+StandardOutput=append:$SARA_DIR/logs/scheduler.log
+StandardError=append:$SARA_DIR/logs/scheduler.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable sara-scheduler
+sudo systemctl restart sara-scheduler
+echo "Done."
+
+# ── 5. Remove old cron job (replaced by scheduler service) ────────────────────
+echo "[5/5] Removing old cron job..."
+crontab -l 2>/dev/null | grep -v 'crawl_runner' | crontab - || true
 echo "Done."
 
 # ── Summary ───────────────────────────────────────────────────────────────────
