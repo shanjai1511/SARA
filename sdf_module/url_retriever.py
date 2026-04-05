@@ -1,12 +1,16 @@
 from .sdf_fetch import *
 from . import crawl_status
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FuturesTimeoutError
 import threading
 import logging
 from pathlib import Path
 from typing import Any, List
+from urllib.parse import urlparse
 
 from config.settings import settings as _settings
+from core.rate_limiter import SyncDomainRateLimiter
+
+_rate_limiter = SyncDomainRateLimiter()
 
 # Configurable via env vars (see .env.example)
 NUM_FETCH_WORKERS = _settings.NUM_FETCH_WORKERS
@@ -118,7 +122,12 @@ class UrlRetriever:
             if not key:
                 return
             url = key.split("|")[0]
-            sleep(FETCH_SLEEP_SEC)
+            # Per-domain rate limiting (replaces fixed sleep)
+            try:
+                domain = urlparse(url).netloc or url
+                _rate_limiter.acquire(domain)
+            except Exception:
+                sleep(FETCH_SLEEP_SEC)  # fallback if URL parse fails
             result = sdfFetch.get_page_content_hash(
                 url,
                 extended_header=extended_header or None,
@@ -152,7 +161,7 @@ class UrlRetriever:
                 for fut in as_completed(futures):
                     try:
                         fut.result(timeout=300)  # 5-minute hard cap per URL fetch
-                    except TimeoutError:
+                    except FuturesTimeoutError:
                         logging.error("Worker timed out for %s", futures[fut])
                     except Exception as exc:
                         logging.exception("Worker failed for %s", futures[fut])

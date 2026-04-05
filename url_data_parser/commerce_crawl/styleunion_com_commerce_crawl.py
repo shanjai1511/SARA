@@ -29,18 +29,19 @@ class StyleunionComCommerceCrawl():
 
     @staticmethod
     def get_product_name(page_doc, inhash):
-        value = page_doc.xpath("//h1[contains(@class,'product__title')]")[0].text.strip()
-        return value
+        elems = page_doc.xpath("//h1[contains(@class,'product__title')]")
+        return elems[0].text.strip() if elems and elems[0].text else None
 
     @staticmethod
     def get_list_price(page_doc, inhash):
-        value = page_doc.xpath("//span[contains(@class,'regular-price')]")[0].text.strip()
-        value = int(re.sub(r"\D", "", value))
-        return value
+        elems = page_doc.xpath("//span[contains(@class,'regular-price')]")
+        if not elems or not elems[0].text:
+            return None
+        return int(re.sub(r"\D", "", elems[0].text.strip())) or None
     
     @staticmethod
     def get_selling_price(page_doc, inhash):
-        value = StyleunionComInternalFeasibility.get_list_price(page_doc, inhash)
+        value = StyleunionComCommerceCrawl.get_list_price(page_doc, inhash)
         return value
 
     @staticmethod
@@ -50,13 +51,13 @@ class StyleunionComCommerceCrawl():
     
     @staticmethod
     def get_size(page_doc, inhash):
-        value = page_doc.xpath("//p[contains(@id,'variantSku')]/span")[0].text.strip()
-        return value
-    
+        elems = page_doc.xpath("//p[contains(@id,'variantSku')]/span")
+        return elems[0].text.strip() if elems and elems[0].text else None
+
     @staticmethod
     def get_color(page_doc, inhash):
-        value = page_doc.xpath("//input[contains(@id,'main-product-Color')]/@value")[0].strip()
-        return value
+        elems = page_doc.xpath("//input[contains(@id,'main-product-Color')]/@value")
+        return elems[0].strip() if elems else None
     
     @staticmethod
     def get_description(page_doc, inhash):
@@ -68,5 +69,5 @@ class StyleunionComCommerceCrawl():
     
     @staticmethod
     def get_sku(page_doc, inhash):
-        value = page_doc.xpath("//input[contains(@name,'sku_id')]/@value")[0].strip()
-        return value
+        elems = page_doc.xpath("//input[contains(@name,'sku_id')]/@value")
+        return elems[0].strip() if elems else None

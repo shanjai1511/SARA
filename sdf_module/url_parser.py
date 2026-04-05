@@ -1,6 +1,6 @@
 from .sdf_fetch import *
 from . import crawl_status
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FuturesTimeoutError
 import ast
 import threading
 from typing import Any, Dict, List
@@ -177,7 +177,7 @@ class UrlParser:
                     for fut in as_completed(futures):
                         try:
                             records = fut.result(timeout=300)  # 5-minute hard cap per batch
-                        except TimeoutError:
+                        except FuturesTimeoutError:
                             logging.error("Parser batch timed out")
                             pages_done += futures[fut]
                             continue

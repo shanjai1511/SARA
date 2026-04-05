@@ -33,32 +33,32 @@ def main(argv=None):
 
     project = args.project
     site = args.site
-    scheduler_id = args.schedule_id
+    schedule_id = args.schedule_id
 
     _validate_name(project, "project")
     _validate_name(site, "site")
-    _validate_name(scheduler_id, "schedule_id")
+    _validate_name(schedule_id, "schedule_id")
 
-    crawl_status.set_current_run(project, site, scheduler_id)
+    crawl_status.set_current_run(project, site, schedule_id)
 
     commands = [
-        [sys.executable, "-m", "sdf_module.url_discovery", project, site, scheduler_id],
-        [sys.executable, "-m", "sdf_module.url_retriever", project, site, scheduler_id],
-        [sys.executable, "-m", "sdf_module.url_parser", project, site, scheduler_id],
+        [sys.executable, "-m", "sdf_module.url_discovery", project, site, schedule_id],
+        [sys.executable, "-m", "sdf_module.url_retriever", project, site, schedule_id],
+        [sys.executable, "-m", "sdf_module.url_parser", project, site, schedule_id],
     ]
 
     stage_names = ["discovery", "retriever", "parser"]
     for stage, cmd in zip(stage_names, commands):
-        logger.info("[schedule_id=%s] Starting stage: %s", scheduler_id, stage)
-        crawl_status.update_progress(project, site, scheduler_id, stage=stage)
+        logger.info("[schedule_id=%s] Starting stage: %s", schedule_id, stage)
+        crawl_status.update_progress(project, site, schedule_id, stage=stage)
         logger.debug("Running command: %s", cmd)
         result = subprocess.run(cmd)
 
         if result.returncode != 0:
-            logger.error("[schedule_id=%s] Failed stage: %s", scheduler_id, stage)
+            logger.error("[schedule_id=%s] Failed stage: %s", schedule_id, stage)
             crawl_status.complete_current_run(status="failed")
             sys.exit(result.returncode)
-        logger.info("[schedule_id=%s] Completed stage: %s", scheduler_id, stage)
+        logger.info("[schedule_id=%s] Completed stage: %s", schedule_id, stage)
 
     crawl_status.complete_current_run(status="completed")
     print(f"[schedule_id={scheduler_id}] Pipeline completed successfully")
