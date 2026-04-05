@@ -1,11 +1,15 @@
 """
 Elasticsearch uploader for SARA parsed output.
 
-Reads CSV files produced by url_parser.py and bulk-indexes them into ES.
-Index naming convention: sara-{project_name}-{site_name}
+Two indices only:
+    sara-commerce-crawl   — all commerce sites
+    sara-media-crawl      — all media sites
+
+Each document gets a `site_name` field added automatically.
+`crawl_timestamp` is mapped to ES `@timestamp` for time-based views in Kibana.
 
 Configuration (via .env):
-    ELASTICSEARCH_URL      Full ES URL, e.g. https://my-cluster.es.io:9243
+    ELASTICSEARCH_URL      Full ES URL, e.g. https://localhost:9200
     ELASTICSEARCH_API_KEY  Base64 API key (preferred) — OR use user/pass below
     ELASTICSEARCH_USER     ES username (if not using API key)
     ELASTICSEARCH_PASSWORD ES password (if not using API key)
@@ -49,21 +53,42 @@ def _get_client():
         return Elasticsearch(url, verify_certs=not ssl_local, ssl_show_warn=False)
 
 
-def _index_name(project_name: str, site_name: str) -> str:
-    return f"sara-{project_name}-{site_name}".lower().replace("_", "-")
+def _index_name(project_name: str) -> str:
+    """Two indices: sara-commerce-crawl and sara-media-crawl."""
+    return f"sara-{project_name}".lower().replace("_", "-")
 
 
-def _read_csv(csv_path: Path) -> Iterator[dict]:
+def _ensure_index(client, index: str) -> None:
+    if client.indices.exists(index=index):
+        return
+    client.indices.create(
+        index=index,
+        body={
+            "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+            "mappings": {
+                "dynamic": True,
+                "properties": {
+                    "@timestamp": {"type": "date"},
+                    "site_name": {"type": "keyword"},
+                    "crawl_timestamp": {"type": "keyword"},
+                },
+            },
+        },
+    )
+    log.info("Created ES index: %s", index)
+
+
+def _read_csv(csv_path: Path, site_name: str) -> Iterator[dict]:
     with open(csv_path, encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            # Drop empty-string values so ES mapping stays clean
-            yield {k: v for k, v in row.items() if v not in (None, "")}
-
-
-def _bulk_actions(docs: Iterator[dict], index: str) -> Iterator[dict]:
-    for doc in docs:
-        yield {"_index": index, "_source": doc}
+            doc = {k: v for k, v in row.items() if v not in (None, "")}
+            # Add site_name for filtering in Kibana
+            doc["site_name"] = site_name
+            # Map crawl_timestamp → @timestamp so Kibana time filter works
+            if "crawl_timestamp" in doc:
+                doc["@timestamp"] = doc["crawl_timestamp"]
+            yield doc
 
 
 def upload_csv(
@@ -89,27 +114,18 @@ def upload_csv(
         from elasticsearch.helpers import bulk
 
         client = _get_client()
-        index = _index_name(project_name, site_name)
+        index = _index_name(project_name)
+        _ensure_index(client, index)
 
-        # Ensure index exists with basic dynamic mapping
-        if not client.indices.exists(index=index):
-            client.indices.create(
-                index=index,
-                body={
-                    "settings": {"number_of_shards": 1, "number_of_replicas": 0},
-                    "mappings": {"dynamic": True},
-                },
-            )
-            log.info("Created ES index: %s", index)
-
-        docs = _read_csv(csv_path)
-        actions = list(_bulk_actions(docs, index))
+        actions = [
+            {"_index": index, "_source": doc}
+            for doc in _read_csv(csv_path, site_name)
+        ]
 
         if not actions:
             log.info("No records to upload for schedule_key=%s", schedule_key)
             return 0
 
-        # Bulk in chunks to avoid request-size limits
         total = 0
         for i in range(0, len(actions), BULK_CHUNK):
             chunk = actions[i: i + BULK_CHUNK]
@@ -119,8 +135,8 @@ def upload_csv(
                 log.warning("ES bulk errors (%d): %s", len(errors), errors[:3])
 
         log.info(
-            "ES upload complete | index=%s schedule=%s docs=%d",
-            index, schedule_key, total,
+            "ES upload complete | index=%s site=%s schedule=%s docs=%d",
+            index, site_name, schedule_key, total,
         )
         return total
 
@@ -144,12 +160,11 @@ def upload_all_existing(base_dir: Path) -> int:
 
     total = 0
     for csv_path in parser_output.rglob("*.csv"):
-        # Path structure: parser_output/{project}/{site}_{project}_{schedule}/{site}_{project}.csv
-        parts = csv_path.parts
+        # Path: parser_output/{project}/{site}_{project}_{schedule}/{site}_{project}.csv
         try:
             schedule_dir = csv_path.parent.name          # e.g. myntra_com_commerce_crawl_20250410
             project_name = csv_path.parent.parent.name   # e.g. commerce_crawl
-            # derive site_name from schedule_dir prefix (strip _{project}_{schedule})
+            # site_name: strip _{project}_{schedule} suffix
             site_name = schedule_dir.replace(f"_{project_name}_", "_").rsplit("_", 1)[0]
             schedule_key = schedule_dir.rsplit("_", 1)[-1]
         except (IndexError, ValueError):
