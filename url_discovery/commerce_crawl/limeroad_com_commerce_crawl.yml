@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.limeroad.com/men-t-shirts",
+    "https://www.limeroad.com/t-shirts-for-women"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

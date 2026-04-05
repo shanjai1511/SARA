@@ -6,8 +6,11 @@ import logging
 from pathlib import Path
 from typing import Any, List
 
-NUM_FETCH_WORKERS = 4
-FETCH_SLEEP_SEC = 2  # per-request delay when using threads (lower than single-threaded 10s)
+from config.settings import settings as _settings
+
+# Configurable via env vars (see .env.example)
+NUM_FETCH_WORKERS = _settings.NUM_FETCH_WORKERS
+FETCH_SLEEP_SEC = _settings.FETCH_SLEEP_SEC
 
 class UrlRetriever:
 
@@ -29,12 +32,13 @@ class UrlRetriever:
 
         urls: List[str] = []
         queue_name = f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
+        connection = None
 
         try:
             connection, channel = sdfFetch.get_rabbitmq_channel()
             channel.queue_declare(queue=queue_name, durable=True)
 
-            MAX_URLS = 500
+            MAX_URLS = _settings.MAX_URLS
             for _ in range(MAX_URLS):
                 method, properties, body = channel.basic_get(queue=queue_name)
                 if body is None:  # queue empty
@@ -46,10 +50,11 @@ class UrlRetriever:
             sdfFetch.print_error_message("error", str(e))
             logging.exception("RabbitMQ fetch failed")
         finally:
-            try:
-                connection.close()
-            except Exception:
-                pass
+            if connection is not None:
+                try:
+                    connection.close()
+                except Exception:
+                    pass
         return urls
 
 
@@ -66,8 +71,15 @@ class UrlRetriever:
         )
         yaml_file_path = Path(self.base_dir) / "url_discovery" / self.project_name / f"{self.site_name}_{self.project_name}.yml"
         sdfFetch.print_info_message("info", f"Loading configuration file: {yaml_file_path}")
-        with open(yaml_file_path, "r", encoding="utf-8") as file:
-            yaml_content = yaml.safe_load(file) or {}
+        try:
+            with open(yaml_file_path, "r", encoding="utf-8") as file:
+                yaml_content = yaml.safe_load(file) or {}
+        except FileNotFoundError:
+            sdfFetch.print_error_message(
+                "error",
+                f"Retriever YAML configuration not found: {yaml_file_path}",
+            )
+            return
 
         request_params = yaml_content.get("request_params", {})
         extended_header = request_params.get("extended_header")
@@ -139,7 +151,9 @@ class UrlRetriever:
                 futures = {executor.submit(fetch_one, k): k for k in keys}
                 for fut in as_completed(futures):
                     try:
-                        fut.result()
+                        fut.result(timeout=300)  # 5-minute hard cap per URL fetch
+                    except TimeoutError:
+                        logging.error("Worker timed out for %s", futures[fut])
                     except Exception as exc:
                         logging.exception("Worker failed for %s", futures[fut])
 
@@ -152,8 +166,9 @@ if __name__ == "__main__":
     if len(sys.argv) != 4:
         print("Usage: python url_retriever.py <project_name> <site_name> <schedule_key>")
         sys.exit(1)
+    base_dir = Path(__file__).resolve().parent.parent
     project_name = sys.argv[1]
     site_name = sys.argv[2]
     schedule_key = sys.argv[3]
-    url_retriever = UrlRetriever(base_dir,project_name,site_name)
+    url_retriever = UrlRetriever(base_dir, project_name, site_name)
     url_retriever.main(schedule_key)

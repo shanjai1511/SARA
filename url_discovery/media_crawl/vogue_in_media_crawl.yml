@@ -1,5 +1,9 @@
 depth0:
-  seed_url: ["https://www.vogue.in/fashion/fashion-trends","https://www.vogue.in/shopping/vogue-shopping", "https://www.vogue.in/weddings"]
+  seed_url: [
+    "https://www.vogue.in/fashion",
+    "https://www.vogue.in/fashion/fashion-trends",
+    "https://www.vogue.in/fashion/fashion-news"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

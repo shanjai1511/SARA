@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 from sdf_module.files_import import *
 from typing import Union
@@ -30,13 +31,14 @@ def delete_project_structure(base_path: Union[str, Path], project_name: str, sit
         print_status("deleted", project_path, project_name, site_name, "Directory deleted")
 
 
-def main() -> None:
-    if len(sys.argv) != 3:
-        print("Usage: python cleanup_script.py <project_name> <site_name>")
-        sys.exit(1)
+def main(argv=None) -> None:
+    parser = argparse.ArgumentParser(description="Delete generated project/site files.")
+    parser.add_argument("project_name", help="Project name")
+    parser.add_argument("site_name", help="Site name")
+    args = parser.parse_args(argv)
 
-    project_name = sys.argv[1]
-    site_name = sys.argv[2]
+    project_name = args.project_name
+    site_name = args.site_name
 
     base_dir = Path.cwd()
 

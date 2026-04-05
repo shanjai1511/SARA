@@ -30,10 +30,11 @@ from proxy_config import webshare_proxy  # type: ignore  # explicit proxy list
 
 # Base directory: project root (parent of sdf_module)
 base_dir = Path(__file__).resolve().parent.parent
-CLOUDAMQP_URL = os.environ.get(
-    "CLOUDAMQP_URL",
-    "amqps://fwgxshpc:6VNXrVYFv3yAVEjPdsd001qClkj3JTAS@puffin.rmq2.cloudamqp.com/fwgxshpc",
-)
+
+# CLOUDAMQP_URL is loaded from config.settings to ensure it is always
+# present and never falls back to a hardcoded credential.
+from config.settings import settings as _settings  # noqa: E402
+CLOUDAMQP_URL = _settings.CLOUDAMQP_URL
 
 
 def normalize_class_name(project: str, site: str) -> str:

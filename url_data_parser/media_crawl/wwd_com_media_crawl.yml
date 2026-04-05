@@ -1,12 +1,30 @@
 ---
 domain: wwd.com
 fields:
-  product_name:
-    desc_of_xpath: "Product name XPath"
+  crawl_timestamp:
+    desc_of_xpath:
     standard_nodeset_range: first
-  list_price:
-    desc_of_xpath: "List price XPath"
+  uniq_id:
+    desc_of_xpath:
     standard_nodeset_range: first
-  selling_price:
-    desc_of_xpath: "Selling price XPath"
+  page_url:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  article_title:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  sub_title:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  author_name:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  post_date:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  article_content:
+    desc_of_xpath:
+    standard_nodeset_range: first
+  image_url:
+    desc_of_xpath:
     standard_nodeset_range: first

@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.shoppersstop.com/t-shirts/c-A10101",
+    "https://www.shoppersstop.com/t-shirts-women/c-A10201"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

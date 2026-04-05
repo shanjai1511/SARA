@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.tatacliq.com/t-shirts-for-men/c-msh11106/",
+    "https://www.tatacliq.com/t-shirts-for-women/c-msh12106/"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

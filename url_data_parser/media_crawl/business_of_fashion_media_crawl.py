@@ -6,8 +6,8 @@ class BusinessOfFashionMediaCrawl():
     def modify_page_doc(inhash, page_doc):
         final_data = []
         try:
-            # nothing to modify for media articles
-            pass
+            if isinstance(inhash, str) and "|" in inhash:
+                url, category = inhash.split("|", 1)
         except Exception as e:
             print(f"Exception occurred: {e}")
         return final_data
@@ -19,21 +19,22 @@ class BusinessOfFashionMediaCrawl():
         return formatted_datetime
 
     @staticmethod
-    def get_product_name(page_doc, inhash):
-        # use title meta or h1
-        value = page_doc.xpath("//meta[contains(@property,'og:title')]/@content")
-        if value:
-            return value[0]
-        title = page_doc.xpath("//h1/text()")
-        return title[0].strip() if title else ""
+    def get_uniq_id(page_doc, inhash):
+        return sdfFetch.encode(str(inhash))
 
     @staticmethod
-    def get_list_price(page_doc, inhash):
-        return None
-    
+    def get_page_url(page_doc, inhash):
+        return inhash.split("|", 1)[0] if isinstance(inhash, str) and "|" in inhash else str(inhash)
+
     @staticmethod
-    def get_selling_price(page_doc, inhash):
-        return None
+    def get_article_title(page_doc, inhash):
+        value = page_doc.xpath("//meta[contains(@property,'og:title')]/@content | //h1/text()")
+        return value[0].strip() if value else ""
+
+    @staticmethod
+    def get_sub_title(page_doc, inhash):
+        value = page_doc.xpath("//meta[contains(@property,'og:description')]/@content | //meta[@name='description']/@content")
+        return value[0].strip() if value else ""
 
     @staticmethod
     def get_author_name(page_doc, inhash):

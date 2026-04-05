@@ -1,71 +1,15 @@
 import os
 import json
 
-# Prefer WEBSHARE_PROXY_JSON env var: JSON array of [host, port, user, pass] tuples
-# Example: [["host","port","user","pass"], ["host2","port2","user2","pass2"]]
+# Proxy list is loaded exclusively from the WEBSHARE_PROXY_JSON environment variable.
+# Format: JSON array of [host, port, username, password] tuples.
+# Example: [["198.23.239.134","6540","myuser","mypass"]]
+# See .env.example for full documentation.
 _env_proxy = os.environ.get("WEBSHARE_PROXY_JSON")
 if _env_proxy:
     webshare_proxy = json.loads(_env_proxy)
 else:
-    webshare_proxy = [
-        (
-            "198.23.239.134",
-            "6540",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "207.244.217.165",
-            "6712",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "107.172.163.27",
-            "6543",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "64.137.42.112",
-            "5157",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "173.211.0.148",
-            "6641",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "161.123.152.115",
-            "6360",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "167.160.180.203",
-            "6754",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "154.36.110.199",
-            "6853",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "173.0.9.70",
-            "5653",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        ),
-        (
-                "173.0.9.209",
-            "5792",
-            "ofjdcevf",
-            "kqzrv265fsse"
-        )
-    ]
+    raise EnvironmentError(
+        "WEBSHARE_PROXY_JSON environment variable is not set. "
+        "Copy .env.example to .env and fill in your proxy credentials."
+    )

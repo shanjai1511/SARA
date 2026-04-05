@@ -1,6 +1,15 @@
 ---
 domain: tata.cliq.com
 fields:
+  crawl_timestamp:
+    desc_of_xpath: "Crawl timestamp"
+    standard_nodeset_range: first
+  uniq_id:
+    desc_of_xpath: "Unique id"
+    standard_nodeset_range: first
+  page_url:
+    desc_of_xpath: "Page URL"
+    standard_nodeset_range: first
   product_name:
     desc_of_xpath: "Product name XPath"
     standard_nodeset_range: first

@@ -1,0 +1,38 @@
+# ── Core scraping stack (existing) ───────────────────────────────────────────
+beautifulsoup4>=4.12.2
+lxml>=4.9.3
+pika>=1.7.0
+PyYAML>=6.0
+requests>=2.31.0
+streamlit>=1.28.0
+pytest>=8.0.0
+python-dotenv>=1.0.0
+
+# ── Async HTTP (new — async retriever/discovery workers) ─────────────────────
+aiohttp>=3.9.0
+aio-pika>=9.4.0           # async RabbitMQ client (wraps aiohttp + pika)
+
+# ── FastAPI control plane ─────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.7.0
+
+# ── Redis (URL dedup Bloom filter + rate limiter + change detection) ──────────
+redis[asyncio]>=5.0.0     # includes redis.asyncio
+
+# ── Observability ─────────────────────────────────────────────────────────────
+prometheus-client>=0.20.0
+structlog>=24.1.0
+
+# ── Storage ───────────────────────────────────────────────────────────────────
+boto3>=1.34.0             # S3 raw HTML storage (optional — only needed if SARA_S3_BUCKET set)
+
+# ── Data processing ───────────────────────────────────────────────────────────
+pandas>=2.0.0             # dashboard data tables + analytics
+
+# ── Dashboard extras ──────────────────────────────────────────────────────────
+plotly>=5.20.0            # charts in Streamlit analytics page
+httpx>=0.27.0             # dashboard → API calls
+
+# ── Playwright (optional — headless browser fallback for JS sites) ────────────
+# playwright>=1.44.0      # uncomment + run: playwright install chromium
