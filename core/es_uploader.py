@@ -21,6 +21,7 @@ from __future__ import annotations
 import csv
 import logging
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Iterator
 
@@ -78,6 +79,25 @@ def _ensure_index(client, index: str) -> None:
     log.info("Created ES index: %s", index)
 
 
+_TS_FORMATS = [
+    "%b %d, %Y @ %H:%M:%S.%f",   # Mar 11, 2026 @ 23:26:23.030
+    "%Y-%m-%dT%H:%M:%S.%f",       # ISO with ms
+    "%Y-%m-%dT%H:%M:%S",          # ISO without ms
+    "%Y-%m-%d %H:%M:%S.%f",
+    "%Y-%m-%d %H:%M:%S",
+]
+
+
+def _to_iso(ts: str) -> str | None:
+    """Convert any crawl_timestamp format to ISO 8601 for ES."""
+    for fmt in _TS_FORMATS:
+        try:
+            return datetime.strptime(ts.strip(), fmt).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+        except ValueError:
+            continue
+    return None
+
+
 def _read_csv(csv_path: Path, site_name: str) -> Iterator[dict]:
     with open(csv_path, encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
@@ -85,9 +105,12 @@ def _read_csv(csv_path: Path, site_name: str) -> Iterator[dict]:
             doc = {k: v for k, v in row.items() if v not in (None, "")}
             # Add site_name for filtering in Kibana
             doc["site_name"] = site_name
-            # Map crawl_timestamp → @timestamp so Kibana time filter works
-            if "crawl_timestamp" in doc:
-                doc["@timestamp"] = doc["crawl_timestamp"]
+            # Map crawl_timestamp → @timestamp (ISO 8601) for Kibana time filter
+            raw_ts = doc.get("crawl_timestamp", "")
+            if raw_ts:
+                iso = _to_iso(raw_ts)
+                if iso:
+                    doc["@timestamp"] = iso
             yield doc
 
 
