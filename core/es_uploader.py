@@ -38,12 +38,15 @@ def _get_client():
     user = os.environ.get("ELASTICSEARCH_USER", "").strip()
     password = os.environ.get("ELASTICSEARCH_PASSWORD", "").strip()
 
+    # Disable cert verification for self-hosted ES with self-signed certs
+    ssl_local = url.startswith("https://localhost") or url.startswith("https://127.")
+
     if api_key:
-        return Elasticsearch(url, api_key=api_key, verify_certs=True)
+        return Elasticsearch(url, api_key=api_key, verify_certs=not ssl_local, ssl_show_warn=False)
     elif user and password:
-        return Elasticsearch(url, basic_auth=(user, password), verify_certs=True)
+        return Elasticsearch(url, basic_auth=(user, password), verify_certs=not ssl_local, ssl_show_warn=False)
     else:
-        return Elasticsearch(url)
+        return Elasticsearch(url, verify_certs=not ssl_local, ssl_show_warn=False)
 
 
 def _index_name(project_name: str, site_name: str) -> str:
