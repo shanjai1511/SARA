@@ -37,6 +37,9 @@ httpx>=0.27.0             # dashboard → API calls
 # ── Scheduler ─────────────────────────────────────────────────────────────────
 APScheduler>=3.10.0       # per-site crawl scheduling
 
+# ── File locking (cross-process crawl_status.json safety) ────────────────────
+# fcntl is used directly on Linux (stdlib); no extra package needed.
+
 # ── Elasticsearch ─────────────────────────────────────────────────────────────
 elasticsearch>=8.0.0      # ES client + bulk helpers (optional — only needed if ELASTICSEARCH_URL set)
 

@@ -1,14 +1,16 @@
 from sdf_module.url_discovery import *
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
+# WWD is a WordPress site — pagination uses /page/N/ path format
 class WwdComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
         pagination_url = []
         try:
-            connector = "&" if "?" in keyurl else "?"
-            for i in range(1, 11):
-                pagination_url.append(f"{keyurl}{connector}page={i}")
+            base = keyurl.rstrip("/")
+            # page 1 is already the seed URL; start from page 2
+            for i in range(2, 12):
+                pagination_url.append(f"{base}/page/{i}/")
         except Exception as e:
             print(f"Exception occurred: {e}")
         return pagination_url[:10]
@@ -16,7 +18,6 @@ class WwdComMediaCrawl():
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
         try:
-            url = url.replace("-page","")
             dom = sdfFetch.get_page_content_hash(url)
             if dom.get("status_code") != 200:
                 raise Exception("No proper DOM found")
@@ -25,7 +26,22 @@ class WwdComMediaCrawl():
             seen = set()
             for link in links:
                 full = urljoin(url, link)
-                if not any(k in full.lower() for k in ["/article", "/news", "/story", "/feature"]):
+                parsed = urlparse(full)
+                if "wwd.com" not in parsed.netloc:
+                    continue
+                path = parsed.path.lower()
+                # WWD article paths: /fashion-news/some-story-123456789/
+                # Skip section indexes and utility pages
+                skip_segments = {"page", "tag", "author", "category", "search", "feed", "wp-content"}
+                parts = [p for p in path.strip("/").split("/") if p]
+                if not parts:
+                    continue
+                if parts[0] in skip_segments:
+                    continue
+                # must have at least 2 path segments (section/slug) and end with digit (WWD article IDs)
+                if len(parts) < 2:
+                    continue
+                if not parts[-1][-1].isdigit():
                     continue
                 if full in seen:
                     continue

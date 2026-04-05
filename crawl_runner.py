@@ -4,6 +4,7 @@ import time
 import subprocess as _subprocess
 from sdf_module.files_import import *
 from sdf_module import crawl_status
+from core.alerting import send_failure_alert, send_success_alert
 import logging
 
 logger = logging.getLogger(__name__)
@@ -127,11 +128,15 @@ def main(argv=None):
     if disc_proc.returncode != 0:
         logger.error("[schedule_id=%s] Discovery failed (exit %d)", schedule_id, disc_proc.returncode)
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
+        send_failure_alert(project, site, schedule_id, stage="discovery",
+                           error_detail=(disc_stderr or "")[-1000:])
         sys.exit(disc_proc.returncode)
 
     if ret_proc.returncode != 0:
         logger.error("[schedule_id=%s] Retriever failed (exit %d)", schedule_id, ret_proc.returncode)
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
+        send_failure_alert(project, site, schedule_id, stage="retriever",
+                           error_detail=(ret_stderr or "")[-1000:])
         sys.exit(ret_proc.returncode)
 
     # ── Parser runs after both complete ──────────────────────────────────────
@@ -139,9 +144,11 @@ def main(argv=None):
     rc = _run_stage(parser_cmd, "parser", schedule_id)
     if rc != 0:
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
+        send_failure_alert(project, site, schedule_id, stage="parser")
         sys.exit(rc)
 
     crawl_status.complete_current_run(project, site, schedule_id, status="completed")
+    send_success_alert(project, site, schedule_id)
     print(f"[schedule_id={schedule_id}] Pipeline completed successfully")
 
 

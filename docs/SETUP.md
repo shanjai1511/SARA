@@ -160,11 +160,49 @@ ELASTICSEARCH_URL=https://localhost:9200
 ELASTICSEARCH_USER=elastic
 ELASTICSEARCH_PASSWORD=your_elastic_password_here
 
+# Alerting — email (Gmail example)
+ALERT_EMAIL_TO=you@example.com
+ALERT_SMTP_HOST=smtp.gmail.com
+ALERT_SMTP_PORT=587
+ALERT_SMTP_USER=your-gmail@gmail.com
+ALERT_SMTP_PASSWORD=your-gmail-app-password
+# ALERT_NOTIFY_SUCCESS=true   # uncomment to also alert on success
+
+# Alerting — Slack (optional, alternative to email)
+# ALERT_SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
+
 # SaaS (leave blank if not using)
 SARA_S3_BUCKET=
 SARA_API_KEY=
 METRICS_PORT=8000
 CORS_ORIGINS=*
+```
+
+### Gmail app password setup
+
+Gmail requires an App Password (not your regular password) when 2FA is enabled:
+
+1. Go to [myaccount.google.com/security](https://myaccount.google.com/security)
+2. Enable 2-Step Verification if not already on
+3. Search "App passwords" → create one named "SARA"
+4. Paste the 16-character password into `ALERT_SMTP_PASSWORD`
+
+### Proxy setup (Webshare)
+
+1. Sign up at [webshare.io](https://webshare.io) (100 free proxies on free plan)
+2. Go to **Proxy List** → **Download** → select **Username:Password** format
+3. Convert to JSON array format and paste into `WEBSHARE_PROXY_JSON`:
+
+```bash
+# Example format
+WEBSHARE_PROXY_JSON=[["198.23.239.134","6540","user1","pass1"],["207.244.217.165","6712","user2","pass2"]]
+```
+
+Sites that auto-use proxy when configured: `wwd_com`, `business_of_fashion`, `just_style_com`
+To enable proxy for any site, add to its discovery YAML:
+```yaml
+request_params:
+  proxy: webshare_proxy
 ```
 
 Save: `Ctrl+X` → `Y` → `Enter`

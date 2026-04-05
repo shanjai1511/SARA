@@ -109,6 +109,16 @@ class Settings:
     ELASTICSEARCH_USER: str = field(default_factory=lambda: _optional("ELASTICSEARCH_USER"))
     ELASTICSEARCH_PASSWORD: str = field(default_factory=lambda: _optional("ELASTICSEARCH_PASSWORD"))
 
+    # Alerting (optional — send failure/success notifications)
+    ALERT_EMAIL_TO: str = field(default_factory=lambda: _optional("ALERT_EMAIL_TO"))
+    ALERT_EMAIL_FROM: str = field(default_factory=lambda: _optional("ALERT_EMAIL_FROM"))
+    ALERT_SMTP_HOST: str = field(default_factory=lambda: _optional("ALERT_SMTP_HOST"))
+    ALERT_SMTP_PORT: int = field(default_factory=lambda: _optional_int("ALERT_SMTP_PORT", 587))
+    ALERT_SMTP_USER: str = field(default_factory=lambda: _optional("ALERT_SMTP_USER"))
+    ALERT_SMTP_PASSWORD: str = field(default_factory=lambda: _optional("ALERT_SMTP_PASSWORD"))
+    ALERT_SLACK_WEBHOOK_URL: str = field(default_factory=lambda: _optional("ALERT_SLACK_WEBHOOK_URL"))
+    ALERT_NOTIFY_SUCCESS: str = field(default_factory=lambda: _optional("ALERT_NOTIFY_SUCCESS", "false"))
+
     # ── Properties ────────────────────────────────────────────────────────
     @property
     def redis_enabled(self) -> bool:

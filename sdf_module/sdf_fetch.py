@@ -151,9 +151,12 @@ class sdfFetch:
         if extended_header:
             session.headers.update(extended_header)
         if proxy == "webshare_proxy":
-            host, port, username, password = random.choice(webshare_proxy)
-            proxy_url = f"http://{username}:{password}@{host}:{port}"
-            session.proxies.update({"http": proxy_url, "https": proxy_url})
+            if not webshare_proxy:
+                logging.warning("proxy='webshare_proxy' requested but WEBSHARE_PROXY_JSON is empty — fetching directly")
+            else:
+                host, port, username, password = random.choice(webshare_proxy)
+                proxy_url = f"http://{username}:{password}@{host}:{port}"
+                session.proxies.update({"http": proxy_url, "https": proxy_url})
 
         last_response = None
         for attempt in range(max_retries + 1):

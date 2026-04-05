@@ -1,6 +1,12 @@
 depth0:
-  # primary sections to crawl
-  seed_url: ["https://www.businessoffashion.com/articles","https://www.businessoffashion.com/news"]
+  seed_url: [
+    "https://www.businessoffashion.com/articles",
+    "https://www.businessoffashion.com/news"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3
