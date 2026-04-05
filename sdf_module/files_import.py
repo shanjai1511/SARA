@@ -13,7 +13,7 @@ import re
 import subprocess
 import sys
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 from time import sleep
 from typing import Any, Dict, List, Optional, Tuple

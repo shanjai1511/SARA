@@ -30,6 +30,21 @@ def _get_thread_session() -> requests.Session:
 DEFAULT_RETRY_STATUSES = (429, 500, 502, 503, 504)
 LOG_FILE = Path(base_dir) / "logs" / "pipeline.log"
 LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+CACHE_DIR = Path(base_dir) / "cache"
+CACHE_MAX_AGE_HOURS = 24
+
+
+def _cleanup_old_cache() -> None:
+    """Delete cache files older than CACHE_MAX_AGE_HOURS to prevent disk fill."""
+    if not CACHE_DIR.exists():
+        return
+    cutoff = time.time() - CACHE_MAX_AGE_HOURS * 3600
+    for f in CACHE_DIR.glob("*.html"):
+        try:
+            if f.stat().st_mtime < cutoff:
+                f.unlink()
+        except Exception:
+            pass
 
 # Configure logging only once so imports don't reconfigure.
 # Use RotatingFileHandler to prevent unbounded log growth (10 MB × 5 files).
@@ -125,6 +140,10 @@ class sdfFetch:
         if not url:
             sdfFetch.print_error_message("error", "Invalid URL")
             return {"page_doc": "", "status_code": None, "url": url}
+
+        # Fix 2: clean up stale cache files periodically (1-in-50 chance per call)
+        if random.randint(1, 50) == 1:
+            _cleanup_old_cache()
 
         retry_statuses = retry_statuses or DEFAULT_RETRY_STATUSES
 

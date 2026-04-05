@@ -614,54 +614,54 @@ if page == "Dashboard":
     
     projects_data = list_projects_sites()
     status_data = get_status_data()
-    current_run = status_data.get("current_run")
+    current_runs = list(status_data.get("current_runs", {}).values())
+    # backward compat: fallback to single current_run
+    if not current_runs and status_data.get("current_run"):
+        current_runs = [status_data["current_run"]]
     last_runs = status_data.get("last_runs", [])
-    
-    # Current Run Status
-    if current_run:
-        st.markdown('<div class="section-header">⚡ Current Run</div>', unsafe_allow_html=True)
-        
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Project", current_run.get("project", "—"))
-        with col2:
-            st.metric("Site", current_run.get("site", "—"))
-        with col3:
-            st.metric("Schedule ID", current_run.get("schedule_id", "—"))
-        with col4:
-            stage = current_run.get("stage", "discovery").replace("_", " ").title()
-            st.metric("Stage", stage)
-        
-        progress = current_run.get("progress", {})
-        summary = progress_summary(progress)
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown(f"""
-            <div class='stage-box'>
-                <h4>🔍 Discovery</h4>
-                <div class='count'>{summary['discovery']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown(f"""
-            <div class='stage-box'>
-                <h4>📥 Retriever</h4>
-                <div class='count'>{summary['retriever']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col3:
-            st.markdown(f"""
-            <div class='stage-box'>
-                <h4>📊 Parser</h4>
-                <div class='count'>{summary['parser']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Auto refresh
-        
+
+    # Current Run Status (supports multiple concurrent crawls)
+    if current_runs:
+        st.markdown('<div class="section-header">⚡ Active Crawls</div>', unsafe_allow_html=True)
+        for current_run in current_runs:
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Project", current_run.get("project", "—"))
+            with col2:
+                st.metric("Site", current_run.get("site", "—"))
+            with col3:
+                st.metric("Schedule ID", current_run.get("schedule_id", "—"))
+            with col4:
+                stage = current_run.get("stage", "discovery").replace("_", " ").title()
+                st.metric("Stage", stage)
+
+            progress = current_run.get("progress", {})
+            summary = progress_summary(progress)
+
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.markdown(f"""
+                <div class='stage-box'>
+                    <h4>🔍 Discovery</h4>
+                    <div class='count'>{summary['discovery']}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            with col2:
+                st.markdown(f"""
+                <div class='stage-box'>
+                    <h4>📥 Retriever</h4>
+                    <div class='count'>{summary['retriever']}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"""
+                <div class='stage-box'>
+                    <h4>📊 Parser</h4>
+                    <div class='count'>{summary['parser']}</div>
+                </div>
+                """, unsafe_allow_html=True)
+            st.divider()
+
         if st.button("🔄 Refresh Status", use_container_width=True):
             st.rerun()
     

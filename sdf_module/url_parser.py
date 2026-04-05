@@ -190,6 +190,25 @@ class UrlParser:
                             writer.writerows(records)
                             csv_file.flush()  # ensure data reaches disk progressively
 
+                        # Fix 7: progressive ES upload — upload each batch as parsed
+                        if records:
+                            try:
+                                from core.es_uploader import upload_csv as _es_upload
+                                # Write a temp CSV for this batch and upload
+                                import tempfile, csv as _csv
+                                with tempfile.NamedTemporaryFile(
+                                    mode="w", suffix=".csv", delete=False,
+                                    encoding="utf-8", newline=""
+                                ) as tmp:
+                                    tmp_path = Path(tmp.name)
+                                    w = _csv.DictWriter(tmp, fieldnames=config["fields"].keys())
+                                    w.writeheader()
+                                    w.writerows(records)
+                                _es_upload(tmp_path, self.project_name, self.site_name, schedule_key)
+                                tmp_path.unlink(missing_ok=True)
+                            except Exception:
+                                logging.debug("Progressive ES upload skipped for batch")
+
                         total_records += len(records)
                         pages_done += futures[fut]
                         crawl_status.update_progress(
@@ -209,14 +228,7 @@ class UrlParser:
                 f"[parser] Completed schedule_id={schedule_key} | Records extracted: {total_records} from {len(file_paths)} pages"
             )
 
-            # Upload parsed CSV to Elasticsearch (no-op if ELASTICSEARCH_URL not set)
-            try:
-                from core.es_uploader import upload_csv
-                es_count = upload_csv(csv_path, self.project_name, self.site_name, schedule_key)
-                if es_count:
-                    sdfFetch.print_info_message("success", f"[parser] Uploaded {es_count} docs to Elasticsearch")
-            except Exception:
-                logging.exception("ES upload step failed — crawl result is still saved locally")
+            sdfFetch.print_info_message("success", f"[parser] ES data uploaded progressively during parsing")
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")

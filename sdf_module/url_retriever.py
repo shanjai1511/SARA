@@ -43,13 +43,32 @@ class UrlRetriever:
             channel.queue_declare(queue=queue_name, durable=True)
 
             MAX_URLS = _settings.MAX_URLS
-            for _ in range(MAX_URLS):
+            # Fix 6: poll queue with retries — handles pipelined discovery
+            empty_retries = 0
+            MAX_EMPTY_RETRIES = 6  # wait up to 30s for discovery to push more URLs
+
+            fetched = 0
+            while fetched < MAX_URLS:
                 method, properties, body = channel.basic_get(queue=queue_name)
-                if body is None:  # queue empty
-                    break
+                if body is None:
+                    if empty_retries >= MAX_EMPTY_RETRIES:
+                        break
+                    empty_retries += 1
+                    sleep(5)
+                    continue
+                empty_retries = 0
                 url = body.decode()
                 urls.append(url)
                 channel.basic_ack(delivery_tag=method.delivery_tag)
+                fetched += 1
+
+            # Fix 4: delete queue after consuming to avoid stale queue accumulation
+            try:
+                channel.queue_delete(queue=queue_name)
+                logging.info("Deleted RabbitMQ queue: %s", queue_name)
+            except Exception:
+                pass
+
         except Exception as e:
             sdfFetch.print_error_message("error", str(e))
             logging.exception("RabbitMQ fetch failed")
@@ -116,12 +135,20 @@ class UrlRetriever:
 
         fetched_count = 0
         fetch_lock = threading.Lock()
+        # Fix 8: in-memory dedup — skip duplicate URLs within this crawl run
+        _seen_urls: set = set()
 
         def fetch_one(key):
             nonlocal fetched_count
             if not key:
                 return
             url = key.split("|")[0]
+            # Fix 8: skip already-seen URLs within this run
+            with fetch_lock:
+                if url in _seen_urls:
+                    logging.debug("Dedup: skipping already-fetched URL: %s", url)
+                    return
+                _seen_urls.add(url)
             # Per-domain rate limiting (replaces fixed sleep)
             try:
                 domain = urlparse(url).netloc or url
