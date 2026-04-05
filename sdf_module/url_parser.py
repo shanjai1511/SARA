@@ -209,6 +209,15 @@ class UrlParser:
                 f"[parser] Completed schedule_id={schedule_key} | Records extracted: {total_records} from {len(file_paths)} pages"
             )
 
+            # Upload parsed CSV to Elasticsearch (no-op if ELASTICSEARCH_URL not set)
+            try:
+                from core.es_uploader import upload_csv
+                es_count = upload_csv(csv_path, self.project_name, self.site_name, schedule_key)
+                if es_count:
+                    sdfFetch.print_info_message("success", f"[parser] Uploaded {es_count} docs to Elasticsearch")
+            except Exception:
+                logging.exception("ES upload step failed — crawl result is still saved locally")
+
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")
             logging.exception("Unhandled error during execution")

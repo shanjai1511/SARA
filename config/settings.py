@@ -103,6 +103,12 @@ class Settings:
     METRICS_PORT: int = field(default_factory=lambda: _optional_int("METRICS_PORT", 8000))
     CORS_ORIGINS: str = field(default_factory=lambda: _optional("CORS_ORIGINS", "*"))
 
+    # Elasticsearch (optional — enables ES upload after parsing)
+    ELASTICSEARCH_URL: str = field(default_factory=lambda: _optional("ELASTICSEARCH_URL"))
+    ELASTICSEARCH_API_KEY: str = field(default_factory=lambda: _optional("ELASTICSEARCH_API_KEY"))
+    ELASTICSEARCH_USER: str = field(default_factory=lambda: _optional("ELASTICSEARCH_USER"))
+    ELASTICSEARCH_PASSWORD: str = field(default_factory=lambda: _optional("ELASTICSEARCH_PASSWORD"))
+
     # ── Properties ────────────────────────────────────────────────────────
     @property
     def redis_enabled(self) -> bool:

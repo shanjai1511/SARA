@@ -34,5 +34,8 @@ pandas>=2.0.0             # dashboard data tables + analytics
 plotly>=5.20.0            # charts in Streamlit analytics page
 httpx>=0.27.0             # dashboard → API calls
 
+# ── Elasticsearch ─────────────────────────────────────────────────────────────
+elasticsearch>=8.0.0      # ES client + bulk helpers (optional — only needed if ELASTICSEARCH_URL set)
+
 # ── Playwright (optional — headless browser fallback for JS sites) ────────────
 # playwright>=1.44.0      # uncomment + run: playwright install chromium
