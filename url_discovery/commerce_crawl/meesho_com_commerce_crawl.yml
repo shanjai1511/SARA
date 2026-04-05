@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.meesho.com/men-t-shirts/pl/3lq",
+    "https://www.meesho.com/women-t-shirts/pl/3es"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

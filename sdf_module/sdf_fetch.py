@@ -1,25 +1,52 @@
 from .files_import import *
 from contextvars import ContextVar
+import logging.handlers
+import threading as _threading
 
 # Crawl context for structured logging (stage, schedule_id, project, site)
 _crawl_context: ContextVar[dict] = ContextVar("crawl_context", default={})
 
+# ── Thread-local HTTP session pool ────────────────────────────────────────────
+# Each worker thread keeps one long-lived Session, enabling TCP keepalive and
+# connection reuse across requests on the same thread.
+_thread_local = _threading.local()
+
+
+def _get_thread_session() -> requests.Session:
+    """Return (or create) a per-thread requests.Session with default headers."""
+    if not hasattr(_thread_local, "session"):
+        s = requests.Session()
+        s.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/116.0.0.0 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9",
+        })
+        _thread_local.session = s
+    return _thread_local.session
+
+
 # constants and shared objects
 DEFAULT_RETRY_STATUSES = (429, 500, 502, 503, 504)
 LOG_FILE = Path(base_dir) / "logs" / "pipeline.log"
-WAIT_LOG_SECONDS = 2
+LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-# Configure logging only once so imports don't reconfigure
+# Configure logging only once so imports don't reconfigure.
+# Use RotatingFileHandler to prevent unbounded log growth (10 MB × 5 files).
 if not logging.getLogger().handlers:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(LOG_FILE),
-            logging.StreamHandler(sys.stdout)
-        ],
+    _fh = logging.handlers.RotatingFileHandler(
+        LOG_FILE,
+        maxBytes=10 * 1024 * 1024,  # 10 MB per file
+        backupCount=5,
+        encoding="utf-8",
     )
+    _fh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+    _sh = logging.StreamHandler(sys.stdout)
+    _sh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+    logging.basicConfig(level=logging.INFO, handlers=[_fh, _sh])
+
 logger = logging.getLogger(__name__)
+
 
 class sdfFetch:
     @staticmethod
@@ -42,23 +69,38 @@ class sdfFetch:
         return status_message
 
     @staticmethod
-    def print_error_message(status, info):
-        sleep(2)
+    def print_error_message(status, info, url=None):
         status_message = {"status": status, "info": info}
+        if url is not None:
+            status_message["url"] = url
         status_message = sdfFetch._merge_context(status_message)
         logging.error(json.dumps(status_message, indent=4))
 
     @staticmethod
-    def get_rabbitmq_channel():
-        params = pika.URLParameters(CLOUDAMQP_URL)
-        connection = pika.BlockingConnection(params)
-        channel = connection.channel()
-        return connection, channel
+    def get_rabbitmq_channel(max_attempts: int = 3, base_backoff: float = 2.0):
+        """Connect to RabbitMQ with exponential back-off retry.
 
+        Raises the last exception if all attempts are exhausted.
+        """
+        params = pika.URLParameters(CLOUDAMQP_URL)
+        last_exc = None
+        for attempt in range(max_attempts):
+            try:
+                connection = pika.BlockingConnection(params)
+                channel = connection.channel()
+                return connection, channel
+            except Exception as exc:
+                last_exc = exc
+                wait = base_backoff ** attempt
+                logger.warning(
+                    "RabbitMQ connection attempt %d/%d failed (%s). Retrying in %.0fs.",
+                    attempt + 1, max_attempts, exc, wait,
+                )
+                sleep(wait)
+        raise last_exc
 
     @staticmethod
     def print_info_message(status, info=None, url=None):
-        sleep(2)
         status_message = {"status": status, "info": info}
         if url is not None:
             status_message["url"] = url
@@ -77,7 +119,7 @@ class sdfFetch:
         """
         Fetch page content with retries and optional proxy.
 
-        Uses a single :class:`requests.Session` across attempts to reduce overhead.
+        Uses a per-thread :class:`requests.Session` for connection reuse.
         Returns a dictionary with ``page_doc`` (text), ``status_code`` and ``url``.
         """
         if not url:
@@ -86,14 +128,7 @@ class sdfFetch:
 
         retry_statuses = retry_statuses or DEFAULT_RETRY_STATUSES
 
-        session = requests.Session()
-        # provide a realistic browser User-Agent and language by default
-        session.headers.update({
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                              "AppleWebKit/537.36 (KHTML, like Gecko) "
-                              "Chrome/116.0.0.0 Safari/537.36",
-            "Accept-Language": "en-US,en;q=0.9",
-        })
+        session = _get_thread_session()
         if extended_header:
             session.headers.update(extended_header)
         if proxy == "webshare_proxy":
@@ -102,53 +137,50 @@ class sdfFetch:
             session.proxies.update({"http": proxy_url, "https": proxy_url})
 
         last_response = None
-        # ensure session is always closed once we've finished all attempts
-        try:
-            for attempt in range(max_retries + 1):
-                try:
-                    msg = f"Fetching page content for URL: {url}"
-                    if attempt > 0:
-                        msg += f" (attempt {attempt + 1}/{max_retries + 1})"
-                    sdfFetch.print_info_message("info", msg)
-                    response = session.get(url, verify=False, timeout=timeout)
-                    last_response = response
+        for attempt in range(max_retries + 1):
+            try:
+                msg = f"Fetching page content for URL: {url}"
+                if attempt > 0:
+                    msg += f" (attempt {attempt + 1}/{max_retries + 1})"
+                sdfFetch.print_info_message("info", msg)
+                response = session.get(url, verify=True, timeout=timeout)
+                last_response = response
 
-                    status = response.status_code
-                    if status == 200:
-                        output_dir = Path(base_dir) / "cache"
-                        output_dir.mkdir(parents=True, exist_ok=True)
-                        output_file = output_dir / f"{sdfFetch.encode(url)}.html"
-                        with open(output_file, "wb") as f:
-                            f.write(response.content)
-                        sdfFetch.print_info_message("success", "Page fetched successfully.", url=str(output_file))
-                        return {"page_doc": response.text, "status_code": status, "url": url}
+                status = response.status_code
+                if status == 200:
+                    output_dir = Path(base_dir) / "cache"
+                    output_dir.mkdir(parents=True, exist_ok=True)
+                    output_file = output_dir / f"{sdfFetch.encode(url)}.html"
+                    with open(output_file, "wb") as f:
+                        f.write(response.content)
+                    sdfFetch.print_info_message("success", "Page fetched successfully.", url=str(output_file))
+                    return {"page_doc": response.text, "status_code": status, "url": url}
 
-                    if status in retry_statuses and attempt < max_retries:
-                        backoff = 2 ** attempt
-                        sdfFetch.print_info_message("info", f"Retrying in {backoff}s (status {status})")
-                        sleep(backoff)
-                        continue
+                if status in retry_statuses and attempt < max_retries:
+                    backoff = 2 ** attempt
+                    sdfFetch.print_info_message("info", f"Retrying in {backoff}s (status {status})")
+                    sleep(backoff)
+                    continue
 
-                    sdfFetch.print_error_message(
-                        "error",
-                        f"Failed to fetch page content for URL: {url} (status {status})",
-                    )
-                    return {"page_doc": "", "status_code": status, "url": url}
+                sdfFetch.print_error_message(
+                    "error",
+                    f"Failed to fetch page content for URL: {url} (status {status})",
+                )
+                return {"page_doc": "", "status_code": status, "url": url}
 
-                except requests.RequestException as e:
-                    if attempt < max_retries:
-                        backoff = 2 ** attempt
-                        sdfFetch.print_info_message("info", f"Request failed ({e}), retrying in {backoff}s")
-                        sleep(backoff)
-                        continue
-                    sdfFetch.print_error_message(
-                        "error",
-                        f"Request failed for URL: {url} after {max_retries + 1} attempts: {e}",
-                    )
-                    logger.exception("Request failed")
-                    break
-        finally:
-            session.close()
+            except requests.RequestException as e:
+                if attempt < max_retries:
+                    backoff = 2 ** attempt
+                    sdfFetch.print_info_message("info", f"Request failed ({e}), retrying in {backoff}s")
+                    sleep(backoff)
+                    continue
+                sdfFetch.print_error_message(
+                    "error",
+                    f"Request failed for URL: {url} after {max_retries + 1} attempts: {e}",
+                    url=url,
+                )
+                logger.exception("Request failed")
+                break
 
         return {
             "page_doc": "",
@@ -202,7 +234,7 @@ class sdfFetch:
         except Exception as e:
             sdfFetch.print_error_message("error", f"XPath extraction failed with error: {e}")
             logging.exception("XPath extraction failed")
-            return f"Unexpected error: {e}"
+            return None
 
     @staticmethod
     def get_value_from_css_selector(parsed_tree, css_selector, count, attr="none"):
@@ -227,7 +259,7 @@ class sdfFetch:
         except Exception as e:
             sdfFetch.print_error_message("error", f"CSS selector extraction failed with error: {e}")
             logging.exception("CSS selector extraction failed")
-            return f"Unexpected error: {e}"
+            return None
 
     @staticmethod
     def encode(array):

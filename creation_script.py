@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 from sdf_module.files_import import *
 from typing import Optional
@@ -22,21 +23,22 @@ def create_project_structure(base_path, project_name, site_name, py_content, yml
     py_file_path = os.path.join(project_path, f"{site_name}_{project_name}.py")
     yml_file_path = os.path.join(project_path, f"{site_name}_{project_name}.yml")
 
-    with open(py_file_path, 'w') as py_file:
+    with open(py_file_path, 'w', encoding='utf-8') as py_file:
         py_file.write(py_content)
         print_status("created", py_file_path, project_name, site_name, "Python file created")
 
-    with open(yml_file_path, 'w') as yml_file:
+    with open(yml_file_path, 'w', encoding='utf-8') as yml_file:
         yml_file.write(yml_content)
         print_status("created", yml_file_path, project_name, site_name, "YAML file created")
 
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: python automated_script.py <project_name> <site_name>")
-        sys.exit(1)
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Scaffold new project/site modules.")
+    parser.add_argument("project_name", help="Project name")
+    parser.add_argument("site_name", help="Site name")
+    args = parser.parse_args(argv)
 
-    project_name = sys.argv[1]
-    site_name = sys.argv[2]
+    project_name = args.project_name
+    site_name = args.site_name
 
     base_dir = Path.cwd()
 
@@ -50,19 +52,20 @@ def main():
 
 class {class_name_in_site_script}():
 
-    def  get_pagination_url(self, keyurl, depth, current_depth_level):
+    def get_pagination_url(self, keyurl, depth, current_depth_level):
         pagination_url = []
         try:
+            pass
         except Exception as e:
-            print(f"Exception occurred: e")
+            print(f"Exception occurred: {{e}}")
         return pagination_url[:10]
 
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
         try:
-            url = url.replace("-page","")
+            url = url.replace("-page", "")
         except Exception as e:
-            print(f"Exception occurred: e")
+            print(f"Exception occurred: {{e}}")
         return product_url[:10]
     """
     discovery_yml_content = """depth0:
@@ -96,7 +99,7 @@ class {class_name_in_site_script}():
             if isinstance(inhash, str) and "|" in inhash:
                 url, category = inhash.split("|", 1)
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            print(f"Exception occurred: {{e}}")
         return final_data
 
     @staticmethod

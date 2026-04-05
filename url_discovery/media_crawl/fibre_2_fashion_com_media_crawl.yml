@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.fibre2fashion.com/industry-article/fashion/",
+    "https://www.fibre2fashion.com/industry-article/apparel-and-garments/"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

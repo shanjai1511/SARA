@@ -3,6 +3,13 @@ SARA Dashboard - Comprehensive Streamlit Application
 Full web interface for URL discovery, crawling, and site management.
 Run: streamlit run dashboard/streamlit_app.py
 """
+from dotenv import load_dotenv #type: ignore
+import os
+
+load_dotenv()
+import os as _os
+if _os.getenv("WEBSHARE_PROXY_JSON"):
+    pass  # env loaded
 import sys
 import subprocess
 from pathlib import Path
@@ -21,6 +28,7 @@ if str(ROOT) not in sys.path:
 
 from sdf_module.crawl_status import get_status
 from sdf_module.files_import import *
+from config.settings import settings as _settings
 
 # Page configuration
 st.set_page_config(
@@ -28,6 +36,33 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto"
 )
+
+# ── Authentication gate ───────────────────────────────────────────────────────
+# All pages are blocked until the user provides the correct password.
+# The password is read from the DASHBOARD_PASSWORD environment variable.
+
+
+def _check_auth() -> None:
+    """Block the entire dashboard behind a password wall.
+
+    Uses st.session_state so the check survives page reruns within the same
+    browser session. Only the correct DASHBOARD_PASSWORD unlocks the app.
+    """
+    if st.session_state.get("authenticated"):
+        return  # already authenticated this session
+
+    st.markdown("## SARA — Login Required")
+    pwd = st.text_input("Password", type="password", key="_login_pwd")
+    if st.button("Login"):
+        if pwd == _settings.DASHBOARD_PASSWORD:
+            st.session_state["authenticated"] = True
+            st.rerun()
+        else:
+            st.error("Incorrect password. Please try again.")
+    st.stop()  # halt rendering of all subsequent code
+
+
+_check_auth()
 
 # Custom CSS for 3D Design with elegant color scheme
 st.markdown("""
@@ -284,6 +319,25 @@ st.markdown("""
 # HELPER FUNCTIONS
 # ============================================================================
 
+import re as _re
+
+_SAFE_NAME = _re.compile(r'^[a-zA-Z0-9_-]+$')
+
+
+def _validate_dashboard_input(value: str, label: str) -> str | None:
+    """Return an error message string if value is unsafe, else None.
+
+    Only allows [a-zA-Z0-9_-] to prevent path traversal and injection
+    in file paths, queue names, and subprocess arguments.
+    """
+    if not value or not _SAFE_NAME.match(value.strip()):
+        return (
+            f"Invalid {label} '{value}': only letters, digits, underscores, "
+            "and hyphens are allowed."
+        )
+    return None
+
+
 @st.cache_data(show_spinner=False)
 def list_projects_sites() -> Dict[str, List[str]]:
     """Scan url_discovery/ for project/site configs.
@@ -536,7 +590,19 @@ st.markdown(f"""
 # Sidebar navigation
 page = st.sidebar.radio(
     "Navigation",
-    ["Dashboard", "Run Crawl", "Create Project", "Delete Project", "Manage Data", "Projects and sites"]
+    [
+        "Dashboard",
+        "Run Crawl",
+        "Create Project",
+        "Delete Project",
+        "Manage Data",
+        "Projects and sites",
+        "─────────────",          # visual separator (SaaS section)
+        "Analytics",
+        "DLQ Inspector",
+        "System Health",
+        "API Access",
+    ]
 )
 
 # ============================================================================
@@ -760,24 +826,34 @@ elif page == "Run Crawl":
                 if not schedule_id.strip():
                     st.error("⚠️ Please enter a Schedule ID")
                 else:
-                    try:
-                        cmd = [
-                            sys.executable,
-                            str(ROOT / "crawl_runner.py"),
-                            selected_project,
-                            selected_site,
-                            schedule_id.strip()
-                        ]
-                        subprocess.Popen(
-                            cmd,
-                            cwd=str(ROOT),
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL,
-                        )
-                        st.success(f"✅ Crawl started!\n**{selected_site}** ({selected_project}, {schedule_id})")
-                        st.balloons()
-                    except Exception as e:
-                        st.error(f"❌ Error: {str(e)}")
+                    _errors = [
+                        _validate_dashboard_input(selected_project, "project"),
+                        _validate_dashboard_input(selected_site, "site"),
+                        _validate_dashboard_input(schedule_id.strip(), "schedule_id"),
+                    ]
+                    _errors = [e for e in _errors if e]
+                    if _errors:
+                        for _err in _errors:
+                            st.error(_err)
+                    else:
+                        try:
+                            cmd = [
+                                sys.executable,
+                                str(ROOT / "crawl_runner.py"),
+                                selected_project,
+                                selected_site,
+                                schedule_id.strip()
+                            ]
+                            subprocess.Popen(
+                                cmd,
+                                cwd=str(ROOT),
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL,
+                            )
+                            st.success(f"✅ Crawl started!\n**{selected_site}** ({selected_project}, {schedule_id})")
+                            st.balloons()
+                        except Exception as e:
+                            st.error(f"❌ Error: {str(e)}")
         
         with col2:
             if st.button("🔄 Refresh", use_container_width=True):
@@ -824,8 +900,16 @@ elif page == "Create Project":
         submitted = st.form_submit_button("✅ Create Project", use_container_width=True, type="primary")
         
         if submitted:
+            _name_errors = [
+                _validate_dashboard_input(project_name, "project_name") if project_name else None,
+                _validate_dashboard_input(site_name, "site_name") if site_name else None,
+            ]
+            _name_errors = [e for e in _name_errors if e]
             if not project_name or not site_name:
                 st.error("⚠️ Please fill in both Project Name and Site Name")
+            elif _name_errors:
+                for _nerr in _name_errors:
+                    st.error(_nerr)
             else:
                 success_count = 0
                 error_messages = []
@@ -1091,3 +1175,571 @@ elif page == "Projects and sites":
         retriever_output = ROOT / "scrape_output" / "retriever_output"
         retriever_files = len(list(retriever_output.glob("*/*/*.txt"))) if retriever_output.exists() else 0
         st.metric("Retriever Outputs", retriever_files)
+
+# ── Separator item: do nothing ────────────────────────────────────────────────
+elif page == "─────────────":
+    st.info("Select a page from the sidebar.")
+
+# ============================================================================
+# PAGE: ANALYTICS
+# ============================================================================
+elif page == "Analytics":
+    st.markdown('<div class="section-header">📈 Analytics & Throughput</div>', unsafe_allow_html=True)
+
+    try:
+        import pandas as pd
+        import plotly.express as px
+        import plotly.graph_objects as go
+    except ImportError:
+        st.error("Install pandas and plotly: pip install pandas plotly")
+        st.stop()
+
+    status_data = get_status_data()
+    all_runs = status_data.get("last_runs", [])
+
+    if not all_runs:
+        st.info("No crawl history yet. Run some crawls to see analytics.")
+    else:
+        # ── KPI row ─────────────────────────────────────────────────────────
+        total_records  = sum(r.get("progress", {}).get("parser_records", 0)  for r in all_runs)
+        total_pages    = sum(r.get("progress", {}).get("retriever_fetched", 0) for r in all_runs)
+        total_disc_urls = sum(r.get("progress", {}).get("discovery_urls", 0) for r in all_runs)
+        completed_runs = sum(1 for r in all_runs if r.get("status") == "completed")
+        success_rate   = (completed_runs / len(all_runs) * 100) if all_runs else 0
+
+        k1, k2, k3, k4, k5 = st.columns(5)
+        k1.metric("Total Records", f"{total_records:,}")
+        k2.metric("Pages Fetched", f"{total_pages:,}")
+        k3.metric("URLs Discovered", f"{total_disc_urls:,}")
+        k4.metric("Success Rate", f"{success_rate:.1f}%")
+        k5.metric("Total Runs", len(all_runs))
+
+        st.divider()
+
+        # ── Records by site chart ────────────────────────────────────────────
+        site_data = {}
+        for r in all_runs:
+            key = f"{r.get('site','?')} / {r.get('project','?')}"
+            site_data[key] = site_data.get(key, 0) + r.get("progress", {}).get("parser_records", 0)
+
+        df_sites = pd.DataFrame(
+            [{"Site / Project": k, "Records": v} for k, v in site_data.items()]
+        ).sort_values("Records", ascending=False).head(15)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("**Records by Site**")
+            if not df_sites.empty:
+                fig = px.bar(
+                    df_sites, x="Records", y="Site / Project", orientation="h",
+                    color="Records", color_continuous_scale="Blues",
+                    template="plotly_white",
+                )
+                fig.update_layout(height=400, showlegend=False, yaxis_title="",
+                                  margin=dict(l=0, r=0, t=10, b=10))
+                st.plotly_chart(fig, use_container_width=True)
+
+        # ── Records vs Pages fetched per run ─────────────────────────────────
+        with col2:
+            st.markdown("**Records vs Pages (last 20 runs)**")
+            run_rows = []
+            for r in all_runs[:20]:
+                p = r.get("progress", {})
+                run_rows.append({
+                    "Run": r.get("schedule_id", "?")[-8:],
+                    "Records": p.get("parser_records", 0),
+                    "Pages": p.get("retriever_fetched", 0),
+                    "Site": r.get("site", "?"),
+                    "Status": r.get("status", "?"),
+                })
+            df_runs = pd.DataFrame(run_rows)
+            if not df_runs.empty:
+                fig2 = go.Figure()
+                fig2.add_trace(go.Bar(
+                    name="Records", x=df_runs["Run"], y=df_runs["Records"],
+                    marker_color="#2c3e50"
+                ))
+                fig2.add_trace(go.Bar(
+                    name="Pages", x=df_runs["Run"], y=df_runs["Pages"],
+                    marker_color="#c4a853"
+                ))
+                fig2.update_layout(
+                    barmode="group", template="plotly_white", height=400,
+                    legend=dict(orientation="h", y=1.02, x=1, xanchor="right"),
+                    margin=dict(l=0, r=0, t=10, b=10),
+                )
+                st.plotly_chart(fig2, use_container_width=True)
+
+        # ── Pipeline funnel ──────────────────────────────────────────────────
+        st.markdown("**Pipeline Conversion Funnel**")
+        funnel_col1, funnel_col2 = st.columns([1, 2])
+        with funnel_col1:
+            st.markdown(f"""
+            <div class='stage-box'>
+                <h4>🔍 Discovery</h4>
+                <div class='count'>{total_disc_urls:,} URLs</div>
+            </div>
+            <div class='stage-box'>
+                <h4>📥 Retriever</h4>
+                <div class='count'>{total_pages:,} Pages</div>
+                <small style='color:#6b7280'>
+                    {(total_pages/total_disc_urls*100) if total_disc_urls else 0:.1f}% of discovered
+                </small>
+            </div>
+            <div class='stage-box'>
+                <h4>📊 Parser</h4>
+                <div class='count'>{total_records:,} Records</div>
+                <small style='color:#6b7280'>
+                    {(total_records/total_pages*100) if total_pages else 0:.1f}% of fetched
+                </small>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with funnel_col2:
+            if total_disc_urls > 0:
+                fig_funnel = go.Figure(go.Funnel(
+                    y=["Discovery (URLs)", "Retriever (Pages)", "Parser (Records)"],
+                    x=[total_disc_urls, total_pages, total_records],
+                    textinfo="value+percent initial",
+                    marker=dict(color=["#2c3e50", "#c4a853", "#27ae60"]),
+                ))
+                fig_funnel.update_layout(
+                    template="plotly_white", height=300,
+                    margin=dict(l=0, r=0, t=10, b=10),
+                )
+                st.plotly_chart(fig_funnel, use_container_width=True)
+
+        # ── Run history table ────────────────────────────────────────────────
+        st.markdown("**Run History**")
+        df_history = pd.DataFrame([
+            {
+                "Schedule ID": r.get("schedule_id", "—"),
+                "Project": r.get("project", "—"),
+                "Site": r.get("site", "—"),
+                "Discovery": r.get("progress", {}).get("discovery_urls", 0),
+                "Fetched": r.get("progress", {}).get("retriever_fetched", 0),
+                "Records": r.get("progress", {}).get("parser_records", 0),
+                "Status": "✅" if r.get("status") == "completed" else ("❌" if r.get("status") == "failed" else "⏳"),
+                "Completed": format_time(r.get("completed_at", "")),
+            }
+            for r in all_runs[:50]
+        ])
+        st.dataframe(df_history, use_container_width=True, hide_index=True)
+
+# ============================================================================
+# PAGE: DLQ INSPECTOR
+# ============================================================================
+elif page == "DLQ Inspector":
+    st.markdown('<div class="section-header">☠️ Dead Letter Queue Inspector</div>', unsafe_allow_html=True)
+    st.markdown(
+        "Messages land here after **3 failed retries**. "
+        "Inspect the error, fix the root cause, then requeue."
+    )
+
+    import json as _json
+
+    # ── Queue depth overview ─────────────────────────────────────────────────
+    from core.broker import get_sync_channel, dlq_name
+    from config.settings import settings as _cfg
+
+    def _get_dlq_depths() -> dict[str, int]:
+        try:
+            conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1, base_backoff=1.0)
+            depths = {}
+            for stage in ("discovery", "retriever", "parser"):
+                q = dlq_name(stage)
+                try:
+                    r = ch.queue_declare(queue=q, passive=True)
+                    depths[stage] = r.method.message_count
+                except Exception:
+                    depths[stage] = 0
+            conn.close()
+            return depths
+        except Exception as e:
+            return {"error": str(e)}
+
+    if st.button("🔄 Refresh", key="dlq_refresh"):
+        st.cache_data.clear()
+
+    depths = _get_dlq_depths()
+    if "error" in depths:
+        st.error(f"Cannot connect to RabbitMQ: {depths['error']}")
+    else:
+        d1, d2, d3 = st.columns(3)
+        d1.metric("Discovery DLQ", depths.get("discovery", 0),
+                  delta=None if depths.get("discovery", 0) == 0 else f"⚠️ {depths['discovery']} messages")
+        d2.metric("Retriever DLQ", depths.get("retriever", 0),
+                  delta=None if depths.get("retriever", 0) == 0 else f"⚠️ {depths['retriever']} messages")
+        d3.metric("Parser DLQ",    depths.get("parser", 0),
+                  delta=None if depths.get("parser", 0) == 0 else f"⚠️ {depths['parser']} messages")
+
+    st.divider()
+
+    # ── Browse DLQ ───────────────────────────────────────────────────────────
+    selected_stage = st.selectbox("Inspect stage", ["retriever", "discovery", "parser"])
+    peek_limit = st.slider("Messages to peek", 1, 100, 20)
+
+    def _peek_dlq(stage: str, limit: int) -> list[dict]:
+        """Peek at messages without consuming them."""
+        import pika as _pika
+        try:
+            conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1, base_backoff=1.0)
+            dlq = dlq_name(stage)
+            msgs = []
+            for _ in range(limit):
+                method, props, body = ch.basic_get(queue=dlq, auto_ack=False)
+                if body is None:
+                    break
+                try:
+                    payload = _json.loads(body)
+                    dlq_meta = payload.get("_dlq", {})
+                    msgs.append({
+                        "url": payload.get("url", "—"),
+                        "site": payload.get("site", "—"),
+                        "project": payload.get("project", "—"),
+                        "error": dlq_meta.get("error", "unknown"),
+                        "retries": payload.get("_retry_count", 0),
+                        "failed_at": format_time(
+                            datetime.utcfromtimestamp(dlq_meta["failed_at"]).isoformat()
+                            if dlq_meta.get("failed_at") else ""
+                        ),
+                        "_raw": payload,
+                    })
+                except Exception:
+                    pass
+                ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
+            conn.close()
+            return msgs
+        except Exception as e:
+            return [{"error": str(e)}]
+
+    if st.button(f"🔍 Peek {selected_stage} DLQ", type="primary"):
+        msgs = _peek_dlq(selected_stage, peek_limit)
+        if not msgs:
+            st.success("DLQ is empty!")
+        elif "error" in msgs[0]:
+            st.error(msgs[0]["error"])
+        else:
+            try:
+                import pandas as pd
+                df_dlq = pd.DataFrame([
+                    {k: v for k, v in m.items() if k != "_raw"}
+                    for m in msgs
+                ])
+                st.dataframe(df_dlq, use_container_width=True, hide_index=True)
+            except ImportError:
+                for m in msgs:
+                    st.code(_json.dumps({k: v for k, v in m.items() if k != "_raw"}, indent=2))
+
+    st.divider()
+
+    # ── Requeue controls ─────────────────────────────────────────────────────
+    st.markdown("**Requeue / Discard**")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        requeue_limit = st.number_input("Max messages to requeue", 1, 500, 50)
+        if st.button(f"♻️ Requeue {selected_stage} DLQ → main queue", type="primary", use_container_width=True):
+            from core.broker import publish_sync, EXCHANGE_DISCOVERY, EXCHANGE_RETRIEVER, EXCHANGE_PARSER
+            exchange_map = {
+                "discovery": EXCHANGE_DISCOVERY,
+                "retriever": EXCHANGE_RETRIEVER,
+                "parser": EXCHANGE_PARSER,
+            }
+            try:
+                conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1)
+                dlq = dlq_name(selected_stage)
+                requeued = 0
+                for _ in range(requeue_limit):
+                    method, props, body = ch.basic_get(queue=dlq, auto_ack=False)
+                    if body is None:
+                        break
+                    try:
+                        payload = _json.loads(body)
+                        payload.pop("_dlq", None)
+                        payload["_retry_count"] = 0
+                        site = payload.get("site", "unknown")
+                        project = payload.get("project", "unknown")
+                        publish_sync(ch, exchange_map[selected_stage],
+                                     f"{selected_stage}.{site}.{project}", payload)
+                        ch.basic_ack(delivery_tag=method.delivery_tag)
+                        requeued += 1
+                    except Exception:
+                        ch.basic_nack(delivery_tag=method.delivery_tag, requeue=True)
+                conn.close()
+                st.success(f"♻️ Requeued {requeued} messages from {selected_stage} DLQ")
+            except Exception as e:
+                st.error(f"Requeue failed: {e}")
+
+    with col2:
+        st.warning("Discard permanently removes messages from the DLQ.")
+        if st.button(f"🗑️ Discard all {selected_stage} DLQ messages", use_container_width=True):
+            try:
+                conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1)
+                ch.queue_purge(queue=dlq_name(selected_stage))
+                conn.close()
+                st.success(f"DLQ {selected_stage} purged.")
+            except Exception as e:
+                st.error(f"Purge failed: {e}")
+
+# ============================================================================
+# PAGE: SYSTEM HEALTH
+# ============================================================================
+elif page == "System Health":
+    st.markdown('<div class="section-header">❤️ System Health</div>', unsafe_allow_html=True)
+
+    from config.settings import settings as _cfg
+    from core.broker import get_sync_channel
+    from core.proxy_manager import ProxyManager
+    from core.storage import get_storage
+
+    if st.button("🔄 Refresh Health", key="health_refresh"):
+        st.cache_data.clear()
+
+    # ── RabbitMQ ──────────────────────────────────────────────────────────────
+    st.markdown("### Message Broker (RabbitMQ)")
+    try:
+        conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1, base_backoff=1.0)
+        conn.close()
+        st.success("✅ RabbitMQ — Connected")
+        st.code(_cfg.CLOUDAMQP_URL.split("@")[-1] if "@" in _cfg.CLOUDAMQP_URL else _cfg.CLOUDAMQP_URL[:40])
+    except Exception as e:
+        st.error(f"❌ RabbitMQ — {e}")
+
+    # ── Redis ─────────────────────────────────────────────────────────────────
+    st.markdown("### Cache / Dedup (Redis)")
+    if _cfg.redis_enabled:
+        try:
+            import redis as _redis_sync
+            r = _redis_sync.from_url(_cfg.REDIS_URL, socket_timeout=2)
+            info = r.info("memory")
+            mem_mb = info.get("used_memory_human", "?")
+            st.success(f"✅ Redis — Connected (memory: {mem_mb})")
+        except Exception as e:
+            st.error(f"❌ Redis — {e}")
+    else:
+        st.info("Redis not configured (REDIS_URL not set). Bloom filter and rate limiter are in-process only.")
+
+    # ── Storage ───────────────────────────────────────────────────────────────
+    st.markdown("### Storage")
+    store = get_storage(base_dir=ROOT / "scrape_output" / "raw_html")
+    storage_type = "S3" if "S3Storage" in type(store).__name__ else "Local Filesystem"
+    if storage_type == "S3":
+        st.success(f"✅ Storage — S3 (bucket: {_cfg.SARA_S3_BUCKET})")
+    else:
+        raw_dir = ROOT / "scrape_output" / "raw_html"
+        try:
+            import shutil
+            total, used, free = shutil.disk_usage(ROOT)
+            free_gb = free / (1024 ** 3)
+            st.info(f"Local Filesystem — {raw_dir.relative_to(ROOT)} | Free: {free_gb:.1f} GB")
+        except Exception:
+            st.info(f"Local Filesystem — {raw_dir}")
+
+    # ── Output file sizes ─────────────────────────────────────────────────────
+    st.markdown("### Output Directories")
+    cols = st.columns(3)
+    dirs = [
+        ("discovery_output", "Discovery"),
+        ("retriever_output", "Retriever"),
+        ("parser_output", "Parser"),
+    ]
+    for i, (subdir, label) in enumerate(dirs):
+        p = ROOT / "scrape_output" / subdir
+        if p.exists():
+            files = list(p.rglob("*"))
+            total_bytes = sum(f.stat().st_size for f in files if f.is_file())
+            total_mb = total_bytes / (1024 ** 2)
+            cols[i].metric(f"{label} Output", f"{len([f for f in files if f.is_file()])} files",
+                           delta=f"{total_mb:.1f} MB")
+        else:
+            cols[i].metric(f"{label} Output", "0 files")
+
+    # ── Proxy pool ────────────────────────────────────────────────────────────
+    st.markdown("### Proxy Pool")
+    mgr = ProxyManager.from_env()
+    stats = mgr.stats()
+    p1, p2, p3, p4 = st.columns(4)
+    p1.metric("Total Proxies", stats["total"])
+    p2.metric("Healthy", stats["healthy"],
+              delta="OK" if stats["healthy"] == stats["total"] else f"-{stats['degraded']} degraded")
+    p3.metric("Degraded", stats["degraded"])
+    p4.metric("Avg Success Rate", f"{stats['avg_success_rate']*100:.1f}%")
+
+    if stats["total"] > 0:
+        report = mgr.health_report()
+        try:
+            import pandas as pd
+            df_proxy = pd.DataFrame(report)
+            st.dataframe(df_proxy, use_container_width=True, hide_index=True)
+        except ImportError:
+            st.json(report)
+
+    # ── Change detection stats ─────────────────────────────────────────────
+    st.markdown("### Change Detection Cache")
+    from core.change_detection import FileChangeStore
+    cs = FileChangeStore(path=ROOT / "logs" / "change_state.json")
+    cs_stats = cs.stats()
+    c1, c2 = st.columns(2)
+    c1.metric("Tracked URLs", f"{cs_stats['total_urls']:,}")
+    c2.metric("Total Changes Detected", f"{cs_stats['total_changes']:,}")
+
+    # ── Settings summary (non-secret) ─────────────────────────────────────────
+    st.markdown("### Configuration")
+    config_rows = {
+        "NUM_FETCH_WORKERS": _cfg.NUM_FETCH_WORKERS,
+        "NUM_PARSE_WORKERS": _cfg.NUM_PARSE_WORKERS,
+        "MAX_URLS": _cfg.MAX_URLS,
+        "FETCH_DELAY": f"{_cfg.FETCH_DELAY}s",
+        "FETCH_SLEEP_SEC": f"{_cfg.FETCH_SLEEP_SEC}s",
+        "Redis": "enabled" if _cfg.redis_enabled else "disabled",
+        "S3": f"s3://{_cfg.SARA_S3_BUCKET}" if _cfg.s3_enabled else "local",
+        "API Auth": "enabled" if _cfg.api_auth_enabled else "dev mode (no key)",
+    }
+    try:
+        import pandas as pd
+        st.dataframe(
+            pd.DataFrame(list(config_rows.items()), columns=["Setting", "Value"]),
+            use_container_width=True, hide_index=True,
+        )
+    except ImportError:
+        st.json(config_rows)
+
+# ============================================================================
+# PAGE: API ACCESS
+# ============================================================================
+elif page == "API Access":
+    st.markdown('<div class="section-header">🔌 API Access</div>', unsafe_allow_html=True)
+    st.markdown(
+        "SARA exposes a REST API (FastAPI) for programmatic control. "
+        "Start the API server with:"
+    )
+    st.code("uvicorn services.api.main:app --host 0.0.0.0 --port 8080 --reload", language="bash")
+
+    from config.settings import settings as _cfg
+
+    # ── Live API test ─────────────────────────────────────────────────────────
+    st.markdown("### Live API Health Check")
+    api_base = st.text_input(
+        "API Base URL",
+        value=os.environ.get("SARA_API_BASE_URL", "http://localhost:8080"),
+        key="api_base_url",
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🏓 Ping /health", use_container_width=True):
+            try:
+                import httpx
+                resp = httpx.get(f"{api_base}/health", timeout=5)
+                if resp.status_code == 200:
+                    st.success("✅ API is reachable")
+                    st.json(resp.json())
+                else:
+                    st.error(f"HTTP {resp.status_code}")
+            except Exception as e:
+                st.error(f"Connection failed: {e}")
+
+    with col2:
+        if st.button("📊 Get /metrics/summary", use_container_width=True):
+            try:
+                import httpx
+                headers = {}
+                if _cfg.SARA_API_KEY:
+                    headers["Authorization"] = f"Bearer {_cfg.SARA_API_KEY}"
+                resp = httpx.get(f"{api_base}/metrics/summary", headers=headers, timeout=5)
+                if resp.status_code == 200:
+                    st.json(resp.json())
+                else:
+                    st.error(f"HTTP {resp.status_code}: {resp.text[:200]}")
+            except Exception as e:
+                st.error(f"Request failed: {e}")
+
+    # ── Endpoint reference ────────────────────────────────────────────────────
+    st.divider()
+    st.markdown("### Endpoint Reference")
+
+    endpoints = [
+        ("GET",    "/health",                  "System health (no auth required)"),
+        ("GET",    "/docs",                    "Interactive Swagger UI"),
+        ("POST",   "/crawls/trigger",          "Launch a crawl pipeline"),
+        ("GET",    "/crawls/status",           "List current + recent runs"),
+        ("GET",    "/crawls/queue/depth",      "RabbitMQ queue depths"),
+        ("GET",    "/crawls/dlq/{stage}",      "Peek dead-letter queue"),
+        ("POST",   "/crawls/dlq/{stage}/requeue", "Requeue DLQ messages"),
+        ("GET",    "/sites",                   "List all configured sites"),
+        ("POST",   "/sites",                   "Create a new site"),
+        ("DELETE", "/sites/{project}/{site}",  "Delete a site"),
+        ("GET",    "/sites/{project}/{site}/validate", "Validate site config"),
+        ("GET",    "/proxy/health",            "Proxy pool health"),
+        ("GET",    "/metrics/summary",         "Analytics summary"),
+    ]
+
+    try:
+        import pandas as pd
+        df_ep = pd.DataFrame(endpoints, columns=["Method", "Path", "Description"])
+        st.dataframe(df_ep, use_container_width=True, hide_index=True)
+    except ImportError:
+        for method, path, desc in endpoints:
+            st.markdown(f"**{method}** `{path}` — {desc}")
+
+    # ── Code examples ─────────────────────────────────────────────────────────
+    st.divider()
+    st.markdown("### Quick-Start Examples")
+
+    tab1, tab2, tab3 = st.tabs(["Trigger a Crawl", "List Runs", "Requeue DLQ"])
+
+    with tab1:
+        st.code(f"""import httpx
+
+response = httpx.post(
+    "{api_base}/crawls/trigger",
+    json={{
+        "project": "commerce_crawl",
+        "site": "myntra_com",
+        "schedule_id": "20260405",
+        "use_async_worker": True,
+        "priority": 8
+    }},
+    headers={{"Authorization": "Bearer YOUR_API_KEY"}},
+)
+print(response.json())
+""", language="python")
+
+    with tab2:
+        st.code(f"""import httpx
+
+response = httpx.get(
+    "{api_base}/crawls/status",
+    params={{"project": "commerce_crawl", "limit": 10}},
+    headers={{"Authorization": "Bearer YOUR_API_KEY"}},
+)
+for run in response.json()["last_runs"]:
+    print(run["site"], run["status"], run["progress"])
+""", language="python")
+
+    with tab3:
+        st.code(f"""import httpx
+
+# Requeue all retriever DLQ messages
+response = httpx.post(
+    "{api_base}/crawls/dlq/retriever/requeue",
+    params={{"limit": 500}},
+    headers={{"Authorization": "Bearer YOUR_API_KEY"}},
+)
+print(f"Requeued: {{response.json()['requeued']}} messages")
+""", language="python")
+
+    # ── Auth info ─────────────────────────────────────────────────────────────
+    st.divider()
+    st.markdown("### Authentication")
+    if _cfg.api_auth_enabled:
+        st.success("API key is configured (SARA_API_KEY is set).")
+        st.markdown("Pass it as a Bearer token in the `Authorization` header:")
+        st.code('Authorization: Bearer <your-key>', language="http")
+    else:
+        st.warning(
+            "No API key configured — API is in **dev mode** (unauthenticated). "
+            "Set `SARA_API_KEY` in your `.env` file before deploying."
+        )

@@ -1,8 +1,7 @@
 depth0:
   seed_url: [
-    "https://www.amazon.in/s?k=electronics",
-    "https://www.amazon.in/s?k=fashion-womens",
-    "https://www.amazon.in/s?k=books"
+    "https://www.amazon.in/s?k=men+t+shirts",
+    "https://www.amazon.in/s?k=women+t+shirts"
   ]
   method_name: get_pagination_url
 depth1:

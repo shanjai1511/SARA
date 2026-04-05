@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["",""]
+  seed_url: [
+    "https://www.myntra.com/tshirts",
+    "https://www.myntra.com/women-tshirts"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

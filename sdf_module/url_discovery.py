@@ -4,8 +4,11 @@ import logging
 from pathlib import Path
 from typing import Any, List, Union
 
-# small delay between calls to site-specific methods to avoid hammering
-FETCH_DELAY = 5
+from config.settings import settings as _settings
+
+# Small delay between calls to site-specific methods to avoid hammering.
+# Configurable via FETCH_DELAY env var (default: 5 seconds).
+FETCH_DELAY = _settings.FETCH_DELAY
 
 class UrlDiscovery:
     def __init__(self, base_dir: str | Path, project_name: str, site_name: str) -> None:
@@ -60,48 +63,68 @@ class UrlDiscovery:
                 file.write(f"{item}\n")
         sdfFetch.print_info_message("success", f"URLs written to file successfully for project: {self.project_name} and site: {self.site_name}")
 
-    def get_final_url(
+    def get_urls_by_depth(
         self,
         urls: List[str],
         depth: dict,
-        current_depth_level: int,
-        max_depth: int,
         module_instance: Any,
         schedule_key: str,
     ) -> None:
-        sdfFetch.print_info_message("info", f"Getting final URL for project: {self.project_name} and site: {self.site_name}")
-        current_depth = depth[f"depth{current_depth_level}"]
-        method_name = current_depth["method_name"]
-        method_to_call = getattr(module_instance, method_name, None)
-        if method_to_call is None:
-            logger = logging.getLogger(__name__)
-            logger.warning("No method '%s' found on %s", method_name, module_instance)
+        sdfFetch.print_info_message(
+            "info",
+            f"Getting discovery URLs for project: {self.project_name} and site: {self.site_name}",
+        )
+
+        if not urls:
+            sdfFetch.print_error_message(
+                "error",
+                "No seed URLs provided for discovery stage.",
+            )
             return
 
-        for url in urls:
-            sleep(FETCH_DELAY)  # configurable delay
-            try:
-                result_url = method_to_call(url, depth, current_depth_level)
-            except Exception as e:
-                sdfFetch.print_error_message("error", f"URL fetching failed with error: {e}")
-                logging.exception("URL fetching failed")
-                continue
-            if current_depth_level == max_depth:
-                self.push_urls_to_queue(result_url, schedule_key)
-                # self.write_url_in_txt(result_url, schedule_key) enable it to save to file if needed
-                self.count += len(result_url)
-            else:
-                # tail recursion; convert to iteration to avoid deep recursion if necessary
-                self.get_final_url(
-                    result_url,
-                    depth,
-                    current_depth_level + 1,
-                    max_depth,
-                    module_instance,
-                    schedule_key,
-                )
+        depth_items = sorted(
+            ((int(key.replace("depth", "")), value) for key, value in depth.items()),
+            key=lambda item: item[0],
+        )
 
-    def main_execution(self,schedule_key):
+        pending_urls = list(urls)
+        for current_level, current_depth in depth_items:
+            method_name = current_depth.get("method_name")
+            if not method_name:
+                sdfFetch.print_error_message(
+                    "error",
+                    f"Missing method_name for depth level {current_level}.",
+                )
+                return
+
+            method_to_call = getattr(module_instance, method_name, None)
+            if not callable(method_to_call):
+                logger = logging.getLogger(__name__)
+                logger.warning("No method '%s' found on %s", method_name, module_instance)
+                return
+
+            next_urls: List[str] = []
+            for url in pending_urls:
+                sleep(FETCH_DELAY)  # configurable delay
+                try:
+                    result_url = method_to_call(url, depth, current_level)
+                    if isinstance(result_url, str):
+                        result_url = [result_url]
+                    elif result_url is None:
+                        result_url = []
+                except Exception as e:
+                    sdfFetch.print_error_message("error", f"URL fetching failed with error: {e}")
+                    logging.exception("URL fetching failed")
+                    continue
+
+                next_urls.extend(result_url)
+
+            if current_level == depth_items[-1][0]:
+                self.push_urls_to_queue(next_urls, schedule_key)
+                self.count += len(next_urls)
+            pending_urls = next_urls
+
+    def main_execution(self, schedule_key):
         sdfFetch.print_info_message("info", f"Starting main execution for project: {self.project_name} and site: {self.site_name}")
         try:
             yaml_file_path = Path(self.collector_dir) / f"{self.site_name}_{self.project_name}.yml"
@@ -124,9 +147,15 @@ class UrlDiscovery:
                 logging.exception("Module import failed")
                 return
 
-            seed_url = depth["depth0"]["seed_url"]
+            seed_url = depth.get("depth0", {}).get("seed_url")
+            if not seed_url:
+                sdfFetch.print_error_message(
+                    "error",
+                    "depth0.seed_url is missing or empty in the discovery configuration.",
+                )
+                return
 
-            self.get_final_url(seed_url, depth, 0, len(depth)-1, site_instance, schedule_key)
+            self.get_urls_by_depth(seed_url, depth, site_instance, schedule_key)
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")
@@ -164,10 +193,11 @@ class UrlDiscovery:
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python url_fetcher.py <project_name> <site_name>")
+        print("Usage: python url_discovery.py <project_name> <site_name> <schedule_key>")
         sys.exit(1)
+    base_dir = Path(__file__).resolve().parent.parent
     project_name = sys.argv[1]
     site_name = sys.argv[2]
     schedule_key = sys.argv[3]
-    url_discovery = UrlDiscovery(base_dir,project_name,site_name)
+    url_discovery = UrlDiscovery(base_dir, project_name, site_name)
     url_discovery.main(schedule_key)

@@ -2,9 +2,14 @@ from .sdf_fetch import *
 from . import crawl_status
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import ast
+import threading
 from typing import Any, Dict, List
 
-NUM_PARSE_WORKERS = 4
+from config.settings import settings as _settings
+
+# Configurable via NUM_PARSE_WORKERS env var (default: 4)
+NUM_PARSE_WORKERS = _settings.NUM_PARSE_WORKERS
+
 
 class UrlParser:
     def __init__(self, base_dir: str | Path, project_name: str, site_name: str) -> None:
@@ -19,18 +24,24 @@ class UrlParser:
         self.count = 0
 
     def extract_records(self, output, page_doc, config, site_instance):
-        sdfFetch.print_info_message("info", f"Extracting records for project: {self.project_name} and site: {self.site_name}")
         """
         Modify and extract multiple records from the page_doc using site-specific methods.
         Args:
+            output: URL key / metadata for the fetched page.
             page_doc: Parsed document for the fetched page.
             config: Field extraction rules from the YAML configuration.
             site_instance: Instance of the site-specific class.
         Returns:
             List of extracted records.
         """
+        sdfFetch.print_info_message("info", f"Extracting records for project: {self.project_name} and site: {self.site_name}")
         # Use the site-specific method to modify the page_doc
-        subsections = site_instance.modify_page_doc(output, page_doc)
+        modify_method = getattr(site_instance, "modify_page_doc", None)
+        if callable(modify_method):
+            subsections = modify_method(output, page_doc)
+        else:
+            subsections = [page_doc]
+
         if not subsections:
             subsections = [page_doc]  # If no subsections, treat the whole page_doc as one record
 
@@ -42,13 +53,15 @@ class UrlParser:
                 if hasattr(site_instance, method_name):
                     extraction_method = getattr(site_instance, method_name)
                     try:
-                        # Call the respective extraction method with the sub_doc and field rules
                         record[field] = extraction_method(sub_doc, output)
                     except Exception as e:
                         record[field] = None
-                        logging.warning(f"Error extracting field {field}: {e}")
+                        logging.error(
+                            "Error extracting field '%s' for URL %s: %s",
+                            field, output, e, exc_info=True,
+                        )
                 else:
-                    logging.warning(f"Method {method_name} not implemented for field {field}.")
+                    logging.warning("Method %s not implemented for field %s.", method_name, field)
             records.append(record)
         sdfFetch.print_info_message("success", f"Records extracted successfully for project: {self.project_name} and site: {self.site_name}")
         return records
@@ -82,9 +95,9 @@ class UrlParser:
         try:
             yaml_file_path = self.parser_dir / f"{self.project_name}/{self.site_name}_{self.project_name}.yml"
             sdfFetch.print_info_message("info", f"Loading configuration file: {yaml_file_path}")
-            
-            with open(yaml_file_path, 'r') as file:
-                config = yaml.safe_load(file)  # Load the configuration from the YAML file
+
+            with open(yaml_file_path, 'r', encoding='utf-8') as file:
+                config = yaml.safe_load(file) or {}
 
             module_path = self.parser_dir / f"{self.project_name}/{self.site_name}_{self.project_name}.py"
             # derive class name using shared utility
@@ -97,14 +110,40 @@ class UrlParser:
                 site_instance = SiteClass()
             except Exception as e:
                 sdfFetch.print_error_message("error", f"Error importing module from {module_path}: {e}")
+                logging.exception("Module import failed")
                 return
 
-            # Fetching file paths (where URLs are stored)
-            output_queue = Path(self.base_dir) / f"scrape_output/retriever_output/{self.project_name}/{self.site_name}_{self.project_name}/{schedule_key}/{schedule_key}_queue.txt"
-            with open(output_queue, 'r') as file:
+            output_queue = (
+                Path(self.base_dir)
+                / "scrape_output"
+                / "retriever_output"
+                / self.project_name
+                / f"{self.site_name}_{self.project_name}"
+                / schedule_key
+                / f"{schedule_key}_queue.txt"
+            )
+            if not output_queue.exists():
+                sdfFetch.print_error_message(
+                    "error",
+                    f"Retriever metadata file not found: {output_queue}",
+                )
+                return
+
+            with open(output_queue, 'r', encoding='utf-8') as file:
                 file_paths = [line.strip() for line in file.readlines() if line.strip()]
 
             total_pages = len(file_paths)
+            if total_pages == 0:
+                sdfFetch.print_info_message(
+                    "info",
+                    f"No pages to parse for schedule_id={schedule_key}.",
+                )
+                crawl_status.update_progress(
+                    self.project_name, self.site_name, schedule_key,
+                    stage="parser", parser_pages=0, parser_records=0
+                )
+                return
+
             crawl_status.update_progress(
                 self.project_name, self.site_name, schedule_key,
                 stage="parser", parser_pages=total_pages, parser_records=0
@@ -117,38 +156,50 @@ class UrlParser:
             # Split into chunks for worker threads; each thread parses its segment
             n_workers = min(NUM_PARSE_WORKERS, total_pages) or 1
             chunk_size = (total_pages + n_workers - 1) // n_workers
-            chunks = [file_paths[i : i + chunk_size] for i in range(0, total_pages, chunk_size)]
+            chunks = [file_paths[i: i + chunk_size] for i in range(0, total_pages, chunk_size)]
 
-            all_records: List[dict] = []
-            pages_done = 0
-            with ThreadPoolExecutor(max_workers=n_workers) as executor:
-                futures = {executor.submit(self._process_batch, ch, config, site_instance): len(ch) for ch in chunks}
-                for fut in as_completed(futures):
-                    try:
-                        records = fut.result()
-                    except Exception:
-                        logging.exception("Batch processing failed")
-                        continue
-                    all_records.extend(records)
-                    pages_done += futures[fut]
-                    crawl_status.update_progress(
-                        self.project_name,
-                        self.site_name,
-                        schedule_key,
-                        parser_records=len(all_records),
-                        parser_pages_done=min(pages_done, total_pages),
-                    )
-
-            # Single combined CSV
+            # Streaming CSV: open file before pool so each batch is written to disk
+            # immediately — avoids accumulating all records in memory (OOM on large crawls).
             output_dir = Path(self.base_dir) / f"scrape_output/parser_output/{self.project_name}/{self.site_name}_{self.project_name}_{schedule_key}"
             output_dir.mkdir(parents=True, exist_ok=True)
             csv_path = output_dir / f"{self.site_name}_{self.project_name}.csv"
-            with open(csv_path, mode="w", newline="", encoding="utf-8") as f:
-                writer = csv.DictWriter(f, fieldnames=config["fields"].keys())
-                writer.writeheader()
-                writer.writerows(all_records)
 
-            total_records = len(all_records)
+            total_records = 0
+            pages_done = 0
+            csv_lock = threading.Lock()  # serialise writes from multiple threads
+
+            with open(csv_path, mode="w", newline="", encoding="utf-8") as csv_file:
+                writer = csv.DictWriter(csv_file, fieldnames=config["fields"].keys())
+                writer.writeheader()
+
+                with ThreadPoolExecutor(max_workers=n_workers) as executor:
+                    futures = {executor.submit(self._process_batch, ch, config, site_instance): len(ch) for ch in chunks}
+                    for fut in as_completed(futures):
+                        try:
+                            records = fut.result(timeout=300)  # 5-minute hard cap per batch
+                        except TimeoutError:
+                            logging.error("Parser batch timed out")
+                            pages_done += futures[fut]
+                            continue
+                        except Exception:
+                            logging.exception("Batch processing failed")
+                            pages_done += futures[fut]
+                            continue
+
+                        with csv_lock:
+                            writer.writerows(records)
+                            csv_file.flush()  # ensure data reaches disk progressively
+
+                        total_records += len(records)
+                        pages_done += futures[fut]
+                        crawl_status.update_progress(
+                            self.project_name,
+                            self.site_name,
+                            schedule_key,
+                            parser_records=total_records,
+                            parser_pages_done=min(pages_done, total_pages),
+                        )
+
             crawl_status.update_progress(
                 self.project_name, self.site_name, schedule_key,
                 parser_records=total_records, parser_pages_done=total_pages
@@ -163,12 +214,14 @@ class UrlParser:
             logging.exception("Unhandled error during execution")
             raise
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python url_retriever.py <project_name> <site_name>")
+        print("Usage: python url_parser.py <project_name> <site_name> <schedule_key>")
         sys.exit(1)
+    base_dir = Path(__file__).resolve().parent.parent
     project_name = sys.argv[1]
     site_name = sys.argv[2]
     schedule_key = sys.argv[3]
-    url_parser = UrlParser(base_dir,project_name,site_name)
+    url_parser = UrlParser(base_dir, project_name, site_name)
     url_parser.main(schedule_key)

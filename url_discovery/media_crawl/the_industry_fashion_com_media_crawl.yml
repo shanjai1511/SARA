@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://the-industry.fashion/news/",
+    "https://the-industry.fashion/analysis/"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

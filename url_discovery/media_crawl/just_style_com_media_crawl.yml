@@ -1,5 +1,8 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.just-style.com/news/",
+    "https://www.just-style.com/analysis/"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

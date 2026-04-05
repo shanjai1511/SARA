@@ -1,5 +1,9 @@
 depth0:
-  seed_url: ["", ""]
+  seed_url: [
+    "https://www.ajio.com/men-tshirts-polos/c/830301001",
+    "https://www.ajio.com/women-tshirts-tops/c/830303006",
+    "https://www.ajio.com/kids-tshirts/c/830202001"
+  ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url

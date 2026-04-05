@@ -1,104 +1,40 @@
 {
-  "current_run": {
-    "project": "commerce_crawl",
-    "site": "amazon_in",
-    "schedule_id": "test234",
-    "stage": "discovery",
-    "started_at": "2026-03-11T18:28:45Z",
-    "progress": {}
-  },
+  "current_run": null,
   "last_runs": [
     {
-      "project": "media_crawl",
-      "site": "business_of_fashion",
-      "schedule_id": "test123",
+      "project": "commerce_crawl",
+      "site": "limeroad_com",
+      "schedule_id": "20250410",
       "stage": "parser",
-      "started_at": "2026-03-11T17:47:16Z",
+      "started_at": "2026-04-04T14:15:46Z",
       "progress": {
-        "discovery_urls": 30,
-        "retriever_total": 30,
-        "retriever_fetched": 30,
-        "parser_pages": 30,
-        "parser_records": 30,
-        "parser_pages_done": 30
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
       },
-      "completed_at": "2026-03-11T17:56:55Z",
+      "completed_at": "2026-04-04T14:17:51Z",
       "status": "completed"
     },
     {
       "project": "media_crawl",
-      "site": "business_of_fashion_media_crawl",
-      "schedule_id": "test123",
-      "stage": "discovery",
-      "started_at": "2026-03-11T17:46:27Z",
-      "progress": {},
-      "completed_at": "2026-03-11T17:46:38Z",
-      "status": "failed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "amazon_in",
-      "schedule_id": "test123",
+      "site": "wwd_com",
+      "schedule_id": "2026033121234922",
       "stage": "parser",
-      "started_at": "2026-03-11T17:38:40Z",
+      "started_at": "2026-03-31T19:02:41Z",
       "progress": {
         "discovery_urls": 0,
         "retriever_total": 0,
         "retriever_fetched": 0
       },
-      "completed_at": "2026-03-11T17:40:48Z",
-      "status": "failed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "amazon_in",
-      "schedule_id": "test123",
-      "stage": "parser",
-      "started_at": "2026-03-11T17:36:04Z",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "completed_at": "2026-03-11T17:38:11Z",
-      "status": "failed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "amazon_in",
-      "schedule_id": "test123",
-      "stage": "discovery",
-      "started_at": "2026-03-11T17:35:06Z",
-      "progress": {},
-      "completed_at": "2026-03-11T17:35:16Z",
-      "status": "failed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "amazon_in",
-      "schedule_id": "test123",
-      "stage": "discovery",
-      "started_at": "2026-03-11T17:34:46Z",
-      "progress": {},
-      "completed_at": "2026-03-11T17:34:46Z",
-      "status": "failed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "amazon_in",
-      "schedule_id": "test123",
-      "stage": "discovery",
-      "started_at": "2026-03-11T17:34:01Z",
-      "progress": {},
-      "completed_at": "2026-03-11T17:34:01Z",
+      "completed_at": "2026-03-31T19:14:39Z",
       "status": "failed"
     },
     {
       "project": "media_crawl",
       "site": "vogue_in",
-      "schedule_id": "20260215",
+      "schedule_id": "2026033121234921",
       "stage": "parser",
-      "started_at": "2026-02-15T04:11:58Z",
+      "started_at": "2026-03-31T18:11:53Z",
       "progress": {
         "discovery_urls": 382,
         "retriever_total": 382,
@@ -107,8 +43,298 @@
         "parser_records": 382,
         "parser_pages_done": 382
       },
-      "completed_at": "2026-02-15T10:30:43Z",
+      "completed_at": "2026-03-31T19:02:40Z",
       "status": "completed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "wwd_com",
+      "schedule_id": "2026033121353322",
+      "stage": "discovery",
+      "started_at": "2026-03-31T18:00:48Z",
+      "progress": {},
+      "completed_at": "2026-03-31T18:11:52Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "vogue_in",
+      "schedule_id": "2026033121353321",
+      "stage": "discovery",
+      "started_at": "2026-03-31T17:52:13Z",
+      "progress": {},
+      "completed_at": "2026-03-31T18:00:02Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "the_industry_fashion_com",
+      "schedule_id": "2026033121353320",
+      "stage": "discovery",
+      "started_at": "2026-03-31T17:40:41Z",
+      "progress": {},
+      "completed_at": "2026-03-31T17:48:07Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "the_fashion_law_com",
+      "schedule_id": "2026033121353319",
+      "stage": "discovery",
+      "started_at": "2026-03-31T17:29:10Z",
+      "progress": {},
+      "completed_at": "2026-03-31T17:36:13Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "just_style_com",
+      "schedule_id": "2026033121353318",
+      "stage": "discovery",
+      "started_at": "2026-03-31T17:17:42Z",
+      "progress": {},
+      "completed_at": "2026-03-31T17:24:06Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "fibre_2_fashion_com",
+      "schedule_id": "2026033121353317",
+      "stage": "discovery",
+      "started_at": "2026-03-31T17:06:06Z",
+      "progress": {},
+      "completed_at": "2026-03-31T17:12:15Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "fashion_united_in",
+      "schedule_id": "2026033121353316",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:54:33Z",
+      "progress": {},
+      "completed_at": "2026-03-31T17:00:27Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "fashion_united_global_com",
+      "schedule_id": "2026033121353315",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:42:59Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:45:19Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "drapers_com",
+      "schedule_id": "2026033121353314",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:31:34Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:32:02Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "ajio_com",
+      "schedule_id": "20260331_ajio_live2",
+      "stage": "parser",
+      "started_at": "2026-03-31T16:26:08Z",
+      "progress": {
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
+      },
+      "completed_at": "2026-03-31T16:27:16Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "ajio_com",
+      "schedule_id": "20260331_ajio_live",
+      "stage": "parser",
+      "started_at": "2026-03-31T16:25:15Z",
+      "progress": {
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
+      },
+      "completed_at": "2026-03-31T16:26:07Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "business_of_fashion",
+      "schedule_id": "2026033121450113",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:20:03Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:20:12Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "tata_cliq_com",
+      "schedule_id": "2026033121450111",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:19:13Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:19:19Z",
+      "status": "completed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "tata_cliq_com",
+      "schedule_id": "2026033121284411",
+      "stage": "parser",
+      "started_at": "2026-03-31T16:10:57Z",
+      "progress": {
+        "discovery_urls": 0,
+        "retriever_total": 0,
+        "retriever_fetched": 0
+      },
+      "completed_at": "2026-03-31T16:11:50Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "meesho_com",
+      "schedule_id": "2026033121353306",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:08:35Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:08:41Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "max_com",
+      "schedule_id": "2026033121353305",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:08:04Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:08:30Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "limeroad_com",
+      "schedule_id": "2026033121353304",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:07:32Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:07:43Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "flipkart_com",
+      "schedule_id": "2026033121353303",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:07:00Z",
+      "progress": {
+        "discovery_urls": 0
+      },
+      "completed_at": "2026-03-31T16:07:30Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "nykaa_fashion_com",
+      "schedule_id": "2026033121234908",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:06:27Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:06:42Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "2026033121353302",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:06:06Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:06:26Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "ajio_com",
+      "schedule_id": "2026033121353301",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:05:34Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:05:45Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "meesho_com",
+      "schedule_id": "2026033121284406",
+      "stage": "retriever",
+      "started_at": "2026-03-31T16:04:51Z",
+      "progress": {
+        "discovery_urls": 0
+      },
+      "completed_at": "2026-03-31T16:05:28Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "meesho_com",
+      "schedule_id": "2026033121234906",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:04:27Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:04:49Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "max_com",
+      "schedule_id": "2026033121284405",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:03:55Z",
+      "progress": {
+        "discovery_urls": 0
+      },
+      "completed_at": "2026-03-31T16:04:26Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "max_com",
+      "schedule_id": "2026033121234905",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:03:31Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:03:54Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "limeroad_com",
+      "schedule_id": "2026033121284404",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:02:59Z",
+      "progress": {
+        "discovery_urls": 0
+      },
+      "completed_at": "2026-03-31T16:03:30Z",
+      "status": "failed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "limeroad_com",
+      "schedule_id": "2026033121234904",
+      "stage": "discovery",
+      "started_at": "2026-03-31T16:02:33Z",
+      "progress": {},
+      "completed_at": "2026-03-31T16:02:58Z",
+      "status": "failed"
     }
   ]
 }

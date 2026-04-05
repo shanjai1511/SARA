@@ -1,0 +1,182 @@
+###############################################################################
+# SARA v2 — Full Local Development Stack
+#
+# Services:
+#   rabbitmq    — Message broker (management UI on :15672)
+#   redis       — Bloom filter + rate limiter
+#   prometheus  — Metrics collection
+#   grafana     — Metrics dashboards (on :3000)
+#   sara-api    — FastAPI control plane (on :8080)
+#   sara-dashboard — Streamlit UI (on :8501)
+#
+# Usage:
+#   docker-compose up -d rabbitmq redis        # infra only (minimal)
+#   docker-compose up -d                       # full stack
+#
+# Env vars are loaded from ../.env
+###############################################################################
+
+version: "3.9"
+
+x-common-env: &common-env
+  CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+  WEBSHARE_PROXY_JSON: ${WEBSHARE_PROXY_JSON}
+  DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
+  REDIS_URL: redis://redis:6379/0
+  SARA_API_KEY: ${SARA_API_KEY:-dev-secret-change-me}
+  NUM_FETCH_WORKERS: ${NUM_FETCH_WORKERS:-20}
+  NUM_PARSE_WORKERS: ${NUM_PARSE_WORKERS:-10}
+  FETCH_DELAY: ${FETCH_DELAY:-2}
+  FETCH_SLEEP_SEC: ${FETCH_SLEEP_SEC:-1}
+  SARA_BASE_DIR: /app
+
+services:
+
+  # ── Infrastructure ──────────────────────────────────────────────────────────
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: sara-rabbitmq
+    ports:
+      - "5672:5672"     # AMQP
+      - "15672:15672"   # Management UI (admin/password)
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-password}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: sara-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru --save 60 1
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  # ── Observability ───────────────────────────────────────────────────────────
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: sara-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=15d"
+      - "--web.enable-lifecycle"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: sara-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/sara.json
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # ── SARA Application Services ───────────────────────────────────────────────
+
+  sara-api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.api
+    container_name: sara-api
+    ports:
+      - "8080:8080"   # REST API
+      - "8000:8000"   # Prometheus /metrics
+    environment:
+      <<: *common-env
+      METRICS_PORT: 8000
+    volumes:
+      - ../scrape_output:/app/scrape_output
+      - ../logs:/app/logs
+      - ../url_discovery:/app/url_discovery
+      - ../url_data_parser:/app/url_data_parser
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  sara-dashboard:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.dashboard
+    container_name: sara-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      <<: *common-env
+      SARA_API_BASE_URL: http://sara-api:8080
+    volumes:
+      - ../scrape_output:/app/scrape_output
+      - ../logs:/app/logs
+      - ../url_discovery:/app/url_discovery
+      - ../url_data_parser:/app/url_data_parser
+    depends_on:
+      - sara-api
+    restart: unless-stopped
+
+  # ── Worker Services (scale with: docker-compose up --scale sara-retriever=5) ─
+
+  sara-retriever:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.worker
+    container_name: sara-retriever
+    command: ["python", "-m", "services.retriever.worker",
+              "--project", "${CRAWL_PROJECT:-commerce_crawl}",
+              "--site", "${CRAWL_SITE:-myntra_com}",
+              "--schedule", "${CRAWL_SCHEDULE:-live}",
+              "--concurrency", "${NUM_FETCH_WORKERS:-20}"]
+    environment:
+      <<: *common-env
+    volumes:
+      - ../scrape_output:/app/scrape_output
+      - ../logs:/app/logs
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    profiles:
+      - workers   # only start with: docker-compose --profile workers up
+    restart: on-failure
+
+volumes:
+  rabbitmq_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
