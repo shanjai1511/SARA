@@ -1,595 +1,349 @@
-## SARA – Scalable Automated Retrieval Architecture
+# SARA — Scalable Automated Retrieval Architecture
 
-SARA is a **three‑stage web data pipeline** for discovering URLs, fetching pages, and parsing them into structured datasets. It is designed to be:
-
-- **Config‑driven**: per‑site behavior is defined by small Python classes and YAML files.
-- **Composable**: each stage (discovery → retriever → parser) is independent and connected via RabbitMQ.
-- **Observable**: structured JSON logging with crawl context (project, site, schedule id, stage).
-
-You can run a full crawl for a given project/site/schedule using a single command:
-
-```bash
-python crawl_runner.py <project> <site> <schedule_id>
-```
+SARA is a production-grade web data pipeline for fashion e-commerce and media intelligence. It discovers URLs, fetches pages, parses structured records, and indexes them into Elasticsearch — with a full Streamlit dashboard, per-site scheduling, and public HTTPS access via Tailscale Funnel.
 
 ---
 
-## Features
+## Live URLs
 
-- **Three‑stage pipeline**
-  - **URL Discovery**: find all URLs to crawl (e.g. product pages, articles).
-  - **URL Retrieval**: robust, retried HTTP fetches with optional proxy support, HTML caching and concurrent workers.
-  - **URL Parsing**: extract structured fields into CSV using threaded batches.
+| Service | URL |
+|---------|-----|
+| SARA Dashboard | `https://shanjai.tail1eee4d.ts.net` |
+| Kibana (Data Explorer) | `https://shanjai.tail1eee4d.ts.net:8443` |
+| Elasticsearch | `https://shanjai.tail1eee4d.ts.net:10000` |
 
-- **Pluggable per‑site logic**
-  - Site‑specific code and YAML configuration lives under `url_discovery/`, `url_retriever/`, and `url_data_parser/`.
-  - New sites can be scaffolded via `creation_script.py`; corresponding cleanup is in `delete_files_automated.py`.
-  - Class names are generated consistently via a shared `normalize_class_name` helper.
+---
 
-- **Queue‑based decoupling**
-  - Stages communicate via RabbitMQ queues (configurable via `CLOUDAMQP_URL`).
-  - Retriever pulls up to 500 URLs at a time and acknowleges them.
-  - Parallel workers use `concurrent.futures` with `as_completed` to catch failures.
+## Architecture Overview
 
-- **Structured logging & observability**
-  - Every log can include `stage`, `schedule_id`, `project`, and `site`.
-  - Dashboard reads `crawl_status.json` and caches it for 5 s to reduce I/O.
-  - Template generation and project lists are also cached to speed UI reruns.
+```
+  ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+  │  Discovery  │────▶│  RabbitMQ    │────▶│  Retriever  │
+  │  (per site) │     │  URL Queue   │     │  (parallel) │
+  └─────────────┘     └──────────────┘     └──────┬──────┘
+                                                   │ HTML files
+                                            ┌──────▼──────┐
+                                            │   Parser    │
+                                            │  (threaded) │
+                                            └──────┬──────┘
+                                                   │ CSV + progressive ES upload
+                                     ┌─────────────▼──────────────┐
+                                     │     Elasticsearch          │
+                                     │  sara-commerce-crawl       │
+                                     │  sara-media-crawl          │
+                                     └────────────────────────────┘
+```
+
+**Pipeline stages run concurrently**: discovery pushes URLs to RabbitMQ while retriever starts consuming — no waiting for discovery to finish.
+
+---
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Pipeline orchestration | Python subprocesses (concurrent Popen) |
+| URL queue | RabbitMQ (pika) |
+| HTTP fetching | requests + per-thread Session pool |
+| Rate limiting | `core/rate_limiter.py` — per-domain token bucket |
+| Data storage | Local filesystem (CSV + HTML) |
+| Search/analytics | Elasticsearch 8.x + Kibana |
+| Dashboard | Streamlit |
+| Scheduling | APScheduler (per-site frequency via dashboard) |
+| Public access | Tailscale Funnel (permanent HTTPS URLs) |
+| Cache | Redis (rate limiter state) |
+| Async workers | `services/retriever/worker.py`, `services/discovery/worker.py` (built, additive) |
+| API | FastAPI (`services/api/main.py`, port 8080) |
+| Observability | Prometheus metrics + structured JSON logging |
 
 ---
 
 ## Directory Layout
 
-```text
+```
 SARA/
-  README.md                 # (this file)
-  crawl_runner.py           # runs discovery → retriever → parser
-  creation_script.py        # scaffolds new project+site configs
-  delete_files_automated.py # deletes project+site configs
-  proxy_config.py           # proxy list & env override
-  logs/
-    pipeline.log            # structured logs (JSON)
-    crawl_status.json       # current/last run status (for dashboard)
-  dashboard/
-    app.py                  # Flask app for real-time dashboard
-    static/index.html       # dashboard UI
-  sdf_module/
-  scrape_output/
-    discovery_output/
-    retriever_output/
-    parser_output/
-  sdf_module/
-    files_import.py         # central imports & constants
-    sdf_fetch.py            # HTTP, retries, parsing, logging, RabbitMQ
-    url_discovery.py        # discovery driver
-    url_retriever.py        # retriever driver
-    url_parser.py           # parser driver
-  url_discovery/
-    <project>/
-      <site>_<project>.py   # per-site discovery logic
-      <site>_<project>.yml  # per-site discovery config
-  url_retriever/
-    <project>/
-      <site>_<project>.py   # usually thin wrappers
-      <site>_<project>.yml  # retriever config (request params, etc.)
-  url_data_parser/
-    <project>/
-      <site>_<project>.py   # per-site parsing logic
-      <site>_<project>.yml  # per-site fields config
+├── crawl_runner.py              # Pipeline orchestrator (discovery → retriever → parser)
+├── creation_script.py           # Scaffolds new project/site configs
+├── delete_files_automated.py    # Removes project/site configs
+├── proxy_config.py              # Proxy list loader (WEBSHARE_PROXY_JSON)
+├── setup_server.sh              # One-shot server setup (systemd services, tunnels, cron)
+├── show_urls.sh                 # Print current tunnel URLs
+│
+├── config/
+│   ├── settings.py              # Centralised settings (env vars → dataclass)
+│   └── schedules.json           # Per-site crawl schedules (managed via dashboard)
+│
+├── core/                        # Shared infrastructure modules
+│   ├── broker.py                # RabbitMQ abstraction (sync + async, DLX topology)
+│   ├── dedup.py                 # Redis Bloom Filter + FileBloomFilter fallback
+│   ├── rate_limiter.py          # Per-domain rate limiting (sync + async)
+│   ├── proxy_manager.py         # Smart proxy rotation with health tracking
+│   ├── metrics.py               # Prometheus instrumentation
+│   ├── storage.py               # LocalStorage / S3Storage abstraction
+│   ├── change_detection.py      # Content-hash change detection
+│   └── es_uploader.py           # Elasticsearch bulk uploader
+│
+├── sdf_module/                  # Core pipeline drivers
+│   ├── files_import.py          # Central imports and shared constants
+│   ├── sdf_fetch.py             # HTTP fetching, retries, logging, RabbitMQ helpers
+│   ├── url_discovery.py         # Discovery stage driver
+│   ├── url_retriever.py         # Retriever stage driver (rate-limited, deduped)
+│   ├── url_parser.py            # Parser stage driver (streaming CSV + progressive ES)
+│   └── crawl_status.py          # Concurrent crawl progress tracking
+│
+├── services/                    # Async worker services (additive, not replacing sync)
+│   ├── discovery/worker.py      # Async discovery worker (aiohttp + RabbitMQ)
+│   ├── retriever/worker.py      # Async retriever worker (semaphore-bounded)
+│   ├── scheduler/worker.py      # APScheduler — reads schedules.json, triggers crawls
+│   └── api/                     # FastAPI control plane (port 8080)
+│       ├── main.py              # App entrypoint, auth, CORS, lifespan hooks
+│       ├── routers/crawls.py    # Crawl trigger, status, DLQ endpoints
+│       ├── routers/sites.py     # Site CRUD endpoints
+│       └── schemas.py           # Pydantic v2 request/response models
+│
+├── dashboard/
+│   └── streamlit_app.py         # Full Streamlit dashboard (all pages)
+│
+├── url_discovery/               # Per-site discovery logic
+│   └── <project>/
+│       ├── <site>_<project>.py  # Discovery methods (pagination, product URLs)
+│       └── <site>_<project>.yml # Depth config + seed URLs
+│
+├── url_data_parser/             # Per-site parser logic
+│   ├── commerce_crawl/
+│   │   └── <site>_commerce_crawl.{py,yml}
+│   └── media_crawl/
+│       └── <site>_media_crawl.{py,yml}
+│
+├── scrape_output/
+│   ├── discovery_output/        # Discovery TXT files
+│   ├── retriever_output/        # Fetched HTML + metadata queue files
+│   └── parser_output/           # Extracted CSV files
+│
+├── logs/
+│   ├── pipeline.log             # Rotating structured JSON log (10MB × 5)
+│   ├── crawl_status.json        # Live crawl progress (concurrent runs supported)
+│   └── scheduler.log            # Scheduler service log
+│
+└── infra/
+    ├── docker-compose.yml       # Full stack: RabbitMQ, Redis, Prometheus, Grafana, API, Dashboard
+    ├── prometheus.yml           # Scrape configs
+    ├── Dockerfile.api           # FastAPI container
+    ├── Dockerfile.dashboard     # Streamlit container
+    └── Dockerfile.worker        # Generic worker container
 ```
 
 ---
 
-## Core Modules
+## Quick Start
 
-_All core Python modules have been enhanced with type hints,
-clearer logging, and utility functions to ease maintenance and static
-analysis._
-
-### Utility scripts
-
-The repository includes two helper scripts:
-
-* `creation_script.py` – scaffolds new project/site modules (discovery, retriever, parser) with boilerplate content. Uses `Path` and returns status messages via JSON and has typed signatures.
-* `delete_files_automated.py` – symmetric cleanup; removes the Python and YAML files for a site and removes empty directories. Path handling and messaging were modernized.
-
-These scripts underpin the related dashboard pages and can be run standalone.
-
-### `sdf_module/files_import.py`
-
-**Role**: central place for imports and shared constants.
-
-- **Imports**:
-  - Standard library: `os`, `glob`, `sys`, `subprocess`, `hashlib`, `json`, `csv`, `logging`, `math`, `re`, `pdb`, `time`, etc.
-  - Third‑party: `requests`, `yaml`, `openpyxl`, `bs4.BeautifulSoup`, `lxml.etree`, `lxml.html`, `pika`, `pandas`, etc.
-  - From project: `from proxy_config import *`.
-  - `from contextvars import ContextVar` for crawl context.
-
-- **Globals**:
-  - **`base_dir`**: resolved dynamically from `Path(__file__).resolve().parent.parent` (project root).
-  - **`CLOUDAMQP_URL`**:
-    - Reads from `os.environ["CLOUDAMQP_URL"]` if set.
-    - Falls back to a default CloudAMQP URL (should be overridden in production).
-
-Every core module does:
-
-```python
-from .files_import import *
-```
-
-so it shares the same environment, constants and helper functions (see below).
-
-The dashboard (`dashboard/streamlit_app.py`) now uses several cached helpers to avoid
-excessive filesystem work:
-
-```python
-@st.cache_data
- def list_projects_sites(): ...
-@st.cache_data(ttl=5)  # status behind short ttl
- def get_status_data(): ...
-@st.cache_data
- def get_template_content(...): ...
-```
-
-These improvements make the UI snappy even on repeated reruns.
-
-### `sdf_module/sdf_fetch.py` – Fetching, Parsing, Logging, RabbitMQ
-
-**Role**: reusable toolbox for:
-
-- HTTP requests with retries.
-- HTML parsing helpers.
-- Logging with per‑crawl context.
-- RabbitMQ channel creation.
-
-#### Crawl context and logging
-
-- Uses a `ContextVar[dict]` to store crawl context:
-
-  ```python
-  {
-    "stage": "discovery" | "retriever" | "parser",
-    "schedule_id": "<schedule-id>",
-    "project": "<project>",
-    "site": "<site>"
-  }
-  ```
-
-- Logging is configured once with a file handler writing to `logs/pipeline.log`.
-  Messages are JSON formatted and optionally enriched with crawl context.
-
-- Constants such as `DEFAULT_RETRY_STATUSES` and `LOG_FILE` live here for easy
-  adjustment.  `get_page_content_hash()` now uses a shared `requests.Session` and
-  implements exponential backoff, proxy rotation, and automatic HTML caching.
-
-- **`sdfFetch.set_crawl_context(stage, schedule_id, project, site)`**
-  - Called at the start of `UrlDiscovery.main`, `UrlRetriever.main`, `UrlParser.main`.
-  - Any log emitted during that stage automatically includes this context.
-
-- **`sdfFetch.print_info_message(status, info=None, url=None)`**  
-  **`sdfFetch.print_error_message(status, info)`**
-
-  - Build a JSON object:
-
-    ```json
-    {
-      "status": "info|success|error",
-      "info": "<message>",
-      "url": "<optional-url-or-path>",
-      "crawl": {
-        "stage": "...",
-        "schedule_id": "...",
-        "project": "...",
-        "site": "..."
-      }
-    }
-    ```
-
-  - Log at INFO or ERROR level to `logs/pipeline.log` and stdout.
-
-This gives you **structured, contextualised logs** for every crawl.
-
-#### RabbitMQ
-
-- **`get_rabbitmq_channel()`**:
-  - Uses `pika.BlockingConnection` with `CLOUDAMQP_URL`.
-  - Returns `(connection, channel)`.
-
-#### HTTP request with retries
-
-- **`get_page_content_hash(url, proxy=None, extended_header=None, max_retries=3, timeout=30, retry_statuses=None)`**:
-
-  - Validates `url`.
-  - For each attempt (0..`max_retries`):
-    - Optionally attach headers via `extended_header`.
-    - Optionally use a random proxy from `webshare_proxy` if `proxy == "webshare_proxy"`.
-    - Call `session.get(url, verify=False, timeout=timeout)`.
-    - If `status_code == 200`:
-      - Save HTML to `cache/{md5(url)}.html`.
-      - Log `"Page fetched successfully."`.
-      - Return `{"page_doc": <html>, "status_code": 200, "url": url}`.
-    - If `status_code` in retryable list (defaults to `429, 500, 502, 503, 504`):
-      - Log and wait with exponential backoff (`1, 2, 4, ...` seconds), then retry.
-    - Otherwise:
-      - Log error and return with empty page_doc and the failing status code.
-  - On repeated `RequestException`s:
-    - Log failures and final error after all attempts.
-
-This centralizes **resiliency and caching** for all HTTP calls.
-
-#### HTML parsing and selectors
-
-- **`get_parsed_tree(page_doc, format="lxml")`**:
-  - `format="lxml"` → returns `lxml.html` element tree.
-  - otherwise → returns `BeautifulSoup` document.
-
-- **`get_value_from_xpath(parsed_tree, xpath_expr, count, attr="none")`**:
-  - For lxml trees: uses `.xpath()`, returns text or attribute values.
-  - For BeautifulSoup: falls back to `.select()` (CSS).
-
-- **`get_value_from_css_selector(parsed_tree, css_selector, count, attr="none")`**:
-  - For lxml: `.cssselect()`.
-  - For BeautifulSoup: `.select()`.
-
-- **`encode(array)`**:
-  - Accepts string or iterable, returns an MD5 hex string.
-  - Used to build deterministic file names (cache, retriever output, etc.).
-
----
-
-## Stage 1: URL Discovery (`sdf_module/url_discovery.py`)
-
-**Goal**: starting with **seed URLs**, generate a set of final URLs (e.g. product pages) and push them into a RabbitMQ queue.
-
-### Discovery configuration (YAML)
-
-Example: `url_discovery/commerce_crawl/styleunion_com_commerce_crawl.yml`:
-
-```yaml
-depth0:
-  seed_url: ["https://styleunion.in/collections/women-caps", ...]
-  method_name: get_pagination_url
-depth1:
-  method_name: get_product_url
-```
-
-- **`depth0.seed_url`**: list of starting URLs.
-- **`depthN.method_name`**: name of method on the site discovery class that transforms a list of URLs at depth N into URLs for depth N+1.
-
-### Site‑specific discovery (Python)
-
-Example: `url_discovery/commerce_crawl/styleunion_com_commerce_crawl.py`:
-
-- **`get_pagination_url(keyurl, depth, current_depth_level)`**:
-  - Fetch category page.
-  - Read `productCount` from embedded script.
-  - Compute number of pages and generate pagination URLs.
-
-- **`get_product_url(url, depth, current_depth_level)`**:
-  - Fetch listing page.
-  - Extract product links using XPath.
-  - Build full URLs and append metadata (e.g. rank).
-
-### Discovery driver: `UrlDiscovery`
-
-- **`__init__(base_dir, project_name, site_name)`**
-  - Stores project/site names and sets up internal state.
-
-- **`main(schedule_key)`**
-  - Sets crawl context: `stage="discovery"`, `schedule_id=schedule_key`, `project`, `site`.
-  - Creates output dir: `scrape_output/discovery_output/<project>/`.
-  - Creates an empty TXT file for this schedule.
-  - Calls `main_execution(schedule_key)`.
-  - On completion, logs URLs discovered.
-
-- **`main_execution(schedule_key)`**
-  - Loads YAML (depth config).
-  - Dynamically imports the site discovery class from `url_discovery/<project>/<site>_<project>.py`.
-  - Builds an instance and calls `get_final_url(...)`.
-
-- **`get_final_url(url_list, depth, current_depth_level, max_depth, module_instance, schedule_key)`**
-  - Uses the `method_name` at the current depth to transform `url_list`.
-  - Sleeps between requests to avoid overloading servers.
-  - If at final depth:
-    - Calls `push_urls_to_queue(result_url, schedule_key)`.
-    - Increments internal count.
-  - Else:
-    - Recursively calls itself for the next depth.
-
-- **`push_urls_to_queue(result_url, schedule_key)`**
-  - Constructs queue name:
-
-    ```python
-    f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
-    ```
-
-  - Declares a durable queue.
-  - Publishes each URL as a persistent message.
-  - Logs success.
-
-**Output of Stage 1**:
-
-- RabbitMQ queue with **final target URLs** for this crawl.
-- Optional discovery TXT file per schedule (currently only created and cleared).
-
----
-
-## Stage 2: URL Retrieval (`sdf_module/url_retriever.py`)
-
-**Goal**: consume URLs from the queue, fetch pages (with retries), and write HTML + metadata to disk.
-
-### Request configuration
-
-Retriever reads **request params** from the discovery YAML (under `request_params`):
-
-```yaml
-request_type: curl
-request_params:
-  max_retries: 3
-  timeout: 30
-  # extended_header: {}
-```
-
-- **`max_retries`**, **`timeout`** customize `sdfFetch.get_page_content_hash`.
-- **`extended_header`** can set headers like `User-Agent`, cookies, etc.
-
-### Retriever driver: `UrlRetriever`
-
-- **`__init__(base_dir, project_name, site_name)`**
-  - Stores project/site and sets up base paths.
-
-- **`fetch_retriever_output(schedule_key)`**
-  - Sets up queue name: `"{site}_{project}_{schedule_key}_queue"`.
-  - Reads up to a configured maximum number of messages.
-  - Decodes bodies into URL strings.
-  - Acks each message.
-  - Returns a **list of URL keys**.
-
-- **`main(schedule_key)`**
-  - Sets crawl context: `stage="retriever"`, `schedule_id=schedule_key`.
-  - Loads `request_params` from YAML.
-  - Calls `fetch_retriever_output` and logs how many URLs found.
-  - Creates output directory:
-
-    ```text
-    scrape_output/retriever_output/<project>/<site>_<project>/<schedule_id>/
-    ```
-
-  - For each URL key:
-    - Skip empty keys.
-    - Derive base URL before `|` (if metadata encoded).
-    - Sleep a bit to avoid hitting rate limits.
-    - Call `sdfFetch.get_page_content_hash(...)` with `extended_header`, `max_retries`, `timeout`.
-    - Build an HTML file path using current date + `sdfFetch.encode(key)`.
-    - Write page content to disk if status is 200.
-    - Log success or failure.
-    - Append a metadata line `{"url": key, "output_file": "<path>"}` to `<schedule_id>_queue.txt`.
-  - At the end, logs `Pages fetched: <ok>/<total>` for this schedule.
-
-**Output of Stage 2**:
-
-- **HTML files** under:
-
-  ```text
-  scrape_output/retriever_output/<project>/<site>_<project>/<schedule_id>/
-  ```
-
-- **Metadata file**:
-
-  ```text
-  <schedule_id>_queue.txt
-  ```
-
-  containing per‑line `str({"url": key, "output_file": path})`.
-
----
-
-## Stage 3: URL Parsing (`sdf_module/url_parser.py`)
-
-**Goal**: turn fetched HTML into structured records (CSV) using per‑site parser logic.
-
-### Parser configuration (YAML)
-
-Example: `url_data_parser/commerce_crawl/styleunion_com_commerce_crawl.yml`:
-
-```yaml
----
-domain: styleunion.com
-fields:
-  crawl_timestamp:
-    desc_of_xpath:
-    standard_nodeset_range: first
-    standard_nodeset_join_char: "|"
-    standard_post_processing_functions: "remove_line_and_spaces"
-  uniq_id:
-    ...
-  page_url:
-    ...
-  product_name:
-    ...
-  # etc...
-```
-
-- **`fields`** defines which logical fields SARA should produce.
-- Actual extraction is implemented in the Python parser class (one method per field).
-
-### Site‑specific parser class
-
-Example: `StyleunionComInternalFeasibility`:
-
-- `modify_page_doc(inhash, page_doc)` – optionally splits a page into multiple sub‑documents (e.g. multiple products per page).
-- `get_crawl_timestamp(page_doc, inhash)` – typically returns current datetime.
-- `get_uniq_id(page_doc, inhash)` – e.g. uses `sdfFetch.encode(inhash)`.
-- `get_page_url`, `get_product_name`, `get_list_price`, `get_size`, `get_color`, etc.
-
-Each `get_<field>` should handle missing elements gracefully and return a value or `None`.
-
-### Parser driver: `UrlParser`
-
-- **`__init__(base_dir, project_name, site_name)`**
-  - Prepares `parser_dir = base_dir / "url_data_parser"`.
-
-- **`extract_records(inhash, page_doc, config, site_instance)`**
-  - Calls `site_instance.modify_page_doc(inhash, page_doc)`:
-    - If returns subsections: one record per subsection.
-    - If returns empty list: default to one record using the full `page_doc`.
-  - For each section:
-    - For each field in `config["fields"]`:
-      - Compute `method_name = f"get_{field}"`.
-      - If method exists on `site_instance`:
-        - Call it and capture any exceptions.
-    - Append record dict to `records`.
-  - Logs completion and returns list of records.
-
-- **`main(schedule_key)`**
-  - Sets crawl context: `stage="parser"`, `schedule_id=schedule_key`.
-  - Loads parser YAML config.
-  - Dynamically loads the site parser class from `url_data_parser/<project>/<site>_<project>.py`.
-  - Reads the retriever metadata file for this schedule.
-  - Logs how many pages will be processed.
-  - For each metadata line:
-    - Evaluate into a dict (currently via `eval`, could be hardened later).
-    - Open HTML file and parse with `etree.HTML`.
-    - Call `extract_records(...)` to get records for that page.
-    - Accumulate `total_records`.
-    - Append records to a CSV:
-
-      ```text
-      scrape_output/parser_output/<project>/<site>_<project>_<schedule_id>/<site>_<project>.csv
-      ```
-
-  - At the end, logs `Records extracted: <records> from <pages> pages`.
-
-**Output of Stage 3**:
-
-- A **CSV file** containing all structured data for this crawl.
-
----
-
-## Orchestration: Running the Full Pipeline
-
-### Via `crawl_runner.py`
+### Run a crawl manually
 
 ```bash
+source venv/bin/activate
 python crawl_runner.py <project> <site> <schedule_id>
+
+# Examples:
+python crawl_runner.py commerce_crawl myntra_com 20260405
+python crawl_runner.py media_crawl vogue_in 20260405
 ```
 
-Examples:
+### Run individual stages
 
 ```bash
-# Internal feasibility on styleunion.com
-python crawl_runner.py commerce_crawl styleunion_com 20260207
-
-# Media crawl on vogue.in
-python crawl_runner.py media_crawl vogue_in 20260207
+python -m sdf_module.url_discovery commerce_crawl myntra_com 20260405
+python -m sdf_module.url_retriever commerce_crawl myntra_com 20260405
+python -m sdf_module.url_parser    commerce_crawl myntra_com 20260405
 ```
-
-What happens:
-
-1. **Discovery**: `python -m sdf_module.url_discovery <project> <site> <schedule_id>`
-2. **Retriever**: `python -m sdf_module.url_retriever <project> <site> <schedule_id>`
-3. **Parser**: `python -m sdf_module.url_parser <project> <site> <schedule_id>`
-
-`crawl_runner.py` prints stage start/complete messages with `schedule_id`. Each subprocess writes its own logs to `logs/pipeline.log`.
 
 ---
 
-## Real-time dashboard
+## Environment Variables (`.env`)
 
-A web dashboard shows **live progress** for the current crawl (stage, URLs discovered, pages fetched, records extracted) and a table of recent completed runs.
+### Required
 
-**Run the dashboard** (from project root):
+| Variable | Description |
+|----------|-------------|
+| `CLOUDAMQP_URL` | RabbitMQ connection URL (e.g. `amqp://guest:guest@localhost:5672/`) |
+| `DASHBOARD_PASSWORD` | Password to access the Streamlit dashboard |
+| `WEBSHARE_PROXY_JSON` | JSON array of proxy tuples (`[]` if not using proxies) |
+
+### Optional — pipeline tuning
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NUM_FETCH_WORKERS` | 4 | Parallel threads for URL retrieval |
+| `NUM_PARSE_WORKERS` | 4 | Parallel threads for HTML parsing |
+| `MAX_URLS` | 500 | Max URLs pulled from queue per run |
+| `FETCH_DELAY` | 5 | Seconds between discovery calls |
+| `FETCH_SLEEP_SEC` | 2 | Fallback sleep between retriever fetches |
+
+### Optional — SaaS / production
+
+| Variable | Description |
+|----------|-------------|
+| `REDIS_URL` | Redis URL — enables shared rate limiting |
+| `ELASTICSEARCH_URL` | ES URL — enables auto-upload after parsing |
+| `ELASTICSEARCH_USER` | ES username |
+| `ELASTICSEARCH_PASSWORD` | ES password |
+| `ELASTICSEARCH_API_KEY` | ES API key (alternative to user/pass) |
+| `SARA_S3_BUCKET` | S3 bucket — enables cloud HTML storage |
+| `SARA_API_KEY` | Bearer token for FastAPI control plane |
+| `METRICS_PORT` | Prometheus metrics server port (default: 8000) |
+| `CORS_ORIGINS` | Comma-separated allowed origins for API CORS |
+
+---
+
+## Dashboard Pages
+
+| Page | Description |
+|------|-------------|
+| Dashboard | Live crawl progress (concurrent runs), history table with filters |
+| Run Crawl | Manually trigger a crawl for any project/site |
+| Create Project | Scaffold new project + site config files |
+| Delete Project | Remove project/site config files |
+| Manage Data | Browse and download parser output CSV files |
+| Projects and Sites | List all configured sites |
+| **Schedules** | Set per-site crawl frequency (hourly/daily/weekly/custom) via UI |
+| Analytics | Plotly charts — throughput, funnel, site comparison |
+| DLQ Inspector | Peek/requeue/purge dead-letter queue messages |
+| System Health | RabbitMQ, Redis, proxy pool, storage health checks |
+| API Access | Live API ping, endpoint reference, code examples |
+
+---
+
+## Services (systemd)
+
+All services auto-start on reboot:
+
+| Service | Description | Port |
+|---------|-------------|------|
+| `sara-dashboard` | Streamlit dashboard | 8501 |
+| `sara-scheduler` | APScheduler crawl trigger | — |
+| `elasticsearch` | Elasticsearch | 9200 |
+| `kibana` | Kibana | 5601 |
+| `rabbitmq-server` | RabbitMQ | 5672 |
+| `redis-server` | Redis | 6379 |
+| `cf-sara-dashboard` | Cloudflare quick tunnel for dashboard | — |
+| `cf-sara-kibana` | Cloudflare quick tunnel for Kibana | — |
+| `cf-sara-es` | Cloudflare quick tunnel for ES | — |
 
 ```bash
-pip install -r dashboard/requirements.txt
-python dashboard/app.py
+# Check status of all SARA services
+sudo systemctl status sara-dashboard sara-scheduler elasticsearch kibana
+
+# View scheduler logs
+tail -f ~/SARA/logs/scheduler.log
+
+# View pipeline logs
+tail -f ~/SARA/logs/pipeline.log
 ```
 
-Then open **http://127.0.0.1:5000** in your browser. The page polls `/api/status` every 2 seconds. Start a crawl with `crawl_runner.py` in another terminal to see progress update in real time.
+---
 
-- **Current run**: project, site, schedule id, active stage (Discovery → Retriever → Parser), and a progress bar for retriever (pages fetched) and parser (pages processed / records).
-- **Last runs**: table of recent runs with success/failure and completion time.
+## Elasticsearch Indices
 
-Status is stored in `logs/crawl_status.json` and updated by `crawl_runner.py` and each stage.
+| Index | Contents |
+|-------|----------|
+| `sara-commerce-crawl` | All commerce sites (Myntra, Flipkart, Ajio, etc.) |
+| `sara-media-crawl` | All media sites (Vogue, WWD, Drapers, etc.) |
+
+Each document has:
+- All parsed fields from the site YAML config
+- `site_name` — keyword field for filtering by site in Kibana
+- `@timestamp` — mapped from `crawl_timestamp` for Kibana time-based views
+
+### Backfill existing CSVs to ES
+
+```bash
+python -c "
+from dotenv import load_dotenv; load_dotenv('.env')
+from pathlib import Path
+from core.es_uploader import upload_all_existing
+print(f'Uploaded: {upload_all_existing(Path(\".\"))} docs')
+"
+```
+
+---
+
+## Scheduling
+
+Per-site crawl schedules are managed via the dashboard **Schedules** page. Schedules are stored in `config/schedules.json`. The `sara-scheduler` service picks up changes within 5 minutes.
+
+Supported frequencies:
+- `disabled` — no automatic crawling
+- `hourly` — every hour at configured minute
+- `daily` — every day at configured hour:minute (IST)
+- `weekly` — every week on configured day + hour:minute
+- `custom` — full cron expression (e.g. `0 2 * * 1-5`)
 
 ---
 
 ## Adding a New Site
 
-### 1. Scaffold configs and classes
+### 1. Scaffold
 
 ```bash
 python creation_script.py <project_name> <site_name>
 ```
 
-This creates:
+Creates boilerplate `.py` and `.yml` for discovery and parser.
 
-- `url_discovery/<project>/<site>_<project>.py|yml`
-- `url_retriever/<project>/<site>_<project>.py|yml`
-- `url_data_parser/<project>/<site>_<project>.py|yml`
+### 2. Implement discovery
 
-### 2. Implement discovery logic
+Edit `url_discovery/<project>/<site>_<project>.py`:
+- Add seed URLs to YAML `depth0.seed_url`
+- Implement depth methods (e.g. `get_pagination_url`, `get_product_url`)
 
-- Edit `url_discovery/<project>/<site>_<project>.py`:
-  - Fill in methods like `get_pagination_url`, `get_product_url`.
-- Update YAML to define `depth0.seed_url` and per‑depth `method_name`.
+### 3. Implement parser
 
-### 3. Configure retriever (optional)
+Edit `url_data_parser/<project>/<site>_<project>.py`:
+- Implement `get_<field>` methods for each field in the YAML
+- Always guard XPath results: `elems[0].text if elems else None`
 
-- Edit `url_retriever/<project>/<site>_<project>.yml`:
-  - Set `request_params.max_retries`, `timeout`, `extended_header` as needed.
-
-### 4. Implement parser logic
-
-- Edit `url_data_parser/<project>/<site>_<project>.py`:
-  - Implement `modify_page_doc` and each `get_<field>` using XPath/CSS.
-- Update YAML `fields` to match which `get_` methods you’ve implemented.
-
-### 5. Run and validate
-
-- Use `crawl_runner.py` with the new project and site.
-- Inspect:
-  - `logs/pipeline.log` for structured logs.
-  - `scrape_output/` for HTML and CSV outputs.
-
----
-
-## Logging and Monitoring
-
-- **Central log file**: `logs/pipeline.log`
-- All logs are **JSON strings**, usually containing:
-  - `status` (e.g. `"info"`, `"success"`, `"error"`)
-  - `info` (human‑readable message)
-  - `url` or file path (where relevant)
-  - `crawl` context:
-
-    ```json
-    "crawl": {
-      "stage": "retriever",
-      "schedule_id": "20260207",
-      "project": "commerce_crawl",
-      "site": "styleunion_com"
-    }
-    ```
-
-This makes it straightforward to:
-
-- Filter logs by `stage`, `schedule_id`, `project`, or `site`.
-- Ship logs to an external system (e.g. ELK, Datadog) and create dashboards for pipelines.
-
----
-
-## Quick Module‑Only Commands
-
-For direct module runs (bypassing `crawl_runner.py`):
+### 4. Run and validate
 
 ```bash
-# Discovery only
-python -m sdf_module.url_discovery commerce_crawl styleunion_com 20260207
-
-# Retriever only
-python -m sdf_module.url_retriever commerce_crawl styleunion_com 20260207
-
-# Parser only
-python -m sdf_module.url_parser commerce_crawl styleunion_com 20260207
+python crawl_runner.py <project> <site> <schedule_id>
 ```
+
+Check output:
+- `logs/pipeline.log` — structured JSON logs
+- `scrape_output/parser_output/` — CSV files
+- Kibana → Discover → filter `site_name: <site>` — ES records
+
+---
+
+## Key Architectural Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| Concurrent discovery + retrieval | Retriever starts consuming as soon as discovery pushes first URLs — no waiting for full discovery |
+| Per-domain rate limiting | `core/rate_limiter.py` enforces domain-specific delays to avoid blocks |
+| Progressive ES upload | Records indexed to ES per-batch during parsing, not all at end |
+| In-memory URL dedup | Duplicate URLs within a crawl run are skipped before fetching |
+| RabbitMQ queue deleted after consuming | Prevents stale queue accumulation across runs |
+| Pre-flight health check | RabbitMQ connectivity verified before pipeline starts |
+| Cache auto-cleanup | HTML cache files older than 24h are deleted to prevent disk fill |
+| Concurrent crawl status | `crawl_status.json` tracks multiple simultaneous crawls independently |
+| Two ES indices only | `sara-commerce-crawl` and `sara-media-crawl` with `site_name` field for filtering |
+
+---
+
+## Monitoring
+
+```bash
+# Live pipeline log
+tail -f logs/pipeline.log
+
+# Current crawl status
+cat logs/crawl_status.json | python -m json.tool
+
+# Check all service health
+sudo systemctl status sara-dashboard sara-scheduler elasticsearch kibana rabbitmq-server redis-server
+
+# Tunnel URLs
+bash show_urls.sh
+```
+
+See `docs/MONITORING.md` for detailed monitoring guide.
