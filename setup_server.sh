@@ -5,18 +5,17 @@ set -e
 
 SARA_DIR="/home/shanjai/SARA"
 USER="shanjai"
-CF_DIR="/home/shanjai/.cloudflared"
 
 echo "=== SARA Server Setup ==="
 
 # ── 1. Pin elasticsearch client version ───────────────────────────────────────
-echo "[1/5] Pinning elasticsearch client version..."
+echo "[1/4] Pinning elasticsearch client version..."
 source "$SARA_DIR/venv/bin/activate"
 pip install -q "elasticsearch>=8.0.0,<9.0.0"
 echo "Done."
 
 # ── 2. Streamlit systemd service ──────────────────────────────────────────────
-echo "[2/5] Creating Streamlit systemd service..."
+echo "[2/4] Creating Streamlit systemd service..."
 sudo tee /etc/systemd/system/sara-dashboard.service > /dev/null <<EOF
 [Unit]
 Description=SARA Streamlit Dashboard
@@ -41,94 +40,102 @@ sudo systemctl enable sara-dashboard
 sudo systemctl restart sara-dashboard
 echo "Done."
 
-# ── 3. Permanent Cloudflare tunnels ───────────────────────────────────────────
-echo "[3/5] Setting up permanent Cloudflare tunnels..."
+# ── 3. Cloudflare quick tunnel systemd services (no domain needed) ────────────
+echo "[3/4] Creating Cloudflare tunnel systemd services..."
 
-# Check if already logged in
-if [ ! -f "$CF_DIR/cert.pem" ]; then
-    echo ""
-    echo ">>> ACTION REQUIRED: Login to Cloudflare (browser will open)"
-    cloudflared tunnel login
-fi
+declare -A TUNNELS=(
+    [sara-dashboard]="http://localhost:8501"
+    [sara-kibana]="http://localhost:5601"
+    [sara-es]="https://localhost:9200"
+)
 
-# Create tunnels (skip if already exist)
-for TUNNEL in sara-dashboard sara-kibana sara-es; do
-    if ! cloudflared tunnel list | grep -q "$TUNNEL"; then
-        cloudflared tunnel create "$TUNNEL"
-        echo "Created tunnel: $TUNNEL"
-    else
-        echo "Tunnel already exists: $TUNNEL"
-    fi
-done
-
-# Get tunnel UUIDs
-DASHBOARD_UUID=$(cloudflared tunnel list | grep sara-dashboard | awk '{print $1}')
-KIBANA_UUID=$(cloudflared tunnel list | grep sara-kibana | awk '{print $1}')
-ES_UUID=$(cloudflared tunnel list | grep sara-es | awk '{print $1}')
-
-# Write tunnel config files
-mkdir -p "$CF_DIR"
-
-cat > "$CF_DIR/sara-dashboard.yml" <<EOF
-tunnel: $DASHBOARD_UUID
-credentials-file: $CF_DIR/$DASHBOARD_UUID.json
-ingress:
-  - service: http://localhost:8501
-EOF
-
-cat > "$CF_DIR/sara-kibana.yml" <<EOF
-tunnel: $KIBANA_UUID
-credentials-file: $CF_DIR/$KIBANA_UUID.json
-ingress:
-  - service: http://localhost:5601
-EOF
-
-cat > "$CF_DIR/sara-es.yml" <<EOF
-tunnel: $ES_UUID
-credentials-file: $CF_DIR/$ES_UUID.json
-ingress:
-  - service: https://localhost:9200
-    originRequest:
-      noTLSVerify: true
-EOF
-
-# ── 4. Systemd services for each tunnel ───────────────────────────────────────
-echo "[4/5] Creating tunnel systemd services..."
-
-for TUNNEL in sara-dashboard sara-kibana sara-es; do
-    sudo tee /etc/systemd/system/cf-${TUNNEL}.service > /dev/null <<EOF
+for NAME in "${!TUNNELS[@]}"; do
+    URL="${TUNNELS[$NAME]}"
+    sudo tee /etc/systemd/system/cf-${NAME}.service > /dev/null <<EOF
 [Unit]
-Description=Cloudflare Tunnel - ${TUNNEL}
+Description=Cloudflare Quick Tunnel - ${NAME}
 After=network.target
 
 [Service]
 User=$USER
-ExecStart=/usr/local/bin/cloudflared tunnel --config $CF_DIR/${TUNNEL}.yml run
+ExecStart=/usr/local/bin/cloudflared tunnel --url ${URL} --no-autoupdate
 Restart=always
 RestartSec=15
+StandardOutput=append:/var/log/cf-${NAME}.log
+StandardError=append:/var/log/cf-${NAME}.log
 
 [Install]
 WantedBy=multi-user.target
 EOF
     sudo systemctl daemon-reload
-    sudo systemctl enable cf-${TUNNEL}
-    sudo systemctl restart cf-${TUNNEL}
+    sudo systemctl enable cf-${NAME}
+    sudo systemctl restart cf-${NAME}
+    echo "  Started: cf-${NAME} → ${URL}"
 done
 echo "Done."
 
-# ── 5. Cron schedule for crawls (runs daily at 2 AM) ─────────────────────────
-echo "[5/5] Setting up daily crawl cron job..."
+# ── 4. Cron schedule for crawls (runs daily at 2 AM) ─────────────────────────
+echo "[4/4] Setting up daily crawl cron job..."
 (crontab -l 2>/dev/null | grep -v 'crawl_runner'; echo "0 2 * * * cd $SARA_DIR && $SARA_DIR/venv/bin/python crawl_runner.py >> $SARA_DIR/logs/cron.log 2>&1") | crontab -
 echo "Done."
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
-echo "=== Setup Complete ==="
+echo "=== Setup Complete! Waiting 15s for tunnels to start... ==="
+sleep 15
+
+# Save URLs to a file for easy reference
+URL_FILE="$SARA_DIR/tunnel_urls.txt"
+echo "# SARA Tunnel URLs — generated $(date)" > "$URL_FILE"
+echo "" >> "$URL_FILE"
+
 echo ""
-echo "Your permanent tunnel URLs:"
-echo "  Dashboard : https://${DASHBOARD_UUID}.cfargotunnel.com"
-echo "  Kibana    : https://${KIBANA_UUID}.cfargotunnel.com"
-echo "  ES        : https://${ES_UUID}.cfargotunnel.com"
+echo "========================================="
+echo "          YOUR SARA ACCESS URLS"
+echo "========================================="
+
+declare -A LABELS=(
+    [sara-dashboard]="SARA Dashboard"
+    [sara-kibana]="Kibana (Data Explorer)"
+    [sara-es]="Elasticsearch"
+)
+
+for NAME in sara-dashboard sara-kibana sara-es; do
+    URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /var/log/cf-${NAME}.log 2>/dev/null | tail -1)
+    LABEL="${LABELS[$NAME]}"
+    if [ -n "$URL" ]; then
+        echo "  $LABEL:"
+        echo "    $URL"
+        echo "$LABEL: $URL" >> "$URL_FILE"
+    else
+        echo "  $LABEL: still starting..."
+        echo "$LABEL: run -> grep trycloudflare /var/log/cf-${NAME}.log" >> "$URL_FILE"
+    fi
+    echo "" >> "$URL_FILE"
+done
+
+echo "========================================="
 echo ""
-echo "Services status:"
-sudo systemctl is-active sara-dashboard cf-sara-dashboard cf-sara-kibana cf-sara-es 2>/dev/null || true
+echo "URLs saved to: $URL_FILE"
+echo "To check URLs anytime, run:  cat $URL_FILE"
+echo "To refresh URLs after reboot, run:  bash $SARA_DIR/show_urls.sh"
+
+# Create a handy show_urls script
+cat > "$SARA_DIR/show_urls.sh" <<'SCRIPT'
+#!/bin/bash
+echo ""
+echo "========================================="
+echo "          YOUR SARA ACCESS URLS"
+echo "========================================="
+declare -A LABELS=(
+    [sara-dashboard]="SARA Dashboard"
+    [sara-kibana]="Kibana (Data Explorer)"
+    [sara-es]="Elasticsearch"
+)
+for NAME in sara-dashboard sara-kibana sara-es; do
+    URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' /var/log/cf-${NAME}.log 2>/dev/null | tail -1)
+    echo "  ${LABELS[$NAME]}: ${URL:-not running}"
+done
+echo "========================================="
+SCRIPT
+chmod +x "$SARA_DIR/show_urls.sh"
