@@ -127972,3 +127972,603 @@ requests.exceptions.ProxyError: HTTPSConnectionPool(host='www.ajio.com', port=44
     "status": "error",
     "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
 }
+2026-04-15 12:34:37,349 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: amazon_in"
+}
+2026-04-15 12:34:37,349 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=amazon_in, schedule_id=run001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run001",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:34:37,349 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/amazon_in",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run001",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:34:37,366 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1: 3 URLs | method=get_product_url | workers=6",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run001",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:34:37,371 [INFO] ProxyManager: loaded 10 proxies
+2026-04-15 12:34:37,371 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:39,720 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:41,900 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:41,900 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1 complete: 0 URLs found",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run001",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:34:41,925 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=run001 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run001",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:34:53,561 [INFO] ProxyManager: loaded 10 proxies
+2026-04-15 12:34:53,561 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:53,563 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:53,563 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:54,564 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:55,566 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:34:56,567 [WARNING] Exception occurred: cannot access local variable '_domain' where it is not associated with a value
+2026-04-15 12:35:34,195 [INFO] ProxyManager: loaded 10 proxies
+2026-04-15 12:35:34,195 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:35:36,295 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:35:37,299 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:35:37,627 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:35:39,630 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 3/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:35:39,878 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:35:43,883 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 4/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:35:44,182 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (status 503)"
+}
+2026-04-15 12:35:44,182 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:35:44,182 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:35:46,123 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:35:47,125 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 2/4 via se@31.59.20.176:6754)"
+}
+2026-04-15 12:35:47,357 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:35:49,359 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 3/4 via se@31.59.20.176:6754)"
+}
+2026-04-15 12:35:49,609 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:35:53,614 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 4/4 via se@31.59.20.176:6754)"
+}
+2026-04-15 12:35:53,911 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (status 503)"
+}
+2026-04-15 12:35:53,913 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:35:53,913 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:35:55,384 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:35:55,384 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:35:55,394 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\e8a5a08ef1c99195a82d76f3b1bb4412.html"
+}
+2026-04-15 12:35:56,518 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=2"
+}
+2026-04-15 12:35:59,233 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:36:00,236 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=2 (attempt 2/4 via e@216.10.27.159:6837)"
+}
+2026-04-15 12:36:00,773 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:36:02,775 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=2 (attempt 3/4 via e@216.10.27.159:6837)"
+}
+2026-04-15 12:36:03,228 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:36:07,231 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=2 (attempt 4/4 via e@216.10.27.159:6837)"
+}
+2026-04-15 12:36:07,664 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=2 (status 503)"
+}
+2026-04-15 12:36:07,664 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:36:08,675 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=3"
+}
+2026-04-15 12:36:11,990 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:36:11,991 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:36:11,995 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\129fbb312a639c6f1fb33580b1271a05.html"
+}
+2026-04-15 12:36:13,159 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=4"
+}
+2026-04-15 12:36:17,259 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:36:17,259 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:36:17,263 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\03e9835fb33dabe58d208a6b459dfc41.html"
+}
+2026-04-15 12:36:18,420 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=5"
+}
+2026-04-15 12:36:22,446 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:36:22,446 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:36:22,461 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\947d66fc7c6321365b44f465c7cb5088.html"
+}
+2026-04-15 12:36:23,624 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031&page=6"
+}
+2026-04-15 12:36:25,053 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:36:25,053 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:36:25,055 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\437ea00778145a592f909b281e9fb89e.html"
+}
+2026-04-15 12:36:34,294 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: amazon_in"
+}
+2026-04-15 12:36:34,295 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=amazon_in, schedule_id=run002",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:36:34,296 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/amazon_in",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:36:34,301 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1: 3 URLs | method=get_product_url | workers=6",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:36:34,317 [INFO] ProxyManager: loaded 10 proxies
+2026-04-15 12:36:34,317 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:36:36,103 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:36:36,523 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:36:37,105 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:36:37,432 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:36:38,457 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:36:38,723 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:36:39,433 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 3/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:36:39,460 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:36:39,685 [WARNING] Proxy rv265fsse@198.105.121.200:6462 … circuit OPEN after 4 failures — cooling down 120s
+2026-04-15 12:36:39,685 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:36:41,058 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:36:41,686 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 3/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:36:41,936 [WARNING] Proxy rv265fsse@198.105.121.200:6462 … circuit OPEN after 5 failures — cooling down 240s
+2026-04-15 12:36:41,936 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:36:42,060 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (attempt 2/4 via @107.172.163.27:6543)"
+}
+2026-04-15 12:36:42,554 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:36:44,556 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (attempt 3/4 via @107.172.163.27:6543)"
+}
+2026-04-15 12:36:45,008 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:36:45,939 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 4/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:36:49,011 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (attempt 4/4 via @107.172.163.27:6543)"
+}
+2026-04-15 12:36:49,091 [WARNING] Proxy rv265fsse@198.105.121.200:6462 … circuit OPEN after 6 failures — cooling down 480s
+2026-04-15 12:42:24,130 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:42:25,285 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlRetriever for project: commerce_crawl and site: amazon_in"
+}
+2026-04-15 12:42:25,285 [INFO] {
+    "status": "info",
+    "info": "[retriever] Starting for project=commerce_crawl, site=amazon_in, schedule_id=run002",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:42:25,394 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-04-15 12:42:25,444 [INFO] Socket connected: <socket.socket fd=1004, family=2, type=1, proto=6, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:42:25,605 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1004, family=2, type=1, proto=0, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:42:25,605 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-04-15 12:42:25,807 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-15 12:42:25,807 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-15 12:42:25,807 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-15 12:42:25,807 [INFO] Created channel=1
+2026-04-15 12:42:26,135 [INFO] {
+    "status": "info",
+    "info": "[retriever] Queue depth=0 | window=20 | workers=4 | schedule_id=run002",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:42:26,135 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (status 503)"
+}
+2026-04-15 12:42:26,150 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:42:27,447 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (status 503)"
+}
+2026-04-15 12:42:27,447 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:42:28,139 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 4/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:42:30,006 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (status 503)"
+}
+2026-04-15 12:42:30,006 [WARNING] Exception occurred: No proper DOM found
+2026-04-15 12:42:30,017 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1 complete: 0 URLs found",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:42:30,040 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=run002 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:12,195 [INFO] [retriever] Queue empty after 10 consecutive polls — done
+2026-04-15 12:43:12,298 [INFO] Deleted RabbitMQ queue: amazon_in_commerce_crawl_run002_queue
+2026-04-15 12:43:12,298 [INFO] Closing connection (200): Normal shutdown
+2026-04-15 12:43:12,298 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-15 12:43:12,399 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x000002867E565AC0> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-15 12:43:12,401 [INFO] Closing connection (200): 'Normal shutdown'
+2026-04-15 12:43:12,503 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1004, family=2, type=1, proto=0, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:43:12,503 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1004, family=2, type=1, proto=0, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:43:12,503 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1004, family=2, type=1, proto=0, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:43:12,505 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-15 12:43:12,505 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-15 12:43:12,505 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1004, family=2, type=1, proto=0, laddr=('192.168.29.128', 64699), raddr=('15.206.140.228', 5671)>
+2026-04-15 12:43:12,505 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-04-15 12:43:12,508 [INFO] {
+    "status": "success",
+    "info": "[retriever] Completed schedule_id=run002 | Fetched=0 Failed=0 Total=0",
+    "crawl": {
+        "stage": "retriever",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:13,530 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlParser for project: commerce_crawl and site: amazon_in"
+}
+2026-04-15 12:43:13,532 [INFO] {
+    "status": "info",
+    "info": "[parser] Starting for project=commerce_crawl, site=amazon_in, schedule_id=run002",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:13,540 [ERROR] {
+    "status": "error",
+    "info": "Retriever metadata file not found: C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\retriever_output\\commerce_crawl\\amazon_in_commerce_crawl\\run002\\run002_queue.txt",
+    "crawl": {
+        "stage": "parser",
+        "schedule_id": "run002",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:57,080 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: amazon_in"
+}
+2026-04-15 12:43:57,081 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=amazon_in, schedule_id=run003",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run003",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:57,081 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/amazon_in",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run003",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:57,093 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1: 3 URLs | method=get_product_url | workers=6",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "run003",
+        "project": "commerce_crawl",
+        "site": "amazon_in"
+    }
+}
+2026-04-15 12:43:57,101 [INFO] ProxyManager: loaded 10 proxies
+2026-04-15 12:43:57,101 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:43:59,208 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:44:00,636 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:44:01,554 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:44:01,557 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031"
+}
+2026-04-15 12:44:01,637 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:01,964 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:44:02,556 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:03,600 [WARNING] Proxy rv265fsse@198.105.121.200:6462 … circuit OPEN after 4 failures — cooling down 120s
+2026-04-15 12:44:03,600 [INFO] {
+    "status": "info",
+    "info": "Retrying in 1s (status 503)"
+}
+2026-04-15 12:44:03,967 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 3/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:04,100 [INFO] Proxy rv265fsse@198.105.121.200:6462 … circuit CLOSED (recovered for www.amazon.in, latency=1544ms)
+2026-04-15 12:44:04,101 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}
+2026-04-15 12:44:04,101 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully"
+}
+2026-04-15 12:44:04,105 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\93b61de8ec075381d30828456f9e3946.html"
+}
+2026-04-15 12:44:04,218 [INFO] {
+    "status": "info",
+    "info": "Retrying in 4s (status 503)"
+}
+2026-04-15 12:44:04,606 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (attempt 2/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:04,849 [INFO] {
+    "status": "info",
+    "info": "Retrying in 2s (status 503)"
+}
+2026-04-15 12:44:06,850 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031 (attempt 3/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:08,219 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031 (attempt 4/4 via 198.105.121.200:6462)"
+}
+2026-04-15 12:44:09,447 [INFO] {
+    "status": "info",
+    "info": "Encoding input"
+}

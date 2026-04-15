@@ -259,6 +259,10 @@ class sdfFetch:
         if extended_header:
             session.headers.update(extended_header)
 
+        # Extract domain first — needed by both circuit breaker and proxy manager.
+        from urllib.parse import urlparse as _urlparse
+        _domain = _urlparse(url).netloc or url
+
         # Build per-request proxy dict using ProxyManager (health-aware selection).
         # NOT session-level so proxy config doesn't bleed across requests on the same thread.
         request_proxies  = None
@@ -281,8 +285,6 @@ class sdfFetch:
             _proxy_mgr = None
 
         # Circuit breaker: skip entirely if domain is blocked
-        from urllib.parse import urlparse as _urlparse
-        _domain = _urlparse(url).netloc or url
         if _cb_is_open(_domain):
             # Circuit is open — try unblock service before skipping entirely
             logging.warning("Circuit OPEN for domain=%s — trying unblock service", _domain)
