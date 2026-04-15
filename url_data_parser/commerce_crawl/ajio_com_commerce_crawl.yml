@@ -1,21 +1,103 @@
 ---
 domain: ajio.com
+# All extraction is handled by the parser class methods.
+# The Ajio product detail API (/api/p/{code}?fields=SITE&reqType=dnld)
+# is fetched once per product and cached; all fields below read from
+# that cached response — only a single HTTP request per product.
+
 fields:
+  # ── Identity ──────────────────────────────────────────────────────────────
   crawl_timestamp:
-    desc_of_xpath: "Crawl timestamp"
+    desc_of_xpath: "Crawl timestamp (ISO format)"
     standard_nodeset_range: first
+
   uniq_id:
-    desc_of_xpath: "Unique id"
+    desc_of_xpath: "MD5 hash of product URL"
     standard_nodeset_range: first
+
   page_url:
-    desc_of_xpath: "Page URL"
+    desc_of_xpath: "Canonical product page URL"
     standard_nodeset_range: first
+
+  product_id:
+    desc_of_xpath: "Ajio product code (e.g. 441218669_10)"
+    standard_nodeset_range: first
+
+  # ── Name / Brand ──────────────────────────────────────────────────────────
   product_name:
-    desc_of_xpath: "Product name XPath"
+    desc_of_xpath: "Product name — API → ld+json → og:title"
     standard_nodeset_range: first
+
+  brand:
+    desc_of_xpath: "Brand name — API → ld+json → HTML"
+    standard_nodeset_range: first
+
+  # ── Pricing ───────────────────────────────────────────────────────────────
   list_price:
-    desc_of_xpath: "List price XPath"
+    desc_of_xpath: "MRP / original price (₹) — API wasPriceData → ld+json → HTML"
     standard_nodeset_range: first
+
   selling_price:
-    desc_of_xpath: "Selling price XPath"
+    desc_of_xpath: "Current selling price (₹) — API price → HTML → ld+json"
+    standard_nodeset_range: first
+
+  discount_percentage:
+    desc_of_xpath: "Discount % = round((MRP-SP)/MRP*100) — API discountData or calculated"
+    standard_nodeset_range: first
+
+  # ── Classification ────────────────────────────────────────────────────────
+  category:
+    desc_of_xpath: "Top-level category (Men / Women / Kids) — API categories[0]"
+    standard_nodeset_range: first
+
+  sub_category:
+    desc_of_xpath: "Sub-category (T-Shirts, Jeans, etc.) — API categories[-1]"
+    standard_nodeset_range: first
+
+  gender:
+    desc_of_xpath: "Target gender (Men / Women / Kids) — derived from categories"
+    standard_nodeset_range: first
+
+  # ── Variants / Attributes ─────────────────────────────────────────────────
+  color:
+    desc_of_xpath: "Colour name — API fnlColorVariantData.color → ld+json"
+    standard_nodeset_range: first
+
+  available_sizes:
+    desc_of_xpath: "Comma-separated in-stock size labels — API variantOptions"
+    standard_nodeset_range: first
+
+  sizes_count:
+    desc_of_xpath: "Count of available sizes"
+    standard_nodeset_range: first
+
+  material:
+    desc_of_xpath: "Fabric/material composition — API classifications → features"
+    standard_nodeset_range: first
+
+  # ── Content ───────────────────────────────────────────────────────────────
+  description:
+    desc_of_xpath: "Product description text — API → ld+json → og:description"
+    standard_nodeset_range: first
+
+  primary_image:
+    desc_of_xpath: "Main product image URL"
+    standard_nodeset_range: first
+
+  images:
+    desc_of_xpath: "Comma-separated product image URLs (up to 8)"
+    standard_nodeset_range: first
+
+  # ── Ratings ───────────────────────────────────────────────────────────────
+  rating:
+    desc_of_xpath: "Average customer rating (0.0–5.0) — API averageRating → ld+json"
+    standard_nodeset_range: first
+
+  review_count:
+    desc_of_xpath: "Total number of customer reviews — API numberOfReviews → ld+json"
+    standard_nodeset_range: first
+
+  # ── Availability ──────────────────────────────────────────────────────────
+  availability:
+    desc_of_xpath: "Stock status: in_stock or out_of_stock — API stock.stockLevelStatus"
     standard_nodeset_range: first

@@ -49,6 +49,35 @@ def _run_stage(cmd: list, stage: str, schedule_id: str) -> int:
     return result.returncode
 
 
+def _publish_dlq(
+    project: str, site: str, schedule_id: str, stage: str, error: str = ""
+) -> None:
+    """Publish a failed job record to the sara-dlq queue for later inspection."""
+    import json as _json
+    payload = _json.dumps({
+        "project": project,
+        "site": site,
+        "schedule_id": schedule_id,
+        "stage": stage,
+        "error": error,
+        "failed_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    })
+    try:
+        conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
+        ch = conn.channel()
+        ch.queue_declare(queue="sara-dlq", durable=True)
+        ch.basic_publish(
+            exchange="",
+            routing_key="sara-dlq",
+            body=payload.encode(),
+            properties=pika.BasicProperties(delivery_mode=2),  # persistent
+        )
+        conn.close()
+        logger.info("Published failure record to sara-dlq for schedule_id=%s stage=%s", schedule_id, stage)
+    except Exception as exc:
+        logger.warning("Could not publish to sara-dlq: %s", exc)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Run discovery → retriever → parser pipeline for a project/site schedule."
@@ -77,7 +106,7 @@ def main(argv=None):
     ret_cmd    = [sys.executable, "-m", "sdf_module.url_retriever", project, site, schedule_id]
     parser_cmd = [sys.executable, "-m", "sdf_module.url_parser",    project, site, schedule_id]
 
-    # ── Fix 6: Pipeline discovery + retriever concurrently ───────────────────
+    # ── Discovery + retriever concurrently ───────────────────────────────────
     # Start discovery in background
     crawl_status.update_progress(project, site, schedule_id, stage="discovery")
     logger.info("[schedule_id=%s] Starting discovery (background)", schedule_id)
@@ -86,24 +115,80 @@ def main(argv=None):
         stdout=_subprocess.PIPE, stderr=_subprocess.PIPE, text=True
     )
 
-    # Poll RabbitMQ until discovery pushes first URLs (max 60s wait)
+    # Adaptive wait: poll queue every 5s, but stop early if:
+    #   a) queue has URLs (launch retriever immediately), OR
+    #   b) discovery process has exited (no point waiting further)
+    # Max wait cap: 300s (5 min) to handle slow sites.
     queue_name = f"{site}_{project}_{schedule_id}_queue"
+    _DISCOVERY_WAIT_CAP = 300
     waited = 0
-    while waited < 60:
+    queue_has_urls = False
+    while waited < _DISCOVERY_WAIT_CAP:
+        # Check if discovery already finished
+        disc_poll = disc_proc.poll()
+        if disc_poll is not None:
+            logger.info(
+                "[schedule_id=%s] Discovery process exited (rc=%d) after %ds",
+                schedule_id, disc_poll, waited,
+            )
+            # Do one final queue check after process exits
+            try:
+                conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
+                ch = conn.channel()
+                q = ch.queue_declare(queue=queue_name, durable=True, passive=True)
+                queue_has_urls = q.method.message_count > 0
+                conn.close()
+            except Exception:
+                pass
+            break
+
         try:
             conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
             ch = conn.channel()
-            ch.queue_declare(queue=queue_name, durable=True, passive=True)
             q = ch.queue_declare(queue=queue_name, durable=True, passive=True)
             count = q.method.message_count
             conn.close()
             if count > 0:
-                logger.info("[schedule_id=%s] Queue has %d URLs — starting retriever", schedule_id, count)
+                logger.info(
+                    "[schedule_id=%s] Queue has %d URLs after %ds — starting retriever",
+                    schedule_id, count, waited,
+                )
+                queue_has_urls = True
                 break
         except Exception:
             pass
         time.sleep(5)
         waited += 5
+
+    if waited >= _DISCOVERY_WAIT_CAP:
+        logger.warning(
+            "[schedule_id=%s] Discovery wait cap (%ds) reached — launching retriever anyway",
+            schedule_id, _DISCOVERY_WAIT_CAP,
+        )
+        queue_has_urls = True  # let retriever drain whatever is there
+
+    if not queue_has_urls:
+        # Discovery finished but produced no URLs — skip retriever & parser
+        disc_stdout, disc_stderr = disc_proc.communicate()
+        for line in (disc_stdout or "").splitlines():
+            if line.strip(): logger.info("[discovery] %s", line)
+        for line in (disc_stderr or "").splitlines():
+            if line.strip(): logger.error("[discovery] %s", line)
+        if disc_proc.returncode != 0:
+            logger.error("[schedule_id=%s] Discovery failed (exit %d)", schedule_id, disc_proc.returncode)
+            crawl_status.complete_current_run(project, site, schedule_id, status="failed")
+            send_failure_alert(project, site, schedule_id, stage="discovery",
+                               error_detail=(disc_stderr or "")[-1000:])
+            _publish_dlq(project, site, schedule_id, stage="discovery",
+                         error=(disc_stderr or "")[-500:])
+            sys.exit(disc_proc.returncode)
+        logger.warning(
+            "[schedule_id=%s] Discovery produced 0 URLs — skipping retriever and parser",
+            schedule_id,
+        )
+        crawl_status.complete_current_run(project, site, schedule_id, status="completed")
+        send_success_alert(project, site, schedule_id)
+        return
 
     # Start retriever concurrently with remaining discovery
     crawl_status.update_progress(project, site, schedule_id, stage="retriever")
@@ -130,6 +215,8 @@ def main(argv=None):
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
         send_failure_alert(project, site, schedule_id, stage="discovery",
                            error_detail=(disc_stderr or "")[-1000:])
+        _publish_dlq(project, site, schedule_id, stage="discovery",
+                     error=(disc_stderr or "")[-500:])
         sys.exit(disc_proc.returncode)
 
     if ret_proc.returncode != 0:
@@ -137,6 +224,8 @@ def main(argv=None):
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
         send_failure_alert(project, site, schedule_id, stage="retriever",
                            error_detail=(ret_stderr or "")[-1000:])
+        _publish_dlq(project, site, schedule_id, stage="retriever",
+                     error=(ret_stderr or "")[-500:])
         sys.exit(ret_proc.returncode)
 
     # ── Parser runs after both complete ──────────────────────────────────────
@@ -145,11 +234,12 @@ def main(argv=None):
     if rc != 0:
         crawl_status.complete_current_run(project, site, schedule_id, status="failed")
         send_failure_alert(project, site, schedule_id, stage="parser")
+        _publish_dlq(project, site, schedule_id, stage="parser")
         sys.exit(rc)
 
     crawl_status.complete_current_run(project, site, schedule_id, status="completed")
     send_success_alert(project, site, schedule_id)
-    print(f"[schedule_id={schedule_id}] Pipeline completed successfully")
+    logger.info("[schedule_id=%s] Pipeline completed successfully", schedule_id)
 
 
 if __name__ == "__main__":

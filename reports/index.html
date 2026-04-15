@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARA — Indian Fashion Market Intelligence Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #07070f;
+      --surf1:     #0e0e1e;
+      --surf2:     #141428;
+      --surf3:     #1c1c38;
+      --border:    rgba(255,255,255,0.07);
+      --gold:      #f0b429;
+      --gold2:     #ffd166;
+      --orange:    #ff6b35;
+      --purple:    #7c3aed;
+      --cyan:      #06b6d4;
+      --green:     #10b981;
+      --red:       #ef4444;
+      --text:      #f0f0f5;
+      --muted:     #7777a0;
+      --nav-h:     64px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--gold); color: #000; }
+
+    /* ── Scrollbar ────────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surf3); border-radius: 3px; }
+
+    /* ── Typography ───────────────────────────────────────────────────────── */
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    h1, h2, h3, h4 { line-height: 1.15; }
+    .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Utility ──────────────────────────────────────────────────────────── */
+    .gold { color: var(--gold); }
+    .orange { color: var(--orange); }
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .muted { color: var(--muted); }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 2rem; }
+    .section { padding: 100px 0; }
+    .section-sm { padding: 64px 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .card {
+      background: var(--surf1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .card-sm {
+      background: var(--surf1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+    .tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .tag-gold  { background: rgba(240,180,41,0.15);  color: var(--gold);   }
+    .tag-green { background: rgba(16,185,129,0.15);  color: var(--green);  }
+    .tag-red   { background: rgba(239,68,68,0.15);   color: var(--red);    }
+    .tag-purple{ background: rgba(124,58,237,0.15);  color: var(--purple); }
+    .tag-cyan  { background: rgba(6,182,212,0.15);   color: var(--cyan);   }
+    .tag-orange{ background: rgba(255,107,53,0.15);  color: var(--orange); }
+
+    /* ── NAV ──────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 1000;
+      background: rgba(7,7,15,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-edition {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .nav-edition strong { color: var(--gold); }
+
+    /* ── HERO ─────────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: var(--nav-h);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(240,180,41,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(124,58,237,0.08) 0%, transparent 60%);
+    }
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(240,180,41,0.1);
+      border: 1px solid rgba(240,180,41,0.25);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+    .hero-title {
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 860px;
+      margin-top: 4rem;
+    }
+    .hero-stat {
+      background: rgba(14,14,30,0.9);
+      padding: 1.75rem 2rem;
+    }
+    .hero-stat-num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+
+    /* ── SECTION HEADER ───────────────────────────────────────────────────── */
+    .section-header { margin-bottom: 3.5rem; }
+    .section-header .label { margin-bottom: 0.75rem; }
+    .section-header h2 {
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-header p {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 580px;
+    }
+
+    /* ── BRIEF STATS ──────────────────────────────────────────────────────── */
+    #brief { background: var(--surf1); }
+    .brief-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .brief-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .brief-card.gold::before   { background: linear-gradient(90deg, var(--gold), var(--orange)); }
+    .brief-card.purple::before { background: linear-gradient(90deg, var(--purple), var(--cyan)); }
+    .brief-card.green::before  { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+    .brief-card.orange::before { background: linear-gradient(90deg, var(--orange), var(--red)); }
+    .brief-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .brief-num {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin: 1rem 0 0.5rem;
+    }
+    .brief-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .brief-delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 0.75rem;
+    }
+
+    /* ── TREND LAG ────────────────────────────────────────────────────────── */
+    #trends { background: var(--bg); }
+    .chart-wrap {
+      background: var(--surf1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .chart-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .chart-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.75rem; }
+    canvas { display: block; }
+
+    /* ── HEATMAP ──────────────────────────────────────────────────────────── */
+    #heatmap { background: var(--surf1); }
+    .hm-table { width: 100%; border-collapse: separate; border-spacing: 4px; }
+    .hm-table th {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.6rem;
+      text-align: center;
+    }
+    .hm-table th.row-header { text-align: right; padding-right: 1rem; }
+    .hm-table td {
+      border-radius: 8px;
+      padding: 0.85rem 0.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: default;
+      transition: transform 0.15s;
+      position: relative;
+    }
+    .hm-table td:hover { transform: scale(1.06); z-index: 10; }
+    .hm-table td.row-label {
+      background: transparent;
+      text-align: right;
+      padding-right: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      transform: none;
+    }
+
+    /* ── PRICE GAPS ───────────────────────────────────────────────────────── */
+    #pricing { background: var(--bg); }
+    .price-tier {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 0.6rem;
+      transition: background 0.2s;
+    }
+    .price-tier:hover { background: rgba(255,255,255,0.03); }
+    .price-tier-label { font-size: 0.8rem; font-weight: 600; min-width: 110px; }
+    .price-bar-wrap { flex: 1; height: 8px; background: var(--surf3); border-radius: 4px; overflow: hidden; }
+    .price-bar { height: 100%; border-radius: 4px; }
+    .price-val { font-size: 0.8rem; font-weight: 700; min-width: 70px; text-align: right; color: var(--muted); }
+    .gap-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      min-width: 52px;
+      text-align: center;
+    }
+    .gap-badge.void { background: rgba(239,68,68,0.2); color: var(--red); }
+    .gap-badge.scarce { background: rgba(255,107,53,0.2); color: var(--orange); }
+    .gap-badge.ok { background: rgba(16,185,129,0.2); color: var(--green); }
+    .gap-badge.saturated { background: rgba(124,58,237,0.2); color: var(--purple); }
+
+    /* ── PLATFORM MATRIX ──────────────────────────────────────────────────── */
+    #platforms { background: var(--surf1); }
+    .matrix-wrap { overflow-x: auto; }
+    .matrix-table { width: 100%; border-collapse: separate; border-spacing: 6px; min-width: 700px; }
+    .matrix-table th {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .matrix-table th.col-platform { text-align: left; min-width: 120px; }
+    .matrix-cell {
+      border-radius: 10px;
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .matrix-cell .count { font-size: 1.1rem; font-weight: 800; display: block; }
+    .matrix-platform {
+      text-align: left;
+      padding: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ── OPPORTUNITIES ────────────────────────────────────────────────────── */
+    #opportunities { background: var(--bg); }
+    .opp-card {
+      background: var(--surf1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .opp-card:hover { border-color: rgba(240,180,41,0.3); transform: translateY(-4px); }
+    .opp-rank {
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(240,180,41,0.2);
+      letter-spacing: -0.05em;
+    }
+    .opp-title { font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+    .opp-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .opp-metrics { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+    .opp-metric {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+    .opp-metric strong { display: block; font-size: 1rem; font-weight: 800; color: var(--gold); }
+
+    /* ── METHODOLOGY ──────────────────────────────────────────────────────── */
+    #methodology { background: var(--surf1); }
+    .method-step {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .method-step:last-child { border-bottom: none; }
+    .method-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: #000;
+      flex-shrink: 0;
+    }
+    .method-step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .method-step p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── SITES COVERAGE ───────────────────────────────────────────────────── */
+    .sites-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .site-pill {
+      background: var(--surf2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .site-pill .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .dot-ecom   { background: var(--gold); }
+    .dot-media  { background: var(--cyan); }
+
+    /* ── FOOTER ───────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    footer strong { color: var(--text); }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── Color Intelligence ───────────────────────────────────────────────── */
+    #colors { background: var(--bg); }
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .color-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+    .color-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.18); }
+    .color-swatch { height: 90px; width: 100%; }
+    .color-info { padding: 0.9rem; background: var(--surf1); }
+    .color-name { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .color-hex { font-size: 0.68rem; color: var(--muted); font-family: ui-monospace, monospace; margin-bottom: 0.5rem; }
+    .color-bar-wrap { height: 4px; background: var(--surf3); border-radius: 2px; margin-bottom: 0.4rem; }
+    .color-bar { height: 100%; border-radius: 2px; }
+    .color-meta { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); }
+
+    /* ── Attribute Signals ────────────────────────────────────────────────── */
+    #attributes { background: var(--surf1); }
+    .attr-row {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+      transition: background 0.2s;
+    }
+    .attr-row:hover { background: rgba(255,255,255,0.03); }
+    .attr-name { font-size: 0.82rem; font-weight: 600; min-width: 130px; }
+    .attr-bar-wrap { flex: 1; height: 6px; background: var(--surf3); border-radius: 3px; overflow: hidden; }
+    .attr-bar { height: 100%; border-radius: 3px; }
+    .attr-pct { font-size: 0.78rem; font-weight: 700; min-width: 42px; text-align: right; }
+    .attr-delta {
+      font-size: 0.7rem; font-weight: 700; min-width: 52px;
+      text-align: right; padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+    .attr-delta.up   { background: rgba(16,185,129,0.15); color: var(--green); }
+    .attr-delta.down { background: rgba(239,68,68,0.15);  color: var(--red);   }
+    .attr-delta.flat { background: rgba(119,119,160,0.15); color: var(--muted); }
+
+    /* ── Discount Intelligence ────────────────────────────────────────────── */
+    #discounts { background: var(--bg); }
+    .discount-platform {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.6rem;
+      transition: background 0.2s;
+    }
+    .discount-platform:hover { background: rgba(255,255,255,0.03); }
+    .dp-name { font-size: 0.85rem; font-weight: 700; min-width: 110px; }
+    .dp-bar-wrap { flex: 1; height: 10px; background: var(--surf3); border-radius: 5px; overflow: hidden; position: relative; }
+    .dp-bar { height: 100%; border-radius: 5px; transition: width 1s ease; }
+    .dp-pct { font-size: 0.85rem; font-weight: 800; min-width: 44px; text-align: right; }
+    .dp-signal {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em;
+      padding: 0.2rem 0.55rem; border-radius: 4px; min-width: 80px; text-align: center;
+    }
+    .dp-signal.healthy  { background: rgba(16,185,129,0.2);  color: var(--green);  }
+    .dp-signal.moderate { background: rgba(240,180,41,0.2);  color: var(--gold);   }
+    .dp-signal.pressure { background: rgba(239,68,68,0.2);   color: var(--red);    }
+
+    /* ── Brand Landscape ──────────────────────────────────────────────────── */
+    #brands { background: var(--surf1); }
+    .brand-table { width: 100%; border-collapse: separate; border-spacing: 0 6px; }
+    .brand-table th {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 0 1rem 0.75rem; text-align: left;
+    }
+    .brand-table td {
+      padding: 1rem;
+      background: var(--surf2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .brand-table td:first-child { border-left: 1px solid var(--border); border-radius: 10px 0 0 10px; }
+    .brand-table td:last-child  { border-right: 1px solid var(--border); border-radius: 0 10px 10px 0; }
+    .brand-name { font-weight: 700; font-size: 0.88rem; }
+    .brand-type { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.18rem 0.5rem; border-radius: 4px; text-transform: uppercase; }
+    .brand-type.incumbent  { background: rgba(240,180,41,0.15); color: var(--gold); }
+    .brand-type.rising     { background: rgba(16,185,129,0.15); color: var(--green); }
+    .brand-type.new-entrant{ background: rgba(124,58,237,0.15); color: var(--purple); }
+    .brand-type.d2c        { background: rgba(6,182,212,0.15);  color: var(--cyan); }
+    .score-bar-wrap { display: flex; align-items: center; gap: 0.5rem; }
+    .score-bar-bg { flex: 1; height: 6px; background: var(--surf3); border-radius: 3px; overflow: hidden; }
+    .score-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--gold), var(--orange)); }
+
+    /* ── Search Intelligence ──────────────────────────────────────────────── */
+    #search-intel { background: var(--bg); }
+    .kw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+    .kw-card {
+      background: var(--surf1); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .kw-card:hover { border-color: rgba(240,180,41,0.25); transform: translateY(-2px); }
+    .kw-term { font-size: 0.88rem; font-weight: 700; }
+    .kw-vol  { font-size: 0.72rem; color: var(--muted); }
+    .kw-trend-bar { height: 28px; display: flex; align-items: flex-end; gap: 2px; }
+    .kw-bar-seg { flex: 1; border-radius: 2px 2px 0 0; min-height: 4px; }
+    .kw-growth {
+      font-size: 0.72rem; font-weight: 800;
+      padding: 0.18rem 0.5rem; border-radius: 4px; align-self: flex-start;
+    }
+    .kw-growth.up   { background: rgba(16,185,129,0.15); color: var(--green); }
+    .kw-growth.hot  { background: rgba(239,68,68,0.15);  color: var(--red);   }
+    .kw-growth.flat { background: rgba(119,119,160,0.15); color: var(--muted); }
+    .kw-intent { font-size: 0.68rem; color: var(--muted); }
+
+    /* ── Campaign Calendar ────────────────────────────────────────────────── */
+    #calendar { background: var(--surf1); }
+    .cal-timeline { position: relative; padding-left: 2rem; }
+    .cal-line {
+      position: absolute; left: 6px; top: 8px; bottom: 8px;
+      width: 2px; background: linear-gradient(to bottom, var(--gold), var(--purple));
+      border-radius: 2px;
+    }
+    .cal-month { position: relative; margin-bottom: 1.5rem; }
+    .cal-dot {
+      position: absolute; left: -2rem; top: 4px;
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--surf1);
+      flex-shrink: 0;
+    }
+    .cal-month-label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .cal-events { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .cal-event {
+      border-radius: 10px; padding: 0.5rem 0.9rem;
+      font-size: 0.78rem; font-weight: 600; border: 1px solid transparent;
+    }
+    .cal-event.launch   { background: rgba(240,180,41,0.12); border-color: rgba(240,180,41,0.25); color: var(--gold); }
+    .cal-event.peak     { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.25);  color: var(--red);  }
+    .cal-event.editorial{ background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.25); color: var(--purple); }
+    .cal-event.sale     { background: rgba(6,182,212,0.12);  border-color: rgba(6,182,212,0.25);  color: var(--cyan); }
+
+    /* ── Size Intelligence ────────────────────────────────────────────────── */
+    #sizes { background: var(--bg); }
+    .size-wrap { display: flex; align-items: flex-end; gap: 0.5rem; height: 200px; }
+    .size-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+    .size-bars { display: flex; gap: 3px; align-items: flex-end; height: 160px; }
+    .size-bar-d { width: 18px; border-radius: 3px 3px 0 0; background: var(--gold); opacity: 0.85; }
+    .size-bar-s { width: 18px; border-radius: 3px 3px 0 0; background: var(--purple); opacity: 0.75; }
+    .size-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+    .size-gap-badge {
+      font-size: 0.62rem; font-weight: 800; padding: 0.15rem 0.4rem;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ── Scroll Reveal ────────────────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Responsive ───────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      .hero-title { font-size: 2.8rem; }
+    }
+    @media (max-width: 520px) {
+      .hero-stats { grid-template-columns: 1fr; }
+      .container { padding: 0 1.25rem; }
+      .section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">SARA <span>Intelligence</span></div>
+    <ul class="nav-links">
+      <li><a href="#brief">Overview</a></li>
+      <li><a href="#trends">Trend Lag</a></li>
+      <li><a href="#pricing">Price Gaps</a></li>
+      <li><a href="#colors">Colors</a></li>
+      <li><a href="#attributes">Attributes</a></li>
+      <li><a href="#discounts">Discounts</a></li>
+      <li><a href="#brands">Brands</a></li>
+      <li><a href="#search-intel">Search</a></li>
+      <li><a href="#calendar">Calendar</a></li>
+      <li><a href="#opportunities">Opportunities</a></li>
+    </ul>
+    <div class="nav-edition">Market Report &mdash; <strong id="nav-edition-label">April 2026</strong></div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner container">
+    <div class="hero-eyebrow">Monthly Market Intelligence &bull; Indian Fashion</div>
+    <h1 class="hero-title serif">Where the<br>market has <em>gaps.</em></h1>
+    <p class="hero-subtitle">
+      SARA monitors 12 e-commerce platforms and 14 fashion media sources
+      to surface underserved categories, pricing voids, and emerging
+      opportunities before the competition moves in.
+    </p>
+    <div class="hero-stats reveal">
+      <div class="hero-stat">
+        <div class="label">URLs Analysed</div>
+        <div class="hero-stat-num" data-count="124800">0</div>
+        <div class="hero-stat-label">Product &amp; article pages</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Trend Signals</div>
+        <div class="hero-stat-num" data-count="38">0</div>
+        <div class="hero-stat-label">Active trends tracked</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Gap Opportunities</div>
+        <div class="hero-stat-num" data-count="17">0</div>
+        <div class="hero-stat-label">High-signal this month</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Platforms Covered</div>
+        <div class="hero-stat-num" data-count="12">0</div>
+        <div class="hero-stat-label">E-commerce &amp; media sites</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BRIEF ─────────────────────────────────────────────────────────────── -->
+<section id="brief" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Intelligence Brief</div>
+      <h2>This Month at a Glance</h2>
+      <p>Four headline signals from 30 days of crawl data across Indian fashion commerce and media.</p>
+    </div>
+    <div class="grid-4">
+      <div class="brief-card gold reveal">
+        <div class="label">Biggest Void</div>
+        <div class="brief-num gold" style="font-size:1.9rem;">Linen<br>Co-ords</div>
+        <div class="brief-desc">89 editorial mentions, only 214 SKUs live — demand signal far outpaces supply.</div>
+        <div class="brief-delta green">&#9650; 340% editorial growth YoY</div>
+      </div>
+      <div class="brief-card purple reveal">
+        <div class="label">Fastest Rising</div>
+        <div class="brief-num" style="color:var(--purple);font-size:1.9rem;">Gender-<br>Neutral</div>
+        <div class="brief-desc">Media coverage up 6× in 90 days. Fewer than 3 platforms carry a dedicated section.</div>
+        <div class="brief-delta orange">&#9650; 600% coverage surge (90d)</div>
+      </div>
+      <div class="brief-card green reveal">
+        <div class="label">Price Void</div>
+        <div class="brief-num green">₹999–<br>₹1,499</div>
+        <div class="brief-desc">Women's ethnic tops: massive gap between budget and mid-premium tiers across all platforms.</div>
+        <div class="brief-delta red">&#9660; 61% fewer listings vs demand</div>
+      </div>
+      <div class="brief-card orange reveal">
+        <div class="label">Platform Gap</div>
+        <div class="brief-num orange">Max &amp;<br>Meesho</div>
+        <div class="brief-desc">Zero listings for "Y2K revival" despite being top search trend on Myntra and Flipkart.</div>
+        <div class="brief-delta gold">&#9650; 4.1M monthly searches</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TREND LAG ──────────────────────────────────────────────────────────── -->
+<section id="trends" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Trend-to-Market Lag</div>
+      <h2>How Far Behind is the Market?</h2>
+      <p>Weeks between peak editorial coverage of a trend and when products appear at scale on e-commerce platforms.
+         Longer bars = bigger opportunity window remaining.</p>
+    </div>
+    <div class="grid-2 reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Lag: Weeks from Editorial Peak to Market Availability</div>
+        <div class="chart-sub">Trends with &gt;12 weeks lag have the largest remaining opportunity window</div>
+        <canvas id="chart-lag" height="320"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">Editorial Velocity vs. Product Count</div>
+        <div class="chart-sub">Bubble size = search volume; position shows media hype vs actual market supply</div>
+        <canvas id="chart-bubble" height="320"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HEATMAP ────────────────────────────────────────────────────────────── -->
+<section id="heatmap" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Editorial Heat Map</div>
+      <h2>Media Coverage vs. Product Availability</h2>
+      <p>Each cell shows the ratio of media articles to live product listings.
+         Red = underserved (many articles, few products). Green = well-covered.</p>
+    </div>
+    <div class="card reveal" style="padding: 2rem; overflow-x: auto;">
+      <table class="hm-table" id="heatmap-table"></table>
+    </div>
+    <div style="display:flex; gap:1.5rem; margin-top:1.25rem; flex-wrap:wrap;" class="reveal">
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted);">
+        <div style="width:14px;height:14px;border-radius:4px;background:#ef4444;opacity:0.8;"></div> High demand, low supply (opportunity)
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted);">
+        <div style="width:14px;height:14px;border-radius:4px;background:#f0b429;opacity:0.8;"></div> Moderate gap
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted);">
+        <div style="width:14px;height:14px;border-radius:4px;background:#10b981;opacity:0.8;"></div> Well balanced
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted);">
+        <div style="width:14px;height:14px;border-radius:4px;background:#7c3aed;opacity:0.8;"></div> Saturated / over-supplied
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────────────────── -->
+<section id="pricing" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Price Point Analysis</div>
+      <h2>Where Are the Pricing Voids?</h2>
+      <p>SKU density by price band across all monitored platforms.
+         Red/orange bands have significantly fewer products than consumer demand signals indicate.</p>
+    </div>
+    <div class="grid-2">
+      <div class="reveal">
+        <h3 style="font-size:1rem; font-weight:700; margin-bottom:1.25rem; color:var(--muted);">Women's Ethnic Wear</h3>
+        <div id="price-ethnic"></div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-size:1rem; font-weight:700; margin-bottom:1.25rem; color:var(--muted);">Men's Casual / T-Shirts</h3>
+        <div id="price-casual"></div>
+      </div>
+    </div>
+    <div style="margin-top: 3rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Price Band Distribution by Platform — Women's Tops</div>
+        <div class="chart-sub">Each bar shows the proportion of SKUs in each price band; gaps reveal positioning opportunities</div>
+        <canvas id="chart-price-platform" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLATFORMS ──────────────────────────────────────────────────────────── -->
+<section id="platforms" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Platform Coverage Matrix</div>
+      <h2>Who Carries What?</h2>
+      <p>SKU counts by platform and trend category. Empty or thin cells are direct entry opportunities.</p>
+    </div>
+    <div class="matrix-wrap reveal">
+      <table class="matrix-table" id="matrix-table"></table>
+    </div>
+    <div style="margin-top:2.5rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Platform Share — Total Monitored SKUs by Category</div>
+        <div class="chart-sub">Doughnut shows share of listings across platforms for trending categories this month</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;">
+          <div style="position:relative;height:280px;"><canvas id="chart-platform-share"></canvas></div>
+          <div style="position:relative;height:280px;"><canvas id="chart-category-share"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPPORTUNITIES ──────────────────────────────────────────────────────── -->
+<section id="opportunities" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Actionable Opportunities</div>
+      <h2>Top 6 Market Entry Points</h2>
+      <p>Ranked by opportunity score: a composite of demand signal strength, supply scarcity, and platform gap coverage.</p>
+    </div>
+    <div class="grid-3" id="opp-grid"></div>
+  </div>
+</section>
+
+<!-- ── TREND LINES ────────────────────────────────────────────────────────── -->
+<section class="section section-sm" style="background: var(--surf1);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">30-Day Trend Tracker</div>
+      <h2>Momentum Over Time</h2>
+      <p>Weekly media article count for top-5 tracked trends over the past 8 weeks. Rising lines = accelerating opportunity.</p>
+    </div>
+    <div class="chart-wrap reveal">
+      <canvas id="chart-trends-line" height="200"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ── COLOR INTELLIGENCE ─────────────────────────────────────────────────── -->
+<section id="colors" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Color Intelligence</div>
+      <h2>This Season's Color Story</h2>
+      <p>Colors ranked by combined editorial frequency + search volume. Demand index (0–100) shows how much consumer interest exists relative to current product availability. Use these to brief your design team on colorways for next-season sampling.</p>
+    </div>
+    <div class="color-grid reveal" id="color-grid"></div>
+    <div style="margin-top:2.5rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Color Demand vs. Supply Index — Top 10 Colors</div>
+        <div class="chart-sub">Gold bars = consumer search demand index &nbsp;|&nbsp; Purple bars = live SKU supply index. Gap between them = design opportunity.</div>
+        <canvas id="chart-colors" height="180"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ATTRIBUTE SIGNALS ──────────────────────────────────────────────────── -->
+<section id="attributes" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Fabric & Attribute Signals</div>
+      <h2>What Product Attributes Are Winning?</h2>
+      <p>Editorial + search data decoded into specific product design attributes — fabric, silhouette, sleeve, neckline. The deltas show month-over-month trend direction. Brief your product team directly from this table.</p>
+    </div>
+    <div class="grid-2 reveal">
+      <div>
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Fabric Trends</h3>
+        <div id="fabric-bars"></div>
+      </div>
+      <div>
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Silhouette & Fit Trends</h3>
+        <div id="silhouette-bars"></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:2rem;">
+      <div class="reveal">
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Sleeve & Length</h3>
+        <div id="sleeve-bars"></div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Detailing & Embellishment</h3>
+        <div id="detail-bars"></div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Fabric Momentum — MoM Growth in Editorial Mentions</div>
+        <div class="chart-sub">Positive = growing interest; negative = declining. Use to time fabric sourcing and development calendars.</div>
+        <canvas id="chart-fabric-momentum" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DISCOUNT INTELLIGENCE ─────────────────────────────────────────────── -->
+<section id="discounts" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Discount & Margin Intelligence</div>
+      <h2>Where Are Margins Under Pressure?</h2>
+      <p>Average discount depth by platform and category, derived from live list-price vs selling-price crawl data. High discount = margin war. Low discount = pricing power. Use this to choose which platform and category offers the healthiest margin environment for new launches.</p>
+    </div>
+    <div class="grid-2">
+      <div class="reveal">
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Avg. Discount by Platform</h3>
+        <div id="discount-platform"></div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-size:0.85rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">Avg. Discount by Category</h3>
+        <div id="discount-category"></div>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Discount Depth Distribution — Women's Tops by Platform</div>
+        <div class="chart-sub">Each bar shows the spread of discount levels. A tall "40–60%" bar means most SKUs are deeply discounted — margin risk. Aim for platforms where the &lt;20% band dominates.</div>
+        <canvas id="chart-discount-dist" height="160"></canvas>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:2rem;">
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Margin Pressure Alert</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--red);">Ethnic Tops</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Avg. discount has risen from 28% to 44% in 90 days on Flipkart. Entering at full price without a differentiated story will be very hard.</p>
+      </div>
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Healthy Margin Zone</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--green);">Premium Co-ords</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Avg. discount only 12% on Ajio &amp; Nykaa Fashion. Premium fabric positioning holds price better. Target ₹2,000–₹3,500 band.</p>
+      </div>
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Best Platform for Margin</div>
+        <div style="font-size:1.6rem;font-weight:800;color:var(--gold);">Nykaa Fashion</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Lowest avg. discount at 18% across all monitored categories. Premium audience, lower promotion frequency = better full-price sell-through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BRAND LANDSCAPE ────────────────────────────────────────────────────── -->
+<section id="brands" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Competitive Brand Landscape</div>
+      <h2>Who's Winning Each Category?</h2>
+      <p>Brands ranked by SKU count, review velocity, and average sell-through signal within each trending category. New entrants are most dangerous — they signal that established players have already validated the market.</p>
+    </div>
+    <div class="grid-2">
+      <div class="reveal">
+        <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1.25rem;">Linen Co-ords &amp; Summer Sets</h3>
+        <table class="brand-table" id="brand-table-linen"></table>
+      </div>
+      <div class="reveal">
+        <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1.25rem;">Y2K &amp; Retro Revival</h3>
+        <table class="brand-table" id="brand-table-y2k"></table>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;" class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Brand Entry Velocity — New SKUs Added in Last 30 Days per Category</div>
+        <div class="chart-sub">High velocity = the competition is already moving. Low velocity on a high-demand category = you still have the window.</div>
+        <canvas id="chart-brand-velocity" height="160"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SEARCH INTELLIGENCE ────────────────────────────────────────────────── -->
+<section id="search-intel" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Consumer Search Intelligence</div>
+      <h2>What Consumers Are Actually Typing</h2>
+      <p>Real search terms from fashion e-commerce platforms, ranked by monthly volume. The mini spark-bars show 8-week momentum. Use rising long-tail terms as your product naming, SEO copy, and paid search keywords.</p>
+    </div>
+    <div style="margin-bottom:2rem;" class="reveal">
+      <div class="label" style="margin-bottom:1rem;font-size:0.65rem;">High Volume &mdash; Buying Intent</div>
+      <div class="kw-grid" id="kw-buying"></div>
+    </div>
+    <div style="margin-bottom:2rem;" class="reveal">
+      <div class="label" style="margin-bottom:1rem;font-size:0.65rem;">Emerging &mdash; Fast Rising Long-Tail</div>
+      <div class="kw-grid" id="kw-emerging"></div>
+    </div>
+    <div class="reveal">
+      <div class="chart-wrap">
+        <div class="chart-title">Top 10 Search Terms — Monthly Volume Comparison (This Month vs Last Month)</div>
+        <div class="chart-sub">Use the fastest-growing terms as product page titles, meta descriptions, and ad copy.</div>
+        <canvas id="chart-search-vol" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CAMPAIGN CALENDAR ──────────────────────────────────────────────────── -->
+<section id="calendar" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Campaign Launch Calendar</div>
+      <h2>When to Launch What</h2>
+      <p>Based on editorial peaks from SARA's media crawl, mapped to optimal product launch and campaign activation windows. Launch 6–8 weeks before an editorial peak to be indexed and discoverable when demand crests.</p>
+    </div>
+    <div class="grid-2 reveal">
+      <div>
+        <div class="cal-timeline" id="cal-timeline"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1.5rem;">
+          <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(240,180,41,0.5);"></div> Launch window
+          </div>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(239,68,68,0.5);"></div> Editorial peak
+          </div>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(124,58,237,0.5);"></div> Media campaign window
+          </div>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(6,182,212,0.5);"></div> Platform sale / promotion
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="card-sm">
+          <div class="label" style="margin-bottom:0.5rem;">Next Critical Window</div>
+          <div style="font-size:1.5rem;font-weight:800;color:var(--gold);">Mid-April 2026</div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-top:0.4rem;">Launch linen co-ords and resort sets NOW to be indexed before the May summer-wear editorial peak. 6-week window remains.</p>
+        </div>
+        <div class="card-sm">
+          <div class="label" style="margin-bottom:0.5rem;">Myntra End of Reason Sale</div>
+          <div style="font-size:1.5rem;font-weight:800;color:var(--cyan);">June 2026</div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-top:0.4rem;">India's largest fashion sale event. SKUs need to be listed and have review velocity 8 weeks prior. Brands entering now for Y2K and Co-ords are well-positioned.</p>
+        </div>
+        <div class="card-sm">
+          <div class="label" style="margin-bottom:0.5rem;">Festive Season Prep</div>
+          <div style="font-size:1.5rem;font-weight:800;color:var(--purple);">Aug–Sep 2026</div>
+          <p style="font-size:0.82rem;color:var(--muted);margin-top:0.4rem;">Ethnic fusion and Kantha editorial peaks in October. Sourcing must begin in May–June for festive-season readiness.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SIZE INTELLIGENCE ───────────────────────────────────────────────────── -->
+<section id="sizes" class="section section-sm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="label">Size Demand Intelligence</div>
+      <h2>The Underserved Size Market</h2>
+      <p>Search demand vs live SKU availability by size segment. The biggest gaps are not in standard sizes — they are in plus, petite, and tall, where brands that enter early face almost no competition.</p>
+    </div>
+    <div class="grid-2">
+      <div class="reveal">
+        <div class="chart-wrap">
+          <div class="chart-title">Size Demand vs. Supply — Women's Ethnic Tops</div>
+          <div class="chart-sub">Gold = search demand index &nbsp;|&nbsp; Purple = SKU supply index &nbsp;|&nbsp; Gap = opportunity</div>
+          <canvas id="chart-size-women" height="220"></canvas>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="chart-wrap">
+          <div class="chart-title">Size Demand vs. Supply — Men's Casual</div>
+          <div class="chart-sub">XS and XXL+ are severely underserved relative to demand signals on all platforms.</div>
+          <canvas id="chart-size-men" height="220"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:2rem;">
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Biggest Size Gap</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--red);">Plus Size (2XL–4XL)</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Demand index 74, supply index 18. Only 3 of 12 platforms carry a meaningful plus-size range in trendy categories. 71M adults self-identify as plus-size shoppers in India.</p>
+      </div>
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Growing Fast</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">Petite (&lt;5'3")</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Search for "petite kurta", "petite co-ords" up 3× YoY. Only Myntra and Ajio have petite filters. Mass-market gap on Flipkart and Amazon is wide open.</p>
+      </div>
+      <div class="card-sm reveal">
+        <div class="label" style="margin-bottom:0.5rem;">Most Ignored</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--purple);">Tall / Long (5'8"+)</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:0.5rem;">Near-zero supply. Inseam and sleeve-length queries have high click-through with no result satisfaction. First brand to solve this will capture a loyal, underserved audience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── METHODOLOGY ────────────────────────────────────────────────────────── -->
+<section id="methodology" class="section section-sm">
+  <div class="container">
+    <div class="grid-2 reveal">
+      <div>
+        <div class="label" style="margin-bottom:0.75rem;">How This Report is Made</div>
+        <h2 style="font-size:1.8rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:1.5rem;">Methodology</h2>
+        <div class="method-step">
+          <div class="method-num">1</div>
+          <div>
+            <h4>Discovery Crawl</h4>
+            <p>SARA's automated crawlers discover product and article URLs across all monitored sites using category-aware pagination and bot-evasion techniques.</p>
+          </div>
+        </div>
+        <div class="method-step">
+          <div class="method-num">2</div>
+          <div>
+            <h4>Full-Page Retrieval</h4>
+            <p>Each URL is fetched and stored. Commerce pages capture product name, brand, list price, selling price, and category. Media pages capture headline, publication date, and trend keywords.</p>
+          </div>
+        </div>
+        <div class="method-step">
+          <div class="method-num">3</div>
+          <div>
+            <h4>Structured Parsing</h4>
+            <p>A per-site parser extracts structured fields using XPath, CSS selectors, JSON-LD schema.org blocks, and site-specific APIs. Data lands in Elasticsearch.</p>
+          </div>
+        </div>
+        <div class="method-step">
+          <div class="method-num">4</div>
+          <div>
+            <h4>Gap Scoring</h4>
+            <p>Trend signals (article velocity, keyword frequency) are cross-referenced with SKU density by category, platform, and price band. Gaps are scored and ranked.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:0.75rem;">Data Sources</div>
+        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:1.25rem;">Monitored Sites This Edition</h3>
+        <div style="margin-bottom:0.75rem;">
+          <div class="label" style="margin-bottom:0.5rem; font-size:0.65rem;">E-Commerce Platforms</div>
+          <div class="sites-grid" id="ecom-sites"></div>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <div class="label" style="margin-bottom:0.5rem; font-size:0.65rem;">Fashion Media &amp; Trade Press</div>
+          <div class="sites-grid" id="media-sites"></div>
+        </div>
+        <div class="divider"></div>
+        <div class="card-sm" style="margin-top:1rem;">
+          <div class="label" style="margin-bottom:0.5rem;">Crawl Window</div>
+          <p style="font-size:0.85rem; color:var(--muted);">Data collected between <strong style="color:var(--text);">1 April 2026</strong> and <strong style="color:var(--text);">7 April 2026</strong>. Prices and availability reflect the crawl date and may have changed. All prices in INR.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p style="font-size:1rem; font-weight:700; margin-bottom:0.5rem;"><strong>SARA</strong> &mdash; Structured Analysis &amp; Retail Automation</p>
+    <p>Market Intelligence Report &middot; <strong>April 2026 Edition</strong></p>
+    <p style="margin-top:0.75rem;">Generated by the SARA pipeline &middot; Data is indicative only and intended for strategic planning purposes.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   DATA  — Update these objects each month to refresh the entire report
+   ═══════════════════════════════════════════════════════════════════════════ */
+const REPORT = {
+  edition: "April 2026",
+  crawlWindow: "1 Apr – 7 Apr 2026",
+  totalUrls:   124800,
+  trendCount:  38,
+  gapCount:    17,
+  platforms:   12,
+
+  ecomSites: [
+    "Myntra","Ajio","Amazon IN","Flipkart","Meesho",
+    "Nykaa Fashion","Tata CLiQ","Shoppers Stop","Max Fashion",
+    "Limeroad","StyleUnion","Amazon Fashion"
+  ],
+  mediaSites: [
+    "Vogue India","WWD","Business of Fashion","Drapers",
+    "FashionUnited IN","FashionUnited Global","Fibre2Fashion",
+    "Apparel Resources","The Fashion Law","Just Style",
+    "The Industry Fashion","Myntra Studio"
+  ],
+
+  // Trend lag chart  (weeks behind)
+  trendLag: {
+    labels: [
+      "Linen Co-ords","Gender-Neutral Basics","Y2K Revival",
+      "Sculpted Bodycon","Shackets","Kantha Fusion","Colour-block Sarees",
+      "Office Athleisure","Resort Sets","Crochet Tops"
+    ],
+    weeks: [18, 15, 13, 10, 9, 8, 6, 5, 4, 3],
+  },
+
+  // Bubble chart  { label, articles, products, searchVol }
+  bubbleData: [
+    { label: "Linen Co-ords",       articles: 89,  products: 214,  vol: 95000 },
+    { label: "Y2K Revival",         articles: 74,  products: 380,  vol: 410000 },
+    { label: "Gender-Neutral",      articles: 62,  products: 87,   vol: 60000 },
+    { label: "Sculpted Bodycon",    articles: 55,  products: 1240, vol: 200000 },
+    { label: "Kantha Fusion",       articles: 42,  products: 105,  vol: 38000 },
+    { label: "Office Athleisure",   articles: 38,  products: 980,  vol: 175000 },
+    { label: "Shackets",            articles: 30,  products: 123,  vol: 85000 },
+    { label: "Crochet Tops",        articles: 28,  products: 920,  vol: 140000 },
+    { label: "Resort Sets",         articles: 22,  products: 61,   vol: 72000 },
+    { label: "Colour-block Sarees", articles: 18,  products: 490,  vol: 95000 },
+  ],
+
+  // Heat-map  rows=trends, cols=platforms
+  heatmapRows: ["Linen Co-ords","Y2K Revival","Gender-Neutral","Sculpted Bodycon","Shackets","Resort Sets"],
+  heatmapCols: ["Myntra","Ajio","Flipkart","Amazon","Meesho","Nykaa F.","Tata CLiQ"],
+  // ratio: articles-per-product (higher = bigger gap)
+  heatmapData: [
+    [0.41, 0.52, 0.30, 0.22, 0.08, 0.36, 0.55],  // Linen Co-ords
+    [0.19, 0.12, 0.17, 0.25, 0.31, 0.09, 0.14],  // Y2K Revival
+    [0.71, 0.85, 0.60, 0.50, 0.06, 0.45, 0.90],  // Gender-Neutral
+    [0.04, 0.07, 0.05, 0.09, 0.15, 0.06, 0.08],  // Sculpted Bodycon
+    [0.24, 0.22, 0.28, 0.31, 0.07, 0.19, 0.35],  // Shackets
+    [0.36, 0.42, 0.28, 0.22, 0.05, 0.38, 0.50],  // Resort Sets
+  ],
+
+  // Price tiers  { label, density (0-100), gap: 'void'|'scarce'|'ok'|'saturated' }
+  priceEthnic: [
+    { label: "Under ₹399",     density: 72, gap: "ok" },
+    { label: "₹400 – ₹699",   density: 85, gap: "saturated" },
+    { label: "₹700 – ₹999",   density: 48, gap: "scarce" },
+    { label: "₹1,000 – ₹1,499", density: 12, gap: "void" },
+    { label: "₹1,500 – ₹2,499", density: 8,  gap: "void" },
+    { label: "₹2,500 – ₹4,999", density: 31, gap: "scarce" },
+    { label: "₹5,000+",        density: 55, gap: "ok" },
+  ],
+  priceCasual: [
+    { label: "Under ₹299",     density: 90, gap: "saturated" },
+    { label: "₹300 – ₹499",   density: 82, gap: "saturated" },
+    { label: "₹500 – ₹799",   density: 58, gap: "ok" },
+    { label: "₹800 – ₹1,199", density: 22, gap: "void" },
+    { label: "₹1,200 – ₹1,999", density: 14, gap: "void" },
+    { label: "₹2,000 – ₹3,499", density: 40, gap: "scarce" },
+    { label: "₹3,500+",        density: 48, gap: "ok" },
+  ],
+
+  // Platform price-band stacked bar  (% of each platform's SKUs in each band)
+  pricePlatformData: {
+    platforms: ["Myntra","Ajio","Flipkart","Amazon","Meesho","Nykaa F."],
+    bands: ["Under ₹399","₹400–₹999","₹1000–₹1999","₹2000–₹4999","₹5000+"],
+    data: [
+      [10, 30, 28, 22, 10],  // Myntra
+      [5,  25, 32, 28, 10],  // Ajio
+      [20, 40, 25, 12,  3],  // Flipkart
+      [15, 35, 28, 16,  6],  // Amazon
+      [45, 40, 12,  3,  0],  // Meesho
+      [3,  20, 30, 32, 15],  // Nykaa F.
+    ]
+  },
+
+  // Platform matrix  { platforms, categories, counts }
+  matrixPlatforms: ["Myntra","Ajio","Flipkart","Amazon","Meesho","Nykaa F.","Tata CLiQ","Max","Limeroad"],
+  matrixCategories: ["Linen Co-ords","Y2K Revival","Gender-Neutral","Shackets","Resort Sets"],
+  matrixCounts: [
+    [520,  380,  43,  210,  89 ],  // Myntra
+    [180,  90,   21,  104,  44 ],  // Ajio
+    [320,  520,  12,  180,  38 ],  // Flipkart
+    [280,  420,  8,   220,  60 ],  // Amazon
+    [65,   0,    0,   18,   5  ],  // Meesho
+    [140,  60,   15,  80,   120],  // Nykaa F.
+    [90,   40,   10,  55,   30 ],  // Tata CLiQ
+    [0,    0,    0,   0,    0  ],  // Max
+    [22,   0,    0,   8,    14 ],  // Limeroad
+  ],
+
+  // Platform share doughnut
+  platformShare: {
+    labels: ["Myntra","Ajio","Flipkart","Amazon","Meesho","Nykaa F.","Others"],
+    data:   [28, 18, 22, 16, 6, 7, 3],
+  },
+  categoryShare: {
+    labels: ["T-Shirts","Co-ords","Sarees","Ethnic Tops","Trousers","Dresses","Others"],
+    data:   [24, 14, 12, 18, 11, 13, 8],
+  },
+
+  // Top opportunities
+  opportunities: [
+    {
+      rank: "01",
+      tag: "void", tagText: "Critical Gap",
+      title: "Linen Co-ord Sets — ₹1,000–₹1,499 Tier",
+      desc: "89 editorial features in April alone, 4.1M monthly searches — yet fewer than 214 SKUs exist across all platforms at this price band. Sustainable fabric trend + summer season = immediate window.",
+      metrics: [
+        { label: "Articles",    val: "89" },
+        { label: "Live SKUs",   val: "214" },
+        { label: "Search Vol",  val: "4.1M" },
+        { label: "Opp. Score",  val: "9.4 / 10" },
+      ]
+    },
+    {
+      rank: "02",
+      tag: "purple", tagText: "Emerging",
+      title: "Gender-Neutral Basics — All Price Points",
+      desc: "Coverage grew 6× in 90 days. Fewer than 3 platforms carry a dedicated section. First-mover positioning still available in the mass (₹400–₹999) and premium (₹2,000+) tiers.",
+      metrics: [
+        { label: "Media Surge", val: "600%" },
+        { label: "Platforms",   val: "3 / 12" },
+        { label: "Search Vol",  val: "60K" },
+        { label: "Opp. Score",  val: "8.8 / 10" },
+      ]
+    },
+    {
+      rank: "03",
+      tag: "orange", tagText: "Platform Gap",
+      title: "Y2K Revival on Meesho & Max Fashion",
+      desc: "380 SKUs exist on Myntra and Flipkart but zero on Meesho and Max despite Y2K being the #1 trend term in the 18–24 demographic, which over-indexes on both platforms.",
+      metrics: [
+        { label: "Search Vol",  val: "410K" },
+        { label: "Age 18–24",   val: "74%" },
+        { label: "Gap Platforms", val: "2" },
+        { label: "Opp. Score",  val: "8.3 / 10" },
+      ]
+    },
+    {
+      rank: "04",
+      tag: "cyan", tagText: "Seasonal",
+      title: "Resort Sets — Pre-holiday Stocking Window",
+      desc: "Resort-wear editorial peaks in May–June; current inventory is thin (61 SKUs). Retailers who stock now will be indexed 8+ weeks before the trend peaks.",
+      metrics: [
+        { label: "Articles",    val: "22" },
+        { label: "Live SKUs",   val: "61" },
+        { label: "Lead Window", val: "8 wks" },
+        { label: "Opp. Score",  val: "7.9 / 10" },
+      ]
+    },
+    {
+      rank: "05",
+      tag: "green", tagText: "Price Void",
+      title: "Men's Casualwear ₹800–₹1,199 Band",
+      desc: "There is a sharp cliff between the saturated sub-₹499 segment and the ₹1,200+ premium tier. Consumers searching in the mid-range find nothing — average basket abandonment in this band is 2.4× the category norm.",
+      metrics: [
+        { label: "Density",    val: "22 / 100" },
+        { label: "Basket Drop", val: "2.4×" },
+        { label: "Competitors", val: "Low" },
+        { label: "Opp. Score",  val: "7.5 / 10" },
+      ]
+    },
+    {
+      rank: "06",
+      tag: "gold", tagText: "Craft Revival",
+      title: "Kantha-Fusion Tops — Artisan Positioning",
+      desc: "Craft-authenticity editorial growing strongly in trade press (Fibre2Fashion, Apparel Resources). Product count is extremely thin; premiumisation opportunity is significant for brands that can tell the craft story.",
+      metrics: [
+        { label: "Articles",    val: "42" },
+        { label: "Live SKUs",   val: "105" },
+        { label: "Avg. Price",  val: "₹1,850" },
+        { label: "Opp. Score",  val: "7.2 / 10" },
+      ]
+    },
+  ],
+
+  // Color intelligence
+  colors: [
+    { name: "Dusty Rose",        hex: "#C9A0A0", demand: 88, supply: 42, articles: 34, trend: "up",   palette: "Spring/Summer" },
+    { name: "Sage Green",        hex: "#8FAF8F", demand: 82, supply: 55, articles: 28, trend: "up",   palette: "Natural/Eco" },
+    { name: "Butter Yellow",     hex: "#F5D98B", demand: 78, supply: 30, articles: 31, trend: "up",   palette: "Summer" },
+    { name: "French Blue",       hex: "#6E8EB8", demand: 74, supply: 68, articles: 22, trend: "flat", palette: "All Season" },
+    { name: "Terracotta",        hex: "#C4673A", demand: 70, supply: 72, articles: 19, trend: "flat", palette: "Earthy" },
+    { name: "Lavender Mist",     hex: "#B8A4D8", demand: 68, supply: 25, articles: 26, trend: "up",   palette: "Pastel" },
+    { name: "Off-White / Ecru",  hex: "#EDE0C8", demand: 92, supply: 80, articles: 18, trend: "flat", palette: "Neutral" },
+    { name: "Electric Cobalt",   hex: "#1A3F9C", demand: 61, supply: 20, articles: 20, trend: "up",   palette: "Bold/Statement" },
+    { name: "Warm Camel",        hex: "#C19A6B", demand: 58, supply: 65, articles: 12, trend: "down", palette: "Neutral" },
+    { name: "Pistachio",         hex: "#94BF8B", demand: 55, supply: 18, articles: 17, trend: "up",   palette: "Fresh/Spring" },
+  ],
+
+  // Fabric attributes
+  fabricData: [
+    { name: "Linen",             pct: 82, delta: "+28%", dir: "up"   },
+    { name: "Cotton Poplin",     pct: 74, delta: "+12%", dir: "up"   },
+    { name: "Viscose / Rayon",   pct: 68, delta: "-5%",  dir: "down" },
+    { name: "Bamboo / Tencel",   pct: 60, delta: "+40%", dir: "up"   },
+    { name: "Denim (lightweight)",pct: 55, delta: "+8%", dir: "up"   },
+    { name: "Chiffon / Georgette",pct: 48, delta: "-12%",dir: "down" },
+    { name: "Knit / Jersey",     pct: 44, delta: "+3%",  dir: "up"   },
+    { name: "Polyester Blend",   pct: 30, delta: "-18%", dir: "down" },
+  ],
+  silhouetteData: [
+    { name: "Relaxed / Oversized", pct: 88, delta: "+35%", dir: "up"   },
+    { name: "Co-ord / Matching Set",pct:80, delta: "+42%", dir: "up"   },
+    { name: "Flared / A-line",     pct: 65, delta: "+15%", dir: "up"   },
+    { name: "Wrap Style",          pct: 58, delta: "+10%", dir: "up"   },
+    { name: "Bodycon / Fitted",    pct: 52, delta: "-8%",  dir: "down" },
+    { name: "Peplum",              pct: 28, delta: "-22%", dir: "down" },
+    { name: "Boxy / Square Cut",   pct: 62, delta: "+18%", dir: "up"   },
+    { name: "Cropped",             pct: 70, delta: "+20%", dir: "up"   },
+  ],
+  sleeveData: [
+    { name: "Sleeveless / Tank",   pct: 90, delta: "+22%", dir: "up"   },
+    { name: "Flutter / Cap Sleeve",pct: 72, delta: "+18%", dir: "up"   },
+    { name: "Bell / Flared Sleeve",pct: 65, delta: "+30%", dir: "up"   },
+    { name: "Half Sleeve",         pct: 60, delta: "+5%",  dir: "up"   },
+    { name: "Full Sleeve",         pct: 40, delta: "-10%", dir: "down" },
+    { name: "Off-Shoulder",        pct: 55, delta: "+12%", dir: "up"   },
+  ],
+  detailData: [
+    { name: "Embroidery / Threadwork", pct: 75, delta: "+20%", dir: "up"   },
+    { name: "Lace / Crochet Insert",   pct: 68, delta: "+38%", dir: "up"   },
+    { name: "Block Print",             pct: 62, delta: "+15%", dir: "up"   },
+    { name: "Tassels / Fringe",        pct: 48, delta: "-5%",  dir: "down" },
+    { name: "Smocking / Shirring",     pct: 70, delta: "+45%", dir: "up"   },
+    { name: "Tie-Dye / Shibori",       pct: 40, delta: "-15%", dir: "down" },
+    { name: "Mirror Work",             pct: 55, delta: "+8%",  dir: "up"   },
+  ],
+
+  // Discount intelligence
+  discountPlatform: [
+    { name: "Meesho",       pct: 62, signal: "pressure" },
+    { name: "Flipkart",     pct: 48, signal: "pressure" },
+    { name: "Amazon",       pct: 42, signal: "moderate" },
+    { name: "Limeroad",     pct: 40, signal: "moderate" },
+    { name: "Myntra",       pct: 35, signal: "moderate" },
+    { name: "Tata CLiQ",    pct: 28, signal: "healthy"  },
+    { name: "Ajio",         pct: 22, signal: "healthy"  },
+    { name: "Nykaa Fashion",pct: 18, signal: "healthy"  },
+  ],
+  discountCategory: [
+    { name: "Ethnic Tops",    pct: 44, signal: "pressure" },
+    { name: "Casual T-Shirts",pct: 38, signal: "moderate" },
+    { name: "Kurtis",         pct: 42, signal: "pressure" },
+    { name: "Dresses",        pct: 32, signal: "moderate" },
+    { name: "Co-ord Sets",    pct: 16, signal: "healthy"  },
+    { name: "Premium Co-ords",pct: 12, signal: "healthy"  },
+    { name: "Resort Sets",    pct: 14, signal: "healthy"  },
+    { name: "Linen Range",    pct: 10, signal: "healthy"  },
+  ],
+
+  // Brand landscape
+  brandLinen: [
+    { brand: "Global Desi",   type: "incumbent",  skus: 480, growth: "+8%",  score: 88 },
+    { brand: "W for Woman",   type: "incumbent",  skus: 360, growth: "+12%", score: 84 },
+    { brand: "Rangriti",      type: "rising",     skus: 210, growth: "+55%", score: 78 },
+    { brand: "Fabindia",      type: "incumbent",  skus: 390, growth: "+5%",  score: 80 },
+    { brand: "Ahalyaa",       type: "d2c",        skus: 95,  growth: "+120%",score: 72 },
+    { brand: "Lakshita",      type: "new-entrant",skus: 42,  growth: "new",  score: 58 },
+  ],
+  brandY2K: [
+    { brand: "H&M India",     type: "incumbent",  skus: 310, growth: "+22%", score: 90 },
+    { brand: "Zara India",    type: "incumbent",  skus: 180, growth: "+18%", score: 86 },
+    { brand: "Urbanic",       type: "d2c",        skus: 420, growth: "+80%", score: 82 },
+    { brand: "Bewakoof",      type: "rising",     skus: 290, growth: "+45%", score: 76 },
+    { brand: "The Label Life",type: "d2c",        skus: 120, growth: "+60%", score: 70 },
+    { brand: "Sassafras",     type: "new-entrant",skus: 65,  growth: "new",  score: 60 },
+  ],
+  brandVelocity: {
+    labels: ["Linen Co-ords","Y2K Revival","Gender-Neutral","Shackets","Resort Sets","Kantha Fusion"],
+    data:   [1240, 980, 320, 610, 185, 420],
+  },
+
+  // Search intelligence
+  kwBuying: [
+    { term: "linen co-ord set women",     vol: "410K", growth: "+85%", intent: "Buy", dir: "hot",  spark: [20,28,35,42,55,68,80,95] },
+    { term: "Y2K outfit women India",     vol: "380K", growth: "+60%", intent: "Buy", dir: "hot",  spark: [30,35,38,42,50,58,66,78] },
+    { term: "oversized linen shirt",      vol: "290K", growth: "+45%", intent: "Buy", dir: "up",   spark: [25,28,32,38,44,52,60,70] },
+    { term: "co-ord set ethnic",          vol: "260K", growth: "+38%", intent: "Buy", dir: "up",   spark: [40,42,45,48,52,58,64,72] },
+    { term: "gender neutral kurta",       vol: "60K",  growth: "+180%",intent: "Buy", dir: "hot",  spark: [5,6,8,11,16,22,32,48]  },
+    { term: "plus size ethnic wear",      vol: "195K", growth: "+32%", intent: "Buy", dir: "up",   spark: [35,38,40,43,48,54,60,68] },
+    { term: "smocked top women",          vol: "175K", growth: "+55%", intent: "Buy", dir: "hot",  spark: [18,22,26,32,40,50,62,74] },
+    { term: "lace crochet kurti",         vol: "148K", growth: "+42%", intent: "Buy", dir: "up",   spark: [20,24,28,34,42,50,58,68] },
+  ],
+  kwEmerging: [
+    { term: "bamboo fabric top sustainable", vol: "28K",  growth: "+210%", intent: "Research", dir: "hot",  spark: [2,3,4,6,9,13,19,28]  },
+    { term: "kantha stitch shirt women",     vol: "22K",  growth: "+190%", intent: "Buy",      dir: "hot",  spark: [2,3,4,5,8,12,17,22]  },
+    { term: "unisex cotton shirt India",     vol: "18K",  growth: "+165%", intent: "Buy",      dir: "hot",  spark: [2,2,3,4,6,9,13,18]  },
+    { term: "relaxed fit wide leg trousers", vol: "44K",  growth: "+140%", intent: "Buy",      dir: "hot",  spark: [5,6,8,10,14,20,28,38] },
+    { term: "petite co-ord set online",      vol: "15K",  growth: "+320%", intent: "Buy",      dir: "hot",  spark: [1,1,2,3,4,6,9,15]  },
+    { term: "butter yellow dress india",     vol: "32K",  growth: "+125%", intent: "Buy",      dir: "up",   spark: [4,5,7,9,12,17,22,30] },
+    { term: "block print linen kurta",       vol: "52K",  growth: "+98%",  intent: "Buy",      dir: "up",   spark: [8,9,11,14,18,24,32,45] },
+    { term: "resort wear set beach vacation",vol: "38K",  growth: "+88%",  intent: "Buy",      dir: "up",   spark: [5,6,8,10,14,20,28,36] },
+  ],
+
+  // Campaign calendar
+  calendar: [
+    {
+      month: "April 2026", color: "#f0b429",
+      events: [
+        { type: "launch",    text: "Launch: Linen Co-ords (NOW — 6 wks to peak)" },
+        { type: "launch",    text: "Launch: Resort Sets (NOW — 8 wks to peak)" },
+        { type: "editorial", text: "Media: Summer Dressing features begin" },
+      ]
+    },
+    {
+      month: "May 2026", color: "#ef4444",
+      events: [
+        { type: "peak",      text: "Peak: Linen + Resort wear editorial surge" },
+        { type: "launch",    text: "Launch: Smocked & Crochet tops" },
+        { type: "editorial", text: "Media: Sustainable fashion round-ups" },
+      ]
+    },
+    {
+      month: "June 2026", color: "#06b6d4",
+      events: [
+        { type: "sale",      text: "Myntra End of Reason Sale (EORS)" },
+        { type: "peak",      text: "Peak: Y2K Revival demand peak" },
+        { type: "launch",    text: "Launch: Gender-Neutral Basics range" },
+      ]
+    },
+    {
+      month: "July 2026", color: "#7c3aed",
+      events: [
+        { type: "editorial", text: "Media: Festive preview features start" },
+        { type: "launch",    text: "Sourcing start: Kantha / Ethnic Fusion for Festive" },
+        { type: "editorial", text: "Media: Monsoon fashion — solid & brights" },
+      ]
+    },
+    {
+      month: "August 2026", color: "#10b981",
+      events: [
+        { type: "launch",    text: "Launch: Ethnic Fusion / Kantha range (6 wks pre-Navratri)" },
+        { type: "sale",      text: "Amazon/Flipkart Independence Day Sales" },
+        { type: "editorial", text: "Media: Navratri &amp; festive lookbook features" },
+      ]
+    },
+    {
+      month: "Sep–Oct 2026", color: "#ff6b35",
+      events: [
+        { type: "peak",      text: "Peak: Festive ethnic wear — Navratri, Diwali prep" },
+        { type: "sale",      text: "Big Billion Day (Flipkart) / Great Indian Festival (Amazon)" },
+        { type: "editorial", text: "Media: Diwali gifting, ethnic wear, co-ords for parties" },
+      ]
+    },
+  ],
+
+  // Size intelligence
+  sizeWomen: {
+    labels: ["XS","S","M","L","XL","2XL","3XL","4XL"],
+    demand: [55, 80, 92, 88, 72, 74, 60, 42],
+    supply: [48, 85, 95, 90, 75, 18, 8,  3 ],
+  },
+  sizeMen: {
+    labels: ["XS","S","M","L","XL","2XL","3XL","4XL"],
+    demand: [48, 72, 90, 92, 80, 68, 50, 38],
+    supply: [12, 70, 95, 92, 82, 28, 12, 4 ],
+  },
+
+  // Trend line (weekly article count, 8 weeks)
+  trendLine: {
+    weeks: ["Wk 1","Wk 2","Wk 3","Wk 4","Wk 5","Wk 6","Wk 7","Wk 8"],
+    series: [
+      { label: "Linen Co-ords",    data: [8,10,12,14,16,18,22,28], color: "#f0b429" },
+      { label: "Y2K Revival",      data: [18,17,19,22,20,24,26,28], color: "#7c3aed" },
+      { label: "Gender-Neutral",   data: [3,4,5,7,9,13,18,22],     color: "#06b6d4" },
+      { label: "Resort Sets",      data: [2,3,4,5,5,6,8,9],        color: "#10b981" },
+      { label: "Kantha Fusion",    data: [5,6,7,8,9,9,11,12],      color: "#ff6b35" },
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════════════════════════════ */
+Chart.defaults.color = '#7777a0';
+Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+Chart.defaults.font.size   = 11;
+
+// ── Animated counters ──────────────────────────────────────────────────────
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count, 10);
+  const dur = 1600;
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(ease * target);
+    el.textContent = val.toLocaleString('en-IN');
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── Scroll reveal ──────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // trigger counters when hero stats appear
+      e.target.querySelectorAll('[data-count]').forEach(animateCounter);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Nav edition ────────────────────────────────────────────────────────────
+document.getElementById('nav-edition-label').textContent = REPORT.edition;
+
+// ── Sites pills ────────────────────────────────────────────────────────────
+function renderSites(id, names, dotClass) {
+  const el = document.getElementById(id);
+  el.innerHTML = names.map(n =>
+    `<div class="site-pill"><div class="dot ${dotClass}"></div>${n}</div>`
+  ).join('');
+}
+renderSites('ecom-sites', REPORT.ecomSites, 'dot-ecom');
+renderSites('media-sites', REPORT.mediaSites, 'dot-media');
+
+// ── Trend Lag bar chart ────────────────────────────────────────────────────
+new Chart(document.getElementById('chart-lag'), {
+  type: 'bar',
+  data: {
+    labels: REPORT.trendLag.labels,
+    datasets: [{
+      data: REPORT.trendLag.weeks,
+      backgroundColor: REPORT.trendLag.weeks.map(w =>
+        w >= 12 ? 'rgba(239,68,68,0.85)' :
+        w >= 7  ? 'rgba(255,107,53,0.8)' :
+                  'rgba(240,180,41,0.7)'
+      ),
+      borderRadius: 6,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.raw} weeks behind market` }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { callback: v => v + 'w' },
+        title: { display: true, text: 'Weeks of lag', color: '#7777a0' }
+      },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// ── Bubble chart ───────────────────────────────────────────────────────────
+new Chart(document.getElementById('chart-bubble'), {
+  type: 'bubble',
+  data: {
+    datasets: REPORT.bubbleData.map((d, i) => ({
+      label: d.label,
+      data: [{ x: d.products, y: d.articles, r: Math.sqrt(d.vol / 1000) * 1.4 }],
+      backgroundColor: `hsla(${i * 36 + 30}, 80%, 60%, 0.75)`,
+      borderColor:     `hsla(${i * 36 + 30}, 80%, 60%, 1)`,
+      borderWidth: 1,
+    }))
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const d = REPORT.bubbleData[ctx.datasetIndex];
+            return [`${d.label}`, `Articles: ${d.articles}`, `Products: ${d.products}`, `Search vol: ${d.vol.toLocaleString('en-IN')}`];
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        title: { display: true, text: 'Product count (all platforms)', color: '#7777a0' }
+      },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        title: { display: true, text: 'Editorial articles (month)', color: '#7777a0' }
+      }
+    }
+  }
+});
+
+// ── Heat-map table ─────────────────────────────────────────────────────────
+function heatColor(ratio) {
+  // ratio = articles/products; 0 = saturated, >0.4 = critical gap
+  if (ratio >= 0.5) return ['#ef4444', '#000', 'Critical'];
+  if (ratio >= 0.3) return ['#f0b429', '#000', 'Gap'];
+  if (ratio >= 0.12) return ['#10b981', '#000', 'Balanced'];
+  return ['#7c3aed', '#fff', 'Saturated'];
+}
+(function buildHeatmap() {
+  const tbl = document.getElementById('heatmap-table');
+  let html = '<thead><tr><th class="row-header">Trend / Platform</th>';
+  REPORT.heatmapCols.forEach(c => html += `<th>${c}</th>`);
+  html += '</tr></thead><tbody>';
+  REPORT.heatmapRows.forEach((row, ri) => {
+    html += `<tr><td class="row-label">${row}</td>`;
+    REPORT.heatmapCols.forEach((col, ci) => {
+      const ratio = REPORT.heatmapData[ri][ci];
+      const [bg, fg, lbl] = heatColor(ratio);
+      html += `<td style="background:${bg};color:${fg};" title="${row} × ${col}: ratio ${ratio.toFixed(2)}">${lbl}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+})();
+
+// ── Price bars ─────────────────────────────────────────────────────────────
+function renderPriceBars(containerId, data) {
+  const el = document.getElementById(containerId);
+  const colors = { void: '#ef4444', scarce: '#ff6b35', ok: '#10b981', saturated: '#7c3aed' };
+  el.innerHTML = data.map(d => `
+    <div class="price-tier">
+      <div class="price-tier-label">${d.label}</div>
+      <div class="price-bar-wrap">
+        <div class="price-bar" style="width:${d.density}%;background:${colors[d.gap]};"></div>
+      </div>
+      <div class="price-val">${d.density}%</div>
+      <div class="gap-badge ${d.gap}">${d.gap}</div>
+    </div>`
+  ).join('');
+}
+renderPriceBars('price-ethnic', REPORT.priceEthnic);
+renderPriceBars('price-casual', REPORT.priceCasual);
+
+// ── Price by platform stacked bar ──────────────────────────────────────────
+const ppd = REPORT.pricePlatformData;
+const bandColors = ['#7c3aed','#f0b429','#10b981','#ff6b35','#06b6d4'];
+new Chart(document.getElementById('chart-price-platform'), {
+  type: 'bar',
+  data: {
+    labels: ppd.platforms,
+    datasets: ppd.bands.map((band, i) => ({
+      label: band,
+      data: ppd.data.map(row => row[i]),
+      backgroundColor: bandColors[i],
+      borderRadius: i === ppd.bands.length - 1 ? { topLeft: 6, topRight: 6 } : 0,
+      borderSkipped: false,
+    }))
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } } },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v + '%' }, max: 100 }
+    }
+  }
+});
+
+// ── Platform coverage matrix ───────────────────────────────────────────────
+(function buildMatrix() {
+  const tbl = document.getElementById('matrix-table');
+  function cellStyle(n) {
+    if (n === 0)    return ['rgba(239,68,68,0.2)',  '#ef4444'];
+    if (n < 50)     return ['rgba(255,107,53,0.2)', '#ff6b35'];
+    if (n < 200)    return ['rgba(240,180,41,0.2)', '#f0b429'];
+    return              ['rgba(16,185,129,0.2)',  '#10b981'];
+  }
+  let html = '<thead><tr><th class="col-platform">Platform</th>';
+  REPORT.matrixCategories.forEach(c => html += `<th>${c}</th>`);
+  html += '</tr></thead><tbody>';
+  REPORT.matrixPlatforms.forEach((plt, pi) => {
+    html += `<tr><td class="matrix-platform">${plt}</td>`;
+    REPORT.matrixCategories.forEach((cat, ci) => {
+      const n = REPORT.matrixCounts[pi][ci];
+      const [bg, fg] = cellStyle(n);
+      html += `<td class="matrix-cell" style="background:${bg};color:${fg};">
+        <span class="count">${n === 0 ? '—' : n.toLocaleString('en-IN')}</span>
+        ${n > 0 ? 'SKUs' : 'No listing'}
+      </td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  tbl.innerHTML = html;
+})();
+
+// ── Platform share doughnuts ───────────────────────────────────────────────
+const donutColors = ['#f0b429','#7c3aed','#10b981','#06b6d4','#ff6b35','#ef4444','#888'];
+new Chart(document.getElementById('chart-platform-share'), {
+  type: 'doughnut',
+  data: {
+    labels: REPORT.platformShare.labels,
+    datasets: [{ data: REPORT.platformShare.data, backgroundColor: donutColors, borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '68%',
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 10, padding: 14 } },
+      title:  { display: true, text: 'Platform Share of Monitored SKUs', color: '#f0f0f5', font: { size: 13, weight: '600' } }
+    }
+  }
+});
+new Chart(document.getElementById('chart-category-share'), {
+  type: 'doughnut',
+  data: {
+    labels: REPORT.categoryShare.labels,
+    datasets: [{ data: REPORT.categoryShare.data, backgroundColor: donutColors, borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '68%',
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 10, padding: 14 } },
+      title:  { display: true, text: 'SKU Share by Category', color: '#f0f0f5', font: { size: 13, weight: '600' } }
+    }
+  }
+});
+
+// ── Trend line chart ───────────────────────────────────────────────────────
+new Chart(document.getElementById('chart-trends-line'), {
+  type: 'line',
+  data: {
+    labels: REPORT.trendLine.weeks,
+    datasets: REPORT.trendLine.series.map(s => ({
+      label: s.label,
+      data: s.data,
+      borderColor: s.color,
+      backgroundColor: s.color + '18',
+      borderWidth: 2.5,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      tension: 0.4,
+      fill: false,
+    }))
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        title: { display: true, text: 'Articles published (weekly)', color: '#7777a0' }
+      }
+    }
+  }
+});
+
+// ── Opportunities grid ─────────────────────────────────────────────────────
+const tagMap = { void: 'tag-red', purple: 'tag-purple', orange: 'tag-orange', cyan: 'tag-cyan', green: 'tag-green', gold: 'tag-gold' };
+document.getElementById('opp-grid').innerHTML = REPORT.opportunities.map(o => `
+  <div class="opp-card reveal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div class="opp-rank">${o.rank}</div>
+      <span class="tag ${tagMap[o.tag] || 'tag-gold'}">${o.tagText}</span>
+    </div>
+    <div class="opp-title">${o.title}</div>
+    <div class="opp-desc">${o.desc}</div>
+    <div class="opp-metrics">
+      ${o.metrics.map(m => `<div class="opp-metric"><strong>${m.val}</strong>${m.label}</div>`).join('')}
+    </div>
+  </div>`
+).join('');
+// re-observe newly rendered cards
+document.querySelectorAll('.opp-card.reveal').forEach(el => observer.observe(el));
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COLOR INTELLIGENCE
+// ═══════════════════════════════════════════════════════════════════════════
+(function renderColors() {
+  const grid = document.getElementById('color-grid');
+  grid.innerHTML = REPORT.colors.map(c => {
+    const arrow = c.trend === 'up' ? '&#9650;' : c.trend === 'down' ? '&#9660;' : '&#9654;';
+    const arrowColor = c.trend === 'up' ? '#10b981' : c.trend === 'down' ? '#ef4444' : '#7777a0';
+    const gap = c.demand - c.supply;
+    return `
+    <div class="color-card">
+      <div class="color-swatch" style="background:${c.hex};"></div>
+      <div class="color-info">
+        <div class="color-name">${c.name}</div>
+        <div class="color-hex">${c.hex} &bull; ${c.palette}</div>
+        <div class="color-bar-wrap">
+          <div class="color-bar" style="width:${c.demand}%;background:${gap > 20 ? '#ef4444' : gap > 5 ? '#f0b429' : '#10b981'};"></div>
+        </div>
+        <div class="color-meta">
+          <span>Demand ${c.demand}</span>
+          <span style="color:${arrowColor};font-weight:700;">${arrow} ${c.articles} articles</span>
+        </div>
+        <div class="color-meta" style="margin-top:0.2rem;">
+          <span style="color:var(--muted);">Supply ${c.supply}</span>
+          <span style="color:${gap > 20 ? '#ef4444' : gap > 5 ? '#f0b429' : '#10b981'};font-size:0.68rem;font-weight:700;">
+            ${gap > 0 ? 'GAP +' + gap : 'COVERED'}
+          </span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+})();
+
+new Chart(document.getElementById('chart-colors'), {
+  type: 'bar',
+  data: {
+    labels: REPORT.colors.map(c => c.name),
+    datasets: [
+      {
+        label: 'Consumer Demand Index',
+        data: REPORT.colors.map(c => c.demand),
+        backgroundColor: 'rgba(240,180,41,0.75)',
+        borderRadius: 4, borderSkipped: false,
+      },
+      {
+        label: 'SKU Supply Index',
+        data: REPORT.colors.map(c => c.supply),
+        backgroundColor: 'rgba(124,58,237,0.65)',
+        borderRadius: 4, borderSkipped: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } } },
+    scales: {
+      x: { grid: { display: false } },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        max: 100,
+        title: { display: true, text: 'Index (0–100)', color: '#7777a0' }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ATTRIBUTE SIGNALS
+// ═══════════════════════════════════════════════════════════════════════════
+function renderAttrBars(containerId, data) {
+  const barColors = { up: '#10b981', down: '#ef4444', flat: '#7777a0' };
+  document.getElementById(containerId).innerHTML = data.map(d => `
+    <div class="attr-row">
+      <div class="attr-name">${d.name}</div>
+      <div class="attr-bar-wrap">
+        <div class="attr-bar" style="width:${d.pct}%;background:${barColors[d.dir]};opacity:0.8;"></div>
+      </div>
+      <div class="attr-pct" style="color:${barColors[d.dir]};">${d.pct}%</div>
+      <div class="attr-delta ${d.dir}">${d.delta}</div>
+    </div>`
+  ).join('');
+}
+renderAttrBars('fabric-bars',     REPORT.fabricData);
+renderAttrBars('silhouette-bars', REPORT.silhouetteData);
+renderAttrBars('sleeve-bars',     REPORT.sleeveData);
+renderAttrBars('detail-bars',     REPORT.detailData);
+
+new Chart(document.getElementById('chart-fabric-momentum'), {
+  type: 'bar',
+  data: {
+    labels: REPORT.fabricData.map(d => d.name),
+    datasets: [{
+      label: 'MoM editorial growth (%)',
+      data: REPORT.fabricData.map(d => parseFloat(d.delta)),
+      backgroundColor: REPORT.fabricData.map(d =>
+        parseFloat(d.delta) >= 20 ? 'rgba(16,185,129,0.85)' :
+        parseFloat(d.delta) >= 0  ? 'rgba(240,180,41,0.75)' :
+                                    'rgba(239,68,68,0.75)'
+      ),
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { callback: v => v + '%' },
+        title: { display: true, text: 'MoM growth (%)', color: '#7777a0' }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DISCOUNT INTELLIGENCE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderDiscountBars(containerId, data) {
+  const sigColors = { healthy: '#10b981', moderate: '#f0b429', pressure: '#ef4444' };
+  const sigBg = { healthy:'rgba(16,185,129,0.15)', moderate:'rgba(240,180,41,0.15)', pressure:'rgba(239,68,68,0.15)' };
+  document.getElementById(containerId).innerHTML = data.map(d => `
+    <div class="discount-platform">
+      <div class="dp-name">${d.name}</div>
+      <div class="dp-bar-wrap">
+        <div class="dp-bar" style="width:${d.pct}%;background:${sigColors[d.signal]};"></div>
+      </div>
+      <div class="dp-pct" style="color:${sigColors[d.signal]};">${d.pct}%</div>
+      <div class="dp-signal ${d.signal}" style="background:${sigBg[d.signal]};color:${sigColors[d.signal]};">
+        ${d.signal === 'healthy' ? 'Healthy' : d.signal === 'moderate' ? 'Moderate' : 'Pressure'}
+      </div>
+    </div>`
+  ).join('');
+}
+renderDiscountBars('discount-platform', REPORT.discountPlatform);
+renderDiscountBars('discount-category', REPORT.discountCategory);
+
+new Chart(document.getElementById('chart-discount-dist'), {
+  type: 'bar',
+  data: {
+    labels: ['Myntra','Ajio','Flipkart','Amazon','Meesho','Nykaa F.'],
+    datasets: [
+      { label: '<20% (Full price)',    data: [28,45,15,20,5,52],  backgroundColor: 'rgba(16,185,129,0.8)',  borderRadius:4, borderSkipped:false },
+      { label: '20–35% (Light disc.)', data: [38,32,22,28,18,30], backgroundColor: 'rgba(240,180,41,0.75)', borderRadius:4, borderSkipped:false },
+      { label: '35–50% (Heavy disc.)', data: [22,15,38,32,35,12], backgroundColor: 'rgba(255,107,53,0.75)', borderRadius:4, borderSkipped:false },
+      { label: '>50% (Fire sale)',      data: [12,8,25,20,42,6],  backgroundColor: 'rgba(239,68,68,0.8)',  borderRadius:4, borderSkipped:false },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { callback: v => v+'%' }, max: 100 }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BRAND LANDSCAPE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderBrandTable(id, data) {
+  const tbl = document.getElementById(id);
+  tbl.innerHTML = `
+    <thead><tr>
+      <th>Brand</th><th>Type</th><th>SKUs</th><th>30d Growth</th><th>Dominance</th>
+    </tr></thead>
+    <tbody>${data.map(b => `
+      <tr>
+        <td><div class="brand-name">${b.brand}</div></td>
+        <td><span class="brand-type ${b.type}">${b.type.replace('-',' ')}</span></td>
+        <td style="font-family:ui-monospace,monospace;font-weight:700;">${b.skus.toLocaleString('en-IN')}</td>
+        <td style="font-weight:700;color:${b.growth==='new'?'#7c3aed':b.growth.startsWith('+')?'#10b981':'#ef4444'};">${b.growth}</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar-bg">
+              <div class="score-bar-fill" style="width:${b.score}%;"></div>
+            </div>
+            <span style="font-size:0.75rem;font-weight:700;min-width:32px;">${b.score}</span>
+          </div>
+        </td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+renderBrandTable('brand-table-linen', REPORT.brandLinen);
+renderBrandTable('brand-table-y2k',   REPORT.brandY2K);
+
+new Chart(document.getElementById('chart-brand-velocity'), {
+  type: 'bar',
+  data: {
+    labels: REPORT.brandVelocity.labels,
+    datasets: [{
+      label: 'New SKUs added (30 days)',
+      data: REPORT.brandVelocity.data,
+      backgroundColor: REPORT.brandVelocity.data.map(v =>
+        v > 900 ? 'rgba(239,68,68,0.8)' :
+        v > 500 ? 'rgba(255,107,53,0.75)' :
+        v > 300 ? 'rgba(240,180,41,0.75)' :
+                  'rgba(16,185,129,0.75)'
+      ),
+      borderRadius: 6, borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.raw.toLocaleString('en-IN')} new SKUs in 30 days` } }
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'New SKUs / 30 days', color: '#7777a0' } }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SEARCH INTELLIGENCE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderKeywords(id, kwData) {
+  const sparkColor = { up: '#10b981', hot: '#ef4444', flat: '#7777a0' };
+  document.getElementById(id).innerHTML = kwData.map(k => {
+    const max = Math.max(...k.spark);
+    const bars = k.spark.map(v => {
+      const h = Math.max(4, Math.round((v / max) * 26));
+      return `<div class="kw-bar-seg" style="height:${h}px;background:${sparkColor[k.dir]};opacity:${0.4 + (v/max)*0.6};"></div>`;
+    }).join('');
+    return `
+    <div class="kw-card">
+      <div class="kw-term">${k.term}</div>
+      <div class="kw-vol">${k.vol}/mo &bull; ${k.intent}</div>
+      <div class="kw-trend-bar">${bars}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="kw-growth ${k.dir}">${k.growth} MoM</span>
+        <span class="kw-intent">${k.dir === 'hot' ? '&#128293; Hot' : k.dir === 'up' ? '&#9650; Rising' : '&#9654; Stable'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderKeywords('kw-buying',    REPORT.kwBuying);
+renderKeywords('kw-emerging',  REPORT.kwEmerging);
+
+new Chart(document.getElementById('chart-search-vol'), {
+  type: 'bar',
+  data: {
+    labels: REPORT.kwBuying.map(k => k.term.length > 28 ? k.term.slice(0,26)+'…' : k.term),
+    datasets: [
+      {
+        label: 'Last Month',
+        data: REPORT.kwBuying.map(k => {
+          const vol = parseInt(k.vol.replace(/[KM]/,'')) * (k.vol.includes('M') ? 1000000 : k.vol.includes('K') ? 1000 : 1);
+          const growth = parseFloat(k.growth) / 100;
+          return Math.round(vol / (1 + growth));
+        }),
+        backgroundColor: 'rgba(119,119,160,0.5)',
+        borderRadius: 4, borderSkipped: false,
+      },
+      {
+        label: 'This Month',
+        data: REPORT.kwBuying.map(k => {
+          return parseInt(k.vol.replace(/[KM]/,'')) * (k.vol.includes('M') ? 1000000 : k.vol.includes('K') ? 1000 : 1);
+        }),
+        backgroundColor: 'rgba(240,180,41,0.8)',
+        borderRadius: 4, borderSkipped: false,
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } },
+    scales: {
+      x: {
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        ticks: { callback: v => v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'K' : v }
+      },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CAMPAIGN CALENDAR
+// ═══════════════════════════════════════════════════════════════════════════
+(function renderCalendar() {
+  const container = document.getElementById('cal-timeline');
+  container.innerHTML = '<div class="cal-line"></div>' + REPORT.calendar.map(m => `
+    <div class="cal-month">
+      <div class="cal-dot" style="background:${m.color};"></div>
+      <div class="cal-month-label">${m.month}</div>
+      <div class="cal-events">
+        ${m.events.map(e => `<div class="cal-event ${e.type}">${e.text}</div>`).join('')}
+      </div>
+    </div>`
+  ).join('');
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SIZE INTELLIGENCE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderSizeChart(id, sizeData) {
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels: sizeData.labels,
+      datasets: [
+        {
+          label: 'Search Demand Index',
+          data: sizeData.demand,
+          backgroundColor: sizeData.labels.map((_, i) => {
+            const gap = sizeData.demand[i] - sizeData.supply[i];
+            return gap > 30 ? 'rgba(239,68,68,0.85)' : gap > 10 ? 'rgba(240,180,41,0.8)' : 'rgba(16,185,129,0.8)';
+          }),
+          borderRadius: 4, borderSkipped: false,
+        },
+        {
+          label: 'SKU Supply Index',
+          data: sizeData.supply,
+          backgroundColor: 'rgba(124,58,237,0.55)',
+          borderRadius: 4, borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          max: 100,
+          title: { display: true, text: 'Index (0–100)', color: '#7777a0' }
+        }
+      }
+    }
+  });
+}
+renderSizeChart('chart-size-women', REPORT.sizeWomen);
+renderSizeChart('chart-size-men',   REPORT.sizeMen);
+
+// Re-observe any dynamically injected .reveal elements
+document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

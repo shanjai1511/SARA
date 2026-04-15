@@ -1,4 +1,6 @@
 from sdf_module.url_parser import *
+import logging
+logger = logging.getLogger(__name__)
 
 class TheFashionLawComMediaCrawl():
 
@@ -9,7 +11,7 @@ class TheFashionLawComMediaCrawl():
             if isinstance(inhash, str) and "|" in inhash:
                 url, category = inhash.split("|", 1)
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.warning("Exception occurred: %s", e)
         return final_data
 
     @staticmethod

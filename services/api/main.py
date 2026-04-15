@@ -162,6 +162,17 @@ async def health():
     store = get_storage(base_dir=ROOT / "scrape_output" / "raw_html")
     storage_type = "s3" if "S3Storage" in type(store).__name__ else "local"
 
+    # Count live workers via Redis heartbeat keys
+    workers_running = 0
+    if redis_status == "ok":
+        try:
+            import redis as _redis
+            r = _redis.from_url(redis_url, socket_timeout=2, decode_responses=True)
+            hb_keys = r.keys("sara:worker:*:heartbeat")
+            workers_running = len(hb_keys)
+        except Exception:
+            pass
+
     overall = "ok" if rabbitmq_ok else "degraded"
 
     return SystemHealthResponse(
@@ -169,7 +180,7 @@ async def health():
         rabbitmq="ok" if rabbitmq_ok else "error",
         redis=redis_status,
         storage=storage_type,
-        workers_running=0,   # TODO: query k8s/docker for running pods
+        workers_running=workers_running,
         uptime_seconds=round(time.time() - _START_TIME, 1),
     )
 
@@ -177,17 +188,53 @@ async def health():
 @app.get("/proxy/health", tags=["System"], response_model=ProxyHealthResponse,
          summary="Proxy pool health")
 async def proxy_health(_: str = Depends(require_auth)):
-    """Return health stats for the proxy pool."""
-    mgr = ProxyManager.from_env()
-    stats = mgr.stats()
+    """
+    Return health stats for the proxy pool.
+    Uses the shared ProxyManager singleton so stats reflect live traffic.
+    """
+    from core.proxy_manager import get_proxy_manager
+    mgr    = get_proxy_manager()
+    stats  = mgr.stats()
     report = mgr.health_report()
     return ProxyHealthResponse(
         total=stats["total"],
         healthy=stats["healthy"],
-        degraded=stats["degraded"],
-        avg_success_rate=round(stats["avg_success_rate"], 3),
+        degraded=stats.get("degraded", 0),
+        avg_success_rate=round(stats.get("avg_ema_rate", 0.0), 3),
         entries=report,
     )
+
+
+@app.delete("/proxy/domain/{domain}", tags=["System"], summary="Unblock domain on all proxies")
+async def unblock_proxy_domain(domain: str, _: str = Depends(require_auth)):
+    """
+    Remove a domain from all proxies' blocked lists.
+    Use when a site changes its anti-bot strategy and previously blocked
+    proxies should be allowed to try again.
+    """
+    from core.proxy_manager import get_proxy_manager
+    count = get_proxy_manager().unblock_domain(domain)
+    return {"domain": domain, "proxies_unblocked": count}
+
+
+@app.post("/proxy/reset/{proxy_key}", tags=["System"], summary="Reset proxy health state")
+async def reset_proxy(proxy_key: str, _: str = Depends(require_auth)):
+    """
+    Reset a single proxy's EMA rate, circuit breaker, and blocked domains.
+    proxy_key: first 40 chars of the proxy URL (from /proxy/health entries).
+    """
+    from core.proxy_manager import get_proxy_manager
+    mgr  = get_proxy_manager()
+    done = False
+    with mgr._lock:
+        for entry in mgr._proxies:
+            if entry.url.startswith(proxy_key) or entry.key == proxy_key:
+                mgr.reset_proxy(entry.url)
+                done = True
+                break
+    if not done:
+        raise HTTPException(status_code=404, detail="Proxy not found")
+    return {"reset": True, "proxy_key": proxy_key}
 
 
 @app.get("/metrics/summary", tags=["Analytics"], summary="Analytics summary")

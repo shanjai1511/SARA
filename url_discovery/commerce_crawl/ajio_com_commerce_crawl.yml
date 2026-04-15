@@ -1,9 +1,39 @@
 depth0:
   seed_url: [
+    # ── Men ───────────────────────────────────────────────────────────────────
     "https://www.ajio.com/men-tshirts-polos/c/830301001",
+    "https://www.ajio.com/men-shirts/c/830301003",
+    "https://www.ajio.com/men-jeans/c/830301004",
+    "https://www.ajio.com/men-trousers-chinos/c/830301005",
+    "https://www.ajio.com/men-shorts/c/830301009",
+    "https://www.ajio.com/men-casual-shoes/c/830309004",
+    "https://www.ajio.com/men-sports-shoes/c/830309001",
+    "https://www.ajio.com/men-jackets-coats/c/830301011",
+    "https://www.ajio.com/men-sweatshirts-hoodies/c/830301010",
+    # ── Women ─────────────────────────────────────────────────────────────────
     "https://www.ajio.com/women-tshirts-tops/c/830303006",
-    "https://www.ajio.com/kids-tshirts/c/830202001"
+    "https://www.ajio.com/women-kurtas-kurtis/c/830303013",
+    "https://www.ajio.com/women-dresses/c/830303007",
+    "https://www.ajio.com/women-jeans/c/830303004",
+    "https://www.ajio.com/women-trousers-capris/c/830303005",
+    "https://www.ajio.com/women-sarees/c/830303017",
+    "https://www.ajio.com/women-casual-shoes/c/830311004",
+    "https://www.ajio.com/women-heels/c/830311001",
+    "https://www.ajio.com/women-bags/c/830316",
+    # ── Kids ──────────────────────────────────────────────────────────────────
+    "https://www.ajio.com/kids-tshirts/c/830202001",
+    "https://www.ajio.com/kids-dresses/c/830202004",
+    "https://www.ajio.com/kids-shoes/c/830209"
   ]
   method_name: get_pagination_url
+
 depth1:
   method_name: get_product_url
+
+request_params:
+  # Ajio uses Akamai Bot Manager — proxy alone is not enough.
+  # The discovery class uses curl_cffi + Unblock Service internally;
+  # these params are for the standard retriever fallback only.
+  proxy: webshare_proxy
+  timeout: 45
+  max_retries: 2

@@ -21,6 +21,7 @@ from __future__ import annotations
 import csv
 import logging
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Iterator
@@ -98,6 +99,24 @@ def _to_iso(ts: str) -> str | None:
     return None
 
 
+def _iter_bulk_actions(csv_path: Path, index: str, site_name: str) -> Iterator[dict]:
+    """Stream bulk-action dicts from CSV — never loads the full file into memory."""
+    for doc in _read_csv(csv_path, site_name):
+        yield {"_index": index, "_source": doc}
+
+
+def _chunked(it: Iterator, n: int) -> Iterator[list]:
+    """Yield successive n-sized chunks from iterator without buffering the whole stream."""
+    chunk: list = []
+    for item in it:
+        chunk.append(item)
+        if len(chunk) >= n:
+            yield chunk
+            chunk = []
+    if chunk:
+        yield chunk
+
+
 def _read_csv(csv_path: Path, site_name: str) -> Iterator[dict]:
     with open(csv_path, encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
@@ -140,22 +159,58 @@ def upload_csv(
         index = _index_name(project_name)
         _ensure_index(client, index)
 
-        actions = [
-            {"_index": index, "_source": doc}
-            for doc in _read_csv(csv_path, site_name)
-        ]
-
-        if not actions:
-            log.info("No records to upload for schedule_key=%s", schedule_key)
-            return 0
+        # Stream through CSV in BULK_CHUNK-sized windows — O(BULK_CHUNK) memory,
+        # not O(total_records). Safe for CSVs with millions of rows.
+        action_stream = _iter_bulk_actions(csv_path, index, site_name)
+        chunk_number  = 0
+        first_chunk   = True
 
         total = 0
-        for i in range(0, len(actions), BULK_CHUNK):
-            chunk = actions[i: i + BULK_CHUNK]
-            success, errors = bulk(client, chunk, raise_on_error=False)
-            total += success
-            if errors:
-                log.warning("ES bulk errors (%d): %s", len(errors), errors[:3])
+        _ES_BULK_RETRIES = 3
+        for chunk in _chunked(action_stream, BULK_CHUNK):
+            if first_chunk and not chunk:
+                log.info("No records to upload for schedule_key=%s", schedule_key)
+                return 0
+            first_chunk  = False
+            chunk_number += 1
+            i             = (chunk_number - 1) * BULK_CHUNK  # for error messages
+            chunk_ok = False
+            for attempt in range(_ES_BULK_RETRIES):
+                try:
+                    success, errors = bulk(client, chunk, raise_on_error=False)
+                    total += success
+                    if errors:
+                        log.warning(
+                            "ES bulk chunk errors (%d/%d docs) attempt %d: %s",
+                            len(errors), len(chunk), attempt + 1, errors[:3],
+                        )
+                    chunk_ok = True
+                    break
+                except Exception as exc:
+                    wait = 2 ** attempt
+                    log.warning(
+                        "ES bulk chunk failed (attempt %d/%d): %s — retrying in %ds",
+                        attempt + 1, _ES_BULK_RETRIES, exc, wait,
+                    )
+                    time.sleep(wait)
+
+            if not chunk_ok:
+                log.error(
+                    "ES bulk chunk permanently failed after %d attempts "
+                    "(index=%s, schedule=%s, chunk_start=%d)",
+                    _ES_BULK_RETRIES, index, schedule_key, i,
+                )
+                try:
+                    from core.alerting import send_failure_alert
+                    send_failure_alert(
+                        project_name="es_uploader",
+                        site_name=site_name,
+                        schedule_id=schedule_key,
+                        stage="es_bulk",
+                        error_detail=f"chunk starting at doc {i} failed after {_ES_BULK_RETRIES} attempts",
+                    )
+                except Exception:
+                    pass  # alerting failure must never crash the uploader
 
         log.info(
             "ES upload complete | index=%s site=%s schedule=%s docs=%d",
@@ -168,6 +223,17 @@ def upload_csv(
         return 0
     except Exception:
         log.exception("ES upload failed for schedule_key=%s", schedule_key)
+        try:
+            from core.alerting import send_failure_alert
+            send_failure_alert(
+                project_name="es_uploader",
+                site_name=site_name,
+                schedule_id=schedule_key,
+                stage="es_upload",
+                error_detail="Exception during upload — see pipeline.log",
+            )
+        except Exception:
+            pass
         return 0
 
 

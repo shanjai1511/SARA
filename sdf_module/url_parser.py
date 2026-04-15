@@ -1,18 +1,45 @@
+"""
+URL Parser — SARA pipeline stage 3.
+
+Scale improvements:
+  - Bounded-futures pattern: never more than MAX_IN_FLIGHT futures submitted
+    at once.  For 1M pages, this means O(MAX_IN_FLIGHT) not O(1M) Future
+    objects in RAM simultaneously.
+  - Metadata file is streamed line-by-line; never loaded entirely into memory.
+  - Per-record Prometheus metrics via core.metrics.
+  - One parser worker = one HTML file (peak RAM = NUM_PARSE_WORKERS × one lxml tree).
+"""
 from .sdf_fetch import *
 from . import crawl_status
-from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FuturesTimeoutError
+from concurrent.futures import (
+    ThreadPoolExecutor,
+    as_completed,
+    wait as _fut_wait,
+    FIRST_COMPLETED,
+    TimeoutError as FuturesTimeoutError,
+)
 import ast
+import itertools
 import threading
-from typing import Any, Dict, List
+from typing import Any, Dict, Iterator, List
 
 from config.settings import settings as _settings
+from core.metrics import metrics
 
 NUM_PARSE_WORKERS = _settings.NUM_PARSE_WORKERS
 
-# Fix 8: each worker task processes exactly ONE page, so peak RAM =
-# NUM_PARSE_WORKERS × (one parsed lxml tree) regardless of total site size.
-# Previously the code split pages into N_WORKERS chunks, so each worker
-# loaded total_pages/N_WORKERS files into memory simultaneously.
+# Bounded-futures: submit at most this many futures at once so RAM stays bounded.
+# = workers × 4 is a good pipeline depth (keeps workers busy without excess memory).
+_MAX_IN_FLIGHT = NUM_PARSE_WORKERS * 4
+
+
+def _iter_metadata_lines(path: Path) -> Iterator[str]:
+    """Stream the retriever metadata file one line at a time — never loads it all."""
+    with open(path, "r", encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if line:
+                yield line
 
 
 class UrlParser:
@@ -53,14 +80,28 @@ class UrlParser:
         return records
 
     def _process_one(self, line: str, config: dict, site_instance: Any) -> List[Dict]:
-        """Fix 8: process a single page — one task = one HTML file.
-        Peak memory = NUM_PARSE_WORKERS × one lxml tree, not total_pages/workers."""
-        output_key = ast.literal_eval(line)
+        """Process a single page: one task = one HTML file.
+        Peak memory = NUM_PARSE_WORKERS × one lxml tree."""
+        output_key  = ast.literal_eval(line)
         output_path = output_key.get("output_file")
-        with open(output_path, "r", encoding="utf-8") as f:
-            page_content = f.read()
-        page_doc = etree.HTML(page_content)
-        return self.extract_records(output_key.get("url"), page_doc, config, site_instance)
+        domain      = ""
+        try:
+            from urllib.parse import urlparse as _up
+            raw_url = output_key.get("url", "")
+            domain  = _up(raw_url.split("|")[0]).netloc or raw_url
+        except Exception:
+            pass
+
+        with metrics.parse_timer(domain):
+            with open(output_path, "r", encoding="utf-8") as f:
+                page_content = f.read()
+            page_doc = etree.HTML(page_content)
+            records  = self.extract_records(output_key.get("url"), page_doc, config, site_instance)
+
+        for _ in records:
+            metrics.record_parsed(domain, self.project_name)
+
+        return records
 
     def main(self, schedule_key: str) -> None:
         sdfFetch.set_crawl_context(
@@ -112,11 +153,12 @@ class UrlParser:
                 )
                 return
 
-            with open(output_queue, "r", encoding="utf-8") as f:
-                file_paths = [ln.strip() for ln in f if ln.strip()]
-
-            total_pages = len(file_paths)
-            if total_pages == 0:
+            # Stream metadata file — never load all N-million lines into RAM
+            line_stream = _iter_metadata_lines(output_queue)
+            # Peek to detect empty without consuming
+            try:
+                first_line = next(line_stream)
+            except StopIteration:
                 sdfFetch.print_info_message("info", "No pages to parse.")
                 crawl_status.update_progress(
                     self.project_name, self.site_name, schedule_key,
@@ -124,13 +166,18 @@ class UrlParser:
                 )
                 return
 
+            line_stream = itertools.chain([first_line], line_stream)
+
+            # Count total pages for progress reporting (requires one pass of the file)
+            total_pages = sum(1 for _ in _iter_metadata_lines(output_queue))
             crawl_status.update_progress(
                 self.project_name, self.site_name, schedule_key,
                 stage="parser", parser_pages=total_pages, parser_records=0,
             )
             sdfFetch.print_info_message(
                 "info",
-                f"[parser] {total_pages} pages to parse with {NUM_PARSE_WORKERS} workers",
+                f"[parser] {total_pages} pages to parse | workers={NUM_PARSE_WORKERS} "
+                f"| max_in_flight={_MAX_IN_FLIGHT}",
             )
 
             # Output CSV
@@ -150,30 +197,37 @@ class UrlParser:
                 writer = csv.DictWriter(csv_file, fieldnames=config["fields"].keys())
                 writer.writeheader()
 
-                # Fix 8: one future per page — workers never hold more than
-                # NUM_PARSE_WORKERS pages in memory simultaneously.
+                # Bounded-futures pattern:
+                #   Submit up to _MAX_IN_FLIGHT futures at once.
+                #   When the pool is full, drain one completed future before
+                #   submitting the next.  This keeps RAM at O(MAX_IN_FLIGHT)
+                #   regardless of total_pages (critical for 1M+ pages).
                 with ThreadPoolExecutor(max_workers=NUM_PARSE_WORKERS) as executor:
-                    futures = {
-                        executor.submit(self._process_one, line, config, site_instance): line
-                        for line in file_paths
-                    }
-                    for fut in as_completed(futures):
-                        try:
-                            records = fut.result(timeout=120)
-                        except FuturesTimeoutError:
-                            logging.error("Parser timeout on: %s", futures[fut])
-                            pages_done += 1
-                            continue
-                        except Exception:
-                            logging.exception("Parser error on: %s", futures[fut])
-                            pages_done += 1
-                            continue
+                    pending: dict = {}  # future → line
 
-                        # Serialise CSV writes; do NOT do ES upload here (Fix 5)
+                    def _drain_one(timeout: float = 120) -> None:
+                        """Wait for one completed future and write its records."""
+                        nonlocal total_records, pages_done
+                        done, _ = _fut_wait(
+                            pending, timeout=timeout, return_when=FIRST_COMPLETED
+                        )
+                        if not done:
+                            return
+                        fut = next(iter(done))
+                        line_ref = pending.pop(fut)
+                        try:
+                            records = fut.result(timeout=5)
+                        except FuturesTimeoutError:
+                            logging.error("Parser timeout on: %s", line_ref)
+                            pages_done += 1
+                            return
+                        except Exception:
+                            logging.exception("Parser error on: %s", line_ref)
+                            pages_done += 1
+                            return
                         with csv_lock:
                             writer.writerows(records)
                             csv_file.flush()
-
                         total_records += len(records)
                         pages_done    += 1
                         crawl_status.update_progress(
@@ -181,6 +235,18 @@ class UrlParser:
                             parser_records=total_records,
                             parser_pages_done=min(pages_done, total_pages),
                         )
+
+                    for line in line_stream:
+                        # If at capacity, drain one future before submitting
+                        while len(pending) >= _MAX_IN_FLIGHT:
+                            _drain_one()
+
+                        fut = executor.submit(self._process_one, line, config, site_instance)
+                        pending[fut] = line
+
+                    # Drain all remaining futures
+                    while pending:
+                        _drain_one()
 
             crawl_status.update_progress(
                 self.project_name, self.site_name, schedule_key,

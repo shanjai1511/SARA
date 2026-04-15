@@ -1,4 +1,6 @@
 from sdf_module.url_discovery import *
+import logging
+logger = logging.getLogger(__name__)
 from urllib.parse import urljoin
 import re
 
@@ -26,7 +28,7 @@ class ShoppersstopComCommerceCrawl():
                     for p in range(2, 12):
                         pagination_url.append(f"{keyurl}{connector}page={p}")
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.warning("Exception occurred: %s", e)
         return pagination_url[:10]
 
     def get_product_url(self, url, depth, current_depth_level):
@@ -52,5 +54,5 @@ class ShoppersstopComCommerceCrawl():
                 product_url.append(f"{full}|{{'rank': {rank}}}")
                 rank += 1
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return product_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return product_url

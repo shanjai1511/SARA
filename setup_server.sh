@@ -103,14 +103,45 @@ sudo systemctl enable sara-scheduler
 sudo systemctl restart sara-scheduler
 echo "Done."
 
-# ── 5. Remove old cron job (replaced by scheduler service) ────────────────────
-echo "[5/5] Removing old cron job..."
+# ── 5. Crawl worker systemd template (5 worker instances) ─────────────────────
+echo "[5/6] Creating crawl worker systemd template..."
+
+sudo tee /etc/systemd/system/sara-worker@.service > /dev/null <<EOF
+[Unit]
+Description=SARA Crawl Worker %i
+After=network.target rabbitmq-server.service redis-server.service
+
+[Service]
+User=$USER
+WorkingDirectory=$SARA_DIR
+EnvironmentFile=$SARA_DIR/.env
+Environment=WORKER_ID=%i
+ExecStart=$SARA_DIR/venv/bin/python -m services.worker.main
+Restart=always
+RestartSec=10
+StandardOutput=append:$SARA_DIR/logs/worker-%i.log
+StandardError=append:$SARA_DIR/logs/worker-%i.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+for i in 1 2 3 4 5; do
+    sudo systemctl enable sara-worker@$i
+    sudo systemctl restart sara-worker@$i
+    echo "  Started: sara-worker@$i"
+done
+echo "Done."
+
+# ── 6. Remove old cron job (replaced by scheduler service) ────────────────────
+echo "[6/6] Removing old cron job..."
 crontab -l 2>/dev/null | grep -v 'crawl_runner' | crontab - || true
 echo "Done."
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
-echo "=== Setup Complete! Waiting 15s for tunnels to start... ==="
+echo "=== Setup Complete (6/6)! Waiting 15s for tunnels to start... ==="
 sleep 15
 
 # Save URLs to a file for easy reference

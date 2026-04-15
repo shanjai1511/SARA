@@ -1,4 +1,6 @@
 from sdf_module.url_discovery import *
+import logging
+logger = logging.getLogger(__name__)
 from urllib.parse import urljoin, urlparse
 
 # Fibre2Fashion uses numeric path-segment pagination:
@@ -10,11 +12,11 @@ class Fibre2FashionComMediaCrawl():
         try:
             base = keyurl.rstrip("/")
             # page 0 is the seed; pages 1-9 via numeric suffix
-            for i in range(1, 11):
+            for i in range(1, 16):
                 pagination_url.append(f"{base}/{i}/")
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return pagination_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return pagination_url
 
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
@@ -43,5 +45,5 @@ class Fibre2FashionComMediaCrawl():
                 seen.add(full)
                 product_url.append(full)
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return product_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return product_url

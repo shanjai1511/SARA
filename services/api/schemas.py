@@ -3,11 +3,10 @@ SARA API — Pydantic request/response schemas.
 """
 from __future__ import annotations
 
-from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 import re
 
 _SAFE = re.compile(r'^[a-zA-Z0-9_-]+$')
@@ -26,25 +25,28 @@ def _validate_safe_name(v: str, field_name: str = "value") -> str:
 # ---------------------------------------------------------------------------
 
 class CrawlTriggerRequest(BaseModel):
-    project: str = Field(..., example="commerce_crawl")
-    site: str    = Field(..., example="myntra_com")
-    schedule_id: str = Field(..., example="20260405")
+    project: str = Field(..., examples=["commerce_crawl"])
+    site: str    = Field(..., examples=["myntra_com"])
+    schedule_id: str = Field(..., examples=["20260405"])
     use_async_worker: bool = Field(
         False,
         description="If True, launch the async aiohttp worker instead of the legacy sync pipeline",
     )
     priority: int = Field(5, ge=1, le=10, description="Message priority (1=low, 10=high)")
 
-    @validator("project")
-    def project_safe(cls, v):
+    @field_validator("project")
+    @classmethod
+    def project_safe(cls, v: str) -> str:
         return _validate_safe_name(v, "project")
 
-    @validator("site")
-    def site_safe(cls, v):
+    @field_validator("site")
+    @classmethod
+    def site_safe(cls, v: str) -> str:
         return _validate_safe_name(v, "site")
 
-    @validator("schedule_id")
-    def schedule_safe(cls, v):
+    @field_validator("schedule_id")
+    @classmethod
+    def schedule_safe(cls, v: str) -> str:
         return _validate_safe_name(v, "schedule_id")
 
 
@@ -63,13 +65,38 @@ class CrawlRunResponse(BaseModel):
     stage: Optional[str] = None
     started_at: Optional[str] = None
     completed_at: Optional[str] = None
+    worker_id: Optional[str] = None
+    hostname: Optional[str] = None
     progress: Dict[str, Any] = Field(default_factory=dict)
 
 
 class CrawlListResponse(BaseModel):
+    # Multi-server: all active runs across all workers
+    current_runs: List[CrawlRunResponse] = Field(default_factory=list)
+    # Backward-compat alias — first active run (or None)
     current_run: Optional[CrawlRunResponse] = None
     last_runs: List[CrawlRunResponse] = Field(default_factory=list)
     total: int = 0
+
+
+# ---------------------------------------------------------------------------
+# Worker schemas
+# ---------------------------------------------------------------------------
+
+class WorkerInfo(BaseModel):
+    worker_key: str           # sara:worker:{hostname}:{worker_id}
+    hostname: str
+    worker_id: str
+    pid: Optional[int] = None
+    started_at: Optional[str] = None
+    version: Optional[str] = None
+    last_seen: Optional[float] = None   # Unix timestamp of last heartbeat
+    current_job: Optional[Dict[str, Any]] = None
+
+
+class WorkerListResponse(BaseModel):
+    workers: List[WorkerInfo]
+    total: int
 
 
 # ---------------------------------------------------------------------------
@@ -98,12 +125,14 @@ class CreateSiteRequest(BaseModel):
     parser_py: str      = Field(..., description="Python class source for parser")
     parser_yml: str     = Field(..., description="YAML fields config for parser")
 
-    @validator("project")
-    def project_safe(cls, v):
+    @field_validator("project")
+    @classmethod
+    def project_safe(cls, v: str) -> str:
         return _validate_safe_name(v, "project")
 
-    @validator("site")
-    def site_safe(cls, v):
+    @field_validator("site")
+    @classmethod
+    def site_safe(cls, v: str) -> str:
         return _validate_safe_name(v, "site")
 
 

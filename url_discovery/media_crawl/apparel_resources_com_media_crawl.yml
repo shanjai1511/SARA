@@ -1,8 +1,12 @@
 depth0:
   seed_url: [
     "https://apparelresources.com/business-news/",
-    "https://apparelresources.com/technology-news/"
+    "https://apparelresources.com/technology-news/",
+    "https://apparelresources.com/sustainability-news/"
   ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url
+request_params:
+  timeout: 30
+  max_retries: 3

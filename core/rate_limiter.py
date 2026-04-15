@@ -111,25 +111,102 @@ class DomainRateLimiter:
 
 
 # ---------------------------------------------------------------------------
-# Sync rate limiter (no Redis — simple in-process sleep)
-# Used by existing sync workers where Redis is not available.
+# Sync rate limiter (Redis-backed when available, in-process fallback)
 # ---------------------------------------------------------------------------
 
 class SyncDomainRateLimiter:
-    """In-process rate limiter using a per-domain timestamp dict."""
+    """
+    Per-domain rate limiter for synchronous workers.
+
+    When REDIS_URL is set:
+      - Uses Redis as the shared clock so ALL worker processes on ALL servers
+        collectively respect each domain's delay.  Without this, 8 workers
+        running concurrently could hit the same domain 8× too fast.
+      - Key: sara:ratelimit:{domain}  →  last-request timestamp (float)
+        TTL = delay + 5s (auto-expires idle domains)
+
+    When Redis is unavailable:
+      - Falls back to in-process timestamp dict.  Rate limits are per-process
+        only — correct for single-worker deployments.
+    """
 
     def __init__(self):
-        self._last: dict[str, float] = {}
+        self._last:  dict[str, float] = {}  # in-process fallback
+        self._redis = None
+        self._lock  = time   # placeholder; real lock created below
+        import threading as _thr
+        self._lock = _thr.Lock()
+        self._try_redis()
+
+    def _try_redis(self) -> None:
+        try:
+            from config.settings import settings as _s
+            if not _s.REDIS_URL:
+                return
+            import redis as _rl
+            client = _rl.Redis.from_url(
+                _s.REDIS_URL, decode_responses=True,
+                socket_timeout=0.5, socket_connect_timeout=0.5,
+            )
+            client.ping()
+            self._redis = client
+            logger.info("SyncDomainRateLimiter: using Redis backend (cross-process)")
+        except Exception as exc:
+            logger.debug("SyncDomainRateLimiter: Redis unavailable (%s) — in-process only", exc)
 
     def acquire(self, domain: str) -> None:
         import random
-        import time as _time
+        import time as _t
 
-        d = domain.removeprefix("www.")
+        d     = domain.removeprefix("www.")
         delay = get_delay(d)
-        last = self._last.get(d, 0.0)
-        elapsed = _time.time() - last
-        if elapsed < delay:
-            wait = delay - elapsed + random.uniform(0.1, 0.5)
-            _time.sleep(wait)
-        self._last[d] = _time.time()
+
+        if self._redis is not None:
+            # ── Redis-backed: shared across all processes on all servers ──────
+            key = f"sara:ratelimit:{d}"
+            while True:
+                now = _t.time()
+                try:
+                    last_raw = self._redis.get(key)
+                except Exception:
+                    # Redis I/O error — fall through to in-process
+                    break
+                if last_raw is None:
+                    try:
+                        self._redis.set(key, now, ex=int(delay) + 5)
+                    except Exception:
+                        pass
+                    return
+                last    = float(last_raw)
+                elapsed = now - last
+                if elapsed >= delay:
+                    jitter = random.uniform(0.05, 0.3)
+                    try:
+                        self._redis.set(key, now + jitter, ex=int(delay) + 5)
+                    except Exception:
+                        pass
+                    return
+                wait = (delay - elapsed) + random.uniform(0.05, 0.3)
+                logger.debug("RateLimiter[redis]: sleeping %.2fs for %s", wait, d)
+                _t.sleep(wait)
+            return
+
+        # ── In-process fallback ───────────────────────────────────────────────
+        with self._lock:
+            last    = self._last.get(d, 0.0)
+            elapsed = _t.time() - last
+            if elapsed < delay:
+                wait = delay - elapsed + random.uniform(0.1, 0.5)
+                _t.sleep(wait)
+            self._last[d] = _t.time()
+
+    def reset(self, domain: str) -> None:
+        """Clear rate limit for a domain (e.g. after proxy rotation)."""
+        d = domain.removeprefix("www.")
+        with self._lock:
+            self._last.pop(d, None)
+        if self._redis:
+            try:
+                self._redis.delete(f"sara:ratelimit:{d}")
+            except Exception:
+                pass

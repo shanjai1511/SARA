@@ -14,11 +14,13 @@ Required env vars (must be set — no hardcoded fallback):
     WEBSHARE_PROXY_JSON JSON array of proxy tuples (loaded by proxy_config.py)
 
 Optional tuning vars (safe defaults provided):
-    NUM_FETCH_WORKERS   Parallel workers for URL retrieval (default: 4)
-    NUM_PARSE_WORKERS   Parallel workers for HTML parsing  (default: 4)
-    MAX_URLS            Max URLs pulled from queue per run  (default: 500)
-    FETCH_DELAY         Seconds between discovery calls    (default: 5)
-    FETCH_SLEEP_SEC     Seconds between retriever fetches  (default: 2)
+    NUM_FETCH_WORKERS                Parallel workers for URL retrieval (default: 8)
+    NUM_PARSE_WORKERS                Parallel workers for HTML parsing  (default: 8)
+    NUM_DISCOVERY_WORKERS            Parallel workers for URL discovery (default: 6)
+    MAX_URLS                         Max URLs pulled from queue per run  (default: 500)
+    FETCH_DELAY                      Seconds between discovery calls    (default: 5)
+    FETCH_SLEEP_SEC                  Seconds between retriever fetches  (default: 2)
+    DISCOVERY_BACKPRESSURE_THRESHOLD Max queue depth before discovery pauses (default: 50000)
 
 SaaS / production vars (all optional — enable cloud features when set):
     REDIS_URL           Redis connection URL (enables Bloom filter + rate limiting)
@@ -81,11 +83,14 @@ class Settings:
     DASHBOARD_PASSWORD: str = field(default_factory=lambda: _require("DASHBOARD_PASSWORD"))
 
     # ── Pipeline tuning (optional — safe defaults) ────────────────────────
-    NUM_FETCH_WORKERS: int = field(default_factory=lambda: _optional_int("NUM_FETCH_WORKERS", 4))
-    NUM_PARSE_WORKERS: int = field(default_factory=lambda: _optional_int("NUM_PARSE_WORKERS", 4))
+    NUM_FETCH_WORKERS: int = field(default_factory=lambda: _optional_int("NUM_FETCH_WORKERS", 8))
+    NUM_PARSE_WORKERS: int = field(default_factory=lambda: _optional_int("NUM_PARSE_WORKERS", 8))
+    NUM_DISCOVERY_WORKERS: int = field(default_factory=lambda: _optional_int("NUM_DISCOVERY_WORKERS", 6))
     MAX_URLS: int = field(default_factory=lambda: _optional_int("MAX_URLS", 500))
     FETCH_DELAY: int = field(default_factory=lambda: _optional_int("FETCH_DELAY", 5))
     FETCH_SLEEP_SEC: int = field(default_factory=lambda: _optional_int("FETCH_SLEEP_SEC", 2))
+    DISCOVERY_BACKPRESSURE_THRESHOLD: int = field(default_factory=lambda: _optional_int("DISCOVERY_BACKPRESSURE_THRESHOLD", 50_000))
+    CRAWL_TIMEOUT: int = field(default_factory=lambda: _optional_int("CRAWL_TIMEOUT", 8 * 3600))
 
     # ── SaaS / Production (optional — unlock cloud features when set) ─────
     # Redis: enables Bloom filter URL dedup + shared rate limiting

@@ -1,4 +1,6 @@
 from sdf_module.url_parser import *
+import logging
+logger = logging.getLogger(__name__)
 
 class VogueInMediaCrawl():
 
@@ -8,7 +10,7 @@ class VogueInMediaCrawl():
         try:
             url,category = str(inhash).split("|")
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.warning("Exception occurred: %s", e)
         return final_data
 
     @staticmethod

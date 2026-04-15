@@ -1,8 +1,13 @@
 depth0:
   seed_url: [
     "https://fashionunited.com/news/fashion",
-    "https://fashionunited.com/news/retail"
+    "https://fashionunited.com/news/retail",
+    "https://fashionunited.com/news/business",
+    "https://fashionunited.com/news/sustainability"
   ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url
+request_params:
+  timeout: 30
+  max_retries: 3

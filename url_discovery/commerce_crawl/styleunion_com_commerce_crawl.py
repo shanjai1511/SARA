@@ -1,4 +1,6 @@
 from sdf_module.url_discovery import *
+import logging
+logger = logging.getLogger(__name__)
 
 class StyleunionComCommerceCrawl():
 
@@ -22,7 +24,7 @@ class StyleunionComCommerceCrawl():
             else:
                 return [keyurl]
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.warning("Exception occurred: %s", e)
         return pagination_url
 
     def get_product_url(self, url, depth, current_depth_level):
@@ -43,5 +45,5 @@ class StyleunionComCommerceCrawl():
                 rank = rank + 1
                 product_url.append(f"https://styleunion.in{prod}|{category}")
         except Exception as e:
-            print(f"Exception occurred: {e}")
+            logger.warning("Exception occurred: %s", e)
         return product_url

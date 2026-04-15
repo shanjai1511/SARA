@@ -91,7 +91,7 @@ def run(project: str, site: str, max_depth: int = 1, limit: int = 10) -> None:
         except Exception as e:
             print(f"  ERROR in {d0_method}({seed}): {e}")
 
-    print(f"\n[depth0] → {len(all_pagination)} pagination URL(s) generated:")
+    print(f"\n[depth0] -> {len(all_pagination)} pagination URL(s) generated:")
     for u in all_pagination[:5]:
         print(f"  {u}")
     if len(all_pagination) > 5:
@@ -123,7 +123,7 @@ def run(project: str, site: str, max_depth: int = 1, limit: int = 10) -> None:
             time.sleep(1)  # polite delay
             products = product_method(url, config, 1) or []
             all_products.extend(products)
-            print(f"    → {len(products)} URL(s) found")
+            print(f"    -> {len(products)} URL(s) found")
             for p in products[:3]:
                 print(f"      {p}")
             if len(products) > 3:
@@ -139,9 +139,9 @@ def run(project: str, site: str, max_depth: int = 1, limit: int = 10) -> None:
     print(f"  Article/product URLs found: {len(all_products)}")
     print(f"  Errors          : {errors}")
     if errors == len(test_urls):
-        print("\n  ⚠  All attempts failed — check seed URLs, proxy config, or site blocking")
+        print("\n  WARNING: All attempts failed -- check seed URLs, proxy config, or site blocking")
     elif len(all_products) == 0:
-        print("\n  ⚠  0 URLs found — check URL filter logic in get_product_url()")
+        print("\n  WARNING: 0 URLs found -- check URL filter logic in get_product_url()")
     print(f"{'='*60}\n")
 
 

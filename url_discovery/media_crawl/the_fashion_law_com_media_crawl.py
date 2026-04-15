@@ -1,4 +1,6 @@
 from sdf_module.url_discovery import *
+import logging
+logger = logging.getLogger(__name__)
 from urllib.parse import urljoin, urlparse
 
 # The Fashion Law is WordPress — category pages paginate via /page/N/
@@ -15,11 +17,11 @@ class TheFashionLawComMediaCrawl():
         pagination_url = []
         try:
             base = keyurl.rstrip("/")
-            for i in range(2, 12):
+            for i in range(2, 16):
                 pagination_url.append(f"{base}/page/{i}/")
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return pagination_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return pagination_url
 
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
@@ -52,5 +54,5 @@ class TheFashionLawComMediaCrawl():
                 seen.add(full)
                 product_url.append(full)
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return product_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return product_url

@@ -1,22 +1,24 @@
 from sdf_module.url_discovery import *
-from urllib.parse import urljoin
+import logging
+logger = logging.getLogger(__name__)
+from urllib.parse import urljoin, urlparse
 
+# apparelresources.com is WordPress — pagination uses /page/N/ path format
 class ApparelResourcesComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
         pagination_url = []
         try:
-            connector = "&" if "?" in keyurl else "?"
-            for i in range(1, 11):
-                pagination_url.append(f"{keyurl}{connector}page={i}")
+            base = keyurl.rstrip("/")
+            for i in range(2, 16):
+                pagination_url.append(f"{base}/page/{i}/")
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return pagination_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return pagination_url
 
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
         try:
-            url = url.replace("-page", "")
             dom = sdfFetch.get_page_content_hash(url)
             if dom.get("status_code") != 200:
                 raise Exception("No proper DOM found")
@@ -25,12 +27,22 @@ class ApparelResourcesComMediaCrawl():
             seen = set()
             for link in links:
                 full = urljoin(url, link)
-                if not any(k in full.lower() for k in ["/article", "/news", "/story", "/feature"]):
+                parsed = urlparse(full)
+                if "apparelresources.com" not in parsed.netloc:
+                    continue
+                path = parsed.path.lower()
+                # Skip WordPress utility paths
+                skip = {"page", "tag", "author", "category", "wp-content", "wp-includes", "feed", "search"}
+                parts = [p for p in path.strip("/").split("/") if p]
+                if not parts or parts[0] in skip:
+                    continue
+                # Articles sit under a topic section: /business-news/article-title/
+                if len(parts) < 2:
                     continue
                 if full in seen:
                     continue
                 seen.add(full)
                 product_url.append(full)
         except Exception as e:
-            print(f"Exception occurred: {e}")
-        return product_url[:10]
+            logger.warning("Exception occurred: %s", e)
+        return product_url

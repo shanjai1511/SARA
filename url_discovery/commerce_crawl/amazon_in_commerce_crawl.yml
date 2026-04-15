@@ -1,8 +1,13 @@
 depth0:
   seed_url: [
-    "https://www.amazon.in/s?k=men+t+shirts",
-    "https://www.amazon.in/s?k=women+t+shirts"
+    "https://www.amazon.in/s?k=men+t+shirts&rh=n%3A1968024031",
+    "https://www.amazon.in/s?k=women+t+shirts&rh=n%3A1968024031",
+    "https://www.amazon.in/s?k=men+polo+shirts&rh=n%3A1968024031"
   ]
   method_name: get_pagination_url
 depth1:
   method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

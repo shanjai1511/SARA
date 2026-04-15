@@ -194,7 +194,14 @@ try:
             priority: int = 5,
         ) -> None:
             assert self._channel, "Call connect() first"
-            exchange = await self._channel.get_exchange(exchange_name)
+            # declare_exchange is idempotent — works even if topology was set
+            # up by a different process (unlike get_exchange which raises if missing)
+            exchange = await self._channel.declare_exchange(
+                exchange_name,
+                aio_pika.ExchangeType.TOPIC,
+                durable=True,
+                passive=False,
+            )
             await exchange.publish(
                 aio_pika.Message(
                     body=json.dumps(body).encode(),
@@ -209,14 +216,30 @@ try:
             self,
             queue_name_: str,
             prefetch: int = 50,
-        ) -> AsyncIterator[tuple[dict, Callable]]:
+            declare: bool = True,
+        ) -> AsyncIterator[tuple[dict, Callable, Callable]]:
             """
-            Async generator yielding (payload_dict, ack_fn) tuples.
-            Call ack_fn() after successful processing.
+            Async generator yielding (payload_dict, ack_fn, nack_fn) tuples.
+
+            ack_fn()              — acknowledge successful processing
+            nack_fn(requeue=True) — reject message; requeue=True sends it back,
+                                    requeue=False routes to the DLX
             """
             assert self._channel, "Call connect() first"
             await self._channel.set_qos(prefetch_count=prefetch)
-            queue = await self._channel.get_queue(queue_name_)
+
+            if declare:
+                # Passive=False: declare the queue if it doesn't exist yet.
+                # This makes workers self-healing when started before topology setup.
+                queue = await self._channel.declare_queue(
+                    queue_name_,
+                    durable=True,
+                    arguments={"x-max-priority": MAX_PRIORITY},
+                )
+            else:
+                # Passive=True: raise if queue doesn't exist (use for inspecting DLQs)
+                queue = await self._channel.declare_queue(queue_name_, passive=True)
+
             async with queue.iterator() as q_iter:
                 async for message in q_iter:
                     payload = json.loads(message.body)
@@ -224,7 +247,10 @@ try:
                     async def _ack(msg=message):
                         await msg.ack()
 
-                    yield payload, _ack
+                    async def _nack(requeue: bool = True, msg=message):
+                        await msg.nack(requeue=requeue)
+
+                    yield payload, _ack, _nack
 
         async def send_to_dlq(
             self,

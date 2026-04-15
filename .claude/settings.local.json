@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m tools.test_discovery commerce_crawl ajio_com --depth 1 --limit 3)",
+      "Bash(python -c ':*)"
+    ]
+  }
+}

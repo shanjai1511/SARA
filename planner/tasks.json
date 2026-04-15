@@ -1,0 +1,764 @@
+{
+  "tasks": [
+    {
+      "id": "P1-1.1-01",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Server is live",
+      "description": "Ubuntu VPS or cloud VM, minimum 4 vCPU / 8 GB RAM provisioned and SSH accessible.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-02",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "RabbitMQ installed and running",
+      "description": "sudo apt install rabbitmq-server; sudo systemctl enable --now rabbitmq-server",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-03",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Redis installed and running",
+      "description": "sudo apt install redis-server; sudo systemctl enable --now redis",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-04",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Elasticsearch 8.x installed and running",
+      "description": "Install from elastic.co repo. Verify: curl http://localhost:9200",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-05",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Kibana installed and running",
+      "description": "Optional but very useful for inspecting crawl data. Port 5601.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-06",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "All 5 sara-worker@N.service units active",
+      "description": "sudo systemctl enable --now sara-worker@{1,2,3,4,5}; check with systemctl status sara-worker@1",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-07",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Scheduler service running",
+      "description": "sudo systemctl enable --now sara-scheduler; verify logs/scheduler.log is being written",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-08",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": ".env file fully filled in (not example values)",
+      "description": "All vars set: ES URL/user/pass, Redis URL, RabbitMQ, proxy credentials, SMTP/Slack alert vars.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-09",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "pip install curl-cffi done",
+      "description": "Required for Ajio discovery (bypasses Akamai TLS fingerprint block).",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.1-10",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.1 Infrastructure",
+      "title": "Proxy credentials tested and working",
+      "description": "Test with: python -c \"from sdf_module.sdf_fetch import sdfFetch; print(sdfFetch.get_page_content_hash('https://httpbin.org/ip', proxy='webshare_proxy'))\"",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-01",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "myntra_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl myntra_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-02",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "ajio_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl ajio_com --depth 1 --limit 3 (requires curl-cffi)",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-03",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "flipkart_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl flipkart_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-04",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "amazon_in — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl amazon_in --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-05",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "meesho_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl meesho_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-06",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "nykaa_fashion_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl nykaa_fashion_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-07",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "tata_cliq_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl tata_cliq_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-08",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "shoppersstop_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl shoppersstop_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-09",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "max_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl max_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-10",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "limeroad_com — discovery returns URLs",
+      "description": "python -m tools.test_discovery commerce_crawl limeroad_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-11",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "vogue_in — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl vogue_in --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-12",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "wwd_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl wwd_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-13",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "drapers_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl drapers_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-14",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "business_of_fashion — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl business_of_fashion --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-15",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "fashion_united_in — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl fashion_united_in --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-16",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "fashion_united_global_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl fashion_united_global_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-17",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "apparel_resources_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl apparel_resources_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-18",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "fibre_2_fashion_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl fibre_2_fashion_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-19",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "just_style_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl just_style_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.2-20",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.2 Site Discovery Tests",
+      "title": "the_fashion_law_com — discovery returns article URLs",
+      "description": "python -m tools.test_discovery media_crawl the_fashion_law_com --depth 1 --limit 3",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.3-01",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.3 Full End-to-End Crawl",
+      "title": "Run full crawl for myntra_com and verify ES data",
+      "description": "python crawl_runner.py commerce_crawl myntra_com 20260401 — then check curl http://localhost:9200/sara-*/_count",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.3-02",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.3 Full End-to-End Crawl",
+      "title": "Run full crawl for all remaining commerce sites",
+      "description": "ajio, flipkart, amazon_in, meesho, nykaa_fashion, tata_cliq, shoppersstop, max, limeroad — one by one, verify data in ES after each.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P1-1.3-03",
+      "phase": "Phase 1 — Pipeline Running",
+      "section": "1.3 Full End-to-End Crawl",
+      "title": "Run full crawl for all media sites",
+      "description": "vogue_in, wwd, drapers, business_of_fashion, fashion_united_in, fashion_united_global, apparel_resources, fibre_2_fashion, just_style, the_fashion_law.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-01",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "product_name extracted in all commerce parsers",
+      "description": "Open each url_data_parser/commerce_crawl/*.py and confirm product_name field is returned.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-02",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "brand extracted in all commerce parsers",
+      "description": "Add brand extraction if missing. Sources: ld+json, og:brand meta, breadcrumbs, or product title prefix.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-03",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "category and subcategory extracted in all commerce parsers",
+      "description": "Extract from breadcrumb trail or URL path. e.g. /women/co-ords/linen-co-ords → category=Co-ords, subcategory=Linen Co-ords.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-04",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "list_price (MRP) extracted in all commerce parsers",
+      "description": "The original struck-through price. Strip ₹, commas. Store as float.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-05",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "selling_price extracted in all commerce parsers",
+      "description": "Current selling price. Store as float in INR.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-06",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "discount_pct computed and stored",
+      "description": "discount_pct = round((list_price - selling_price) / list_price * 100, 1). Handle missing list_price gracefully.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-07",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "color extracted in all commerce parsers",
+      "description": "From product title, attributes section, or color swatches. Store primary color string.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-08",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "fabric extracted in all commerce parsers",
+      "description": "From product description or specifications table. Keywords: linen, cotton, viscose, polyester, chiffon, etc.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-09",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "size_available extracted in all commerce parsers",
+      "description": "List of available sizes. Store as array: ['XS','S','M','L','XL']. Extract from size picker on page.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-10",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "platform, crawl_date, url, image_url stored",
+      "description": "platform = site name string. crawl_date = ISO date. image_url from og:image or first product image.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-11",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "rating and review_count extracted where available",
+      "description": "From ld+json AggregateRating or page HTML. Store null if unavailable — do not default to 0.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.1-12",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.1 Commerce Parser Fields",
+      "title": "in_stock boolean extracted",
+      "description": "Check availability section or add-to-cart button state. Store as true/false.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.2-01",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.2 Media Parser Fields",
+      "title": "headline extracted in all media parsers",
+      "description": "From h1 tag, og:title, or article:title. Clean whitespace.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.2-02",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.2 Media Parser Fields",
+      "title": "publication_date extracted in all media parsers",
+      "description": "From article:published_time meta, ld+json datePublished, or visible date on page. Store as ISO datetime.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.2-03",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.2 Media Parser Fields",
+      "title": "body_text (full article text) extracted",
+      "description": "All paragraph text joined. This is the most important field — used for keyword extraction and trend detection.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P2-2.2-04",
+      "phase": "Phase 2 — Parser Fields",
+      "section": "2.2 Media Parser Fields",
+      "title": "site, url, author, category_tags stored",
+      "description": "site = outlet name. author from byline. category_tags from article tags/topics section.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.1-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.1 Trend Lag Calculator",
+      "title": "Build trend_lag.py — keyword article count per week from ES",
+      "description": "Query ES articles index for each keyword per ISO week. Find peak week. Output weeks-of-lag per trend.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.1-02",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.1 Trend Lag Calculator",
+      "title": "Define trend keyword vocabulary list",
+      "description": "e.g. ['linen co-ord','Y2K','gender neutral','resort set','kantha','smocked','crochet top','oversized linen','colour block','butter yellow']",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.1-03",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.1 Trend Lag Calculator",
+      "title": "Cross-reference keyword counts with product SKU counts",
+      "description": "Query ES products index for each keyword. Compute lag = peak_article_week - today. Output JSON.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.2-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.2 Heatmap Generator",
+      "title": "Build heatmap.py — article count per trend per platform",
+      "description": "For each trend keyword × platform combination: count articles (media index) and count SKUs (products index). Compute ratio.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.3-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.3 Price Band Aggregator",
+      "title": "Build price_bands.py using ES range aggregation",
+      "description": "Bucket all products by selling_price per category per platform. Bands: <399, 400-699, 700-999, 1000-1499, 1500-2499, 2500-4999, 5000+.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.4-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.4 Color Extractor",
+      "title": "Build color_extractor.py — scan product titles + article body",
+      "description": "Define color vocabulary. Scan all product_name and body_text fields. Count per color. Compare this month vs last month.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.4-02",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.4 Color Extractor",
+      "title": "Build color vocabulary list with hex codes",
+      "description": "Map color names to hex: dusty rose #C9A0A0, sage green #8FAF8F, butter yellow #F5D98B, etc. Minimum 20 colors.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.5-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.5 Fabric & Attribute Extractor",
+      "title": "Build attribute_extractor.py — fabric, silhouette, sleeve, detail keywords",
+      "description": "Scan product_name and body_text for attribute vocab lists. Count per term. Compute MoM delta vs last crawl.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.5-02",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.5 Fabric & Attribute Extractor",
+      "title": "Build all 4 attribute vocabulary lists",
+      "description": "Fabric vocab, silhouette vocab, sleeve/length vocab, detailing/embellishment vocab. Each 10-15 terms.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.6-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.6 Discount Calculator",
+      "title": "Build discount_calculator.py using ES avg aggregation",
+      "description": "For each platform + category: avg of discount_pct field. Also bucket into <20%, 20-35%, 35-50%, >50% distribution.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.7-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.7 Brand Counter",
+      "title": "Build brand_counter.py using ES terms aggregation",
+      "description": "Group products by brand field per category. Count SKUs. Compare to previous month crawl to compute growth %.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.8-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.8 Size Gap Analyzer",
+      "title": "Build size_gap.py — count SKUs per size per category",
+      "description": "ES terms agg on size_available field per category. Pair supply counts with manually input demand index from Google Trends.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P3-3.9-01",
+      "phase": "Phase 3 — Analytics Scripts",
+      "section": "3.9 Keyword Frequency Tracker",
+      "title": "Build keyword_tracker.py — ngram extraction from article headlines",
+      "description": "Tokenize all article headlines into 2–4 word ngrams. Count this month vs last month. Filter to fashion-relevant phrases.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P4-4.1-01",
+      "phase": "Phase 4 — Report Generation",
+      "section": "4.1 Report Pipeline",
+      "title": "Build reports/generate_report.py master script",
+      "description": "Runs all 8 analytics scripts in sequence. Collects all outputs. Writes reports/data.js with const REPORT = {...}.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P4-4.1-02",
+      "phase": "Phase 4 — Report Generation",
+      "section": "4.1 Report Pipeline",
+      "title": "Refactor index.html to load data.js externally",
+      "description": "Remove inline REPORT object. Add <script src='data.js'></script>. Test that charts render from external file.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P4-4.2-01",
+      "phase": "Phase 4 — Report Generation",
+      "section": "4.2 Publishing",
+      "title": "Choose publishing method (GitHub Pages / S3 / Netlify)",
+      "description": "GitHub Pages: free, push reports/ folder. Netlify: drag-and-drop deploy. S3: aws s3 sync reports/ s3://bucket --acl public-read.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P4-4.2-02",
+      "phase": "Phase 4 — Report Generation",
+      "section": "4.2 Publishing",
+      "title": "Schedule generate_report.py to run on 1st of month",
+      "description": "Add cron job: 0 9 1 * * cd /path/to/SARA && python reports/generate_report.py",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.1-01",
+      "phase": "Phase 5 — External Data",
+      "section": "5.1 Search Volume Data",
+      "title": "Set up Google Keyword Planner account",
+      "description": "Free via Google Ads account. Export monthly search volumes for tracked keywords as CSV.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.1-02",
+      "phase": "Phase 5 — External Data",
+      "section": "5.1 Search Volume Data",
+      "title": "Install pytrends for Google Trends automation",
+      "description": "pip install pytrends. Build a script that pulls relative interest for all tracked trend keywords monthly.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.1-03",
+      "phase": "Phase 5 — External Data",
+      "section": "5.1 Search Volume Data",
+      "title": "Export first Google Trends CSV for all tracked keywords",
+      "description": "Go to trends.google.com, add all 10+ trend keywords, set region=India, export CSV for last 12 months.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.2-01",
+      "phase": "Phase 5 — External Data",
+      "section": "5.2 Demographic & Platform Data",
+      "title": "Download Myntra media kit / audience report",
+      "description": "Myntra publishes audience demographics. Use for age split data in the report. Contact Myntra Ads or find on their advertiser portal.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.2-02",
+      "phase": "Phase 5 — External Data",
+      "section": "5.2 Demographic & Platform Data",
+      "title": "Collect annual platform sale calendar dates",
+      "description": "EORS (June/Dec), Big Billion Day (Oct), Great Indian Festival (Oct), Nykaa sale dates. Add to campaign calendar data.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    },
+    {
+      "id": "P5-5.2-03",
+      "phase": "Phase 5 — External Data",
+      "section": "5.2 Demographic & Platform Data",
+      "title": "Download IAMAI / Redseer Indian e-commerce report",
+      "description": "For market size, GMV, and size segment data (e.g. '71M plus-size shoppers'). Free PDFs available online.",
+      "status": "todo",
+      "priority": "low",
+      "notes": ""
+    },
+    {
+      "id": "P6-6.1-01",
+      "phase": "Phase 6 — Monthly Workflow",
+      "section": "6.1 Recurring Process",
+      "title": "Set up monthly crawl schedule for all 20 sites",
+      "description": "Configure all sites to run on days 1-7 of each month via the SARA scheduler. Verify schedule YAML files.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P6-6.1-02",
+      "phase": "Phase 6 — Monthly Workflow",
+      "section": "6.1 Recurring Process",
+      "title": "Run generate_report.py for the first real report",
+      "description": "After first full crawl completes. Compare real numbers to placeholder. Fix any zero or broken fields.",
+      "status": "todo",
+      "priority": "critical",
+      "notes": ""
+    },
+    {
+      "id": "P6-6.1-03",
+      "phase": "Phase 6 — Monthly Workflow",
+      "section": "6.1 Recurring Process",
+      "title": "Sanity check all report numbers",
+      "description": "Verify: total URLs > 50K, SKU counts per platform look realistic, discounts are %, prices are INR not paise.",
+      "status": "todo",
+      "priority": "high",
+      "notes": ""
+    },
+    {
+      "id": "P6-6.1-04",
+      "phase": "Phase 6 — Monthly Workflow",
+      "section": "6.1 Recurring Process",
+      "title": "Publish report and share with stakeholders",
+      "description": "Deploy updated data.js + index.html. Send report URL. Document any data quality issues found this cycle.",
+      "status": "todo",
+      "priority": "medium",
+      "notes": ""
+    }
+  ]
+}

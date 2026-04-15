@@ -7,10 +7,9 @@ Complete step-by-step guide to deploy SARA on a fresh Ubuntu server. Follow this
 ## Prerequisites
 
 - Ubuntu 22.04 or 24.04 (server or desktop)
-- Minimum 4GB RAM, 50GB disk
+- Minimum 4 GB RAM, 50 GB disk
 - Internet access
 - A GitHub account with access to the SARA repo
-- A Tailscale account (free at tailscale.com)
 
 ---
 
@@ -85,32 +84,7 @@ rm cloudflared.deb
 
 ---
 
-## Step 5: Install Tailscale
-
-```bash
-curl -fsSL https://tailscale.com/install.sh | sh
-sudo tailscale up
-```
-
-Open the printed URL in your browser → sign in with your Tailscale account → authorize.
-
-Enable Tailscale Funnel for all 3 services:
-```bash
-sudo tailscale funnel --bg --https=443   8501   # Dashboard
-sudo tailscale funnel --bg --https=8443  5601   # Kibana
-sudo tailscale funnel --bg --https=10000 9200   # Elasticsearch
-```
-
-Verify:
-```bash
-sudo tailscale funnel status
-```
-
-Note your permanent public URLs (format: `https://<machine>.<tailnet>.ts.net`).
-
----
-
-## Step 6: Clone SARA
+## Step 5: Clone SARA
 
 ```bash
 cd ~
@@ -120,7 +94,7 @@ cd SARA
 
 ---
 
-## Step 7: Create Python Virtual Environment
+## Step 6: Create Python Virtual Environment
 
 ```bash
 python3 -m venv venv
@@ -131,118 +105,130 @@ pip install "elasticsearch>=8.0.0,<9.0.0"   # pin to ES 8.x client
 
 ---
 
-## Step 8: Create `.env` File
+## Step 7: Create `.env` File
 
 ```bash
+cp ~/SARA/.env.example ~/SARA/.env
 nano ~/SARA/.env
 ```
 
-Paste and fill in your values:
+Fill in all values:
 
 ```env
-# Required
+# ── RabbitMQ ──────────────────────────────────────────────────────────────────
 CLOUDAMQP_URL=amqp://guest:guest@localhost:5672/
-DASHBOARD_PASSWORD=your_secure_password_here
-WEBSHARE_PROXY_JSON=[]
 
-# Pipeline tuning
-NUM_FETCH_WORKERS=4
-NUM_PARSE_WORKERS=4
-MAX_URLS=500
-FETCH_DELAY=5
-FETCH_SLEEP_SEC=2
-
-# Redis (local)
-REDIS_URL=redis://localhost:6379
-
-# Elasticsearch (local)
+# ── Elasticsearch ─────────────────────────────────────────────────────────────
 ELASTICSEARCH_URL=https://localhost:9200
 ELASTICSEARCH_USER=elastic
 ELASTICSEARCH_PASSWORD=your_elastic_password_here
 
-# Alerting — email (Gmail example)
+# ── Redis (enables cross-run Bloom filter deduplication) ──────────────────────
+REDIS_URL=redis://localhost:6379/0
+
+# ── Proxy credentials ─────────────────────────────────────────────────────────
+# JSON array of [host, port, username, password] — set [] if no proxies
+WEBSHARE_PROXY_JSON=[]
+
+# ── Dashboard ─────────────────────────────────────────────────────────────────
+DASHBOARD_PASSWORD=your_secure_password_here
+
+# ── Alerting — Email (all optional) ──────────────────────────────────────────
 ALERT_EMAIL_TO=you@example.com
+ALERT_EMAIL_FROM=sara-alerts@yourdomain.com
 ALERT_SMTP_HOST=smtp.gmail.com
 ALERT_SMTP_PORT=587
 ALERT_SMTP_USER=your-gmail@gmail.com
 ALERT_SMTP_PASSWORD=your-gmail-app-password
 # ALERT_NOTIFY_SUCCESS=true   # uncomment to also alert on success
 
-# Alerting — Slack (optional, alternative to email)
+# ── Alerting — Slack (optional) ───────────────────────────────────────────────
 # ALERT_SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
 
-# SaaS (leave blank if not using)
-SARA_S3_BUCKET=
-SARA_API_KEY=
-METRICS_PORT=8000
-CORS_ORIGINS=*
+# ── Pipeline tuning ───────────────────────────────────────────────────────────
+NUM_FETCH_WORKERS=4
+NUM_PARSE_WORKERS=4
+MAX_URLS=500
+FETCH_DELAY=5
+FETCH_SLEEP_SEC=2
 ```
 
-### Gmail app password setup
+Save: `Ctrl+X` → `Y` → `Enter`
+
+### Gmail App Password
 
 Gmail requires an App Password (not your regular password) when 2FA is enabled:
 
 1. Go to [myaccount.google.com/security](https://myaccount.google.com/security)
-2. Enable 2-Step Verification if not already on
+2. Enable 2-Step Verification
 3. Search "App passwords" → create one named "SARA"
 4. Paste the 16-character password into `ALERT_SMTP_PASSWORD`
 
 ### Proxy setup (Webshare)
 
-1. Sign up at [webshare.io](https://webshare.io) (100 free proxies on free plan)
-2. Go to **Proxy List** → **Download** → select **Username:Password** format
-3. Convert to JSON array format and paste into `WEBSHARE_PROXY_JSON`:
+1. Sign up at [webshare.io](https://webshare.io) — 100 free proxies on free plan
+2. Go to **Proxy List → Download → Username:Password** format
+3. Convert to JSON array and paste into `WEBSHARE_PROXY_JSON`:
 
-```bash
-# Example format
+```env
 WEBSHARE_PROXY_JSON=[["198.23.239.134","6540","user1","pass1"],["207.244.217.165","6712","user2","pass2"]]
 ```
 
-Sites that auto-use proxy when configured: `wwd_com`, `business_of_fashion`, `just_style_com`
-To enable proxy for any site, add to its discovery YAML:
-```yaml
-request_params:
-  proxy: webshare_proxy
-```
-
-Save: `Ctrl+X` → `Y` → `Enter`
+Sites that automatically use proxy when configured:
+`wwd_com`, `business_of_fashion`, `just_style_com`, `drapers_com`, `vogue_in`, `ajio_com`, `amazon_in`, `myntra_com`, `meesho_com`, `nykaa_fashion_com`
 
 ---
 
-## Step 9: Enable Services
+## Step 8: Enable Services
 
 ```bash
 sudo systemctl enable rabbitmq-server redis-server
 sudo systemctl start rabbitmq-server redis-server
+
+# Verify
+sudo systemctl status rabbitmq-server redis-server
 ```
 
-Verify:
+---
+
+## Step 9: Enable RabbitMQ Priority Queue
+
+The job queue needs priority support enabled:
+
 ```bash
-sudo systemctl status rabbitmq-server redis-server
+# The setup script does this automatically, but if running manually:
+# Declare the queue via SARA (it self-declares on first use with x-max-priority: 10)
+# No manual setup needed — RabbitMQ auto-creates it when scheduler or worker starts.
 ```
 
 ---
 
 ## Step 10: Run Setup Script
 
-This creates all systemd services (dashboard, scheduler, tunnels) and sets up auto-start on reboot:
+This creates all systemd services and starts everything in one shot:
 
 ```bash
 bash ~/SARA/setup_server.sh
 ```
 
-The script will:
-1. Pin elasticsearch Python client to v8
-2. Create `sara-dashboard` systemd service (Streamlit on port 8501)
-3. Create Cloudflare quick tunnel systemd services for dashboard, Kibana, ES
-4. Create `sara-scheduler` systemd service (APScheduler)
-5. Remove old cron jobs (replaced by scheduler)
+The script creates and starts:
+
+| Step | Service | What it does |
+|------|---------|-------------|
+| 1 | — | Pins elasticsearch Python client to v8 |
+| 2 | `sara-dashboard` | Streamlit dashboard on port 8501 |
+| 3 | `cf-sara-dashboard`, `cf-sara-kibana`, `cf-sara-es` | Cloudflare quick tunnels |
+| 4 | `sara-scheduler` | APScheduler — dispatches crawl jobs to RabbitMQ |
+| 5 | `sara-worker@1` … `sara-worker@5` | 5 crawl workers that poll the job queue |
+| 6 | — | Removes old cron jobs |
+
+Each worker runs as an independent systemd service with its own log file (`logs/worker-N.log`).
 
 ---
 
 ## Step 11: Set Up Kibana
 
-Open Kibana in your browser at `https://<your-tailscale-url>:8443`
+Open Kibana in your browser (Cloudflare URL printed by setup script).
 
 1. Paste the enrollment token from:
    ```bash
@@ -255,9 +241,9 @@ Open Kibana in your browser at `https://<your-tailscale-url>:8443`
 3. Log in with `elastic` / your ES password
 
 Create data views:
-- Go to **Stack Management → Data Views → Create data view**
-- Name: `Commerce Crawl`, Index pattern: `sara-commerce-crawl`, Time field: `@timestamp`
-- Name: `Media Crawl`, Index pattern: `sara-media-crawl`, Time field: `@timestamp`
+- **Stack Management → Data Views → Create data view**
+  - Name: `Commerce Crawl`, Index pattern: `sara-commerce-crawl`, Time field: `@timestamp`
+  - Name: `Media Crawl`, Index pattern: `sara-media-crawl`, Time field: `@timestamp`
 
 ---
 
@@ -265,7 +251,7 @@ Create data views:
 
 ```bash
 # Check all services
-for svc in sara-dashboard sara-scheduler elasticsearch kibana rabbitmq-server redis-server; do
+for svc in sara-dashboard sara-scheduler sara-worker@1 sara-worker@2 sara-worker@3 sara-worker@4 sara-worker@5 elasticsearch kibana rabbitmq-server redis-server; do
     echo "$svc: $(sudo systemctl is-active $svc)"
 done
 
@@ -277,13 +263,37 @@ curl -sk -u elastic:YOUR_PASSWORD https://localhost:9200/_cluster/health | pytho
 
 # Check tunnel URLs
 bash ~/SARA/show_urls.sh
+
+# Validate all 22 sites
+source venv/bin/activate
+python -m tools.validate_site --all
 ```
 
 ---
 
-## Step 13: Backfill Existing Data to ES (Migration Only)
+## Step 13: Run a Test Crawl
 
-If migrating from another server with existing CSV data, copy the CSV files first, then backfill:
+Test the pipeline end to end before enabling schedules:
+
+```bash
+source venv/bin/activate
+
+# Quick discovery test (no side effects, no RabbitMQ needed)
+python -m tools.test_discovery media_crawl fashion_united_global_com --depth 1 --limit 5
+
+# Full pipeline test
+python crawl_runner.py media_crawl fashion_united_global_com test001
+
+# Check output
+cat logs/crawl_status.json | python -m json.tool
+ls scrape_output/parser_output/media_crawl/
+```
+
+---
+
+## Step 14: Backfill Existing Data to ES (Migration Only)
+
+If migrating from another server with existing CSV data:
 
 ```bash
 # On old server: copy parser output
@@ -305,22 +315,32 @@ print(f'Backfilled {total:,} docs to Elasticsearch')
 ## Service Management Reference
 
 ### Check status
+
 ```bash
 sudo systemctl status sara-dashboard
 sudo systemctl status sara-scheduler
-sudo systemctl status elasticsearch
-sudo systemctl status kibana
+sudo systemctl status 'sara-worker@*'
+sudo systemctl status elasticsearch kibana
 ```
 
-### Restart services
+### Start / stop / restart
+
 ```bash
-sudo systemctl restart sara-dashboard
+# All workers
+for i in 1 2 3 4 5; do sudo systemctl restart sara-worker@$i; done
+
+# Individual worker
+sudo systemctl restart sara-worker@3
+
+# Scheduler
 sudo systemctl restart sara-scheduler
-sudo systemctl restart elasticsearch kibana
-sudo systemctl restart rabbitmq-server redis-server
+
+# Dashboard
+sudo systemctl restart sara-dashboard
 ```
 
 ### View logs
+
 ```bash
 # Dashboard
 sudo journalctl -u sara-dashboard -f
@@ -328,7 +348,12 @@ sudo journalctl -u sara-dashboard -f
 # Scheduler
 tail -f ~/SARA/logs/scheduler.log
 
-# Pipeline
+# Workers (all)
+tail -f ~/SARA/logs/worker-1.log &
+tail -f ~/SARA/logs/worker-2.log &
+# etc.
+
+# Full pipeline log
 tail -f ~/SARA/logs/pipeline.log
 
 # Cloudflare tunnels
@@ -336,6 +361,7 @@ sudo journalctl -u cf-sara-dashboard -f
 ```
 
 ### Tunnel URLs (refresh after reboot)
+
 ```bash
 bash ~/SARA/show_urls.sh
 ```
@@ -346,21 +372,35 @@ bash ~/SARA/show_urls.sh
 
 When moving to a new server, complete these steps in order:
 
-- [ ] Steps 1–10 above on new server
-- [ ] Copy `.env` from old server
-- [ ] Copy `config/schedules.json` (preserves crawl schedules)
+- [ ] Steps 1–10 on new server
+- [ ] Copy `.env` from old server (`scp old-server:~/SARA/.env ~/SARA/.env`)
+- [ ] Copy `config/schedules.json` — preserves all crawl schedules
 - [ ] Copy `scrape_output/` if you want local HTML/CSV history
-- [ ] Backfill ES from existing CSVs (Step 13)
-- [ ] Update Tailscale Funnel and note new public URLs
-- [ ] Update `README.md` Live URLs section with new Tailscale hostname
-- [ ] Verify dashboard loads at new URL
-- [ ] Run a test crawl to confirm pipeline works end-to-end
+- [ ] Backfill ES from existing CSVs (Step 14)
+- [ ] Verify dashboard loads at new Cloudflare URL
+- [ ] Run a test crawl to confirm pipeline works end-to-end (`python -m tools.validate_site --all`)
+- [ ] Update `README.md` Live URLs section if you use fixed public URLs
 
 ---
 
 ## Troubleshooting
 
+### Workers not picking up jobs
+
+```bash
+# Check workers are running
+sudo systemctl status 'sara-worker@*'
+
+# Check scheduler is dispatching
+tail -20 ~/SARA/logs/scheduler.log
+
+# Inspect the job queue in RabbitMQ
+sudo rabbitmqctl list_queues name messages consumers
+# Should see: sara-crawl-jobs   N   5
+```
+
 ### Dashboard not loading
+
 ```bash
 sudo systemctl status sara-dashboard
 sudo journalctl -u sara-dashboard -n 50
@@ -368,36 +408,55 @@ sudo journalctl -u sara-dashboard -n 50
 ```
 
 ### RabbitMQ connection refused
+
 ```bash
 sudo systemctl restart rabbitmq-server
-# Check CLOUDAMQP_URL in .env matches local: amqp://guest:guest@localhost:5672/
+# Check CLOUDAMQP_URL in .env: amqp://guest:guest@localhost:5672/
 ```
 
 ### Elasticsearch SSL error
+
 ```bash
 # Self-signed cert is expected for local ES — SARA handles this automatically
-# Verify ELASTICSEARCH_URL starts with https://localhost
+# Verify ELASTICSEARCH_URL starts with https://localhost:9200
+curl -sk -u elastic:YOUR_PASSWORD https://localhost:9200
 ```
 
-### Tailscale Funnel URL not working
+### No URLs discovered for a site
+
 ```bash
-sudo tailscale funnel status
-# If empty, re-run:
-sudo tailscale funnel --bg --https=443   8501
-sudo tailscale funnel --bg --https=8443  5601
-sudo tailscale funnel --bg --https=10000 9200
+# Run discovery test to see what URLs are found
+python -m tools.test_discovery media_crawl <site_name> --depth 1 --limit 10
+
+# Common causes:
+# - Wrong pagination format (WordPress vs querystring)
+# - URL filter too strict
+# - Site returning 403 (add proxy: webshare_proxy to the site YAML)
+```
+
+### Crawl discovers URLs but retriever gets empty HTML
+
+```bash
+# Site is likely bot-protected — add proxy to its discovery YAML:
+# request_params:
+#   proxy: webshare_proxy
+#   timeout: 30
+#   max_retries: 3
+
+# Check if proxy is working
+python -c "from proxy_config import webshare_proxy; print(len(webshare_proxy), 'proxies loaded')"
 ```
 
 ### Port already in use
+
 ```bash
-# Kill existing streamlit process
 pkill -f streamlit
 sudo systemctl restart sara-dashboard
 ```
 
 ### ES client version mismatch
+
 ```bash
-# Ensure ES Python client matches server version (8.x)
 source ~/SARA/venv/bin/activate
 pip install "elasticsearch>=8.0.0,<9.0.0"
 ```

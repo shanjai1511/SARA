@@ -127232,3 +127232,743 @@ FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\shanj\\OneDr
         "site": "limeroad_com"
     }
 }
+2026-04-06 22:59:37,272 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001"
+}
+2026-04-06 22:59:38,538 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001 (status 403)"
+}
+2026-04-06 22:59:38,538 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006"
+}
+2026-04-06 22:59:39,318 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006 (status 403)"
+}
+2026-04-06 22:59:39,319 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/kids-tshirts/c/830202001"
+}
+2026-04-06 22:59:39,771 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/kids-tshirts/c/830202001 (status 403)"
+}
+2026-04-06 22:59:40,773 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001"
+}
+2026-04-06 22:59:41,112 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001 (status 403)"
+}
+2026-04-06 22:59:42,121 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006"
+}
+2026-04-06 22:59:42,489 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006 (status 403)"
+}
+2026-04-06 22:59:43,491 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/kids-tshirts/c/830202001"
+}
+2026-04-06 22:59:43,890 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/kids-tshirts/c/830202001 (status 403)"
+}
+2026-04-06 23:00:00,846 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001"
+}
+2026-04-06 23:00:01,251 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001 (status 403)"
+}
+2026-04-06 23:00:01,251 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006"
+}
+2026-04-06 23:00:01,605 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006 (status 403)"
+}
+2026-04-06 23:00:01,605 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/kids-tshirts/c/830202001"
+}
+2026-04-06 23:00:02,007 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/kids-tshirts/c/830202001 (status 403)"
+}
+2026-04-06 23:00:57,501 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: media_crawl and site: fashion_united_global_com"
+}
+2026-04-06 23:00:57,501 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=media_crawl, site=fashion_united_global_com, schedule_id=test001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "media_crawl",
+        "site": "fashion_united_global_com"
+    }
+}
+2026-04-06 23:00:57,501 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for media_crawl/fashion_united_global_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "media_crawl",
+        "site": "fashion_united_global_com"
+    }
+}
+2026-04-06 23:01:16,810 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: ajio_com"
+}
+2026-04-06 23:01:16,810 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=ajio_com, schedule_id=test001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:16,810 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/ajio_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:16,810 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:17,798 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001 (status 403)",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:20,003 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:20,376 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006 (status 403)",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:23,253 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/kids-tshirts/c/830202001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:24,005 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/kids-tshirts/c/830202001 (status 403)",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:01:24,021 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=test001 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "ajio_com"
+    }
+}
+2026-04-06 23:03:45,892 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: limeroad_com"
+}
+2026-04-06 23:03:45,892 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=limeroad_com, schedule_id=test001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:03:45,893 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/limeroad_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:03:45,893 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.limeroad.com/men-t-shirts",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:03:46,650 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:03:46,650 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:03:46,650 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\260962b5133be1a737d2e42d90052859.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:00,150 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.limeroad.com/t-shirts-for-women",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:01,284 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:01,284 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:01,284 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\c7340bea6092742bd41e1a17ec36d780.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:07,743 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=test001 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,006 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: limeroad_com"
+}
+2026-04-06 23:07:10,006 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=limeroad_com, schedule_id=test001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,006 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/limeroad_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,022 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.limeroad.com/men-t-shirts",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,964 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,964 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:07:10,970 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\260962b5133be1a737d2e42d90052859.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:18,135 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.limeroad.com/t-shirts-for-women",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:18,533 [INFO] {
+    "status": "info",
+    "info": "Encoding input",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:18,543 [INFO] {
+    "status": "success",
+    "info": "Array encoded successfully",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:18,545 [INFO] {
+    "status": "success",
+    "info": "Page fetched successfully.",
+    "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\c7340bea6092742bd41e1a17ec36d780.html",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:20,882 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=test001 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "limeroad_com"
+    }
+}
+2026-04-06 23:09:28,695 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: max_com"
+}
+2026-04-06 23:09:28,695 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=max_com, schedule_id=test001",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:28,697 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/max_com",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:28,699 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.maxfashion.in/in/en/c/maxwomen-tops-topsandtees",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:29,105 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.maxfashion.in/in/en/c/maxwomen-tops-topsandtees (status 403)",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:31,116 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.maxfashion.in/in/en/c/maxmen-tops-tshirts",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:31,851 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.maxfashion.in/in/en/c/maxmen-tops-tshirts (status 403)",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-06 23:09:31,851 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=test001 | URLs discovered: 0",
+    "crawl": {
+        "stage": "discovery",
+        "schedule_id": "test001",
+        "project": "commerce_crawl",
+        "site": "max_com"
+    }
+}
+2026-04-08 19:50:49,209 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 19:50:50,303 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 1s"
+}
+2026-04-08 19:50:51,305 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 2/4)"
+}
+2026-04-08 19:50:51,879 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 2s"
+}
+2026-04-08 19:50:53,882 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 3/4)"
+}
+2026-04-08 19:50:54,636 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 4s"
+}
+2026-04-08 19:50:58,638 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 4/4)"
+}
+2026-04-08 19:51:01,076 [ERROR] {
+    "status": "error",
+    "info": "Request failed for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 after 4 attempts: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))",
+    "url": "https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 19:51:01,076 [ERROR] Request failed
+Traceback (most recent call last):
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 779, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 1048, in _prepare_proxy
+    conn.connect()
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connection.py", line 633, in connect
+    self._tunnel()  # type: ignore[attr-defined]
+    ^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 979, in _tunnel
+    raise OSError(f"Tunnel connection failed: {code} {message.strip()}")
+OSError: Tunnel connection failed: 407 Proxy Authentication Required
+
+The above exception was the direct cause of the following exception:
+
+urllib3.exceptions.ProxyError: ('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\util\retry.py", line 515, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\sdf_fetch.py", line 168, in get_page_content_hash
+    response = session.get(url, verify=True, timeout=timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 513, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))
+2026-04-08 19:51:02,178 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 19:51:05,366 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 19:51:06,367 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 19:51:08,476 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 1s"
+}
+2026-04-08 19:51:09,479 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 2/4)"
+}
+2026-04-08 19:51:10,041 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 2s"
+}
+2026-04-08 19:51:12,043 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 3/4)"
+}
+2026-04-08 19:51:12,549 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 4s"
+}
+2026-04-08 19:51:16,550 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (attempt 4/4)"
+}
+2026-04-08 19:51:17,226 [ERROR] {
+    "status": "error",
+    "info": "Request failed for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 after 4 attempts: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))",
+    "url": "https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 19:51:17,226 [ERROR] Request failed
+Traceback (most recent call last):
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 779, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 1048, in _prepare_proxy
+    conn.connect()
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connection.py", line 633, in connect
+    self._tunnel()  # type: ignore[attr-defined]
+    ^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 979, in _tunnel
+    raise OSError(f"Tunnel connection failed: {code} {message.strip()}")
+OSError: Tunnel connection failed: 407 Proxy Authentication Required
+
+The above exception was the direct cause of the following exception:
+
+urllib3.exceptions.ProxyError: ('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 486, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 847, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\util\retry.py", line 515, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\sdf_fetch.py", line 168, in get_page_content_hash
+    response = session.get(url, verify=True, timeout=timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 513, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='www.ajio.com', port=443): Max retries exceeded with url: /api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))
+2026-04-08 20:20:31,699 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:20:34,311 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 20:20:35,312 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:20:37,853 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 20:20:38,855 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:20:40,482 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 20:28:46,557 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001"
+}
+2026-04-08 20:28:48,145 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/men-tshirts-polos/c/830301001 (status 403)"
+}
+2026-04-08 20:28:48,146 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006"
+}
+2026-04-08 20:28:55,155 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/women-tshirts-tops/c/830303006 (status 403)"
+}
+2026-04-08 20:28:55,155 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/kids-tshirts/c/830202001"
+}
+2026-04-08 20:28:56,472 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/kids-tshirts/c/830202001 (status 403)"
+}
+2026-04-08 20:28:57,474 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:28:59,763 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=0&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 20:29:00,765 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:29:02,768 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=1&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
+2026-04-08 20:29:03,771 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001"
+}
+2026-04-08 20:29:05,094 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.ajio.com/api/category/search?fields=SITE&currentPage=2&pageSize=45&format=json&query=%3Arelevance&fnl=830301001 (status 403)"
+}
