@@ -20,7 +20,6 @@ Optional tuning vars (safe defaults provided):
     MAX_URLS                         Max URLs pulled from queue per run  (default: 500)
     FETCH_DELAY                      Seconds between discovery calls    (default: 5)
     FETCH_SLEEP_SEC                  Seconds between retriever fetches  (default: 2)
-    DISCOVERY_BACKPRESSURE_THRESHOLD Max queue depth before discovery pauses (default: 50000)
 
 SaaS / production vars (all optional — enable cloud features when set):
     REDIS_URL           Redis connection URL (enables Bloom filter + rate limiting)
@@ -89,11 +88,10 @@ class Settings:
     MAX_URLS: int = field(default_factory=lambda: _optional_int("MAX_URLS", 500))
     FETCH_DELAY: int = field(default_factory=lambda: _optional_int("FETCH_DELAY", 5))
     FETCH_SLEEP_SEC: int = field(default_factory=lambda: _optional_int("FETCH_SLEEP_SEC", 2))
-    DISCOVERY_BACKPRESSURE_THRESHOLD: int = field(default_factory=lambda: _optional_int("DISCOVERY_BACKPRESSURE_THRESHOLD", 50_000))
     CRAWL_TIMEOUT: int = field(default_factory=lambda: _optional_int("CRAWL_TIMEOUT", 8 * 3600))
 
     # ── SaaS / Production (optional — unlock cloud features when set) ─────
-    # Redis: enables Bloom filter URL dedup + shared rate limiting
+    # Redis: enables worker heartbeats (dashboard worker list)
     REDIS_URL: str = field(default_factory=lambda: _optional("REDIS_URL"))
 
     # S3: enables cloud raw HTML storage (falls back to local filesystem)

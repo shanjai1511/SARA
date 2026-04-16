@@ -91,9 +91,7 @@ SARA is a production-grade web data pipeline for fashion e-commerce and media in
 | Job distribution | RabbitMQ `sara-crawl-jobs` priority queue |
 | Worker pool | 5 × `services/worker/main.py` (systemd template) |
 | URL queue | RabbitMQ per-site queue (auto-deleted after drain) |
-| HTTP fetching | `requests` + per-thread Session pool |
-| Rate limiting | `core/rate_limiter.py` — per-domain token bucket |
-| Deduplication | Redis `SyncBloomFilter` / `FileBloomFilter` fallback |
+| HTTP fetching | `requests` with retries, proxy, bot-page detection + unblock fallback |
 | Data storage | Local filesystem (CSV + HTML) |
 | Search/analytics | Elasticsearch 8.x + Kibana |
 | Dashboard | Streamlit |
@@ -102,7 +100,7 @@ SARA is a production-grade web data pipeline for fashion e-commerce and media in
 | Proxy | Webshare rotating proxy pool |
 | Public access | Cloudflare quick tunnels |
 | API | FastAPI (`services/api/main.py`, port 8080) |
-| Observability | Prometheus metrics + structured JSON logging |
+| Observability | Structured JSON logging + Prometheus metrics (API service) |
 
 ---
 
@@ -123,20 +121,18 @@ SARA/
 ├── core/                        # Shared infrastructure
 │   ├── alerting.py              # Email + Slack failure/success alerts
 │   ├── broker.py                # RabbitMQ abstraction
-│   ├── dedup.py                 # SyncBloomFilter (Redis) + FileBloomFilter fallback
 │   ├── discovery_helpers.py     # Pagination helpers (wordpress_pages, querystring_pages…)
-│   ├── rate_limiter.py          # Per-domain rate limiting (sync + async)
-│   ├── proxy_manager.py         # Smart proxy rotation with health tracking
-│   ├── metrics.py               # Prometheus instrumentation
+│   ├── proxy_manager.py         # Proxy rotation (used by API + unblock service)
+│   ├── metrics.py               # Prometheus instrumentation (used by API service)
 │   ├── storage.py               # LocalStorage / S3Storage abstraction
 │   ├── change_detection.py      # Content-hash change detection
 │   └── es_uploader.py           # Elasticsearch bulk uploader
 │
 ├── sdf_module/                  # Core pipeline drivers
 │   ├── files_import.py          # Central imports and shared constants
-│   ├── sdf_fetch.py             # HTTP fetching, retries, proxy, caching
-│   ├── url_discovery.py         # Discovery stage (rate-limited, batched RabbitMQ publish)
-│   ├── url_retriever.py         # Retriever stage (queue drain, cross-run dedup)
+│   ├── sdf_fetch.py             # HTTP fetching, retries, proxy, bot-page detection
+│   ├── url_discovery.py         # Discovery stage (parallel, batched RabbitMQ publish)
+│   ├── url_retriever.py         # Retriever stage (windowed queue drain, in-run dedup)
 │   ├── url_parser.py            # Parser stage (one-page-per-task, deferred ES upload)
 │   └── crawl_status.py          # Thread + file-locked crawl progress tracking
 │
@@ -251,7 +247,7 @@ python -m tools.validate_site --all
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `REDIS_URL` | — | Redis URL — enables cross-run Bloom filter deduplication. Falls back to file-based dedup if unset |
+| `REDIS_URL` | — | Redis URL — enables worker heartbeats (dashboard worker list). Pipeline runs without it |
 
 ### Alerting — Email (all optional)
 
@@ -479,11 +475,11 @@ python crawl_runner.py media_crawl mynewsite_com test001
 | `auto_ack` + reconnect-per-job | Crawls take 8h — manual ACK requires keeping connection alive which kills RabbitMQ heartbeats. Scheduler re-dispatches if a worker crashes |
 | SIGTERM propagation in workers | `systemctl stop sara-worker@N` terminates the child `crawl_runner.py` process cleanly instead of orphaning it |
 | Concurrent discovery + retrieval | Retriever starts consuming as soon as discovery pushes first URLs — no waiting for full discovery |
-| Per-domain rate limiting | `core/rate_limiter.py` enforces domain-specific delays per discovery and retriever thread |
 | One-page-per-task in parser | Peak RAM = `NUM_PARSE_WORKERS × 1 lxml tree` regardless of total page count |
 | Deferred ES upload | Single `upload_csv()` call after ThreadPoolExecutor exits — no lock contention during parsing |
-| Cross-run Bloom filter dedup | Redis `SyncBloomFilter` persisted per site prevents re-fetching URLs already seen in previous runs |
-| RabbitMQ batch publish (100/batch) | Avoids 5000 individual RPC round-trips during discovery |
+| In-run dedup (set) | URL set per retriever run prevents duplicate fetches within the same run |
+| Bot-page detection + unblock | 200 responses are scanned for CAPTCHA signals; if detected, falls back to `sara-unblock` (Playwright) |
+| RabbitMQ batch publish (100/batch) | Avoids thousands of individual RPC round-trips during discovery |
 | RabbitMQ queue deleted after drain | Prevents stale accumulation across runs |
 | No `[:N]` cap on discovered URLs | Discovery returns all URLs found per page — previously capped at 10, silently dropping most products |
 | Pre-flight health check | RabbitMQ connectivity verified before pipeline starts |

@@ -42,13 +42,7 @@ Every log line is a JSON object:
 {
   "status": "info | success | error",
   "info": "human-readable message",
-  "url": "/path/to/file or https://...",
-  "crawl": {
-    "stage": "discovery | retriever | parser",
-    "schedule_id": "20260405",
-    "project": "commerce_crawl",
-    "site": "myntra_com"
-  }
+  "url": "/path/to/file or https://..."
 }
 ```
 
@@ -232,13 +226,13 @@ curl -k -u elastic:PASSWORD https://localhost:9200/_cluster/health | python -m j
 
 ## 7. Disk Usage
 
-The pipeline writes HTML files to `scrape_output/retriever_output/` and cache files to `cache/`. Cache files older than 24 hours are auto-deleted.
+The pipeline writes HTML files to `scrape_output/retriever_output/` and cache files to `cache/`. Cache files are not automatically cleaned up — run the manual command below periodically.
 
 ```bash
 # Total output size
 du -sh ~/SARA/scrape_output/
 
-# Cache size (auto-cleaned periodically)
+# Cache size
 du -sh ~/SARA/cache/
 
 # Manual cache cleanup (delete all files older than 1 day)
@@ -252,19 +246,11 @@ ls -lh ~/SARA/scrape_output/parser_output/**/**/*.csv 2>/dev/null
 
 ## 8. Prometheus Metrics
 
-SARA exposes Prometheus metrics on port 8000 (configurable via `METRICS_PORT`):
+The FastAPI service (`sara-api`) exposes Prometheus metrics on port 8000 (configurable via `METRICS_PORT`). The pipeline stages themselves do not emit metrics — use `crawl_status.json` and `pipeline.log` for per-run observability.
 
 ```bash
-# Check metrics endpoint
+# Check metrics endpoint (requires sara-api running)
 curl http://localhost:8000/metrics
-
-# Key metrics
-sara_urls_discovered_total    # URLs found by discovery (labels: project, site)
-sara_pages_fetched_total      # Pages fetched by retriever
-sara_records_parsed_total     # Records extracted by parser
-sara_fetch_errors_total       # HTTP fetch failures
-sara_parse_errors_total       # Parsing failures
-sara_fetch_duration_seconds   # Histogram of fetch latency
 ```
 
 ---

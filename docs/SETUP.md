@@ -123,7 +123,7 @@ ELASTICSEARCH_URL=https://localhost:9200
 ELASTICSEARCH_USER=elastic
 ELASTICSEARCH_PASSWORD=your_elastic_password_here
 
-# ── Redis (enables cross-run Bloom filter deduplication) ──────────────────────
+# ── Redis (enables worker heartbeats / dashboard worker list) ─────────────────
 REDIS_URL=redis://localhost:6379/0
 
 # ── Proxy credentials ─────────────────────────────────────────────────────────

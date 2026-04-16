@@ -3,6 +3,26 @@
     {
       "project": "commerce_crawl",
       "site": "amazon_in",
+      "schedule_id": "run003",
+      "stage": "parser",
+      "started_at": "2026-04-15T07:13:56Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "retriever_total": 0,
+        "retriever_fetched": 500,
+        "discovery_urls": 0,
+        "parser_pages": 500,
+        "parser_records": 500,
+        "parser_pages_done": 500
+      },
+      "updated_at": "2026-04-15T07:58:19Z",
+      "completed_at": "2026-04-15T07:58:19Z",
+      "status": "completed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
       "schedule_id": "run002",
       "stage": "parser",
       "started_at": "2026-04-15T07:06:33Z",
@@ -369,16 +389,31 @@
     }
   ],
   "current_runs": {
-    "commerce_crawl__amazon_in__run003": {
+    "commerce_crawl__amazon_in__run004": {
       "project": "commerce_crawl",
       "site": "amazon_in",
-      "schedule_id": "run003",
+      "schedule_id": "run004",
       "stage": "discovery",
-      "started_at": "2026-04-15T07:13:56Z",
+      "started_at": "2026-04-15T07:53:05Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "retriever_total": 100,
+        "retriever_fetched": 640,
+        "discovery_urls": 736
+      },
+      "updated_at": "2026-04-15T08:23:40Z"
+    },
+    "commerce_crawl__amazon_in__run005": {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "run005",
+      "stage": "discovery",
+      "started_at": "2026-04-16T14:19:07Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {},
-      "updated_at": "2026-04-15T07:13:56Z"
+      "updated_at": "2026-04-16T14:19:07Z"
     }
   }
 }
