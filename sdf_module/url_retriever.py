@@ -11,7 +11,7 @@ from config.settings import settings as _settings
 NUM_FETCH_WORKERS = _settings.NUM_FETCH_WORKERS
 
 _WINDOW_SIZE         = max(NUM_FETCH_WORKERS * 2, 20)
-_QUEUE_EMPTY_RETRIES = 10
+_QUEUE_EMPTY_RETRIES = 36
 _QUEUE_POLL_SLEEP    = 5
 _HEARTBEAT_SECONDS   = 600
 _WORKER_TIMEOUT_SEC  = 300

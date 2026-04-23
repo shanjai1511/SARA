@@ -1,24 +1,39 @@
 from sdf_module.url_parser import *
 import logging
+import json as _json
+import re as _re
 logger = logging.getLogger(__name__)
+
+
+def _jsonld(page_doc) -> dict:
+    for s in page_doc.xpath('//script[@type="application/ld+json"]/text()'):
+        try:
+            d = _json.loads(s)
+            if d.get("@type") == "Product":
+                return d
+        except Exception:
+            pass
+    return {}
+
+
+def _script_val(page_doc, key: str):
+    """Extract a numeric value by key from inline scripts."""
+    for s in page_doc.xpath('//script[not(@src)]/text()'):
+        m = _re.search(rf'["\']({key})["\']\\s*:\\s*(\\d+)', s, _re.I)
+        if m:
+            return int(m.group(2))
+    return None
+
 
 class NykaaFashionComCommerceCrawl():
 
     @staticmethod
     def modify_page_doc(inhash, page_doc):
-        final_data = []
-        try:
-            if isinstance(inhash, str) and "|" in inhash:
-                url, category = inhash.split("|", 1)
-        except Exception as e:
-            logger.warning("Exception occurred: %s", e)
-        return final_data
+        return []
 
     @staticmethod
     def get_crawl_timestamp(page_doc, inhash):
-        current_datetime = datetime.now()
-        formatted_datetime = current_datetime.strftime("%b %d, %Y @ %H:%M:%S.%f")[:-3]
-        return formatted_datetime
+        return datetime.now().strftime("%b %d, %Y @ %H:%M:%S.%f")[:-3]
 
     @staticmethod
     def get_uniq_id(page_doc, inhash):
@@ -30,30 +45,44 @@ class NykaaFashionComCommerceCrawl():
 
     @staticmethod
     def get_product_name(page_doc, inhash):
-        elems = page_doc.xpath("//meta[contains(@property,'og:title')]/@content | //h1/text()")
-        value = " ".join(e.strip() for e in elems if e and e.strip()).strip()
-        return value or None
+        ld = _jsonld(page_doc)
+        if ld.get("name"):
+            return ld["name"].strip()
+        elems = page_doc.xpath("//h1/text()")
+        return elems[0].strip() if elems else None
+
+    @staticmethod
+    def get_brand(page_doc, inhash):
+        ld = _jsonld(page_doc)
+        brand = ld.get("brand", {})
+        return brand.get("name", "").strip() if isinstance(brand, dict) else ""
+
+    @staticmethod
+    def get_sku(page_doc, inhash):
+        ld = _jsonld(page_doc)
+        return ld.get("sku", "") or ""
+
+    @staticmethod
+    def get_selling_price(page_doc, inhash):
+        ld = _jsonld(page_doc)
+        price = ld.get("offers", {}).get("price")
+        if price is not None:
+            return int(price)
+        return None
 
     @staticmethod
     def get_list_price(page_doc, inhash):
-        elems = page_doc.xpath(
-            "//span[contains(translate(@class,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'mrp')]/text()"
-            " | //span[contains(@class,'list')]/text()"
-            " | //span[contains(@class,'old')]/text()"
-        )
-        if elems:
-            val = int(re.sub(r"\D", "", elems[0]))
-            return val if val else None
-        return None
-    
+        # MRP embedded in inline scripts
+        val = _script_val(page_doc, "mrp")
+        if val:
+            return val
+        # fallback to selling price
+        return NykaaFashionComCommerceCrawl.get_selling_price(page_doc, inhash)
+
     @staticmethod
-    def get_selling_price(page_doc, inhash):
-        elems = page_doc.xpath(
-            "//span[contains(translate(@class,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'price')]/text()"
-            " | //span[contains(@class,'final')]/text()"
-        )
-        if elems:
-            val = int(re.sub(r"\D", "", elems[0]))
-            if val:
-                return val
-        return NykaaFashionComCommerceCrawl.get_list_price(page_doc, inhash)
+    def get_image_url(page_doc, inhash):
+        ld = _jsonld(page_doc)
+        if ld.get("image"):
+            return ld["image"]
+        elems = page_doc.xpath("//meta[contains(@property,'og:image')]/@content")
+        return elems[0].strip() if elems else ""

@@ -1,5 +1,6 @@
 from sdf_module.url_parser import *
 import logging
+import re as _re
 logger = logging.getLogger(__name__)
 
 class JustStyleComMediaCrawl():
@@ -30,8 +31,9 @@ class JustStyleComMediaCrawl():
 
     @staticmethod
     def get_article_title(page_doc, inhash):
-        elems = page_doc.xpath("//meta[contains(@property,'og:title')]/@content | //h1/text()")
-        return " ".join(e.strip() for e in elems if e and e.strip()).strip()
+        elems = page_doc.xpath("//h1/text() | //meta[contains(@property,'og:title')]/@content")
+        title = elems[0].strip() if elems else ""
+        return _re.sub(r'\s*[-|]\s*Just Style\s*$', '', title, flags=_re.IGNORECASE).strip()
 
     @staticmethod
     def get_sub_title(page_doc, inhash):

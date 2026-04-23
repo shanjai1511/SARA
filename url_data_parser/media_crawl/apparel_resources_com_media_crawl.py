@@ -40,7 +40,7 @@ class ApparelResourcesComMediaCrawl():
 
     @staticmethod
     def get_author_name(page_doc, inhash):
-        elems = page_doc.xpath("//meta[contains(@property,'article:author')]/@content | //meta[@name='author']/@content | //a[contains(@rel,'author')]/text()")
+        elems = page_doc.xpath("//a[@class='author-url']/text() | //span[contains(@class,'author')]//a/text() | //meta[contains(@property,'article:author')]/@content | //meta[@name='author']/@content")
         return elems[0].strip() if elems else ""
 
     @staticmethod

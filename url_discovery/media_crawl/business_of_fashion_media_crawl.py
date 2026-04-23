@@ -9,10 +9,9 @@ from urllib.parse import urljoin, urlparse
 class BusinessOfFashionMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             base = keyurl.rstrip("/")
-            # BoF listing pages use ?page=N
             for i in range(2, 16):
                 pagination_url.append(f"{base}?page={i}")
         except Exception as e:

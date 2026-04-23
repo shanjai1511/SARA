@@ -15,7 +15,7 @@ _SKIP_PATHS = {
 class JustStyleComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             base = keyurl.rstrip("/")
             # just-style uses WordPress /page/N/ format

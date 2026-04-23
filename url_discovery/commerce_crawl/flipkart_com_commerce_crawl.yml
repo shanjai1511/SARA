@@ -1,7 +1,15 @@
 depth0:
   seed_url: [
     "https://www.flipkart.com/mens-clothing/tshirts/pr?sid=clo,ash,ank",
-    "https://www.flipkart.com/womens-clothing/tshirts-and-tops/pr?sid=clo,apn,axe,aj7"
+    "https://www.flipkart.com/womens-clothing/tshirts-and-tops/pr?sid=clo,apn,axe,aj7",
+    "https://www.flipkart.com/mens-clothing/jeans/pr?sid=clo,ash,aji",
+    "https://www.flipkart.com/womens-clothing/jeans/pr?sid=clo,apn,axe,ahw",
+    "https://www.flipkart.com/mens-clothing/shirts/pr?sid=clo,ash,anl",
+    "https://www.flipkart.com/womens-clothing/kurtas-kurtis/pr?sid=clo,apn,axe,ank",
+    "https://www.flipkart.com/womens-clothing/dresses/pr?sid=clo,apn,axe,acr",
+    "https://www.flipkart.com/mens-clothing/casual-shoes/pr?sid=clo,ash,ajm",
+    "https://www.flipkart.com/womens-clothing/ethnic-wear/sarees/pr?sid=clo,apn,axe,ajy",
+    "https://www.flipkart.com/mens-clothing/sweatshirts/pr?sid=clo,ash,ank,aho"
   ]
   method_name: get_pagination_url
 depth1:

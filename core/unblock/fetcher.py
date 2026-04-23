@@ -36,6 +36,7 @@ import os
 import random
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 from urllib.parse import urlparse
@@ -162,6 +163,13 @@ class UnblockFetcher:
         self._timeout       = timeout
         self._browser_size  = browser_pool_size
         self._browser_pool  = None   # lazy — created on first browser strategy
+        # Dedicated single-threaded executor: Playwright's sync API binds
+        # greenlets to the thread where sync_playwright().start() was called.
+        # ALL browser operations (pool creation + render_page calls) must run
+        # in this one thread to avoid "Cannot switch to a different thread".
+        self._browser_executor = ThreadPoolExecutor(
+            max_workers=1, thread_name_prefix="playwright-worker"
+        )
 
         # Use an injected ProxyManager if provided, otherwise build from proxy_list
         if proxy_manager is not None:
@@ -405,7 +413,7 @@ class UnblockFetcher:
         domain: str,
         proxy: Optional[str],
     ) -> FetchResult:
-        from core.unblock.browser import get_pool, render_page
+        from core.unblock.browser import render_page
         from core.unblock.fingerprint import get_profile_for_domain
 
         pool = self._get_browser_pool()
@@ -417,7 +425,11 @@ class UnblockFetcher:
             cfg = self._domain_configs.get(domain, DomainConfig())
             extra_wait = cfg.extra_wait_ms
 
-        result_dict = render_page(
+        strategy = "browser+proxy" if proxy else "browser"
+        # Submit render_page to the dedicated browser thread — must stay on the
+        # same greenlet thread as BrowserPool was created on.
+        fut = self._browser_executor.submit(
+            render_page,
             pool=pool,
             url=url,
             proxy_url=proxy,
@@ -425,6 +437,11 @@ class UnblockFetcher:
             extra_wait_ms=extra_wait,
             timeout_ms=self._timeout * 1000,
         )
+        try:
+            result_dict = fut.result(timeout=self._timeout + 60)
+        except Exception as exc:
+            logger.warning("Browser render executor error for %s: %s", url, exc)
+            return FetchResult(page_doc="", status_code=None, url=url, strategy=strategy)
         return FetchResult(**result_dict, elapsed=0.0)
 
     # ── Browser pool (lazy init) ───────────────────────────────────────────────
@@ -437,7 +454,10 @@ class UnblockFetcher:
                 return self._browser_pool
             try:
                 from core.unblock.browser import BrowserPool
-                self._browser_pool = BrowserPool(size=self._browser_size)
+                # Create BrowserPool inside the dedicated browser thread so
+                # sync_playwright() greenlets are always on the correct thread.
+                fut = self._browser_executor.submit(BrowserPool, self._browser_size)
+                self._browser_pool = fut.result(timeout=60)
             except Exception as exc:
                 logger.warning("Cannot create BrowserPool: %s", exc)
                 self._browser_pool = None

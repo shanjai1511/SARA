@@ -3,10 +3,15 @@ depth0:
     "https://www.drapersonline.com/news",
     "https://www.drapersonline.com/news/womenswear",
     "https://www.drapersonline.com/news/menswear",
-    "https://www.drapersonline.com/news/retail"
+    "https://www.drapersonline.com/news/retail",
+    "https://www.drapersonline.com/news/sustainability",
+    "https://www.drapersonline.com/news/fashion",
+    "https://www.drapersonline.com/news/business",
+    "https://www.drapersonline.com/news/technology"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy

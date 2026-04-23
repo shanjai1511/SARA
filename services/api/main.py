@@ -273,7 +273,7 @@ async def metrics_summary(_: str = Depends(require_auth)):
         "total_runs": len(last_runs),
         "success_rate_pct": round(success_rate, 1),
         "top_sites": top_sites,
-        "current_run": data.get("current_run"),
+        "current_runs": data.get("current_runs", {}),
     }
 
 

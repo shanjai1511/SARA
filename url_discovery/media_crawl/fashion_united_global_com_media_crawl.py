@@ -7,7 +7,7 @@ from urllib.parse import urljoin, urlparse
 class FashionUnitedGlobalComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             connector = "&" if "?" in keyurl else "?"
             for i in range(2, 16):

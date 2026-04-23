@@ -2,6 +2,8 @@ import argparse
 import re
 import time
 import subprocess as _subprocess
+from dotenv import load_dotenv
+load_dotenv()
 from sdf_module.files_import import *
 from sdf_module import crawl_status
 from core.alerting import send_failure_alert, send_success_alert
@@ -106,6 +108,19 @@ def main(argv=None):
     ret_cmd    = [sys.executable, "-m", "sdf_module.url_retriever", project, site, schedule_id]
     parser_cmd = [sys.executable, "-m", "sdf_module.url_parser",    project, site, schedule_id]
 
+    # ── Purge stale queue from previous runs ─────────────────────────────────
+    queue_name = f"{site}_{project}_{schedule_id}_queue"
+    try:
+        _conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
+        _ch = _conn.channel()
+        _ch.queue_declare(queue=queue_name, durable=True)
+        purged = _ch.queue_purge(queue=queue_name)
+        _conn.close()
+        if purged.method.message_count:
+            logger.info("[schedule_id=%s] Purged %d stale messages from queue", schedule_id, purged.method.message_count)
+    except Exception as _e:
+        logger.warning("[schedule_id=%s] Queue purge failed (non-fatal): %s", schedule_id, _e)
+
     # ── Discovery + retriever concurrently ───────────────────────────────────
     # Start discovery in background
     crawl_status.update_progress(project, site, schedule_id, stage="discovery")
@@ -116,11 +131,10 @@ def main(argv=None):
     )
 
     # Adaptive wait: poll queue every 5s, but stop early if:
-    #   a) queue has URLs (launch retriever immediately), OR
-    #   b) discovery process has exited (no point waiting further)
-    # Max wait cap: 300s (5 min) to handle slow sites.
-    queue_name = f"{site}_{project}_{schedule_id}_queue"
-    _DISCOVERY_WAIT_CAP = 300
+    #   a) discovery process has exited (queue will be fully populated)
+    #   b) queue has URLs and discovery has been running >60s (fast single-depth sites)
+    # Max wait cap: 1800s (30 min) to handle multi-depth slow sites.
+    _DISCOVERY_WAIT_CAP = 1800
     waited = 0
     queue_has_urls = False
     while waited < _DISCOVERY_WAIT_CAP:
@@ -148,7 +162,10 @@ def main(argv=None):
             q = ch.queue_declare(queue=queue_name, durable=True, passive=True)
             count = q.method.message_count
             conn.close()
-            if count > 0:
+            # Only start retriever early (before discovery exits) for fast single-depth
+            # sites that have been running for at least 60s — avoids consuming a
+            # partially-populated queue on multi-depth discovery.
+            if count > 0 and waited >= 60:
                 logger.info(
                     "[schedule_id=%s] Queue has %d URLs after %ds — starting retriever",
                     schedule_id, count, waited,

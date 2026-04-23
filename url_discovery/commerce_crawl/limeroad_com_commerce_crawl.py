@@ -32,8 +32,9 @@ class LimeroadComCommerceCrawl():
                 if "limeroad.com" not in parsed.netloc:
                     continue
                 path = parsed.path.lower()
-                # Limeroad product URLs: /product-name/story/<id> or /p/<id>
-                if "/story/" not in path and "/p/" not in path and "/product/" not in path:
+                # Limeroad product URLs: /product-name-p<id>  e.g. /grey-tshirt-p21842492
+                import re as _re
+                if not _re.search(r'-p\d+$', path.rstrip('/')):
                     continue
                 if full in seen:
                     continue

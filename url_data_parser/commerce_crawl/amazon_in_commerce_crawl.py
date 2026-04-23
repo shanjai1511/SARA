@@ -4,19 +4,26 @@ import re as _re
 logger = logging.getLogger(__name__)
 
 
+def _elem_text(elem) -> str:
+    """Return all text inside an element — works for both etree and html elements."""
+    return "".join(elem.itertext())
+
+
 def _price_from_block(page_doc):
-    """Extract (selling_price_paise, list_price_paise) from the _price span."""
+    """Extract (selling_price, list_price) from the _price span.
+    Always returns (lower, higher) so sell ≤ list regardless of DOM order.
+    """
     elems = page_doc.xpath("//span[@id='_price'][1]")
     if elems:
-        text = elems[0].text_content()
+        text = _elem_text(elems[0])
         prices = _re.findall(r'[\u20b9Rs\.]+\s*([\d,]+(?:\.\d+)?)', text)
-        if len(prices) >= 2:
-            sell = int(float(prices[0].replace(",", "")))
-            lst  = int(float(prices[1].replace(",", "")))
+        nums = [int(float(p.replace(",", ""))) for p in prices if p]
+        if len(nums) >= 2:
+            sell = min(nums[0], nums[1])
+            lst  = max(nums[0], nums[1])
             return sell, lst
-        if len(prices) == 1:
-            sell = int(float(prices[0].replace(",", "")))
-            return sell, None
+        if len(nums) == 1:
+            return nums[0], None
     return None, None
 
 
@@ -42,11 +49,16 @@ class AmazonInCommerceCrawl():
     @staticmethod
     def get_product_name(page_doc, inhash):
         # Mobile layout: title inside <h1> under title_feature_div
-        elems = page_doc.xpath("//div[@id='title_feature_div']//h1//text()")
-        if not elems:
-            # Desktop fallback
-            elems = page_doc.xpath("//span[@id='productTitle']/text()")
-        return elems[0].strip() if elems else None
+        for xpath in (
+            "//div[@id='title_feature_div']//h1//text()",
+            "//span[@id='productTitle']/text()",
+            "//div[@id='title']//h1//text()",
+            "//h1[@id='title']//text()",
+        ):
+            elems = [t.strip() for t in page_doc.xpath(xpath) if t.strip()]
+            if elems:
+                return elems[0]
+        return None
 
     @staticmethod
     def get_list_price(page_doc, inhash):
@@ -143,9 +155,16 @@ class AmazonInCommerceCrawl():
 
     @staticmethod
     def get_num_reviews(page_doc, inhash):
-        vals = page_doc.xpath("//a[@id='acrCustomerReviewLink']/text()")
-        for v in vals:
-            m = _re.search(r"([\d,]+)", v)
-            if m:
-                return int(m.group(1).replace(",", ""))
+        # Try all known review-count locations
+        for xpath in (
+            "//span[@id='acrCustomerReviewText']/text()",
+            "//a[@id='acrCustomerReviewLink']/text()",
+            "//*[contains(@id,'CustomerReview')]//text()",
+        ):
+            for v in page_doc.xpath(xpath):
+                m = _re.search(r"([\d,]+)", str(v))
+                if m:
+                    n = int(m.group(1).replace(",", ""))
+                    if n > 0:
+                        return n
         return None
