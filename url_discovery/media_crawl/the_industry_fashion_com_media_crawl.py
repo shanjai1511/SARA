@@ -3,20 +3,21 @@ import logging
 logger = logging.getLogger(__name__)
 from urllib.parse import urljoin, urlparse
 
-# the-industry.fashion is WordPress — pagination is /page/N/
-# Article URLs are bare slugs: the-industry.fashion/some-article-title/
-# (no /news/ or /article/ prefix in the article slug itself)
+# theindustry.fashion — Oxygen/WordPress CMS
+# Article URLs are bare slugs: theindustry.fashion/some-article-title/
 _SKIP_PATHS = {
     "page", "tag", "author", "category", "wp-content", "wp-includes",
     "wp-json", "feed", "search", "about", "contact", "advertise",
     "subscribe", "privacy", "terms", "news", "analysis", "comment",
+    "insight", "features", "market-data", "intelligence", "the-insider",
+    "awards", "summit", "partner-with-us", "ads", "sample-page",
 }
 
 
 class TheIndustryFashionComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             base = keyurl.rstrip("/")
             for i in range(2, 16):
@@ -37,10 +38,10 @@ class TheIndustryFashionComMediaCrawl():
             for link in links:
                 full = urljoin(url, link)
                 parsed = urlparse(full)
-                if "the-industry.fashion" not in parsed.netloc:
+                if "theindustry.fashion" not in parsed.netloc:
                     continue
                 parts = [p for p in parsed.path.strip("/").split("/") if p]
-                # must have exactly one path segment (the article slug)
+                # article slugs are exactly one path segment
                 if len(parts) != 1:
                     continue
                 if parts[0].lower() in _SKIP_PATHS:

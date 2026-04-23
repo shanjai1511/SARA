@@ -7,7 +7,7 @@ from urllib.parse import urljoin, urlparse
 class DrapersComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             connector = "&" if "?" in keyurl else "?"
             for i in range(1, 16):
@@ -36,7 +36,7 @@ class DrapersComMediaCrawl():
                     continue
                 parts = [p for p in path.strip("/").split("/") if p]
                 # need at least 3 segments: section/topic/article-slug
-                if len(parts) < 2:
+                if len(parts) < 3:
                     continue
                 if full in seen:
                     continue

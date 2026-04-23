@@ -228,7 +228,7 @@
 
   <section class="card">
     <h2 id="table-title">Runs</h2>
-    <div id="runs-empty" class="empty">No crawl data yet. Data appears when you run the pipeline:<br><code>python crawl_runner.py &lt;project&gt; &lt;site&gt; &lt;schedule_id&gt;</code><br>Example: <code>python crawl_runner.py media_crawl vogue_in 20260215</code>. Then click Refresh.</div>
+    <div id="runs-empty" class="empty">No crawl data yet. Start a crawl via the dashboard:<br><code>streamlit run dashboard/streamlit_app.py</code><br>Or directly: <code>python crawl_runner.py &lt;project&gt; &lt;site&gt; &lt;schedule_id&gt;</code>. Then click Refresh.</div>
     <table id="runs-table" style="display: none;">
       <thead>
         <tr>
@@ -360,7 +360,7 @@
       if (scheduleVal) {
         const run = filtered.find(r => r.schedule_id === scheduleVal);
         if (run) {
-          showDetail(r);
+          showDetail(run);
           emptyEl.style.display = 'none';
           table.style.display = 'none';
           return;
@@ -379,7 +379,7 @@
       body.innerHTML = latest3.map(r => {
         const sum = progressSummary(r.progress);
         const isCurrent = data.current_run && r.schedule_id === data.current_run.schedule_id && r.project === data.current_run.project && r.site === data.current_run.site;
-        const status = isCurrent ? '<span class="badge run">Running</span>' : (r.success !== false ? '<span class="badge ok">Success</span>' : '<span class="badge fail">Failed</span>');
+        const status = isCurrent ? '<span class="badge run">Running</span>' : (r.status === 'failed' ? '<span class="badge fail">Failed</span>' : '<span class="badge ok">Success</span>');
         const completed = r.completed_at ? formatTime(r.completed_at) : '—';
         return '<tr>' +
           '<td class="mono">' + (r.schedule_id || '—') + '</td>' +
@@ -401,7 +401,7 @@
       const isCurrent = data.current_run && run.schedule_id === data.current_run.schedule_id && run.project === data.current_run.project && run.site === data.current_run.site;
       document.getElementById('detail-status').innerHTML = isCurrent
         ? '<span class="badge run">Running</span>'
-        : (run.success !== false ? '<span class="badge ok">Success</span>' : '<span class="badge fail">Failed</span>');
+        : (run.status === 'failed' ? '<span class="badge fail">Failed</span>' : '<span class="badge ok">Success</span>');
       const sum = progressSummary(run.progress);
       document.getElementById('detail-stages').innerHTML = [
         '<div class="stage-box"><h3>Discovery</h3><div class="count">' + sum.discovery + '</div></div>',
@@ -424,7 +424,7 @@
         })
         .catch(function() {
           var el = document.getElementById('runs-empty');
-          el.innerHTML = 'Cannot reach the dashboard server. Start it from the project root: <code>python dashboard/app.py</code>, then open <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a> and click Refresh.';
+          el.innerHTML = 'Cannot reach the dashboard server. Start it from the project root: <code>streamlit run dashboard/streamlit_app.py</code>, then open <a href="http://localhost:8501">http://localhost:8501</a> and click Refresh.';
           el.style.display = 'block';
           document.getElementById('runs-table').style.display = 'none';
           document.getElementById('detail-card').style.display = 'none';

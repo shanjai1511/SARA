@@ -30,8 +30,10 @@ class TheFashionLawComMediaCrawl():
 
     @staticmethod
     def get_article_title(page_doc, inhash):
-        elems = page_doc.xpath("//meta[contains(@property,'og:title')]/@content | //h1/text()")
-        return " ".join(e.strip() for e in elems if e and e.strip()).strip()
+        elems = page_doc.xpath("//h1/text()")
+        if not elems:
+            elems = page_doc.xpath("//meta[contains(@property,'og:title')]/@content")
+        return elems[0].strip() if elems else ""
 
     @staticmethod
     def get_sub_title(page_doc, inhash):
@@ -50,7 +52,7 @@ class TheFashionLawComMediaCrawl():
 
     @staticmethod
     def get_article_content(page_doc, inhash):
-        elems = page_doc.xpath("//article//p//text() | //div[contains(@class,'article')]//p//text()")
+        elems = page_doc.xpath("//div[contains(@class,'post-content')]//p//text() | //article//p//text()")
         return " ".join(e.strip() for e in elems if e and e.strip())
 
     @staticmethod

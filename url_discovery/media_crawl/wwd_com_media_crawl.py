@@ -7,10 +7,9 @@ from urllib.parse import urljoin, urlparse
 class WwdComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             base = keyurl.rstrip("/")
-            # page 1 is already the seed URL; start from page 2
             for i in range(2, 16):
                 pagination_url.append(f"{base}/page/{i}/")
         except Exception as e:

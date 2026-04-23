@@ -7,14 +7,17 @@ from urllib.parse import urljoin, urlparse
 _TFL_SKIP = {
     "category", "tag", "author", "page", "wp-content", "wp-includes",
     "wp-json", "feed", "search", "about", "contact", "subscribe",
-    "advertise", "privacy", "terms", "cookie",
+    "advertise", "privacy", "terms", "cookie", "retail", "business",
+    "future", "law", "global", "resource-center", "my-account", "login",
+    "brand-playbook", "mission-values", "editor-in-chief", "careers",
+    "enterprise-subscription", "terms-of-service", "privacy-policy",
 }
 
 
 class TheFashionLawComMediaCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
-        pagination_url = []
+        pagination_url = [keyurl]
         try:
             base = keyurl.rstrip("/")
             for i in range(2, 16):

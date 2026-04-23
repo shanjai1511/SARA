@@ -13,6 +13,8 @@ _BOT_SIGNALS = (
     "Type the characters you see",
     "Sorry, we just need to make sure",
     "api-services.amazon",  # Amazon bot-check JS endpoint
+    "Site Maintenance",     # Myntra maintenance/block page
+    "Oops! Something went wrong",  # Myntra generic block page
 )
 
 def _is_bot_page(text: str) -> bool:
@@ -42,7 +44,7 @@ def _unblock_fetch(url: str) -> dict | None:
             headers["Authorization"] = f"Bearer {_UNBLOCK_KEY}"
         resp = requests.post(
             f"{unblock_url}/fetch",
-            json={"url": url, "strategy": 4, "max_strategy": 5},
+            json={"url": url, "strategy": 0, "max_strategy": 5},
             headers=headers,
             timeout=_UNBLOCK_TIMEOUT,
         )
@@ -135,7 +137,8 @@ class sdfFetch:
         if extended_header:
             headers.update(extended_header)
 
-        request_proxies = None
+        # Use explicit empty dict to bypass system-level proxy settings when no proxy is configured.
+        request_proxies: dict = {}
         if proxy == "webshare_proxy" and webshare_proxy:
             host, port, username, password = random.choice(webshare_proxy)
             proxy_url = f"http://{username}:{password}@{host}:{port}"
@@ -149,8 +152,10 @@ class sdfFetch:
                     msg += f" (attempt {attempt + 1}/{max_retries + 1})"
                 sdfFetch.print_info_message("info", msg)
 
-                response = requests.get(
-                    url, headers=headers, verify=True, timeout=timeout, proxies=request_proxies
+                session = requests.Session()
+                session.trust_env = bool(request_proxies)  # only use system proxy when explicit proxy is set
+                response = session.get(
+                    url, headers=headers, verify=True, timeout=timeout, proxies=request_proxies or None
                 )
                 last_response = response
                 status = response.status_code

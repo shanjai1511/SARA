@@ -1,7 +1,15 @@
 depth0:
   seed_url: [
     "https://www.tatacliq.com/t-shirts-for-men/c-msh11106/",
-    "https://www.tatacliq.com/t-shirts-for-women/c-msh12106/"
+    "https://www.tatacliq.com/t-shirts-for-women/c-msh12106/",
+    "https://www.tatacliq.com/shirts-for-men/c-msh11107/",
+    "https://www.tatacliq.com/jeans-for-men/c-msh11109/",
+    "https://www.tatacliq.com/jeans-for-women/c-msh12109/",
+    "https://www.tatacliq.com/kurtas-for-women/c-msh12110/",
+    "https://www.tatacliq.com/dresses-for-women/c-msh12105/",
+    "https://www.tatacliq.com/trousers-for-men/c-msh11110/",
+    "https://www.tatacliq.com/tops-for-women/c-msh12107/",
+    "https://www.tatacliq.com/sweatshirts-for-men/c-msh11116/"
   ]
   method_name: get_pagination_url
 depth1:

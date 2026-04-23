@@ -1,10 +1,16 @@
 depth0:
   seed_url: [
     "https://www.businessoffashion.com/articles",
-    "https://www.businessoffashion.com/news"
+    "https://www.businessoffashion.com/news",
+    "https://www.businessoffashion.com/articles/retail",
+    "https://www.businessoffashion.com/articles/sustainability",
+    "https://www.businessoffashion.com/articles/luxury",
+    "https://www.businessoffashion.com/articles/technology",
+    "https://www.businessoffashion.com/articles/entrepreneurship"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy

@@ -94,6 +94,9 @@ class FetchRequest(BaseModel):
     referer: Optional[str] = Field(None, description="Referer header to send")
     proxy:   Optional[str] = Field(None, description="Override proxy URL (http://user:pass@host:port)")
 
+    # Browser rendering hints
+    extra_wait_ms: int  = Field(0, ge=0, le=30000, description="Extra ms to wait after page load (for JS-heavy SPAs)")
+
     # Zyte API compatibility flags
     browserHtml:      bool = Field(False, description="Force Playwright rendering (equivalent to strategy≥4)")
     httpResponseBody: bool = Field(False, description="Prefer plain HTTP (strategy≤1, no browser)")
@@ -220,6 +223,16 @@ async def fetch_url(req: FetchRequest, request: Request):
     orig_max = fetcher._max_strategy
     fetcher._max_strategy = max_strategy
 
+    # Apply per-request extra_wait_ms on the domain config
+    domain = fetcher._domain(req.url)
+    orig_wait = None
+    if req.extra_wait_ms > 0:
+        with fetcher._lock:
+            from core.unblock.fetcher import DomainConfig
+            cfg = fetcher._domain_configs.setdefault(domain, DomainConfig())
+            orig_wait = cfg.extra_wait_ms
+            cfg.extra_wait_ms = req.extra_wait_ms
+
     try:
         result = await asyncio.get_event_loop().run_in_executor(
             None,
@@ -227,6 +240,11 @@ async def fetch_url(req: FetchRequest, request: Request):
         )
     finally:
         fetcher._max_strategy = orig_max
+        if orig_wait is not None:
+            with fetcher._lock:
+                cfg = fetcher._domain_configs.get(domain)
+                if cfg:
+                    cfg.extra_wait_ms = orig_wait
 
     return FetchResponse(
         url=req.url,

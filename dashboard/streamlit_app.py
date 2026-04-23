@@ -5,21 +5,17 @@ Run: streamlit run dashboard/streamlit_app.py
 """
 from dotenv import load_dotenv #type: ignore
 import os
-
-load_dotenv()
-import os as _os
-if _os.getenv("WEBSHARE_PROXY_JSON"):
-    pass  # env loaded
+import re as _re
 import sys
 import subprocess
-from pathlib import Path
-import streamlit as st #type: ignore
-from datetime import datetime
-import base64
-
 import json
-import os
+import base64
+from pathlib import Path
+from datetime import datetime
 from typing import Dict, List, Tuple
+import streamlit as st #type: ignore
+
+load_dotenv()
 
 # Ensure project root is on path
 ROOT = Path(__file__).resolve().parent.parent
@@ -97,7 +93,7 @@ st.markdown("""
 
     /* Main container styling - elegant soft background */
     [data-testid="stMainBlockContainer"] {
-        background: linear-gradient(135deg, 0%, #f0f0f0 100%);
+        background: linear-gradient(135deg, #f5f5f5 0%, #f0f0f0 100%);
     }
     
     /* Card styling with 3D effect - elegant light background */
@@ -143,7 +139,6 @@ st.markdown("""
         border-radius: 8px;
         border: 1px solid #d4d4d4 !important;
         transition: all 0.2s;
-        caret-color: transparent;
     }
     
     input:focus, select:focus {
@@ -319,8 +314,6 @@ st.markdown("""
 # HELPER FUNCTIONS
 # ============================================================================
 
-import re as _re
-
 _SAFE_NAME = _re.compile(r'^[a-zA-Z0-9_-]+$')
 
 
@@ -338,7 +331,7 @@ def _validate_dashboard_input(value: str, label: str) -> str | None:
     return None
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(ttl=30, show_spinner=False)
 def list_projects_sites() -> Dict[str, List[str]]:
     """Scan url_discovery/ for project/site configs.
 
@@ -593,6 +586,7 @@ page = st.sidebar.radio(
     [
         "Dashboard",
         "Run Crawl",
+        "Log Viewer",
         "Create Project",
         "Delete Project",
         "Manage Data",
@@ -611,17 +605,18 @@ page = st.sidebar.radio(
 # ============================================================================
 if page == "Dashboard":
     st.markdown('<div class="section-header">📊 Crawl Dashboard</div>', unsafe_allow_html=True)
-    
-    projects_data = list_projects_sites()
-    status_data = get_status_data()
-    current_runs = list(status_data.get("current_runs", {}).values())
-    # backward compat: fallback to single current_run
-    if not current_runs and status_data.get("current_run"):
-        current_runs = [status_data["current_run"]]
-    last_runs = status_data.get("last_runs", [])
 
-    # Current Run Status (supports multiple concurrent crawls)
-    if current_runs:
+    @st.fragment(run_every=8)
+    def _active_crawls_panel():
+        get_status_data.clear()
+        status_data = get_status_data()
+        current_runs = list(status_data.get("current_runs", {}).values())
+        if not current_runs and status_data.get("current_run"):
+            current_runs = [status_data["current_run"]]
+
+        if not current_runs:
+            return
+
         st.markdown('<div class="section-header">⚡ Active Crawls</div>', unsafe_allow_html=True)
         for current_run in current_runs:
             col1, col2, col3, col4 = st.columns(4)
@@ -661,9 +656,12 @@ if page == "Dashboard":
                 </div>
                 """, unsafe_allow_html=True)
             st.divider()
+        st.caption("🔄 Auto-refreshing every 8 seconds")
 
-        if st.button("🔄 Refresh Status", use_container_width=True):
-            st.rerun()
+    _active_crawls_panel()
+
+    status_data = get_status_data()
+    last_runs = status_data.get("last_runs", [])
     
     # History with Filters
     if last_runs:
@@ -777,7 +775,9 @@ if page == "Dashboard":
             })
         
         if table_data:
-            st.dataframe(table_data, use_container_width=True, hide_index=True)
+            if len(filtered_runs) > 50:
+                st.caption(f"Showing 50 of {len(filtered_runs)} runs. Use filters to narrow results.")
+            st.dataframe(table_data, width='stretch', hide_index=True)
         else:
             st.info("📌 No runs match the selected filters.")
     else:
@@ -814,7 +814,7 @@ elif page == "Run Crawl":
         with col3:
             schedule_id = st.text_input(
                 "Schedule ID",
-                placeholder="e.g. 20260215",
+                value=datetime.now().strftime("%Y%m%d"),
                 key="run_schedule"
             )
         
@@ -823,7 +823,7 @@ elif page == "Run Crawl":
         col1, col2 = st.columns(2)
         
         with col1:
-            if st.button("▶️ Start Crawl", use_container_width=True, type="primary"):
+            if st.button("▶️ Start Crawl", width='stretch', type="primary"):
                 if not schedule_id.strip():
                     st.error("⚠️ Please enter a Schedule ID")
                 else:
@@ -852,16 +852,95 @@ elif page == "Run Crawl":
                                 stderr=subprocess.DEVNULL,
                             )
                             st.success(f"✅ Crawl started!\n**{selected_site}** ({selected_project}, {schedule_id})")
-                            st.balloons()
                         except Exception as e:
                             st.error(f"❌ Error: {str(e)}")
         
         with col2:
-            if st.button("🔄 Refresh", use_container_width=True):
+            if st.button("🔄 Refresh", width='stretch'):
                 st.rerun()
         
         
         st.info("**Pipeline stages:**\n1. 🔍 Discovery - Find URLs\n2. 📥 Retriever - Fetch content\n3. 📊 Parser - Extract data")
+
+# ============================================================================
+# PAGE: LOG VIEWER
+# ============================================================================
+elif page == "Log Viewer":
+    st.markdown('<div class="section-header">📋 Log Viewer</div>', unsafe_allow_html=True)
+
+    LOG_FILES = {
+        "pipeline.log":    ROOT / "logs" / "pipeline.log",
+        "pipeline.log.1":  ROOT / "logs" / "pipeline.log.1",
+        "unblock.log":     ROOT / "logs" / "unblock.log",
+    }
+    # add any extra *_crawl_run*.log files dynamically
+    for lf in sorted((ROOT / "logs").glob("*_crawl_run*.log")):
+        LOG_FILES[lf.name] = lf
+
+    col1, col2, col3 = st.columns([2, 1, 1])
+    with col1:
+        log_choice = st.selectbox("Log file", options=list(LOG_FILES.keys()))
+    with col2:
+        level_filter = st.selectbox("Level", ["ALL", "ERROR", "WARNING", "INFO", "DEBUG"])
+    with col3:
+        tail_lines = st.number_input("Lines to show", min_value=20, max_value=2000, value=200, step=50)
+
+    log_path = LOG_FILES[log_choice]
+
+    if st.button("🔄 Refresh", key="log_refresh"):
+        pass  # just reruns
+
+    if not log_path.exists():
+        st.warning(f"Log file not found: {log_path.name}")
+    else:
+        try:
+            with open(log_path, "r", encoding="utf-8", errors="replace") as f:
+                all_lines = f.readlines()
+
+            # Apply level filter
+            if level_filter != "ALL":
+                all_lines = [l for l in all_lines if f"[{level_filter}]" in l or not any(
+                    f"[{lv}]" in l for lv in ("ERROR", "WARNING", "INFO", "DEBUG")
+                )]
+
+            lines = all_lines[-int(tail_lines):]
+            total = len(all_lines)
+
+            st.caption(f"{log_path.name} — showing last {len(lines)} of {total} lines")
+
+            # Colour-code by level
+            coloured = []
+            for line in lines:
+                line = line.rstrip()
+                if "[ERROR]" in line:
+                    coloured.append(f'<span style="color:#f87171;">{line}</span>')
+                elif "[WARNING]" in line:
+                    coloured.append(f'<span style="color:#fbbf24;">{line}</span>')
+                elif "[INFO]" in line:
+                    coloured.append(f'<span style="color:#d1d5db;">{line}</span>')
+                elif "[DEBUG]" in line:
+                    coloured.append(f'<span style="color:#6b7280;">{line}</span>')
+                else:
+                    coloured.append(f'<span style="color:#d1d5db;">{line}</span>')
+
+            log_html = (
+                "<div style='background:#0f1117;border:1px solid #2d3a4d;border-radius:8px;"
+                "padding:1rem;font-family:ui-monospace,monospace;font-size:0.78rem;"
+                "line-height:1.6;overflow-x:auto;max-height:600px;overflow-y:auto;'>"
+                + "<br>".join(coloured)
+                + "</div>"
+            )
+            st.markdown(log_html, unsafe_allow_html=True)
+
+            # Download full log
+            st.download_button(
+                "📥 Download full log",
+                data=log_path.read_bytes(),
+                file_name=log_path.name,
+                mime="text/plain",
+            )
+        except Exception as e:
+            st.error(f"Could not read log: {e}")
 
 # ============================================================================
 # PAGE: CREATE PROJECT
@@ -898,7 +977,7 @@ elif page == "Create Project":
         
         
         
-        submitted = st.form_submit_button("✅ Create Project", use_container_width=True, type="primary")
+        submitted = st.form_submit_button("✅ Create Project", width='stretch', type="primary")
         
         if submitted:
             _name_errors = [
@@ -972,6 +1051,7 @@ elif page == "Create Project":
                     for error in error_messages:
                         st.error(f"❌ {error}")
                 else:
+                    list_projects_sites.clear()
                     st.success(f"✅ Project created successfully! {success_count} modules created.")
 
 # ============================================================================
@@ -1017,44 +1097,52 @@ elif page == "Delete Project":
         
         
         
-        if st.button("🗑️ Delete Project", use_container_width=True, type="secondary"):
-            success_count = 0
-            error_messages = []
-            
-            if del_discovery:
-                discovery_path = ROOT / "url_discovery"
-                success, msg = delete_project_structure(str(discovery_path), selected_project, selected_site)
-                if success:
-                    success_count += 1
-                    st.success(f"✅ Discovery: Deleted")
-                else:
-                    error_messages.append(f"Discovery: {msg}")
-            
-            if del_retriever:
-                retriever_path = ROOT / "url_retriever"
-                success, msg = delete_project_structure(str(retriever_path), selected_project, selected_site)
-                if success:
-                    success_count += 1
-                    st.success(f"✅ Retriever: Deleted")
-                else:
-                    error_messages.append(f"Retriever: {msg}")
-            
-            if del_parser:
-                parser_path = ROOT / "url_data_parser"
-                success, msg = delete_project_structure(str(parser_path), selected_project, selected_site)
-                if success:
-                    success_count += 1
-                    st.success(f"✅ Parser: Deleted")
-                else:
-                    error_messages.append(f"Parser: {msg}")
-            
-            
-            
-            if error_messages:
-                for error in error_messages:
-                    st.error(f"❌ {error}")
+        confirm_text = st.text_input(
+            f"Type **{selected_site}** to confirm deletion",
+            placeholder=selected_site,
+            key="del_confirm"
+        )
+
+        if st.button("🗑️ Delete Project", width='stretch', type="secondary"):
+            if confirm_text.strip() != selected_site:
+                st.error(f"⚠️ Type exactly '{selected_site}' in the confirmation box to proceed.")
             else:
-                st.success(f"✅ Project deleted successfully! {success_count} modules removed.")
+                success_count = 0
+                error_messages = []
+
+                if del_discovery:
+                    discovery_path = ROOT / "url_discovery"
+                    success, msg = delete_project_structure(str(discovery_path), selected_project, selected_site)
+                    if success:
+                        success_count += 1
+                        st.success("✅ Discovery: Deleted")
+                    else:
+                        error_messages.append(f"Discovery: {msg}")
+
+                if del_retriever:
+                    retriever_path = ROOT / "url_retriever"
+                    success, msg = delete_project_structure(str(retriever_path), selected_project, selected_site)
+                    if success:
+                        success_count += 1
+                        st.success("✅ Retriever: Deleted")
+                    else:
+                        error_messages.append(f"Retriever: {msg}")
+
+                if del_parser:
+                    parser_path = ROOT / "url_data_parser"
+                    success, msg = delete_project_structure(str(parser_path), selected_project, selected_site)
+                    if success:
+                        success_count += 1
+                        st.success("✅ Parser: Deleted")
+                    else:
+                        error_messages.append(f"Parser: {msg}")
+
+                if error_messages:
+                    for error in error_messages:
+                        st.error(f"❌ {error}")
+                else:
+                    list_projects_sites.clear()
+                    st.success(f"✅ Project deleted successfully! {success_count} modules removed.")
 
 # ============================================================================
 # PAGE: MANAGE DATA
@@ -1090,42 +1178,99 @@ elif page == "Manage Data":
         
         with col3:
             all_schedules = sorted(set(r.get("schedule_id") for r in filtered_runs if r.get("schedule_id")), reverse=True)
-            filter_schedule = st.selectbox("Filter Schedule", options=all_schedules[:10])
-        
-        if filter_schedule:
+            filter_schedule = st.selectbox("Filter Schedule", options=["All"] + all_schedules[:20])
+
+        if filter_schedule != "All":
             filtered_runs = [r for r in filtered_runs if r.get("schedule_id") == filter_schedule]
         
         
         
-        if filtered_runs:
+        if filter_schedule == "All":
+            # Show all available CSVs matching the current project/site filter
+            parser_root = ROOT / "scrape_output" / "parser_output"
+            all_csvs = []
+            if parser_root.exists():
+                for csv_file in sorted(parser_root.glob("**/*.csv"), key=lambda p: p.stat().st_mtime, reverse=True):
+                    parts = csv_file.parts
+                    try:
+                        proj = parts[-3]
+                        sched = parts[-2].split("_")[-1]
+                        site_key = "_".join(parts[-2].split("_")[:-1]).replace(f"_{proj}", "")
+                    except IndexError:
+                        continue
+                    if filter_project != "All" and proj != filter_project:
+                        continue
+                    if filter_site != "All" and not csv_file.stem.startswith(filter_site):
+                        continue
+                    size_kb = csv_file.stat().st_size // 1024
+                    all_csvs.append({
+                        "File": csv_file.name,
+                        "Project": proj,
+                        "Size (KB)": size_kb,
+                        "_path": csv_file,
+                    })
+
+            if not all_csvs:
+                st.info("No CSVs found for the selected filters.")
+            else:
+                st.markdown(f"**{len(all_csvs)} CSV(s) available**")
+                try:
+                    import pandas as pd
+                    display_df = pd.DataFrame([{k: v for k, v in r.items() if k != "_path"} for r in all_csvs])
+                    st.dataframe(display_df, hide_index=True, width='stretch')
+                except ImportError:
+                    pass
+
+                selected_csv_name = st.selectbox(
+                    "Select CSV to preview / download",
+                    options=[r["File"] for r in all_csvs]
+                )
+                selected_csv = next(r["_path"] for r in all_csvs if r["File"] == selected_csv_name)
+
+                col_dl, col_prev = st.columns(2)
+                with col_dl:
+                    st.download_button(
+                        label="📥 Download",
+                        data=selected_csv.read_bytes(),
+                        file_name=selected_csv.name,
+                        mime="text/csv",
+                        width='stretch',
+                    )
+                with col_prev:
+                    if st.button("👁️ Preview", width='stretch'):
+                        st.session_state["_preview_csv"] = str(selected_csv)
+
+                if st.session_state.get("_preview_csv") == str(selected_csv):
+                    try:
+                        import pandas as pd
+                        df = pd.read_csv(selected_csv)
+                        st.markdown(f"**Preview** ({len(df)} rows)")
+                        st.dataframe(df.head(20), width='stretch')
+                    except Exception as e:
+                        st.error(f"Could not preview: {e}")
+
+        elif filtered_runs:
             run = filtered_runs[0]
             project = run.get("project")
             site = run.get("site")
             schedule = run.get("schedule_id")
-            
-            # Try to find CSV
+
             csv_path = ROOT / "scrape_output" / "parser_output" / project / f"{site}_{project}_{schedule}" / f"{site}_{project}.csv"
-            
+
             if csv_path.exists():
-                with open(csv_path, "rb") as f:
-                    csv_data = f.read()
-                
                 st.success(f"✅ CSV found: {csv_path.name}")
                 st.download_button(
                     label="📥 Download CSV",
-                    data=csv_data,
+                    data=csv_path.read_bytes(),
                     file_name=f"{site}_{project}_{schedule}.csv",
                     mime="text/csv",
-                    use_container_width=True
+                    width='stretch'
                 )
-                
-                # Show preview
                 try:
                     import pandas as pd #type: ignore
                     df = pd.read_csv(csv_path)
-                    
                     st.markdown(f"**Preview** ({len(df)} rows)")
-                    st.dataframe(df.head(20), use_container_width=True)
+                    st.dataframe(df.head(20), width='stretch')
                 except Exception as e:
                     st.error(f"Could not preview: {e}")
             else:
@@ -1136,46 +1281,72 @@ elif page == "Manage Data":
 # ============================================================================
 elif page == "Projects and sites":
     st.markdown('<div class="section-header">⚙️ Projects and sites</div>', unsafe_allow_html=True)
-    
+
+    projects_data = list_projects_sites()
+
+    # ── Summary counts ────────────────────────────────────────────────────────
     st.subheader("📁 Project Structure")
-    
     col1, col2, col3 = st.columns(3)
-    
     with col1:
         discovery_path = ROOT / "url_discovery"
-        discovery_count = len(list(discovery_path.glob("*"))) if discovery_path.exists() else 0
+        discovery_count = len([p for p in discovery_path.glob("*") if p.is_dir()]) if discovery_path.exists() else 0
         st.metric("Discovery Projects", discovery_count)
-    
     with col2:
         retriever_path = ROOT / "url_retriever"
-        retriever_count = len(list(retriever_path.glob("*"))) if retriever_path.exists() else 0
+        retriever_count = len([p for p in retriever_path.glob("*") if p.is_dir()]) if retriever_path.exists() else 0
         st.metric("Retriever Projects", retriever_count)
-    
     with col3:
         parser_path = ROOT / "url_data_parser"
-        parser_count = len(list(parser_path.glob("*"))) if parser_path.exists() else 0
+        parser_count = len([p for p in parser_path.glob("*") if p.is_dir()]) if parser_path.exists() else 0
         st.metric("Parser Projects", parser_count)
-    
-    
-    
+
+    st.divider()
+
+    # ── Per-project site list ─────────────────────────────────────────────────
+    st.subheader("🗂️ Sites per Project")
+    if not projects_data:
+        st.info("No projects found. Use 'Create Project' to add one.")
+    else:
+        for project, sites in sorted(projects_data.items()):
+            with st.expander(f"**{project}** — {len(sites)} site(s)", expanded=True):
+                # Check which modules each site has
+                rows = []
+                for site in sorted(sites):
+                    has_retriever = (ROOT / "url_retriever" / project / f"{site}_{project}.py").exists()
+                    has_parser = (ROOT / "url_data_parser" / project / f"{site}_{project}.py").exists()
+                    # Count output CSVs for this site
+                    csv_count = len(list((ROOT / "scrape_output" / "parser_output" / project).glob(f"{site}_{project}_*/*.csv"))) if (ROOT / "scrape_output" / "parser_output" / project).exists() else 0
+                    rows.append({
+                        "Site": site,
+                        "Discovery": "✅",
+                        "Retriever": "✅" if has_retriever else "❌",
+                        "Parser": "✅" if has_parser else "❌",
+                        "Output CSVs": csv_count,
+                    })
+                try:
+                    import pandas as pd
+                    st.dataframe(pd.DataFrame(rows), hide_index=True, width='stretch')
+                except ImportError:
+                    for r in rows:
+                        st.markdown(f"- **{r['Site']}** | Discovery {r['Discovery']} | Retriever {r['Retriever']} | Parser {r['Parser']} | CSVs: {r['Output CSVs']}")
+
+    st.divider()
+
+    # ── Output data counts ────────────────────────────────────────────────────
     st.subheader("📊 Output Data")
-    
     col1, col2, col3 = st.columns(3)
-    
     with col1:
         discovery_output = ROOT / "scrape_output" / "discovery_output"
         discovery_files = len(list(discovery_output.glob("*/*.txt"))) if discovery_output.exists() else 0
         st.metric("Discovery Outputs", discovery_files)
-    
     with col2:
         parser_output = ROOT / "scrape_output" / "parser_output"
-        parser_files = len(list(parser_output.glob("*/*.csv"))) if parser_output.exists() else 0
-        st.metric("Parser Outputs", parser_files)
-    
+        parser_files = len(list(parser_output.glob("**/*.csv"))) if parser_output.exists() else 0
+        st.metric("Parser Outputs (CSVs)", parser_files)
     with col3:
         retriever_output = ROOT / "scrape_output" / "retriever_output"
-        retriever_files = len(list(retriever_output.glob("*/*/*.txt"))) if retriever_output.exists() else 0
-        st.metric("Retriever Outputs", retriever_files)
+        retriever_files = len(list(retriever_output.glob("**/*.html"))) if retriever_output.exists() else 0
+        st.metric("Retriever Outputs (HTML)", retriever_files)
 
 # ── Separator item: do nothing ────────────────────────────────────────────────
 elif page == "─────────────":
@@ -1208,20 +1379,24 @@ elif page == "Schedules":
         st.error("No projects found. Create a project first.")
     else:
         # ── Scheduler status ──────────────────────────────────────────────────
-        sched_running = False
-        try:
-            result = subprocess.run(
-                ["systemctl", "is-active", "sara-scheduler"],
-                capture_output=True, text=True
-            )
-            sched_running = result.stdout.strip() == "active"
-        except Exception:
-            pass
+        import platform as _platform
+        if _platform.system() == "Linux":
+            sched_running = False
+            try:
+                result = subprocess.run(
+                    ["systemctl", "is-active", "sara-scheduler"],
+                    capture_output=True, text=True
+                )
+                sched_running = result.stdout.strip() == "active"
+            except Exception:
+                pass
 
-        if sched_running:
-            st.success("✅ Scheduler service is running")
+            if sched_running:
+                st.success("✅ Scheduler service is running")
+            else:
+                st.warning("⚠️ Scheduler service is not running — start it with: `sudo systemctl start sara-scheduler`")
         else:
-            st.warning("⚠️ Scheduler service is not running — start it with: `sudo systemctl start sara-scheduler`")
+            st.info("ℹ️ Scheduler service check is only available on Linux.")
 
         st.divider()
 
@@ -1360,7 +1535,7 @@ elif page == "Analytics":
                 )
                 fig.update_layout(height=400, showlegend=False, yaxis_title="",
                                   margin=dict(l=0, r=0, t=10, b=10))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
 
         # ── Records vs Pages fetched per run ─────────────────────────────────
         with col2:
@@ -1391,7 +1566,7 @@ elif page == "Analytics":
                     legend=dict(orientation="h", y=1.02, x=1, xanchor="right"),
                     margin=dict(l=0, r=0, t=10, b=10),
                 )
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(fig2, width='stretch')
 
         # ── Pipeline funnel ──────────────────────────────────────────────────
         st.markdown("**Pipeline Conversion Funnel**")
@@ -1430,7 +1605,7 @@ elif page == "Analytics":
                     template="plotly_white", height=300,
                     margin=dict(l=0, r=0, t=10, b=10),
                 )
-                st.plotly_chart(fig_funnel, use_container_width=True)
+                st.plotly_chart(fig_funnel, width='stretch')
 
         # ── Run history table ────────────────────────────────────────────────
         st.markdown("**Run History**")
@@ -1447,7 +1622,7 @@ elif page == "Analytics":
             }
             for r in all_runs[:50]
         ])
-        st.dataframe(df_history, use_container_width=True, hide_index=True)
+        st.dataframe(df_history, width='stretch', hide_index=True)
 
 # ============================================================================
 # PAGE: DLQ INSPECTOR
@@ -1504,7 +1679,6 @@ elif page == "DLQ Inspector":
 
     def _peek_dlq(stage: str, limit: int) -> list[dict]:
         """Peek at messages without consuming them."""
-        import pika as _pika
         try:
             conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1, base_backoff=1.0)
             dlq = dlq_name(stage)
@@ -1549,7 +1723,7 @@ elif page == "DLQ Inspector":
                     {k: v for k, v in m.items() if k != "_raw"}
                     for m in msgs
                 ])
-                st.dataframe(df_dlq, use_container_width=True, hide_index=True)
+                st.dataframe(df_dlq, width='stretch', hide_index=True)
             except ImportError:
                 for m in msgs:
                     st.code(_json.dumps({k: v for k, v in m.items() if k != "_raw"}, indent=2))
@@ -1562,7 +1736,7 @@ elif page == "DLQ Inspector":
 
     with col1:
         requeue_limit = st.number_input("Max messages to requeue", 1, 500, 50)
-        if st.button(f"♻️ Requeue {selected_stage} DLQ → main queue", type="primary", use_container_width=True):
+        if st.button(f"♻️ Requeue {selected_stage} DLQ → main queue", type="primary", width='stretch'):
             from core.broker import publish_sync, EXCHANGE_DISCOVERY, EXCHANGE_RETRIEVER, EXCHANGE_PARSER
             exchange_map = {
                 "discovery": EXCHANGE_DISCOVERY,
@@ -1596,7 +1770,7 @@ elif page == "DLQ Inspector":
 
     with col2:
         st.warning("Discard permanently removes messages from the DLQ.")
-        if st.button(f"🗑️ Discard all {selected_stage} DLQ messages", use_container_width=True):
+        if st.button(f"🗑️ Discard all {selected_stage} DLQ messages", width='stretch'):
             try:
                 conn, ch = get_sync_channel(_cfg.CLOUDAMQP_URL, max_attempts=1)
                 ch.queue_purge(queue=dlq_name(selected_stage))
@@ -1687,14 +1861,14 @@ elif page == "System Health":
     p2.metric("Healthy", stats["healthy"],
               delta="OK" if stats["healthy"] == stats["total"] else f"-{stats['degraded']} degraded")
     p3.metric("Degraded", stats["degraded"])
-    p4.metric("Avg Success Rate", f"{stats['avg_success_rate']*100:.1f}%")
+    p4.metric("Avg Success Rate", f"{stats.get('avg_ema_rate', stats.get('avg_success_rate', 0))*100:.1f}%")
 
     if stats["total"] > 0:
         report = mgr.health_report()
         try:
             import pandas as pd
             df_proxy = pd.DataFrame(report)
-            st.dataframe(df_proxy, use_container_width=True, hide_index=True)
+            st.dataframe(df_proxy, width='stretch', hide_index=True)
         except ImportError:
             st.json(report)
 
@@ -1723,7 +1897,7 @@ elif page == "System Health":
         import pandas as pd
         st.dataframe(
             pd.DataFrame(list(config_rows.items()), columns=["Setting", "Value"]),
-            use_container_width=True, hide_index=True,
+            width='stretch', hide_index=True,
         )
     except ImportError:
         st.json(config_rows)
@@ -1751,7 +1925,7 @@ elif page == "API Access":
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🏓 Ping /health", use_container_width=True):
+        if st.button("🏓 Ping /health", width='stretch'):
             try:
                 import httpx
                 resp = httpx.get(f"{api_base}/health", timeout=5)
@@ -1764,7 +1938,7 @@ elif page == "API Access":
                 st.error(f"Connection failed: {e}")
 
     with col2:
-        if st.button("📊 Get /metrics/summary", use_container_width=True):
+        if st.button("📊 Get /metrics/summary", width='stretch'):
             try:
                 import httpx
                 headers = {}
@@ -1801,7 +1975,7 @@ elif page == "API Access":
     try:
         import pandas as pd
         df_ep = pd.DataFrame(endpoints, columns=["Method", "Path", "Description"])
-        st.dataframe(df_ep, use_container_width=True, hide_index=True)
+        st.dataframe(df_ep, width='stretch', hide_index=True)
     except ImportError:
         for method, path, desc in endpoints:
             st.markdown(f"**{method}** `{path}` — {desc}")

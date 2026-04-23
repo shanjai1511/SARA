@@ -4,28 +4,16 @@ logger = logging.getLogger(__name__)
 from urllib.parse import urljoin
 import re
 
+# nykaafashion.com blocks direct requests (403) — must go through unblock service (cffi strategy)
+
 class NykaaFashionComCommerceCrawl():
 
     def get_pagination_url(self, keyurl, depth, current_depth_level):
         pagination_url = []
         try:
-            dom = sdfFetch.get_page_content_hash(keyurl)
-            if dom.get("status_code") != 200:
-                raise Exception("No proper DOM found")
-            parsed_tree = html.fromstring(dom.get("page_doc", ""))
-            next_links = parsed_tree.xpath("//a[@rel='next']/@href")
-            if next_links:
-                pagination_url.append(urljoin(keyurl, next_links[0]))
-            else:
-                m = re.search(r"([?&])page=(\d+)", keyurl)
-                if m:
-                    cur = int(m.group(2))
-                    for p in range(cur + 1, cur + 11):
-                        pagination_url.append(re.sub(r"([?&])page=\d+", rf"\1page={p}", keyurl, count=1))
-                else:
-                    connector = "&" if "?" in keyurl else "?"
-                    for p in range(2, 12):
-                        pagination_url.append(f"{keyurl}{connector}page={p}")
+            connector = "&" if "?" in keyurl else "?"
+            for p in range(2, 12):
+                pagination_url.append(f"{keyurl}{connector}page={p}")
         except Exception as e:
             logger.warning("Exception occurred: %s", e)
         return pagination_url[:10]
@@ -33,7 +21,6 @@ class NykaaFashionComCommerceCrawl():
     def get_product_url(self, url, depth, current_depth_level):
         product_url = []
         try:
-            url = url.replace("-page", "")
             dom = sdfFetch.get_page_content_hash(url)
             if dom.get("status_code") != 200:
                 raise Exception("No proper DOM found")
@@ -43,8 +30,12 @@ class NykaaFashionComCommerceCrawl():
             rank = 1
             for href in hrefs:
                 full = urljoin(url, href)
+                if "nykaafashion.com" not in full:
+                    continue
                 if "/p/" not in full and "/product/" not in full:
                     continue
+                # strip query params
+                full = full.split("?")[0]
                 if full in seen:
                     continue
                 seen.add(full)

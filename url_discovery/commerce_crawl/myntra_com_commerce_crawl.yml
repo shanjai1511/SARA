@@ -2,7 +2,18 @@ depth0:
   seed_url: [
     "https://www.myntra.com/tshirts",
     "https://www.myntra.com/women-tshirts",
-    "https://www.myntra.com/polo-tshirts"
+    "https://www.myntra.com/polo-tshirts",
+    "https://www.myntra.com/kurtas",
+    "https://www.myntra.com/women-jeans",
+    "https://www.myntra.com/men-jeans",
+    "https://www.myntra.com/dresses",
+    "https://www.myntra.com/men-shirts",
+    "https://www.myntra.com/sarees",
+    "https://www.myntra.com/women-tops",
+    "https://www.myntra.com/men-ethnic",
+    "https://www.myntra.com/sweatshirts",
+    "https://www.myntra.com/activewear-women",
+    "https://www.myntra.com/activewear-men"
   ]
   method_name: get_pagination_url
 depth1:

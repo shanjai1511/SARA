@@ -2,7 +2,15 @@ depth0:
   seed_url: [
     "https://www.meesho.com/men-t-shirts/pl/3lq",
     "https://www.meesho.com/women-t-shirts/pl/3es",
-    "https://www.meesho.com/polo-t-shirts/pl/3lr"
+    "https://www.meesho.com/polo-t-shirts/pl/3lr",
+    "https://www.meesho.com/women-kurtas/pl/3ew",
+    "https://www.meesho.com/women-dresses/pl/3et",
+    "https://www.meesho.com/men-shirts/pl/3lp",
+    "https://www.meesho.com/women-jeans/pl/3ev",
+    "https://www.meesho.com/men-jeans/pl/3ls",
+    "https://www.meesho.com/women-tops/pl/3eu",
+    "https://www.meesho.com/sarees/pl/3ey",
+    "https://www.meesho.com/men-ethnic-wear/pl/3lv"
   ]
   method_name: get_pagination_url
 depth1:

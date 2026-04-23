@@ -1,10 +1,17 @@
 depth0:
   seed_url: [
     "https://wwd.com/fashion-news/",
-    "https://wwd.com/fashion-news/fashion-features/"
+    "https://wwd.com/fashion-news/fashion-features/",
+    "https://wwd.com/business-news/",
+    "https://wwd.com/fashion-news/ready-to-wear/",
+    "https://wwd.com/sustainability/",
+    "https://wwd.com/fashion-news/menswear/",
+    "https://wwd.com/beauty-industry-news/",
+    "https://wwd.com/fashion-news/designer-luxury/"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy
