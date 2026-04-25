@@ -20,9 +20,40 @@
       "hostname": "Shanjai-R",
       "progress": {},
       "updated_at": "2026-04-22T19:34:41Z"
+    },
+    "commerce_crawl__meesho_com__20260602394": {
+      "project": "commerce_crawl",
+      "site": "meesho_com",
+      "schedule_id": "20260602394",
+      "stage": "discovery",
+      "started_at": "2026-04-25T18:35:24Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {},
+      "updated_at": "2026-04-25T18:35:24Z"
     }
   },
   "last_runs": [
+    {
+      "project": "commerce_crawl",
+      "site": "flipkart_com",
+      "schedule_id": "20260602394",
+      "stage": "parser",
+      "started_at": "2026-04-25T17:57:11Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "discovery_urls": 55,
+        "retriever_total": 55,
+        "retriever_fetched": 54,
+        "parser_pages": 110,
+        "parser_records": 108,
+        "parser_pages_done": 110
+      },
+      "updated_at": "2026-04-25T18:35:21Z",
+      "completed_at": "2026-04-25T18:35:21Z",
+      "status": "completed"
+    },
     {
       "project": "media_crawl",
       "site": "fashion_united_in",
