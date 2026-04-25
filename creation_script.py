@@ -44,7 +44,7 @@ def _discovery_py(class_name: str, project_name: str) -> str:
             f"class {class_name}():\n"
             f"\n"
             f"    def get_pagination_url(self, keyurl, depth, current_depth_level):\n"
-            f"        pagination_url = []\n"
+            f"        pagination_url = [keyurl]\n"
             f"        try:\n"
             f"            # Most media sites use WordPress /page/N/ pagination.\n"
             f"            # Swap for querystring_pages(keyurl) if the site uses ?page=N instead.\n"
@@ -119,14 +119,34 @@ def _discovery_py(class_name: str, project_name: str) -> str:
 def _discovery_yml(site_name: str) -> str:
     return f"""depth0:
   seed_url: ["https://TODO-set-seed-url.com/"]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 # Uncomment to route retriever fetches through the proxy pool:
 # request_params:
 #   proxy: webshare_proxy
 #   timeout: 30
 #   max_retries: 3
+"""
+
+
+def _retriever_py(class_name: str) -> str:
+    return (
+        f"from sdf_module.url_retriever import *\n"
+        f"\n"
+        f"class {class_name}():\n"
+        f"    def get_page_content(self, url, args_hash):\n"
+        f"        page_content = sdfFetch.get_page_content_hash(url, args_hash)\n"
+        f"        return page_content\n"
+    )
+
+
+def _retriever_yml() -> str:
+    return """request_type: curl
+request_params:
+  max_retries: 3
+  timeout: 30
 """
 
 
@@ -318,6 +338,14 @@ def main(argv=None):
         project_name, site_name,
         _discovery_py(class_name, project_name),
         _discovery_yml(site_name),
+    )
+
+    # Retriever files (same template for both media and commerce)
+    create_project_structure(
+        base_dir / 'url_retriever',
+        project_name, site_name,
+        _retriever_py(class_name),
+        _retriever_yml(),
     )
 
     # Parser files (project-type aware)

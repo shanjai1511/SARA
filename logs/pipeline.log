@@ -88452,3 +88452,591 @@ FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\shanj\\OneDr
     "info": "Page fetched successfully.",
     "url": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\cache\\35a7ea2c7fa91550bb6f8a814b471eea.html"
 }
+2026-04-25 23:27:12,652 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: flipkart_com"
+}
+2026-04-25 23:27:12,652 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=flipkart_com, schedule_id=20260602394"
+}
+2026-04-25 23:27:12,652 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/flipkart_com"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1: 10 URLs | method=get_product_url"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mens-clothing/tshirts/pr?sid=clo,ash,ank"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/womens-clothing/tshirts-and-tops/pr?sid=clo,apn,axe,aj7"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mens-clothing/jeans/pr?sid=clo,ash,aji"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/womens-clothing/jeans/pr?sid=clo,apn,axe,ahw"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mens-clothing/shirts/pr?sid=clo,ash,anl"
+}
+2026-04-25 23:27:12,669 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/womens-clothing/kurtas-kurtis/pr?sid=clo,apn,axe,ank"
+}
+2026-04-25 23:27:15,892 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mens-clothing/jeans/pr?sid=clo,ash,aji
+2026-04-25 23:27:15,897 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/womens-clothing/dresses/pr?sid=clo,apn,axe,acr"
+}
+2026-04-25 23:27:15,926 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/womens-clothing/kurtas-kurtis/pr?sid=clo,apn,axe,ank
+2026-04-25 23:27:15,930 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mens-clothing/shirts/pr?sid=clo,ash,anl
+2026-04-25 23:27:15,934 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/womens-clothing/jeans/pr?sid=clo,apn,axe,ahw
+2026-04-25 23:27:15,936 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/womens-clothing/tshirts-and-tops/pr?sid=clo,apn,axe,aj7
+2026-04-25 23:27:15,940 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mens-clothing/casual-shoes/pr?sid=clo,ash,ajm"
+}
+2026-04-25 23:27:15,942 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/womens-clothing/ethnic-wear/sarees/pr?sid=clo,apn,axe,ajy"
+}
+2026-04-25 23:27:15,946 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mens-clothing/sweatshirts/pr?sid=clo,ash,ank,aho"
+}
+2026-04-25 23:27:16,371 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mens-clothing/tshirts/pr?sid=clo,ash,ank
+2026-04-25 23:27:18,952 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/womens-clothing/dresses/pr?sid=clo,apn,axe,acr
+2026-04-25 23:27:19,002 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mens-clothing/sweatshirts/pr?sid=clo,ash,ank,aho
+2026-04-25 23:27:19,002 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/womens-clothing/ethnic-wear/sarees/pr?sid=clo,apn,axe,ajy
+2026-04-25 23:27:19,041 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mens-clothing/casual-shoes/pr?sid=clo,ash,ajm
+2026-04-25 23:27:19,041 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1 complete: 55 URLs found"
+}
+2026-04-25 23:27:19,041 [INFO] {
+    "status": "info",
+    "info": "Pushing 55 URLs to RabbitMQ for commerce_crawl/flipkart_com"
+}
+2026-04-25 23:59:20,781 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-04-25 23:59:21,035 [INFO] Socket connected: <socket.socket fd=1248, family=2, type=1, proto=6, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,099 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1248, family=2, type=1, proto=0, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,099 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-04-25 23:59:21,153 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlRetriever for project: commerce_crawl and site: flipkart_com"
+}
+2026-04-25 23:59:21,153 [INFO] {
+    "status": "info",
+    "info": "[retriever] Starting for project=commerce_crawl, site=flipkart_com, schedule_id=20260602394"
+}
+2026-04-25 23:59:21,184 [INFO] Pika version 1.3.2 connecting to ('15.206.140.228', 5671)
+2026-04-25 23:59:21,393 [INFO] Socket connected: <socket.socket fd=1060, family=2, type=1, proto=6, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,428 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,428 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,428 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,428 [INFO] Created channel=1
+2026-04-25 23:59:21,434 [INFO] SSL handshake completed successfully: <ssl.SSLSocket fd=1060, family=2, type=1, proto=0, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,435 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>).
+2026-04-25 23:59:21,505 [INFO] {
+    "status": "success",
+    "info": "Pushed 55 URLs to queue flipkart_com_commerce_crawl_20260602394_queue"
+}
+2026-04-25 23:59:21,506 [INFO] Closing connection (200): Normal shutdown
+2026-04-25 23:59:21,506 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-25 23:59:21,555 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,555 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,556 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>
+2026-04-25 23:59:21,556 [INFO] Created channel=1
+2026-04-25 23:59:21,597 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x0000018E7BD52D50> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-25 23:59:21,597 [INFO] Closing connection (200): 'Normal shutdown'
+2026-04-25 23:59:21,632 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1248, family=2, type=1, proto=0, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,632 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1248, family=2, type=1, proto=0, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,632 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1248, family=2, type=1, proto=0, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,633 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-25 23:59:21,633 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-25 23:59:21,633 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1248, family=2, type=1, proto=0, laddr=('192.168.29.128', 51703), raddr=('15.206.140.228', 5671)>
+2026-04-25 23:59:21,633 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-04-25 23:59:21,648 [INFO] {
+    "status": "success",
+    "info": "[discovery] Completed schedule_id=20260602394 | URLs discovered: 55"
+}
+2026-04-25 23:59:21,677 [INFO] {
+    "status": "info",
+    "info": "[retriever] Queue depth=55 | window=20 | workers=4"
+}
+2026-04-25 23:59:22,372 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itm19c8e209ce63c?pid=KTBHM5GTTPNVSBZQ&lid=LSTKTBHM5GTTPNVSBZQ1VKF0N&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_1&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJIg2yfA-jTK4jXuXoGOxfFkxR--mVHl7Gax8rCyrVX2g%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:22,372 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmd1dcd90c06e86?pid=KTBHH9YR8QZZYHC2&lid=LSTKTBHH9YR8QZZYHC20M42JF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_2&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLI4xs2D3_sH3qr7bVDL_cjLwCKXmoHGwf7Gq1Y4BoUuQ%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:22,373 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/prodjersey-printed-men-v-neck-red-t-shirt/p/itma6a0f7d0fa511?pid=TSHHMYQBATNYQEEV&lid=LSTTSHHMYQBATNYQEEVWXT7CR&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_3&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJFDRFyHTVkzl-Vx34TKMPvNaSmQZ67JfSsoOi_3BfFmw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:22,374 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ni-fashion-boys-girls-printed-cotton-blend-regular-t-shirt/p/itm471fbe055a365?pid=KTBHY63QRFSVHYEC&lid=LSTKTBHY63QRFSVHYECB3WPAG&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_4&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHY63QRFSVHYEC.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:26,740 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmd1dcd90c06e86?pid=KTBHH9YR8QZZYHC2&lid=LSTKTBHH9YR8QZZYHC20M42JF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_2&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLI4xs2D3_sH3qr7bVDL_cjLwCKXmoHGwf7Gq1Y4BoUuQ%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:26,758 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm204a6971a7a6f?pid=KTBHHG3VPQ22ZVXT&lid=LSTKTBHHG3VPQ22ZVXTYT5M7S&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_5&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK0LAsEU-LePVvEr9xDggCMaaP9AX_1c2FcAarJeShMEPUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:27,307 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/prodjersey-printed-men-v-neck-red-t-shirt/p/itma6a0f7d0fa511?pid=TSHHMYQBATNYQEEV&lid=LSTTSHHMYQBATNYQEEVWXT7CR&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_3&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJFDRFyHTVkzl-Vx34TKMPvNaSmQZ67JfSsoOi_3BfFmw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:27,326 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itmb56e28998aee5?pid=KTBHM5HGTH2FTP7U&lid=LSTKTBHM5HGTH2FTP7UX1AVLF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_6&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLBo9BkWg0lRk5tDbqmBteOyIsMn6gSi9F3N03lacPWk_UFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:29,189 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itm19c8e209ce63c?pid=KTBHM5GTTPNVSBZQ&lid=LSTKTBHM5GTTPNVSBZQ1VKF0N&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_1&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJIg2yfA-jTK4jXuXoGOxfFkxR--mVHl7Gax8rCyrVX2g%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:29,197 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ni-fashion-boys-girls-printed-cotton-blend-regular-t-shirt/p/itm471fbe055a365?pid=KTBHY63QRFSVHYEC&lid=LSTKTBHY63QRFSVHYECB3WPAG&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_4&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHY63QRFSVHYEC.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:29,228 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/stem-rope-graphic-print-typography-printed-women-round-neck-purple-t-shirt/p/itm15a5d44b752ca?pid=TSHHMJR39XHEF98H&lid=LSTTSHHMJR39XHEF98HLYTETC&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_7&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHMJR39XHEF98H.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:29,228 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/trius-self-design-women-polo-neck-black-t-shirt/p/itm49b90770085ae?pid=TSHHHGZZJHD8YPSH&lid=LSTTSHHHGZZJHD8YPSHJYFNWZ&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_8&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHHGZZJHD8YPSH.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:30,341 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm204a6971a7a6f?pid=KTBHHG3VPQ22ZVXT&lid=LSTKTBHHG3VPQ22ZVXTYT5M7S&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_5&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK0LAsEU-LePVvEr9xDggCMaaP9AX_1c2FcAarJeShMEPUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:30,362 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itm8f1eea97d7292?pid=KTBH7HX56AFZJJZB&lid=LSTKTBH7HX56AFZJJZBHM81DG&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_9&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI15o1KaPgK2SBmD5A-tduI_b3YX3ggNdfvOQ4LYclMog%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:31,164 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itmb56e28998aee5?pid=KTBHM5HGTH2FTP7U&lid=LSTKTBHM5HGTH2FTP7UX1AVLF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_6&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLBo9BkWg0lRk5tDbqmBteOyIsMn6gSi9F3N03lacPWk_UFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:31,185 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/sahucration-graphic-print-women-round-neck-orange-t-shirt/p/itm711b918df3ce4?pid=TSHHM8ZZUBZ8Y28R&lid=LSTTSHHM8ZZUBZ8Y28ROYWUFR&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_10&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM8ZZUBZ8Y28R.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:32,866 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/stem-rope-graphic-print-typography-printed-women-round-neck-purple-t-shirt/p/itm15a5d44b752ca?pid=TSHHMJR39XHEF98H&lid=LSTTSHHMJR39XHEF98HLYTETC&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_7&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHMJR39XHEF98H.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:32,883 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/trius-self-design-women-polo-neck-black-t-shirt/p/itm49b90770085ae?pid=TSHHHGZZJHD8YPSH&lid=LSTTSHHHGZZJHD8YPSHJYFNWZ&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_8&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHHGZZJHD8YPSH.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:32,901 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itm5d7dfb35a85e8?pid=TSHH7USMY94FAVWH&lid=LSTTSHH7USMY94FAVWHRIB7GW&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_11&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI4HWqQGsTK3KLwc45aRq3yD5vFP5vswo3eWUaGNthAbawh4GJdccUSVsNPTiGrw-0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:32,901 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/kajaru-self-design-men-round-neck-brown-t-shirt/p/itm61e0a0b339648?pid=TSHHFHNJSYD4QDKX&lid=LSTTSHHFHNJSYD4QDKXSK6RXD&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_12&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJ9M4jNrYLQzss6jAKghoFNQxixlnTNE6oce_RXyQiTiw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:34,694 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/sahucration-graphic-print-women-round-neck-orange-t-shirt/p/itm711b918df3ce4?pid=TSHHM8ZZUBZ8Y28R&lid=LSTTSHHM8ZZUBZ8Y28ROYWUFR&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_10&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM8ZZUBZ8Y28R.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:34,709 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/kiaaz-boys-girls-typography-cartoon-printed-polyester-regular-t-shirt/p/itm77cbc8d977922?pid=KTBHM2AWD4Y7MEUJ&lid=LSTKTBHM2AWD4Y7MEUJXM8XDP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_13&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHM2AWD4Y7MEUJ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:34,727 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itm8f1eea97d7292?pid=KTBH7HX56AFZJJZB&lid=LSTKTBH7HX56AFZJJZBHM81DG&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_9&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI15o1KaPgK2SBmD5A-tduI_b3YX3ggNdfvOQ4LYclMog%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:34,744 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/wings-2-fly-boys-girls-graphic-print-pure-cotton-regular-t-shirt/p/itmf50d13a320e8b?pid=KTBHEDJQHBEC47NZ&lid=LSTKTBHEDJQHBEC47NZLI7CBP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_14&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHEDJQHBEC47NZ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:36,683 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/kajaru-self-design-men-round-neck-brown-t-shirt/p/itm61e0a0b339648?pid=TSHHFHNJSYD4QDKX&lid=LSTTSHHFHNJSYD4QDKXSK6RXD&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_12&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJ9M4jNrYLQzss6jAKghoFNQxixlnTNE6oce_RXyQiTiw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:36,699 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itm5b03274bf6a0f?pid=KTBHFG3FYKGGXHZM&lid=LSTKTBHFG3FYKGGXHZMJOPRJF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_15&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK35sT2tGHTR6nb7QFBQR7sorjT1ZJLbi8ooWp9nhyTYvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:37,306 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itm5d7dfb35a85e8?pid=TSHH7USMY94FAVWH&lid=LSTTSHH7USMY94FAVWHRIB7GW&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_11&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI4HWqQGsTK3KLwc45aRq3yD5vFP5vswo3eWUaGNthAbawh4GJdccUSVsNPTiGrw-0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:37,325 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/rajfashion-boys-girls-printed-polyester-regular-t-shirt/p/itm44959db310dd0?pid=KTBHKUHB2DGJZTDQ&lid=LSTKTBHKUHB2DGJZTDQPW6QRN&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_16&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHKUHB2DGJZTDQ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:38,584 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/wings-2-fly-boys-girls-graphic-print-pure-cotton-regular-t-shirt/p/itmf50d13a320e8b?pid=KTBHEDJQHBEC47NZ&lid=LSTKTBHEDJQHBEC47NZLI7CBP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_14&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHEDJQHBEC47NZ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:38,600 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmb2bbd3deaf342?pid=KTBHH9YNFDCDNPVZ&lid=LSTKTBHH9YNFDCDNPVZKSY18F&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_17&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLpDaqyhM26-5glxQo5OJAIFj9ofNSks754OK2NzWOpT_UFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:39,150 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/kiaaz-boys-girls-typography-cartoon-printed-polyester-regular-t-shirt/p/itm77cbc8d977922?pid=KTBHM2AWD4Y7MEUJ&lid=LSTKTBHM2AWD4Y7MEUJXM8XDP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_13&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHM2AWD4Y7MEUJ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:39,170 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/fasla-boys-printed-cotton-blend-regular-t-shirt/p/itm310c0b584858e?pid=KTBGS7DACQJ8G3TZ&lid=LSTKTBGS7DACQJ8G3TZ89PJOY&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_18&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI82dUs7zsne7kHtjdP5yir8wUCeAHX_ECuypnHyWpCtvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:40,135 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itm5b03274bf6a0f?pid=KTBHFG3FYKGGXHZM&lid=LSTKTBHFG3FYKGGXHZMJOPRJF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_15&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK35sT2tGHTR6nb7QFBQR7sorjT1ZJLbi8ooWp9nhyTYvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:40,182 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/gratitude-rock-printed-sporty-men-polo-neck-red-t-shirt/p/itm1b6df21cea662?pid=TSHHM4GQJ9F3FPAZ&lid=LSTTSHHM4GQJ9F3FPAZDSENWV&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_19&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM4GQJ9F3FPAZ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:41,161 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/rajfashion-boys-girls-printed-polyester-regular-t-shirt/p/itm44959db310dd0?pid=KTBHKUHB2DGJZTDQ&lid=LSTKTBHKUHB2DGJZTDQPW6QRN&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_16&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHKUHB2DGJZTDQ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:41,182 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/eyebogler-solid-men-hooded-neck-grey-t-shirt/p/itm6401fbaf81fb6?pid=TSHHM2YCEYUVPJNN&lid=LSTTSHHM2YCEYUVPJNNCNHFVT&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_20&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM2YCEYUVPJNN.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:42,584 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmb2bbd3deaf342?pid=KTBHH9YNFDCDNPVZ&lid=LSTKTBHH9YNFDCDNPVZKSY18F&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_17&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLpDaqyhM26-5glxQo5OJAIFj9ofNSks754OK2NzWOpT_UFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:42,805 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/fasla-boys-printed-cotton-blend-regular-t-shirt/p/itm310c0b584858e?pid=KTBGS7DACQJ8G3TZ&lid=LSTKTBGS7DACQJ8G3TZ89PJOY&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_18&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglI82dUs7zsne7kHtjdP5yir8wUCeAHX_ECuypnHyWpCtvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:43,601 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/gratitude-rock-printed-sporty-men-polo-neck-red-t-shirt/p/itm1b6df21cea662?pid=TSHHM4GQJ9F3FPAZ&lid=LSTTSHHM4GQJ9F3FPAZDSENWV&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_19&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM4GQJ9F3FPAZ.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:44,900 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/eyebogler-solid-men-hooded-neck-grey-t-shirt/p/itm6401fbaf81fb6?pid=TSHHM2YCEYUVPJNN&lid=LSTTSHHM2YCEYUVPJNNCNHFVT&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_20&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHM2YCEYUVPJNN.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:44,919 [INFO] [retriever] Window complete | window=20 total=20 fetched=20 failed=0
+2026-04-25 23:59:45,627 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itma87d08fd09073?pid=KTBH7HX5NW6GGCMF&lid=LSTKTBH7HX5NW6GGCMFAAXTEP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_21&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIxOZBzTGJcK8HJ6VriruX0FHVd44LuF-qCGEmJbLtxpQ%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:45,627 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&lid=LSTKTBGYXGZAGTCK5BULCS6PO&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_22&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIsS4zXvwblW5CgRGSSr9vY95N04MqVIklYVCaWVF0iFg%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:45,628 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_23&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBGVV3YZSRRGGBF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:45,629 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/killer-boys-printed-pure-cotton-regular-t-shirt/p/itm2ef973f0c32d1?pid=KTBH3H778KEHFY85&lid=LSTKTBH3H778KEHFY85DC73YM&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_24&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH3H778KEHFY85.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:49,641 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itma87d08fd09073?pid=KTBH7HX5NW6GGCMF&lid=LSTKTBH7HX5NW6GGCMFAAXTEP&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_21&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIxOZBzTGJcK8HJ6VriruX0FHVd44LuF-qCGEmJbLtxpQ%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:49,662 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/msv-printed-typography-men-polo-neck-red-t-shirt/p/itm70ffae3507a73?pid=TSHGWWHGYQBQQB4F&lid=LSTTSHGWWHGYQBQQB4F0P9LOW&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_25&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLEFa8104pV3numNmJVQrzME9YoMIyGwClkV10SaQW4yvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:49,679 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&lid=LSTKTBGYXGZAGTCK5BULCS6PO&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_22&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIsS4zXvwblW5CgRGSSr9vY95N04MqVIklYVCaWVF0iFg%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:49,694 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/fashion-globe-self-design-men-round-neck-multicolor-t-shirt/p/itm5b90a6323a038?pid=TSHHHGZYRYEU76DF&lid=LSTTSHHHGZYRYEU76DFMJ0KLX&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_26&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHHGZYRYEU76DF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:49,781 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/killer-boys-printed-pure-cotton-regular-t-shirt/p/itm2ef973f0c32d1?pid=KTBH3H778KEHFY85&lid=LSTKTBH3H778KEHFY85DC73YM&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_24&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH3H778KEHFY85.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:49,797 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itmc1ccaa287cfe8?pid=TSHH8CNZFQKZQ6SJ&lid=LSTTSHH8CNZFQKZQ6SJGMHXN4&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_27&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJFqA2LaVGDqTj1w0JmXJP2Ge3FgEoYeoqyHlP8mijzH8svznWCApVxH0FtqY3oUAk%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:49,856 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_23&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBGVV3YZSRRGGBF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:49,878 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm5ba02dbcf6e79?pid=KTBHHG3GGJYWFVTU&lid=LSTKTBHHG3GGJYWFVTUZ48AI9&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_28&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIRd0uQD529Yr7kog78pAW8hFlYjJ0DnfxsGePpy9YNBPUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:53,452 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/msv-printed-typography-men-polo-neck-red-t-shirt/p/itm70ffae3507a73?pid=TSHGWWHGYQBQQB4F&lid=LSTTSHGWWHGYQBQQB4F0P9LOW&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_25&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglLEFa8104pV3numNmJVQrzME9YoMIyGwClkV10SaQW4yvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:53,468 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/vp-texx-boys-girls-printed-cotton-blend-regular-t-shirt/p/itmf0d8e87df3475?pid=KTBH94W5HHYVG9X8&lid=LSTKTBH94W5HHYVG9X8ITJB4B&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_29&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH94W5HHYVG9X8.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:53,877 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm5ba02dbcf6e79?pid=KTBHHG3GGJYWFVTU&lid=LSTKTBHHG3GGJYWFVTUZ48AI9&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_28&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIRd0uQD529Yr7kog78pAW8hFlYjJ0DnfxsGePpy9YNBPUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:53,894 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/killer-boys-printed-pure-cotton-regular-t-shirt/p/itm9f49c9624769b?pid=KTBH25RSXGNVVDQP&lid=LSTKTBH25RSXGNVVDQPVT8PXY&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_30&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH25RSXGNVVDQP.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:55,951 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/fashion-globe-self-design-men-round-neck-multicolor-t-shirt/p/itm5b90a6323a038?pid=TSHHHGZYRYEU76DF&lid=LSTTSHHHGZYRYEU76DFMJ0KLX&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_26&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHHHGZYRYEU76DF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:55,959 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itmc1ccaa287cfe8?pid=TSHH8CNZFQKZQ6SJ&lid=LSTTSHH8CNZFQKZQ6SJGMHXN4&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_27&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglJFqA2LaVGDqTj1w0JmXJP2Ge3FgEoYeoqyHlP8mijzH8svznWCApVxH0FtqY3oUAk%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:55,992 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itm3cd4d4b1f00cd?pid=TSHH66QEMEGGBHGH&lid=LSTTSHH66QEMEGGBHGHPIGU68&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_31&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglKenLwXjAj4z_nmMw6FkizR7Nyr9jCQrylladZyI_H4Jg%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:55,992 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ni-fashion-boys-girls-printed-cotton-blend-regular-t-shirt/p/itm57cab3e2c41e3?pid=KTBHY63QZF3ZJP3B&lid=LSTKTBHY63QZF3ZJP3BYF0TWF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_32&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglL56Z8PsdK8KKJFbFzScWRlLpqTN-Qy2ES9f6FRWBNHkfUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:57,686 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/killer-boys-printed-pure-cotton-regular-t-shirt/p/itm9f49c9624769b?pid=KTBH25RSXGNVVDQP&lid=LSTKTBH25RSXGNVVDQPVT8PXY&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_30&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH25RSXGNVVDQP.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:57,704 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/vebnor-solid-men-polo-neck-yellow-t-shirt/p/itm8f9cc4d4e49b1?pid=TSHH5Y5FNX3MUDHG&lid=LSTTSHH5Y5FNX3MUDHGM6ONNC&marketplace=FLIPKART&store=clo%2Fash%2Fank&spotlightTagId=default_BestsellerId_clo%2Fash%2Fank&srno=b_1_33&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHH5Y5FNX3MUDHG.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:58,579 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/vp-texx-boys-girls-printed-cotton-blend-regular-t-shirt/p/itmf0d8e87df3475?pid=KTBH94W5HHYVG9X8&lid=LSTKTBH94W5HHYVG9X8ITJB4B&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_29&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBH94W5HHYVG9X8.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:58,595 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/mgr-boys-solid-polyester-regular-t-shirt/p/itme59f0f5750c29?pid=KTBHK5VEBRM8UHJF&lid=LSTKTBHK5VEBRM8UHJFQMVBWD&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_34&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHK5VEBRM8UHJF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-25 23:59:59,848 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itm3cd4d4b1f00cd?pid=TSHH66QEMEGGBHGH&lid=LSTTSHH66QEMEGGBHGHPIGU68&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_31&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglKenLwXjAj4z_nmMw6FkizR7Nyr9jCQrylladZyI_H4Jg%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-25 23:59:59,866 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itmb6d204ec40c62?pid=TSHGZKE3SHXZDJNA&lid=LSTTSHGZKE3SHXZDJNANSPPHO&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_35&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIgsbYUbV3pLCEA_zCHtdIDB5J_GAAUOD9joDC8RFjUDw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:00,251 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ni-fashion-boys-girls-printed-cotton-blend-regular-t-shirt/p/itm57cab3e2c41e3?pid=KTBHY63QZF3ZJP3B&lid=LSTKTBHY63QZF3ZJP3BYF0TWF&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_32&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglL56Z8PsdK8KKJFbFzScWRlLpqTN-Qy2ES9f6FRWBNHkfUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:00,273 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/trip-colours-baby-boys-girls-printed-cotton-blend-regular-t-shirt/p/itmefce361bd99ff?pid=KTBHFVK83QR9QCZG&lid=LSTKTBHFVK83QR9QCZGZ4D0ZU&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_36&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHFVK83QR9QCZG.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:01,492 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/vebnor-solid-men-polo-neck-yellow-t-shirt/p/itm8f9cc4d4e49b1?pid=TSHH5Y5FNX3MUDHG&lid=LSTTSHH5Y5FNX3MUDHGM6ONNC&marketplace=FLIPKART&store=clo%2Fash%2Fank&spotlightTagId=default_BestsellerId_clo%2Fash%2Fank&srno=b_1_33&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.TSHH5Y5FNX3MUDHG.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:01,508 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/raax-boys-printed-cotton-blend-regular-t-shirt/p/itmd9b6c4c31c4e4?pid=KTBH7X3YWDYPCFWP&lid=LSTKTBH7X3YWDYPCFWPOEUB9M&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_37&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglKYhudU-3s6LwA7ApCWe22iTgY1LOhg4kte8Q-5i9WukvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:02,374 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/mgr-boys-solid-polyester-regular-t-shirt/p/itme59f0f5750c29?pid=KTBHK5VEBRM8UHJF&lid=LSTKTBHK5VEBRM8UHJFQMVBWD&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_34&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHK5VEBRM8UHJF.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:02,394 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/blive-solid-men-round-neck-multicolor-t-shirt/p/itm0ab8cb4181288?pid=TSHH7ZEGR5793RN5&lid=LSTTSHH7ZEGR5793RN5M9LEGN&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_38&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK1MKd7FAO8vbdBfSA15Df-rEeg4dVKqfVvx6PnAjruhDUAxv6Z8Fa7FZceVio0OKQ%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:03,432 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itmb6d204ec40c62?pid=TSHGZKE3SHXZDJNA&lid=LSTTSHGZKE3SHXZDJNANSPPHO&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_35&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglIgsbYUbV3pLCEA_zCHtdIDB5J_GAAUOD9joDC8RFjUDw%3D%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:03,453 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tiyaenterprise-baby-boys-striped-cotton-blend-regular-t-shirt/p/itm385ff2a98813c?pid=KTBHHH6VKPE8JKZD&lid=LSTKTBHHH6VKPE8JKZDOB1B0A&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_39&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHHH6VKPE8JKZD.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:03,797 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/trip-colours-baby-boys-girls-printed-cotton-blend-regular-t-shirt/p/itmefce361bd99ff?pid=KTBHFVK83QR9QCZG&lid=LSTKTBHFVK83QR9QCZGZ4D0ZU&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_36&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHFVK83QR9QCZG.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:03,814 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/hellcat-boys-printed-cotton-blend-regular-t-shirt/p/itmab05b99eb379f?pid=KTBGN9XGHRD8TGZN&lid=LSTKTBGN9XGHRD8TGZNOMAZKR&marketplace=FLIPKART&store=clo%2Fash%2Fank&spotlightTagId=default_BestsellerId_clo%2Fash%2Fank&srno=b_1_40&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBGN9XGHRD8TGZN.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true"
+}
+2026-04-26 00:00:05,174 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/raax-boys-printed-cotton-blend-regular-t-shirt/p/itmd9b6c4c31c4e4?pid=KTBH7X3YWDYPCFWP&lid=LSTKTBH7X3YWDYPCFWPOEUB9M&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_37&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglKYhudU-3s6LwA7ApCWe22iTgY1LOhg4kte8Q-5i9WukvUFjCTyOHoHZs-Z5_PS_w0%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:06,583 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/blive-solid-men-round-neck-multicolor-t-shirt/p/itm0ab8cb4181288?pid=TSHH7ZEGR5793RN5&lid=LSTTSHH7ZEGR5793RN5M9LEGN&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_38&otracker=browse&fm=organic&iid=en_M8nWLYYk-mP0Ny6FHTBWC-vXgkxwd2bfdjcjt2DyglK1MKd7FAO8vbdBfSA15Df-rEeg4dVKqfVvx6PnAjruhDUAxv6Z8Fa7FZceVio0OKQ%3D&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:06,873 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tiyaenterprise-baby-boys-striped-cotton-blend-regular-t-shirt/p/itm385ff2a98813c?pid=KTBHHH6VKPE8JKZD&lid=LSTKTBHHH6VKPE8JKZDOB1B0A&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_39&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBHHH6VKPE8JKZD.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:07,802 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/hellcat-boys-printed-cotton-blend-regular-t-shirt/p/itmab05b99eb379f?pid=KTBGN9XGHRD8TGZN&lid=LSTKTBGN9XGHRD8TGZNOMAZKR&marketplace=FLIPKART&store=clo%2Fash%2Fank&spotlightTagId=default_BestsellerId_clo%2Fash%2Fank&srno=b_1_40&otracker=browse&fm=organic&iid=cf8975e6-4b5f-4184-9de4-dd9d04b6dcbf.KTBGN9XGHRD8TGZN.SEARCH&ppt=None&ppn=None&ssid=xjl1kr74q80000001777139835612&ov_redirect=true
+2026-04-26 00:00:07,820 [INFO] [retriever] Window complete | window=20 total=40 fetched=40 failed=0
+2026-04-26 00:00:08,392 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&marketplace=FLIPKART&ov_redirect=true"
+}
+2026-04-26 00:00:08,395 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm204a6971a7a6f?pid=KTBHHG3VPQ22ZVXT&marketplace=FLIPKART&ov_redirect=true"
+}
+2026-04-26 00:00:08,396 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmd1dcd90c06e86?pid=KTBHH9YR8QZZYHC2&marketplace=FLIPKART&ov_redirect=true"
+}
+2026-04-26 00:00:08,398 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/prodjersey-printed-men-v-neck-red-t-shirt/p/itma6a0f7d0fa511?pid=TSHHMYQBATNYQEEV&marketplace=FLIPKART&ov_redirect=true"
+}
+2026-04-26 00:00:12,448 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/msv-boys-girls-printed-polyester-regular-t-shirt/p/itmd1dcd90c06e86?pid=KTBHH9YR8QZZYHC2&marketplace=FLIPKART&ov_redirect=true
+2026-04-26 00:00:12,466 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itm5d7dfb35a85e8?pid=TSHH7USMY94FAVWH&marketplace=FLIPKART&ov_redirect=true"
+}
+2026-04-26 00:00:12,582 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&marketplace=FLIPKART&ov_redirect=true
+2026-04-26 00:00:12,598 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itmc1ccaa287cfe8?pid=TSHH8CNZFQKZQ6SJ&lid=LSTTSHH8CNZFQKZQ6SJGMHXN4&marketplace=FLIPKART"
+}
+2026-04-26 00:00:12,691 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/ryze-boys-girls-printed-polyester-regular-t-shirt/p/itm204a6971a7a6f?pid=KTBHHG3VPQ22ZVXT&marketplace=FLIPKART&ov_redirect=true
+2026-04-26 00:00:12,710 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&lid=LSTKTBGYXGZAGTCK5BULCS6PO&marketplace=FLIPKART"
+}
+2026-04-26 00:00:15,017 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/prodjersey-printed-men-v-neck-red-t-shirt/p/itma6a0f7d0fa511?pid=TSHHMYQBATNYQEEV&marketplace=FLIPKART&ov_redirect=true
+2026-04-26 00:00:15,036 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/wings-2-fly-boys-girls-graphic-print-pure-cotton-regular-t-shirt/p/itmf50d13a320e8b?pid=KTBHEDJQHBEC47NZ&lid=LSTKTBHEDJQHBEC47NZLI7CBP&marketplace=FLIPKART"
+}
+2026-04-26 00:00:16,623 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-striped-cotton-blend-slim-t-shirt/p/itm9e65e50536c25?pid=KTBGYXGZAGTCK5BU&lid=LSTKTBGYXGZAGTCK5BULCS6PO&marketplace=FLIPKART
+2026-04-26 00:00:16,638 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tiyaenterprise-baby-boys-striped-cotton-blend-regular-t-shirt/p/itm385ff2a98813c?pid=KTBHHH6VKPE8JKZD&lid=LSTKTBHHH6VKPE8JKZDOB1B0A&marketplace=FLIPKART"
+}
+2026-04-26 00:00:16,656 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itm5d7dfb35a85e8?pid=TSHH7USMY94FAVWH&marketplace=FLIPKART&ov_redirect=true
+2026-04-26 00:00:16,672 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itmb6d204ec40c62?pid=TSHGZKE3SHXZDJNA&lid=LSTTSHGZKE3SHXZDJNANSPPHO&marketplace=FLIPKART"
+}
+2026-04-26 00:00:16,826 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tripr-solid-men-round-neck-multicolor-t-shirt/p/itmc1ccaa287cfe8?pid=TSHH8CNZFQKZQ6SJ&lid=LSTTSHH8CNZFQKZQ6SJGMHXN4&marketplace=FLIPKART
+2026-04-26 00:00:16,844 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/raax-boys-printed-cotton-blend-regular-t-shirt/p/itmd9b6c4c31c4e4?pid=KTBH7X3YWDYPCFWP&lid=LSTKTBH7X3YWDYPCFWPOEUB9M&marketplace=FLIPKART"
+}
+2026-04-26 00:00:18,489 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/wings-2-fly-boys-girls-graphic-print-pure-cotton-regular-t-shirt/p/itmf50d13a320e8b?pid=KTBHEDJQHBEC47NZ&lid=LSTKTBHEDJQHBEC47NZLI7CBP&marketplace=FLIPKART
+2026-04-26 00:00:18,512 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itm19c8e209ce63c?pid=KTBHM5GTTPNVSBZQ&lid=LSTKTBHM5GTTPNVSBZQ1VKF0N&marketplace=FLIPKART"
+}
+2026-04-26 00:00:20,368 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/coitonic-solid-men-round-neck-black-t-shirt/p/itmb6d204ec40c62?pid=TSHGZKE3SHXZDJNA&lid=LSTTSHGZKE3SHXZDJNANSPPHO&marketplace=FLIPKART
+2026-04-26 00:00:20,388 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART"
+}
+2026-04-26 00:00:20,437 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tiyaenterprise-baby-boys-striped-cotton-blend-regular-t-shirt/p/itm385ff2a98813c?pid=KTBHHH6VKPE8JKZD&lid=LSTKTBHHH6VKPE8JKZDOB1B0A&marketplace=FLIPKART
+2026-04-26 00:00:20,457 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/hellcat-boys-printed-cotton-blend-regular-t-shirt/p/itmab05b99eb379f?pid=KTBGN9XGHRD8TGZN&lid=LSTKTBGN9XGHRD8TGZNOMAZKR&marketplace=FLIPKART"
+}
+2026-04-26 00:00:20,750 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/raax-boys-printed-cotton-blend-regular-t-shirt/p/itmd9b6c4c31c4e4?pid=KTBH7X3YWDYPCFWP&lid=LSTKTBH7X3YWDYPCFWPOEUB9M&marketplace=FLIPKART
+2026-04-26 00:00:20,773 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itm8f1eea97d7292?pid=KTBH7HX56AFZJJZB&lid=LSTKTBH7HX56AFZJJZBHM81DG&marketplace=FLIPKART"
+}
+2026-04-26 00:00:22,610 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/prodjersey-boys-girls-printed-polyester-regular-t-shirt/p/itm19c8e209ce63c?pid=KTBHM5GTTPNVSBZQ&lid=LSTKTBHM5GTTPNVSBZQ1VKF0N&marketplace=FLIPKART
+2026-04-26 00:00:24,232 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/hellcat-boys-printed-cotton-blend-regular-t-shirt/p/itmab05b99eb379f?pid=KTBGN9XGHRD8TGZN&lid=LSTKTBGN9XGHRD8TGZNOMAZKR&marketplace=FLIPKART
+2026-04-26 00:00:24,546 [INFO] UnblockService: SUCCESS strategy=direct url=https://www.flipkart.com/tb-blue-boys-graphic-print-pure-cotton-slim-t-shirt/p/itm8f1eea97d7292?pid=KTBH7HX56AFZJJZB&lid=LSTKTBH7HX56AFZJJZBHM81DG&marketplace=FLIPKART
+2026-04-26 00:02:22,935 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART (status 403)"
+}
+2026-04-26 00:02:22,935 [ERROR] [retriever] Failed (403): https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART
+2026-04-26 00:02:22,939 [INFO] [retriever] Window complete | window=15 total=55 fetched=54 failed=1
+2026-04-26 00:05:19,269 [INFO] [retriever] Queue empty after 36 consecutive polls — done
+2026-04-26 00:05:19,309 [INFO] Closing connection (200): Normal shutdown
+2026-04-26 00:05:19,309 [INFO] Closing channel (200): 'Normal shutdown' on <Channel number=1 OPEN conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-26 00:05:19,345 [INFO] Received <Channel.CloseOk> on <Channel number=1 CLOSING conn=<SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncSSLTransport object at 0x00000289C60E2930> params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>>
+2026-04-26 00:05:19,346 [INFO] Closing connection (200): 'Normal shutdown'
+2026-04-26 00:05:19,383 [INFO] Aborting transport connection: state=1; <ssl.SSLSocket fd=1060, family=2, type=1, proto=0, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-26 00:05:19,383 [INFO] _AsyncTransportBase._initate_abort(): Initiating abrupt asynchronous transport shutdown: state=1; error=None; <ssl.SSLSocket fd=1060, family=2, type=1, proto=0, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-26 00:05:19,383 [INFO] Deactivating transport: state=1; <ssl.SSLSocket fd=1060, family=2, type=1, proto=0, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-26 00:05:19,384 [INFO] AMQP stack terminated, failed to connect, or aborted: opened=True, error-arg=None; pending-error=ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-26 00:05:19,384 [INFO] Stack terminated due to ConnectionClosedByClient: (200) 'Normal shutdown'
+2026-04-26 00:05:19,384 [INFO] Closing transport socket and unlinking: state=3; <ssl.SSLSocket fd=1060, family=2, type=1, proto=0, laddr=('192.168.29.128', 51707), raddr=('15.206.140.228', 5671)>
+2026-04-26 00:05:19,385 [INFO] User-initiated close: result=BlockingConnection__OnClosedArgs(connection=<SelectConnection CLOSED transport=None params=<URLParameters host=puffin.rmq2.cloudamqp.com port=5671 virtual_host=fwgxshpc ssl=True>>, error=ConnectionClosedByClient: (200) 'Normal shutdown')
+2026-04-26 00:05:19,385 [INFO] {
+    "status": "success",
+    "info": "[retriever] Completed schedule_id=20260602394 | Fetched=54 Failed=1 Total=55"
+}
+2026-04-26 00:05:19,827 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlParser for project: commerce_crawl and site: flipkart_com"
+}
+2026-04-26 00:05:19,828 [INFO] {
+    "status": "info",
+    "info": "[parser] Starting for project=commerce_crawl, site=flipkart_com, schedule_id=20260602394"
+}
+2026-04-26 00:05:19,875 [INFO] {
+    "status": "info",
+    "info": "[parser] 110 pages to parse | workers=4"
+}
+2026-04-26 00:05:20,132 [ERROR] Parser error on: {'url': "https://www.flipkart.com/killer-boys-printed-pure-cotton-regular-t-shirt/p/itm2ef973f0c32d1?pid=KTBH3H778KEHFY85&lid=LSTKTBH3H778KEHFY85DC73YM&marketplace=FLIPKART&store=clo%2Fash%2Fank&srno=b_1_19&otracker=browse&fm=organic&iid=70310115-77cf-4a56-897e-79be1540a4f1.KTBH3H778KEHFY85.SEARCH&ppt=None&ppn=None&ssid=xxaxc0337k0000001776704589914&ov_redirect=true|{'rank': 19}", 'output_file': 'C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\retriever_output\\commerce_crawl\\flipkart_com_commerce_crawl\\20260602394\\20260420d4a5cfba2de02a54d35ab66b26d1a75a.html'}
+Traceback (most recent call last):
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\url_parser.py", line 161, in _drain_one
+    records = fut.result(timeout=5)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\url_parser.py", line 67, in _process_one
+    with open(output_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\retriever_output\\commerce_crawl\\flipkart_com_commerce_crawl\\20260602394\\20260420d4a5cfba2de02a54d35ab66b26d1a75a.html'
+2026-04-26 00:05:21,305 [ERROR] Parser error on: {'url': "https://www.flipkart.com/ftc-fashions-boys-graphic-print-cotton-blend-regular-t-shirt/p/itmfd73917f4bab5?pid=KTBGVV3YZSRRGGBF&lid=LSTKTBGVV3YZSRRGGBF5NUVXE&marketplace=FLIPKART|{'rank': 53}", 'output_file': 'C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\retriever_output\\commerce_crawl\\flipkart_com_commerce_crawl\\20260602394\\20260425b927b992df1337bed0353d2d5a430eea.html'}
+Traceback (most recent call last):
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\url_parser.py", line 161, in _drain_one
+    records = fut.result(timeout=5)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\shanj\AppData\Local\Programs\Python\Python312\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shanj\OneDrive\Desktop\SARA\sdf_module\url_parser.py", line 67, in _process_one
+    with open(output_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\retriever_output\\commerce_crawl\\flipkart_com_commerce_crawl\\20260602394\\20260425b927b992df1337bed0353d2d5a430eea.html'
+2026-04-26 00:05:21,496 [WARNING] elasticsearch package not installed — skipping ES upload.
+2026-04-26 00:05:21,498 [INFO] {
+    "status": "success",
+    "info": "[parser] ES upload complete"
+}
+2026-04-26 00:05:21,498 [INFO] {
+    "status": "success",
+    "info": "[parser] Completed schedule_id=20260602394 | Records: 108 from 110 pages"
+}
+2026-04-26 00:05:25,113 [INFO] {
+    "status": "info",
+    "info": "Initializing UrlDiscovery for project: commerce_crawl and site: meesho_com"
+}
+2026-04-26 00:05:25,114 [INFO] {
+    "status": "info",
+    "info": "[discovery] Starting for project=commerce_crawl, site=meesho_com, schedule_id=20260602394"
+}
+2026-04-26 00:05:25,114 [INFO] {
+    "status": "info",
+    "info": "Starting main execution for commerce_crawl/meesho_com"
+}
+2026-04-26 00:05:25,136 [INFO] {
+    "status": "info",
+    "info": "[discovery] depth1: 11 URLs | method=get_product_url"
+}
+2026-04-26 00:05:25,137 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/men-t-shirts/pl/3lq"
+}
+2026-04-26 00:05:25,137 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-t-shirts/pl/3es"
+}
+2026-04-26 00:05:25,137 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/polo-t-shirts/pl/3lr"
+}
+2026-04-26 00:05:25,137 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-kurtas/pl/3ew"
+}
+2026-04-26 00:05:25,137 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-dresses/pl/3et"
+}
+2026-04-26 00:05:25,141 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/men-shirts/pl/3lp"
+}
+2026-04-26 00:05:30,977 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/men-t-shirts/pl/3lq (status 403)"
+}
+2026-04-26 00:05:30,977 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:30,978 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-jeans/pl/3ev"
+}
+2026-04-26 00:05:31,052 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/women-kurtas/pl/3ew (status 403)"
+}
+2026-04-26 00:05:31,052 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:31,052 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/men-jeans/pl/3ls"
+}
+2026-04-26 00:05:31,634 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/women-dresses/pl/3et (status 403)"
+}
+2026-04-26 00:05:31,634 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:31,635 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-tops/pl/3eu"
+}
+2026-04-26 00:05:31,849 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.meesho.com', port=443): Max retries exceeded with url: /women-jeans/pl/3ev (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 1s"
+}
+2026-04-26 00:05:32,114 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/women-t-shirts/pl/3es (status 403)"
+}
+2026-04-26 00:05:32,115 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:32,115 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/sarees/pl/3ey"
+}
+2026-04-26 00:05:32,117 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/men-shirts/pl/3lp (status 403)"
+}
+2026-04-26 00:05:32,117 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:32,117 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/men-ethnic-wear/pl/3lv"
+}
+2026-04-26 00:05:32,123 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/polo-t-shirts/pl/3lr (status 403)"
+}
+2026-04-26 00:05:32,124 [WARNING] Exception occurred: No proper DOM found
+2026-04-26 00:05:32,134 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.meesho.com', port=443): Max retries exceeded with url: /women-tops/pl/3eu (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 1s"
+}
+2026-04-26 00:05:32,596 [INFO] {
+    "status": "info",
+    "info": "Request failed (HTTPSConnectionPool(host='www.meesho.com', port=443): Max retries exceeded with url: /sarees/pl/3ey (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 407 Proxy Authentication Required')))), retrying in 1s"
+}
+2026-04-26 00:05:32,850 [INFO] {
+    "status": "info",
+    "info": "Fetching page content for URL: https://www.meesho.com/women-jeans/pl/3ev (attempt 2/4)"
+}
+2026-04-26 00:05:36,655 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/men-ethnic-wear/pl/3lv (status 403)"
+}
+2026-04-26 00:05:37,604 [ERROR] {
+    "status": "error",
+    "info": "Failed to fetch page content for URL: https://www.meesho.com/men-jeans/pl/3ls (status 403)"
+}

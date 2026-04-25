@@ -1,0 +1,12 @@
+---
+domain: technopak.com
+fields:
+  crawl_timestamp:
+  uniq_id:
+  page_url:
+  article_title:
+  sub_title:
+  author_name:
+  post_date:
+  article_content:
+  image_url:
