@@ -1,11 +1,15 @@
 depth0:
-  seed_url: ["https://TODO-set-seed-url.com/"]
+  seed_url: [
+    "https://freecultr.com/collections/men-t-shirts",
+    "https://freecultr.com/collections/women-tops",
+    "https://freecultr.com/collections/hoodies",
+    "https://freecultr.com/collections/joggers"
+  ]
 depth1:
   method_name: get_pagination_url
 depth2:
   method_name: get_product_url
-# Uncomment to route retriever fetches through the proxy pool:
-# request_params:
-#   proxy: webshare_proxy
-#   timeout: 30
-#   max_retries: 3
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

@@ -1,11 +1,18 @@
 depth0:
-  seed_url: ["https://TODO-set-seed-url.com/"]
+  seed_url: [
+    "https://www.fabindia.com/men/kurtas",
+    "https://www.fabindia.com/women/kurtas-sets",
+    "https://www.fabindia.com/men/tops-and-tshirts",
+    "https://www.fabindia.com/women/tops-and-tshirts",
+    "https://www.fabindia.com/women/sarees",
+    "https://www.fabindia.com/men/shirts",
+    "https://www.fabindia.com/women/dresses"
+  ]
 depth1:
   method_name: get_pagination_url
 depth2:
   method_name: get_product_url
-# Uncomment to route retriever fetches through the proxy pool:
-# request_params:
-#   proxy: webshare_proxy
-#   timeout: 30
-#   max_retries: 3
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

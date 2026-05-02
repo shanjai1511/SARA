@@ -119,6 +119,10 @@ class UrlDiscovery:
                     sdfFetch.print_error_message("error", f"URL fetching failed for {url}: {e}")
 
             n_workers = min(NUM_DISCOVERY_WORKERS, len(pending_urls))
+            if n_workers == 0:
+                sdfFetch.print_info_message("info", f"[discovery] depth{current_level}: no URLs to process, skipping")
+                pending_urls = []
+                continue
             with ThreadPoolExecutor(max_workers=n_workers) as executor:
                 futs = {executor.submit(_fetch_url, url): url for url in pending_urls}
                 for fut in as_completed(futs):

@@ -1,11 +1,16 @@
 depth0:
-  seed_url: ["https://TODO-set-seed-url.com/"]
+  seed_url: [
+    "https://in.puma.com/in/en/men/clothing/shirts-tees",
+    "https://in.puma.com/in/en/women/clothing/shirts-tees",
+    "https://in.puma.com/in/en/men/clothing/hoodies-and-sweatshirts",
+    "https://in.puma.com/in/en/men/clothing/shorts",
+    "https://in.puma.com/in/en/women/clothing/shorts"
+  ]
 depth1:
   method_name: get_pagination_url
 depth2:
   method_name: get_product_url
-# Uncomment to route retriever fetches through the proxy pool:
-# request_params:
-#   proxy: webshare_proxy
-#   timeout: 30
-#   max_retries: 3
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

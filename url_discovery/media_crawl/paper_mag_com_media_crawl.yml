@@ -1,11 +1,13 @@
 depth0:
-  seed_url: ["https://TODO-set-seed-url.com/"]
+  seed_url: [
+    "https://www.papermag.com/fashion/",
+    "https://www.papermag.com/style/",
+  ]
 depth1:
   method_name: get_pagination_url
 depth2:
   method_name: get_product_url
-# Uncomment to route retriever fetches through the proxy pool:
-# request_params:
-#   proxy: webshare_proxy
-#   timeout: 30
-#   max_retries: 3
+
+request_params:
+  timeout: 30
+  max_retries: 3

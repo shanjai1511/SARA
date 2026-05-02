@@ -12,8 +12,9 @@ depth0:
     "https://www.meesho.com/sarees/pl/3ey",
     "https://www.meesho.com/men-ethnic-wear/pl/3lv"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy
