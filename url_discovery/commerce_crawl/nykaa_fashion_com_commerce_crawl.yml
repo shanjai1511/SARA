@@ -1,10 +1,17 @@
 depth0:
   seed_url: [
     "https://www.nykaafashion.com/women-tops-t-shirts/c/7",
-    "https://www.nykaafashion.com/men-tshirts/c/9"
+    "https://www.nykaafashion.com/men-tshirts/c/9",
+    "https://www.nykaafashion.com/women-kurtas/c/8",
+    "https://www.nykaafashion.com/women-dresses/c/10",
+    "https://www.nykaafashion.com/women-jeans/c/12",
+    "https://www.nykaafashion.com/men-shirts/c/11",
+    "https://www.nykaafashion.com/women-co-ords/c/14",
+    "https://www.nykaafashion.com/women-ethnic-wear/c/13"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy

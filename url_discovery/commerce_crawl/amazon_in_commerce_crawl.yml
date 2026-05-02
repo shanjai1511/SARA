@@ -13,8 +13,9 @@ depth0:
     "https://www.amazon.in/s?k=men+activewear&rh=n%3A1968024031",
     "https://www.amazon.in/s?k=women+activewear&rh=n%3A1968024031"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy

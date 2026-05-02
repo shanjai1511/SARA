@@ -12,8 +12,9 @@ depth0:
     "https://www.maxfashion.in/in/en/Women/Tops/c/WomenTops",
     "https://www.maxfashion.in/in/en/Kids/Girls/Dresses/c/KidsGirlsDresses"
   ]
-  method_name: get_pagination_url
 depth1:
+  method_name: get_pagination_url
+depth2:
   method_name: get_product_url
 request_params:
   proxy: webshare_proxy

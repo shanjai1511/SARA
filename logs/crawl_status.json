@@ -1,752 +1,85 @@
 {
   "current_runs": {
-    "media_crawl__just_style_com__20260602394": {
+    "media_crawl__just_style_com__20260426001": {
       "project": "media_crawl",
       "site": "just_style_com",
-      "schedule_id": "20260602394",
+      "schedule_id": "20260426001",
       "stage": "discovery",
-      "started_at": "2026-04-19T15:01:24Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {}
-    },
-    "media_crawl__fibre_2_fashion_com__20260602394": {
-      "project": "media_crawl",
-      "site": "fibre_2_fashion_com",
-      "schedule_id": "20260602394",
-      "stage": "discovery",
-      "started_at": "2026-04-22T19:34:40Z",
+      "started_at": "2026-04-26T09:45:30Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {},
-      "updated_at": "2026-04-22T19:34:41Z"
+      "updated_at": "2026-04-26T09:45:31Z"
     },
-    "commerce_crawl__meesho_com__20260602394": {
+    "commerce_crawl__flipkart_com__20260426001": {
       "project": "commerce_crawl",
-      "site": "meesho_com",
-      "schedule_id": "20260602394",
+      "site": "flipkart_com",
+      "schedule_id": "20260426001",
       "stage": "discovery",
-      "started_at": "2026-04-25T18:35:24Z",
+      "started_at": "2026-04-26T09:53:49Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {},
-      "updated_at": "2026-04-25T18:35:24Z"
+      "updated_at": "2026-04-26T09:53:50Z"
     }
   },
   "last_runs": [
     {
       "project": "commerce_crawl",
-      "site": "flipkart_com",
-      "schedule_id": "20260602394",
+      "site": "limeroad_com",
+      "schedule_id": "20260426001",
       "stage": "parser",
-      "started_at": "2026-04-25T17:57:11Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 55,
-        "retriever_total": 55,
-        "retriever_fetched": 54,
-        "parser_pages": 110,
-        "parser_records": 108,
-        "parser_pages_done": 110
-      },
-      "updated_at": "2026-04-25T18:35:21Z",
-      "completed_at": "2026-04-25T18:35:21Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-22T18:53:40Z",
+      "started_at": "2026-04-26T09:13:39Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {
         "retriever_total": 0,
-        "retriever_fetched": 48,
-        "discovery_urls": 720,
-        "parser_pages": 96,
-        "parser_records": 96,
-        "parser_pages_done": 96
+        "retriever_fetched": 125,
+        "discovery_urls": 1600,
+        "parser_pages": 222,
+        "parser_records": 17,
+        "parser_pages_done": 17
       },
-      "updated_at": "2026-04-22T19:34:33Z",
-      "completed_at": "2026-04-22T19:34:33Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "apparel_resources_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-22T18:01:27Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 494,
-        "discovery_urls": 4465,
-        "parser_pages": 550,
-        "parser_records": 550,
-        "parser_pages_done": 550
-      },
-      "updated_at": "2026-04-22T18:53:34Z",
-      "completed_at": "2026-04-22T18:53:34Z",
-      "status": "completed"
-    },
-    {
-      "project": "apparel_resources_com",
-      "site": "media_crawl",
-      "schedule_id": "20260602394",
-      "stage": "discovery",
-      "started_at": "2026-04-22T18:00:25Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {},
-      "updated_at": "2026-04-22T18:00:26Z",
-      "completed_at": "2026-04-22T18:00:32Z",
+      "updated_at": "2026-04-26T09:53:43Z",
+      "completed_at": "2026-04-26T09:53:45Z",
       "status": "failed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "business_of_fashion",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-22T16:16:17Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 10,
-        "discovery_urls": 270,
-        "parser_pages": 28,
-        "parser_records": 22,
-        "parser_pages_done": 28
-      },
-      "updated_at": "2026-04-22T16:54:51Z",
-      "completed_at": "2026-04-22T16:54:51Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "vogue_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-22T15:03:05Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 455,
-        "discovery_urls": 791,
-        "parser_pages": 1053,
-        "parser_records": 957,
-        "parser_pages_done": 1053
-      },
-      "updated_at": "2026-04-22T15:52:03Z",
-      "completed_at": "2026-04-22T15:52:03Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_global_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T16:55:19Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 48,
-        "discovery_urls": 720,
-        "parser_pages": 237,
-        "parser_records": 237,
-        "parser_pages_done": 237
-      },
-      "updated_at": "2026-04-21T17:34:31Z",
-      "completed_at": "2026-04-21T17:34:31Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_global_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T16:02:45Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 49,
-        "discovery_urls": 720,
-        "parser_pages": 189,
-        "parser_records": 101,
-        "parser_pages_done": 101
-      },
-      "updated_at": "2026-04-21T16:18:26Z",
-      "completed_at": "2026-04-21T16:18:26Z",
-      "status": "failed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_global_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T15:28:30Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 48,
-        "discovery_urls": 720,
-        "parser_pages": 140,
-        "parser_records": 140,
-        "parser_pages_done": 140
-      },
-      "updated_at": "2026-04-21T15:44:06Z",
-      "completed_at": "2026-04-21T15:44:06Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_global_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T14:18:20Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 48,
-        "retriever_fetched": 78,
-        "discovery_urls": 48,
-        "parser_pages": 92,
-        "parser_records": 92,
-        "parser_pages_done": 92
-      },
-      "updated_at": "2026-04-21T14:21:54Z",
-      "completed_at": "2026-04-21T14:21:54Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "vogue_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T13:59:40Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 65,
-        "discovery_urls": 81,
-        "parser_pages": 136,
-        "parser_records": 122,
-        "parser_pages_done": 136
-      },
-      "updated_at": "2026-04-21T14:14:48Z",
-      "completed_at": "2026-04-21T14:14:48Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "drapers_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T12:54:05Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 1,
-        "retriever_fetched": 0,
-        "discovery_urls": 0,
-        "parser_pages": 1,
-        "parser_records": 0,
-        "parser_pages_done": 1
-      },
-      "updated_at": "2026-04-21T12:55:00Z",
-      "completed_at": "2026-04-21T12:55:00Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "tata_cliq_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T12:37:43Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "updated_at": "2026-04-21T12:43:50Z",
-      "completed_at": "2026-04-21T12:43:50Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "max_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T12:27:43Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "updated_at": "2026-04-21T12:33:50Z",
-      "completed_at": "2026-04-21T12:33:50Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T11:48:53Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 48,
-        "discovery_urls": 48,
-        "parser_pages": 48,
-        "parser_records": 48,
-        "parser_pages_done": 48
-      },
-      "updated_at": "2026-04-21T11:55:40Z",
-      "completed_at": "2026-04-21T11:55:40Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "meesho_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-21T11:31:06Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "updated_at": "2026-04-21T11:37:15Z",
-      "completed_at": "2026-04-21T11:37:15Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "the_fashion_law_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-20T17:46:05Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 108,
-        "retriever_total": 108,
-        "retriever_fetched": 45,
-        "parser_pages": 48,
-        "parser_records": 45,
-        "parser_pages_done": 48
-      },
-      "updated_at": "2026-04-20T17:55:31Z",
-      "completed_at": "2026-04-20T17:55:31Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "business_of_fashion",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-20T17:38:41Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 12,
-        "discovery_urls": 16,
-        "parser_pages": 14,
-        "parser_records": 12,
-        "parser_pages_done": 14
-      },
-      "updated_at": "2026-04-20T17:45:45Z",
-      "completed_at": "2026-04-20T17:45:45Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "flipkart_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-20T17:03:04Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 55,
-        "retriever_fetched": 54,
-        "parser_pages": 55,
-        "parser_records": 54,
-        "parser_pages_done": 55
-      },
-      "updated_at": "2026-04-20T17:12:22Z",
-      "completed_at": "2026-04-20T17:12:22Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "myntra_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-20T15:40:07Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 254,
-        "discovery_urls": 528,
-        "parser_pages": 1027,
-        "parser_records": 333,
-        "parser_pages_done": 1027
-      },
-      "updated_at": "2026-04-20T16:43:34Z",
-      "completed_at": "2026-04-20T16:43:34Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "myntra_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-20T14:21:04Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 0,
-        "discovery_urls": 520,
-        "parser_pages": 510,
-        "parser_records": 0,
-        "parser_pages_done": 510
-      },
-      "updated_at": "2026-04-20T15:19:57Z",
-      "completed_at": "2026-04-20T15:19:57Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "vogue_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T15:14:01Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 57,
-        "discovery_urls": 101,
-        "parser_pages": 67,
-        "parser_records": 57,
-        "parser_pages_done": 67
-      },
-      "updated_at": "2026-04-19T15:22:09Z",
-      "completed_at": "2026-04-19T15:22:09Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "the_industry_fashion_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T15:08:27Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 74,
-        "parser_pages": 50,
-        "parser_records": 50,
-        "parser_pages_done": 50
-      },
-      "updated_at": "2026-04-19T15:14:00Z",
-      "completed_at": "2026-04-19T15:14:00Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "the_fashion_law_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T15:08:27Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 105
-      },
-      "updated_at": "2026-04-19T15:13:59Z",
-      "completed_at": "2026-04-19T15:13:59Z",
-      "status": "completed"
     },
     {
       "project": "media_crawl",
       "site": "fibre_2_fashion_com",
-      "schedule_id": "20260602394",
+      "schedule_id": "20260426001",
       "stage": "parser",
-      "started_at": "2026-04-19T15:01:24Z",
+      "started_at": "2026-04-26T09:05:18Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {
         "retriever_total": 0,
-        "retriever_fetched": 25,
-        "discovery_urls": 61,
-        "parser_pages": 25,
-        "parser_records": 25,
-        "parser_pages_done": 25
+        "retriever_fetched": 142,
+        "discovery_urls": 1962,
+        "parser_pages": 142,
+        "parser_records": 142,
+        "parser_pages_done": 142
       },
-      "updated_at": "2026-04-19T15:08:26Z",
-      "completed_at": "2026-04-19T15:08:26Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "fashion_united_global_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:51:26Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 14,
-        "discovery_urls": 48,
-        "parser_pages": 14,
-        "parser_records": 14,
-        "parser_pages_done": 14
-      },
-      "updated_at": "2026-04-19T15:01:23Z",
-      "completed_at": "2026-04-19T15:01:23Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "drapers_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:45:38Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 1
-      },
-      "updated_at": "2026-04-19T14:51:25Z",
-      "completed_at": "2026-04-19T14:51:25Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "business_of_fashion",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:45:38Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 17
-      },
-      "updated_at": "2026-04-19T14:51:17Z",
-      "completed_at": "2026-04-19T14:51:18Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "tata_cliq_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:39:29Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "updated_at": "2026-04-19T14:45:37Z",
-      "completed_at": "2026-04-19T14:45:38Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "ajio_com",
-      "schedule_id": "20260602394",
-      "stage": "discovery",
-      "started_at": "2026-04-19T14:39:30Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0
-      },
-      "updated_at": "2026-04-19T14:39:42Z",
-      "completed_at": "2026-04-19T14:39:47Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "max_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:32:56Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 0,
-        "retriever_total": 0,
-        "retriever_fetched": 0
-      },
-      "updated_at": "2026-04-19T14:39:28Z",
-      "completed_at": "2026-04-19T14:39:29Z",
+      "updated_at": "2026-04-26T09:45:27Z",
+      "completed_at": "2026-04-26T09:45:28Z",
       "status": "completed"
     },
     {
       "project": "commerce_crawl",
       "site": "shoppersstop_com",
-      "schedule_id": "20260602394",
+      "schedule_id": "20260426001",
       "stage": "parser",
-      "started_at": "2026-04-19T14:32:51Z",
+      "started_at": "2026-04-26T09:08:27Z",
       "worker_id": "local",
       "hostname": "Shanjai-R",
       "progress": {
-        "retriever_total": 171,
-        "retriever_fetched": 160,
-        "discovery_urls": 171,
-        "parser_pages": 160,
-        "parser_records": 160,
-        "parser_pages_done": 160
+        "retriever_fetched": 16,
+        "parser_pages": 20,
+        "parser_records": 16,
+        "parser_pages_done": 20
       },
-      "updated_at": "2026-04-19T14:34:52Z",
-      "completed_at": "2026-04-19T14:34:53Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "limeroad_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:30:49Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 160,
-        "retriever_fetched": 160,
-        "discovery_urls": 160,
-        "parser_pages": 160,
-        "parser_records": 160,
-        "parser_pages_done": 160
-      },
-      "updated_at": "2026-04-19T14:32:48Z",
-      "completed_at": "2026-04-19T14:32:48Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "myntra_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:25:22Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 514
-      },
-      "updated_at": "2026-04-19T14:30:47Z",
-      "completed_at": "2026-04-19T14:30:48Z",
-      "status": "completed"
-    },
-    {
-      "project": "commerce_crawl",
-      "site": "flipkart_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:25:22Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 55
-      },
-      "updated_at": "2026-04-19T14:30:46Z",
-      "completed_at": "2026-04-19T14:30:47Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "just_style_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:07:44Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 42,
-        "discovery_urls": 52,
-        "parser_pages": 47,
-        "parser_records": 42,
-        "parser_pages_done": 47
-      },
-      "updated_at": "2026-04-19T14:15:47Z",
-      "completed_at": "2026-04-19T14:15:47Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "the_industry_fashion_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:07:46Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "retriever_total": 0,
-        "retriever_fetched": 50,
-        "discovery_urls": 74,
-        "parser_pages": 50,
-        "parser_records": 50,
-        "parser_pages_done": 50
-      },
-      "updated_at": "2026-04-19T14:15:14Z",
-      "completed_at": "2026-04-19T14:15:14Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "the_fashion_law_com",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:07:44Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 105
-      },
-      "updated_at": "2026-04-19T14:13:47Z",
-      "completed_at": "2026-04-19T14:13:47Z",
-      "status": "completed"
-    },
-    {
-      "project": "media_crawl",
-      "site": "vogue_in",
-      "schedule_id": "20260602394",
-      "stage": "parser",
-      "started_at": "2026-04-19T14:07:45Z",
-      "worker_id": "local",
-      "hostname": "Shanjai-R",
-      "progress": {
-        "discovery_urls": 61
-      },
-      "updated_at": "2026-04-19T14:13:47Z",
-      "completed_at": "2026-04-19T14:13:47Z",
+      "updated_at": "2026-04-26T09:13:36Z",
+      "completed_at": "2026-04-26T09:13:36Z",
       "status": "completed"
     }
   ]
