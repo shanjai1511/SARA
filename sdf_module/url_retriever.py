@@ -7,6 +7,7 @@ import threading
 import logging
 from pathlib import Path
 from config.settings import settings as _settings
+from core.broker import get_sync_channel as _get_sync_channel
 
 NUM_FETCH_WORKERS = _settings.NUM_FETCH_WORKERS
 
@@ -107,10 +108,11 @@ class UrlRetriever:
                     fh.write(content_bytes)
                 with fetch_lock:
                     fetched_count += 1
-                    crawl_status.update_progress(
-                        self.project_name, self.site_name, schedule_key,
-                        retriever_fetched=fetched_count,
-                    )
+                    if fetched_count % 10 == 0:
+                        crawl_status.update_progress(
+                            self.project_name, self.site_name, schedule_key,
+                            retriever_fetched=fetched_count,
+                        )
                 success = True
             else:
                 logging.error("[retriever] Failed (%s): %s", result["status_code"], url)
@@ -118,21 +120,20 @@ class UrlRetriever:
                     failed_count += 1
 
             with fetch_lock:
-                with open(metadata_file, "a", encoding="utf-8") as fh:
-                    fh.write(str(data) + "\n")
+                metadata_fh.write(json.dumps(data) + "\n")
+                metadata_fh.flush()
 
             return success
 
         queue_name = f"{self.site_name}_{self.project_name}_{schedule_key}_queue"
         try:
-            params = pika.URLParameters(CLOUDAMQP_URL)
-            params.heartbeat = _HEARTBEAT_SECONDS
-            connection = pika.BlockingConnection(params)
-            channel    = connection.channel()
+            connection, channel = _get_sync_channel(CLOUDAMQP_URL, heartbeat=_HEARTBEAT_SECONDS)
             channel.queue_declare(queue=queue_name, durable=True)
         except Exception as exc:
             sdfFetch.print_error_message("error", f"RabbitMQ connect failed: {exc}")
             return
+
+        metadata_fh = open(metadata_file, "a", encoding="utf-8")
 
         try:
             q     = channel.queue_declare(queue=queue_name, durable=True, passive=True)
@@ -223,7 +224,15 @@ class UrlRetriever:
                 connection.close()
             except Exception:
                 pass
+            try:
+                metadata_fh.close()
+            except Exception:
+                pass
 
+        crawl_status.update_progress(
+            self.project_name, self.site_name, schedule_key,
+            retriever_fetched=fetched_count,
+        )
         sdfFetch.print_info_message(
             "success",
             f"[retriever] Completed schedule_id={schedule_key} | "

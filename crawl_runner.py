@@ -1,18 +1,18 @@
 import argparse
-import json as _json
-import os
 import sys
 import time
 import subprocess as _subprocess
 from typing import NoReturn, Optional
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv #type: ignore
 load_dotenv()
 
 from sdf_module.files_import import *
 from sdf_module import crawl_status
 from sdf_module.crawl_context import CrawlContext
 from core.alerting import send_failure_alert, send_success_alert
+from core.broker import get_sync_channel as _get_sync_channel, publish_sync as _publish_sync
+from config.settings import settings as _settings
 import logging
 
 logger = logging.getLogger(__name__)
@@ -27,9 +27,9 @@ class _UnblockManager:
     endpoint is unreachable; no-ops silently if SARA_UNBLOCK_URL is unset.
     """
 
-    _URL     = os.environ.get("SARA_UNBLOCK_URL", "").rstrip("/")
-    _PORT    = int(os.environ.get("UNBLOCK_PORT",    8888))
-    _WORKERS = int(os.environ.get("UNBLOCK_WORKERS", 2))
+    _URL     = _settings.SARA_UNBLOCK_URL
+    _PORT    = _settings.UNBLOCK_PORT
+    _WORKERS = _settings.UNBLOCK_WORKERS
     _READY_TIMEOUT = 20   # seconds to wait for service to become healthy
 
     def __init__(self) -> None:
@@ -138,10 +138,15 @@ class CrawlPipeline:
 
     # ── Pre-flight ────────────────────────────────────────────────────────────
 
+    @staticmethod
+    def _open_channel():
+        """Open a RabbitMQ connection+channel with retry, via the shared broker helper."""
+        return _get_sync_channel(CLOUDAMQP_URL)
+
     def _preflight(self) -> bool:
         """Verify RabbitMQ is reachable before starting any work."""
         try:
-            conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
+            conn, _ch = self._open_channel()
             conn.close()
             logger.info("Pre-flight: RabbitMQ connection OK")
             return True
@@ -154,8 +159,7 @@ class CrawlPipeline:
     def _purge_queue(self) -> None:
         """Remove stale messages left by a previous run of the same job."""
         try:
-            conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
-            ch   = conn.channel()
+            conn, ch = self._open_channel()
             ch.queue_declare(queue=self.ctx.queue_name, durable=True)
             purged = ch.queue_purge(queue=self.ctx.queue_name)
             conn.close()
@@ -170,8 +174,7 @@ class CrawlPipeline:
     def _queue_depth(self) -> int:
         """Return the current message count of this job's RabbitMQ queue."""
         try:
-            conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
-            ch   = conn.channel()
+            conn, ch = self._open_channel()
             q    = ch.queue_declare(queue=self.ctx.queue_name, durable=True, passive=True)
             count = q.method.message_count
             conn.close()
@@ -198,31 +201,65 @@ class CrawlPipeline:
         Returns True  → retriever should be launched.
         Returns False → discovery finished with 0 URLs; skip retriever + parser.
         """
-        waited = 0
-        while waited < self._DISCOVERY_WAIT_CAP:
-            if disc_proc.poll() is not None:
-                logger.info(
-                    "[%s] Discovery exited (rc=%d) after %ds",
-                    self.ctx, disc_proc.returncode, waited,
-                )
-                return self._queue_depth() > 0
+        conn = ch = None
+        try:
+            conn, ch = self._open_channel()
+        except Exception as exc:
+            logger.warning(
+                "[%s] Could not open polling connection (%s) — polling per-check instead",
+                self.ctx, exc,
+            )
 
-            count = self._queue_depth()
-            if count > 0 and waited >= 60:
-                logger.info(
-                    "[%s] Queue has %d URLs after %ds — launching retriever",
-                    self.ctx, count, waited,
-                )
-                return True
+        def _depth() -> int:
+            if ch is not None:
+                try:
+                    q = ch.queue_declare(queue=self.ctx.queue_name, durable=True, passive=True)
+                    return q.method.message_count
+                except Exception:
+                    pass
+            return self._queue_depth()
 
-            time.sleep(5)
-            waited += 5
+        try:
+            waited = 0
+            while waited < self._DISCOVERY_WAIT_CAP:
+                if disc_proc.poll() is not None:
+                    logger.info(
+                        "[%s] Discovery exited (rc=%d) after %ds",
+                        self.ctx, disc_proc.returncode, waited,
+                    )
+                    return _depth() > 0
 
-        logger.warning(
-            "[%s] Discovery wait cap (%ds) reached — launching retriever anyway",
-            self.ctx, self._DISCOVERY_WAIT_CAP,
-        )
-        return True
+                count = _depth()
+                if count > 0 and waited >= 60:
+                    logger.info(
+                        "[%s] Queue has %d URLs after %ds — launching retriever",
+                        self.ctx, count, waited,
+                    )
+                    return True
+
+                time.sleep(5)
+                waited += 5
+
+            logger.warning(
+                "[%s] Discovery wait cap (%ds) reached — launching retriever anyway",
+                self.ctx, self._DISCOVERY_WAIT_CAP,
+            )
+            return True
+        finally:
+            if conn is not None:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+
+    @staticmethod
+    def _log_output(stage: str, stdout: str, stderr: str) -> None:
+        for line in (stdout or "").splitlines():
+            if line.strip():
+                logger.info("[%s] %s", stage, line)
+        for line in (stderr or "").splitlines():
+            if line.strip():
+                logger.error("[%s] %s", stage, line)
 
     def _collect(self, proc: _subprocess.Popen, stage: str) -> None:
         """
@@ -230,12 +267,7 @@ class CrawlPipeline:
         if the exit code is non-zero.
         """
         stdout, stderr = proc.communicate()
-        for line in (stdout or "").splitlines():
-            if line.strip():
-                logger.info("[%s] %s", stage, line)
-        for line in (stderr or "").splitlines():
-            if line.strip():
-                logger.error("[%s] %s", stage, line)
+        self._log_output(stage, stdout, stderr)
         if proc.returncode != 0:
             logger.error("[%s] %s failed (exit %d)", self.ctx, stage, proc.returncode)
             self._fail(stage, proc.returncode, stderr or "")
@@ -246,10 +278,7 @@ class CrawlPipeline:
             self.ctx.project, self.ctx.site, self.ctx.schedule_id, stage=stage
         )
         result = _subprocess.run(cmd, capture_output=True, text=True)
-        for line in (result.stdout or "").strip().splitlines():
-            logger.info("[%s] %s", stage, line)
-        for line in (result.stderr or "").strip().splitlines():
-            logger.error("[%s] %s", stage, line)
+        self._log_output(stage, result.stdout, result.stderr)
         if result.returncode != 0:
             logger.error("[%s] %s failed (exit %d)", self.ctx, stage, result.returncode)
         else:
@@ -258,17 +287,7 @@ class CrawlPipeline:
 
     def _handle_empty_discovery(self, disc_proc: _subprocess.Popen) -> None:
         """Discovery produced 0 URLs — log, alert if it crashed, then mark done."""
-        stdout, stderr = disc_proc.communicate()
-        for line in (stdout or "").splitlines():
-            if line.strip():
-                logger.info("[discovery] %s", line)
-        for line in (stderr or "").splitlines():
-            if line.strip():
-                logger.error("[discovery] %s", line)
-
-        if disc_proc.returncode != 0:
-            logger.error("[%s] Discovery failed (exit %d)", self.ctx, disc_proc.returncode)
-            self._fail("discovery", disc_proc.returncode, stderr or "")
+        self._collect(disc_proc, "discovery")
 
         logger.warning("[%s] Discovery produced 0 URLs — skipping retriever and parser", self.ctx)
         crawl_status.complete_current_run(
@@ -292,24 +311,18 @@ class CrawlPipeline:
 
     def _publish_dlq(self, stage: str, error: str = "") -> None:
         """Push a failure record to the dead-letter queue for later inspection."""
-        payload = _json.dumps({
+        payload = {
             "project":     self.ctx.project,
             "site":        self.ctx.site,
             "schedule_id": self.ctx.schedule_id,
             "stage":       stage,
             "error":       error,
             "failed_at":   time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        })
+        }
         try:
-            conn = pika.BlockingConnection(pika.URLParameters(CLOUDAMQP_URL))
-            ch   = conn.channel()
+            conn, ch = self._open_channel()
             ch.queue_declare(queue=self._DLQ_QUEUE, durable=True)
-            ch.basic_publish(
-                exchange="",
-                routing_key=self._DLQ_QUEUE,
-                body=payload.encode(),
-                properties=pika.BasicProperties(delivery_mode=2),
-            )
+            _publish_sync(ch, exchange="", routing_key=self._DLQ_QUEUE, body=payload)
             conn.close()
             logger.info(
                 "Published failure record to %s for %s stage=%s",

@@ -1,6 +1,8 @@
 from .files_import import *
 import logging.handlers
-import os as _os
+import threading as _threading
+from config.settings import settings as _settings
+from core.broker import get_sync_channel as _get_sync_channel
 
 DEFAULT_RETRY_STATUSES = (429, 500, 502, 503, 504)
 
@@ -24,8 +26,8 @@ def _is_bot_page(text: str) -> bool:
 
 
 # ── Unblock service client ────────────────────────────────────────────────────
-_UNBLOCK_URL     = _os.environ.get("SARA_UNBLOCK_URL", "").rstrip("/")
-_UNBLOCK_KEY     = _os.environ.get("SARA_UNBLOCK_API_KEY", "")
+_UNBLOCK_URL     = _settings.SARA_UNBLOCK_URL
+_UNBLOCK_KEY     = _settings.SARA_UNBLOCK_API_KEY
 _UNBLOCK_TIMEOUT = 120   # Playwright strategies can take a while
 
 
@@ -34,16 +36,14 @@ def _unblock_fetch(url: str) -> dict | None:
     Call the local sara-unblock service (Playwright-backed) to bypass bot checks.
     Returns a sdfFetch-compatible dict or None if the service is unavailable.
     """
-    # Re-read env at call time so subprocesses pick up .env changes without restart.
-    unblock_url = _os.environ.get("SARA_UNBLOCK_URL", "").rstrip("/") or _UNBLOCK_URL
-    if not unblock_url:
+    if not _UNBLOCK_URL:
         return None
     try:
         headers = {"Content-Type": "application/json"}
         if _UNBLOCK_KEY:
             headers["Authorization"] = f"Bearer {_UNBLOCK_KEY}"
         resp = requests.post(
-            f"{unblock_url}/fetch",
+            f"{_UNBLOCK_URL}/fetch",
             json={"url": url, "strategy": 0, "max_strategy": 5},
             headers=headers,
             timeout=_UNBLOCK_TIMEOUT,
@@ -83,6 +83,17 @@ if not logging.getLogger().handlers:
 
 logger = logging.getLogger(__name__)
 
+_session_local = _threading.local()
+
+
+def _get_session() -> requests.Session:
+    """Return a Session reused across calls on the current thread (connection pooling)."""
+    session = getattr(_session_local, "session", None)
+    if session is None:
+        session = requests.Session()
+        _session_local.session = session
+    return session
+
 
 class sdfFetch:
     @staticmethod
@@ -101,22 +112,7 @@ class sdfFetch:
 
     @staticmethod
     def get_rabbitmq_channel(max_attempts: int = 3, base_backoff: float = 2.0):
-        params = pika.URLParameters(CLOUDAMQP_URL)
-        last_exc = None
-        for attempt in range(max_attempts):
-            try:
-                connection = pika.BlockingConnection(params)
-                channel = connection.channel()
-                return connection, channel
-            except Exception as exc:
-                last_exc = exc
-                wait = base_backoff ** attempt
-                logger.warning(
-                    "RabbitMQ connection attempt %d/%d failed (%s). Retrying in %.0fs.",
-                    attempt + 1, max_attempts, exc, wait,
-                )
-                sleep(wait)
-        raise last_exc
+        return _get_sync_channel(CLOUDAMQP_URL, max_attempts=max_attempts, base_backoff=base_backoff)
 
     @staticmethod
     def get_page_content_hash(
@@ -152,7 +148,7 @@ class sdfFetch:
                     msg += f" (attempt {attempt + 1}/{max_retries + 1})"
                 sdfFetch.print_info_message("info", msg)
 
-                session = requests.Session()
+                session = _get_session()
                 session.trust_env = bool(request_proxies)  # only use system proxy when explicit proxy is set
                 response = session.get(
                     url, headers=headers, verify=True, timeout=timeout, proxies=request_proxies or None
@@ -172,12 +168,7 @@ class sdfFetch:
                         else:
                             # Unblock unavailable — return empty so parser skips this URL
                             return {"page_doc": "", "status_code": 403, "url": url}
-                    output_dir = Path(base_dir) / "cache"
-                    output_dir.mkdir(parents=True, exist_ok=True)
-                    output_file = output_dir / f"{sdfFetch.encode(url)}.html"
-                    with open(output_file, "w", encoding="utf-8") as f:
-                        f.write(text)
-                    sdfFetch.print_info_message("success", "Page fetched successfully.", url=str(output_file))
+                    sdfFetch.print_info_message("success", "Page fetched successfully.", url=url)
                     return {"page_doc": text, "status_code": 200, "url": url}
 
                 if status in retry_statuses and attempt < max_retries:

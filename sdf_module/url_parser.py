@@ -6,8 +6,6 @@ from concurrent.futures import (
     FIRST_COMPLETED,
     TimeoutError as FuturesTimeoutError,
 )
-import ast
-import itertools
 import threading
 from typing import Any, Dict, Iterator, List
 from config.settings import settings as _settings
@@ -34,7 +32,6 @@ class UrlParser:
         self.project_name = project_name
         self.site_name    = site_name
         self.parser_dir   = Path(base_dir) / "url_data_parser"
-        self.count        = 0
 
     def extract_records(self, output, page_doc, config, site_instance) -> List[Dict]:
         modify_method = getattr(site_instance, "modify_page_doc", None)
@@ -62,7 +59,7 @@ class UrlParser:
         return records
 
     def _process_one(self, line: str, config: dict, site_instance: Any) -> List[Dict]:
-        output_key  = ast.literal_eval(line)
+        output_key  = json.loads(line)
         output_path = output_key.get("output_file")
         with open(output_path, "r", encoding="utf-8") as f:
             page_content = f.read()
@@ -110,10 +107,8 @@ class UrlParser:
                 sdfFetch.print_error_message("error", f"Retriever metadata file not found: {output_queue}")
                 return
 
-            line_stream = _iter_metadata_lines(output_queue)
-            try:
-                first_line = next(line_stream)
-            except StopIteration:
+            lines = list(_iter_metadata_lines(output_queue))
+            if not lines:
                 sdfFetch.print_info_message("info", "No pages to parse.")
                 crawl_status.update_progress(
                     self.project_name, self.site_name, schedule_key,
@@ -121,8 +116,7 @@ class UrlParser:
                 )
                 return
 
-            line_stream = itertools.chain([first_line], line_stream)
-            total_pages = sum(1 for _ in _iter_metadata_lines(output_queue))
+            total_pages = len(lines)
             crawl_status.update_progress(
                 self.project_name, self.site_name, schedule_key,
                 stage="parser", parser_pages=total_pages, parser_records=0,
@@ -169,16 +163,16 @@ class UrlParser:
                             return
                         with csv_lock:
                             writer.writerows(records)
-                            csv_file.flush()
                         total_records += len(records)
                         pages_done    += 1
-                        crawl_status.update_progress(
-                            self.project_name, self.site_name, schedule_key,
-                            parser_records=total_records,
-                            parser_pages_done=min(pages_done, total_pages),
-                        )
+                        if pages_done % 10 == 0:
+                            crawl_status.update_progress(
+                                self.project_name, self.site_name, schedule_key,
+                                parser_records=total_records,
+                                parser_pages_done=min(pages_done, total_pages),
+                            )
 
-                    for line in line_stream:
+                    for line in lines:
                         while len(pending) >= _MAX_IN_FLIGHT:
                             _drain_one()
                         fut = executor.submit(self._process_one, line, config, site_instance)

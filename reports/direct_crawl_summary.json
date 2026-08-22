@@ -1,0 +1,1010 @@
+{
+  "schedule_id": "direct20260822",
+  "started_at": null,
+  "results": {
+    "commerce_crawl/andalso_in": {
+      "project": "commerce_crawl",
+      "site": "andalso_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 1.4
+    },
+    "commerce_crawl/asics_in": {
+      "project": "commerce_crawl",
+      "site": "asics_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 2.7
+    },
+    "commerce_crawl/amazon_in": {
+      "project": "commerce_crawl",
+      "site": "amazon_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 46.7
+    },
+    "commerce_crawl/aza_fashions_com": {
+      "project": "commerce_crawl",
+      "site": "aza_fashions_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 42.2
+    },
+    "commerce_crawl/armani_exchange_com": {
+      "project": "commerce_crawl",
+      "site": "armani_exchange_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 103.0
+    },
+    "commerce_crawl/beyoung_in": {
+      "project": "commerce_crawl",
+      "site": "beyoung_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 2.7
+    },
+    "commerce_crawl/ajio_com": {
+      "project": "commerce_crawl",
+      "site": "ajio_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 155.4
+    },
+    "commerce_crawl/benetton_in": {
+      "project": "commerce_crawl",
+      "site": "benetton_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 140.4
+    },
+    "commerce_crawl/adidas_in": {
+      "project": "commerce_crawl",
+      "site": "adidas_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 114.3
+    },
+    "commerce_crawl/bewakoof_com": {
+      "project": "commerce_crawl",
+      "site": "bewakoof_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 123.5
+    },
+    "commerce_crawl/boheco_com": {
+      "project": "commerce_crawl",
+      "site": "boheco_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 44.5
+    },
+    "media_crawl/business_insider_com": {
+      "project": "media_crawl",
+      "site": "business_insider_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 15.8
+    },
+    "media_crawl/bbc_com": {
+      "project": "media_crawl",
+      "site": "bbc_com",
+      "schedule_id": "direct20260822",
+      "discovered": 513,
+      "fetched": 513,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\bbc_com_media_crawl_direct20260822\\bbc_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 31.1
+    },
+    "media_crawl/brides_today_in": {
+      "project": "media_crawl",
+      "site": "brides_today_in",
+      "schedule_id": "direct20260822",
+      "discovered": 11,
+      "fetched": 10,
+      "failed": 1,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\brides_today_in_media_crawl_direct20260822\\brides_today_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 34.1
+    },
+    "media_crawl/business_insider_in": {
+      "project": "media_crawl",
+      "site": "business_insider_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 42.3
+    },
+    "media_crawl/cosmopolitan_in": {
+      "project": "media_crawl",
+      "site": "cosmopolitan_in",
+      "schedule_id": "direct20260822",
+      "discovered": 10,
+      "fetched": 10,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\cosmopolitan_in_media_crawl_direct20260822\\cosmopolitan_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 31.1
+    },
+    "media_crawl/business_standard_com": {
+      "project": "media_crawl",
+      "site": "business_standard_com",
+      "schedule_id": "direct20260822",
+      "discovered": 517,
+      "fetched": 434,
+      "failed": 83,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\business_standard_com_media_crawl_direct20260822\\business_standard_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 128.0
+    },
+    "media_crawl/entrepreneur_com": {
+      "project": "media_crawl",
+      "site": "entrepreneur_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 2.0
+    },
+    "media_crawl/et_retail_com": {
+      "project": "media_crawl",
+      "site": "et_retail_com",
+      "schedule_id": "direct20260822",
+      "discovered": 478,
+      "fetched": 478,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\et_retail_com_media_crawl_direct20260822\\et_retail_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 51.7
+    },
+    "media_crawl/cnn_com": {
+      "project": "media_crawl",
+      "site": "cnn_com",
+      "schedule_id": "direct20260822",
+      "discovered": 971,
+      "fetched": 971,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\cnn_com_media_crawl_direct20260822\\cnn_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 224.3
+    },
+    "media_crawl/economic_times_com": {
+      "project": "media_crawl",
+      "site": "economic_times_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1341,
+      "fetched": 1341,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\economic_times_com_media_crawl_direct20260822\\economic_times_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 197.6
+    },
+    "media_crawl/fashion_network_com": {
+      "project": "media_crawl",
+      "site": "fashion_network_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 42.5
+    },
+    "media_crawl/business_today_in": {
+      "project": "media_crawl",
+      "site": "business_today_in",
+      "schedule_id": "direct20260822",
+      "discovered": 1159,
+      "fetched": 1156,
+      "failed": 3,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\business_today_in_media_crawl_direct20260822\\business_today_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 273.5
+    },
+    "media_crawl/euromonitor_com": {
+      "project": "media_crawl",
+      "site": "euromonitor_com",
+      "schedule_id": "direct20260822",
+      "discovered": 772,
+      "fetched": 771,
+      "failed": 1,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\euromonitor_com_media_crawl_direct20260822\\euromonitor_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 105.6
+    },
+    "media_crawl/fast_company_com": {
+      "project": "media_crawl",
+      "site": "fast_company_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 21.5
+    },
+    "media_crawl/fashionista_com": {
+      "project": "media_crawl",
+      "site": "fashionista_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 29.6
+    },
+    "media_crawl/fashion_united_global_com": {
+      "project": "media_crawl",
+      "site": "fashion_united_global_com",
+      "schedule_id": "direct20260822",
+      "discovered": 720,
+      "fetched": 720,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\fashion_united_global_com_media_crawl_direct20260822\\fashion_united_global_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 76.8
+    },
+    "media_crawl/fashion_united_in": {
+      "project": "media_crawl",
+      "site": "fashion_united_in",
+      "schedule_id": "direct20260822",
+      "discovered": 720,
+      "fetched": 720,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\fashion_united_in_media_crawl_direct20260822\\fashion_united_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 71.3
+    },
+    "media_crawl/femina_in": {
+      "project": "media_crawl",
+      "site": "femina_in",
+      "schedule_id": "direct20260822",
+      "discovered": 80,
+      "fetched": 80,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\femina_in_media_crawl_direct20260822\\femina_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 46.9
+    },
+    "media_crawl/financial_express_com": {
+      "project": "media_crawl",
+      "site": "financial_express_com",
+      "schedule_id": "direct20260822",
+      "discovered": 825,
+      "fetched": 825,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\financial_express_com_media_crawl_direct20260822\\financial_express_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 40.1
+    },
+    "media_crawl/grazia_in": {
+      "project": "media_crawl",
+      "site": "grazia_in",
+      "schedule_id": "direct20260822",
+      "discovered": 24,
+      "fetched": 24,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\grazia_in_media_crawl_direct20260822\\grazia_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 30.2
+    },
+    "media_crawl/highsnobiety_com": {
+      "project": "media_crawl",
+      "site": "highsnobiety_com",
+      "schedule_id": "direct20260822",
+      "discovered": 22,
+      "fetched": 22,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\highsnobiety_com_media_crawl_direct20260822\\highsnobiety_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 33.2
+    },
+    "media_crawl/hindustan_times_com": {
+      "status": "skipped_existing"
+    },
+    "media_crawl/hypebeast_com": {
+      "project": "media_crawl",
+      "site": "hypebeast_com",
+      "schedule_id": "direct20260822",
+      "discovered": 33,
+      "fetched": 33,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\hypebeast_com_media_crawl_direct20260822\\hypebeast_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 6.1
+    },
+    "media_crawl/india_retailing_com": {
+      "project": "media_crawl",
+      "site": "india_retailing_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 44.8
+    },
+    "media_crawl/fibre_2_fashion_com": {
+      "project": "media_crawl",
+      "site": "fibre_2_fashion_com",
+      "schedule_id": "direct20260822",
+      "discovered": 130,
+      "fetched": 0,
+      "failed": 130,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\fibre_2_fashion_com_media_crawl_direct20260822\\fibre_2_fashion_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 219.7
+    },
+    "media_crawl/glossy_com": {
+      "project": "media_crawl",
+      "site": "glossy_com",
+      "schedule_id": "direct20260822",
+      "discovered": 679,
+      "fetched": 679,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\glossy_com_media_crawl_direct20260822\\glossy_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 84.4
+    },
+    "media_crawl/instyle_in": {
+      "project": "media_crawl",
+      "site": "instyle_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 24.8
+    },
+    "media_crawl/kantar_com": {
+      "project": "media_crawl",
+      "site": "kantar_com",
+      "schedule_id": "direct20260822",
+      "discovered": 90,
+      "fetched": 90,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\kantar_com_media_crawl_direct20260822\\kantar_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 17.5
+    },
+    "media_crawl/indian_express_com": {
+      "project": "media_crawl",
+      "site": "indian_express_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1584,
+      "fetched": 1584,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\indian_express_com_media_crawl_direct20260822\\indian_express_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 88.9
+    },
+    "media_crawl/lbb_in": {
+      "project": "media_crawl",
+      "site": "lbb_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 2.4
+    },
+    "media_crawl/livemint_com": {
+      "project": "media_crawl",
+      "site": "livemint_com",
+      "schedule_id": "direct20260822",
+      "discovered": 330,
+      "fetched": 330,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\livemint_com_media_crawl_direct20260822\\livemint_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 25.6
+    },
+    "media_crawl/mans_world_india_com": {
+      "project": "media_crawl",
+      "site": "mans_world_india_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 4.8
+    },
+    "media_crawl/mint_com": {
+      "project": "media_crawl",
+      "site": "mint_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 13.7
+    },
+    "media_crawl/mintel_com": {
+      "project": "media_crawl",
+      "site": "mintel_com",
+      "schedule_id": "direct20260822",
+      "discovered": 728,
+      "fetched": 688,
+      "failed": 40,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\mintel_com_media_crawl_direct20260822\\mintel_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 208.9
+    },
+    "media_crawl/internet_retailing_net": {
+      "project": "media_crawl",
+      "site": "internet_retailing_net",
+      "schedule_id": "direct20260822",
+      "discovered": 563,
+      "fetched": 453,
+      "failed": 110,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\internet_retailing_net_media_crawl_direct20260822\\internet_retailing_net_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 257.2
+    },
+    "media_crawl/nylon_com": {
+      "project": "media_crawl",
+      "site": "nylon_com",
+      "schedule_id": "direct20260822",
+      "discovered": 30,
+      "fetched": 30,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\nylon_com_media_crawl_direct20260822\\nylon_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 27.7
+    },
+    "media_crawl/paper_mag_com": {
+      "project": "media_crawl",
+      "site": "paper_mag_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 16.0
+    },
+    "media_crawl/popsugar_com": {
+      "project": "media_crawl",
+      "site": "popsugar_com",
+      "schedule_id": "direct20260822",
+      "discovered": 231,
+      "fetched": 231,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\popsugar_com_media_crawl_direct20260822\\popsugar_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 40.7
+    },
+    "media_crawl/nielsen_com": {
+      "project": "media_crawl",
+      "site": "nielsen_com",
+      "schedule_id": "direct20260822",
+      "discovered": 391,
+      "fetched": 391,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\nielsen_com_media_crawl_direct20260822\\nielsen_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 166.0
+    },
+    "media_crawl/redseer_com": {
+      "project": "media_crawl",
+      "site": "redseer_com",
+      "schedule_id": "direct20260822",
+      "discovered": 12,
+      "fetched": 12,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\redseer_com_media_crawl_direct20260822\\redseer_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 27.3
+    },
+    "media_crawl/retail_dive_com": {
+      "project": "media_crawl",
+      "site": "retail_dive_com",
+      "schedule_id": "direct20260822",
+      "discovered": 32,
+      "fetched": 24,
+      "failed": 8,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\retail_dive_com_media_crawl_direct20260822\\retail_dive_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 85.4
+    },
+    "media_crawl/lofficiel_india_com": {
+      "project": "media_crawl",
+      "site": "lofficiel_india_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 456.1
+    },
+    "media_crawl/scroll_in": {
+      "project": "media_crawl",
+      "site": "scroll_in",
+      "schedule_id": "direct20260822",
+      "discovered": 88,
+      "fetched": 88,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\scroll_in_media_crawl_direct20260822\\scroll_in_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 16.7
+    },
+    "media_crawl/retail_gazette_com": {
+      "project": "media_crawl",
+      "site": "retail_gazette_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 90.3
+    },
+    "media_crawl/style_caster_com": {
+      "project": "media_crawl",
+      "site": "style_caster_com",
+      "schedule_id": "direct20260822",
+      "discovered": 120,
+      "fetched": 76,
+      "failed": 44,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\style_caster_com_media_crawl_direct20260822\\style_caster_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 75.2
+    },
+    "media_crawl/technopak_com": {
+      "project": "media_crawl",
+      "site": "technopak_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 10.0
+    },
+    "media_crawl/techcrunch_com": {
+      "project": "media_crawl",
+      "site": "techcrunch_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1269,
+      "fetched": 1269,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\techcrunch_com_media_crawl_direct20260822\\techcrunch_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 97.9
+    },
+    "media_crawl/inc42_com": {
+      "project": "media_crawl",
+      "site": "inc42_com",
+      "schedule_id": "direct20260822",
+      "discovered": 726,
+      "fetched": 677,
+      "failed": 49,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\inc42_com_media_crawl_direct20260822\\inc42_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 694.3
+    },
+    "media_crawl/the_guardian_com": {
+      "project": "media_crawl",
+      "site": "the_guardian_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 28.5
+    },
+    "media_crawl/the_hindu_com": {
+      "project": "media_crawl",
+      "site": "the_hindu_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 14.2
+    },
+    "media_crawl/refinery29_com": {
+      "project": "media_crawl",
+      "site": "refinery29_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1930,
+      "fetched": 1930,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\refinery29_com_media_crawl_direct20260822\\refinery29_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 351.8
+    },
+    "media_crawl/the_verge_com": {
+      "project": "media_crawl",
+      "site": "the_verge_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 24.2
+    },
+    "media_crawl/the_voice_of_fashion_com": {
+      "project": "media_crawl",
+      "site": "the_voice_of_fashion_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 21.5
+    },
+    "media_crawl/times_of_india_com": {
+      "project": "media_crawl",
+      "site": "times_of_india_com",
+      "schedule_id": "direct20260822",
+      "discovered": 3025,
+      "fetched": 3022,
+      "failed": 3,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\times_of_india_com_media_crawl_direct20260822\\times_of_india_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 104.0
+    },
+    "media_crawl/vox_com": {
+      "project": "media_crawl",
+      "site": "vox_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 9.6
+    },
+    "media_crawl/who_what_wear_com": {
+      "project": "media_crawl",
+      "site": "who_what_wear_com",
+      "schedule_id": "direct20260822",
+      "discovered": 757,
+      "fetched": 757,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\who_what_wear_com_media_crawl_direct20260822\\who_what_wear_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 101.3
+    },
+    "media_crawl/wired_com": {
+      "project": "media_crawl",
+      "site": "wired_com",
+      "schedule_id": "direct20260822",
+      "discovered": 454,
+      "fetched": 454,
+      "failed": 0,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\wired_com_media_crawl_direct20260822\\wired_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 216.2
+    },
+    "media_crawl/yourstory_com": {
+      "project": "media_crawl",
+      "site": "yourstory_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 8.6
+    },
+    "media_crawl/the_industry_fashion_com": {
+      "project": "media_crawl",
+      "site": "the_industry_fashion_com",
+      "schedule_id": "direct20260822",
+      "discovered": 817,
+      "fetched": 801,
+      "failed": 16,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\the_industry_fashion_com_media_crawl_direct20260822\\the_industry_fashion_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 568.1
+    },
+    "media_crawl/the_trend_spotter_com": {
+      "project": "media_crawl",
+      "site": "the_trend_spotter_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 1051.9
+    },
+    "commerce_crawl/brand_factory_com": {
+      "project": "commerce_crawl",
+      "site": "brand_factory_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 157.2
+    },
+    "commerce_crawl/byshree_com": {
+      "project": "commerce_crawl",
+      "site": "byshree_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 44.1
+    },
+    "commerce_crawl/biba_in": {
+      "project": "commerce_crawl",
+      "site": "biba_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 534.8
+    },
+    "commerce_crawl/campus_sutra_com": {
+      "project": "commerce_crawl",
+      "site": "campus_sutra_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 78.7
+    },
+    "media_crawl/the_fashion_law_com": {
+      "project": "media_crawl",
+      "site": "the_fashion_law_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1201,
+      "fetched": 1032,
+      "failed": 169,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\the_fashion_law_com_media_crawl_direct20260822\\the_fashion_law_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 1669.9
+    },
+    "commerce_crawl/centralandme_com": {
+      "project": "commerce_crawl",
+      "site": "centralandme_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 83.0
+    },
+    "commerce_crawl/chhabra555_com": {
+      "project": "commerce_crawl",
+      "site": "chhabra555_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 60.4
+    },
+    "commerce_crawl/clovia_com": {
+      "project": "commerce_crawl",
+      "site": "clovia_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 52.2
+    },
+    "commerce_crawl/coach_com": {
+      "project": "commerce_crawl",
+      "site": "coach_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 32.8
+    },
+    "commerce_crawl/craftsvilla_com": {
+      "project": "commerce_crawl",
+      "site": "craftsvilla_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 98.5
+    },
+    "commerce_crawl/damensch_com": {
+      "project": "commerce_crawl",
+      "site": "damensch_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 75.8
+    },
+    "media_crawl/apparel_resources_com": {
+      "project": "media_crawl",
+      "site": "apparel_resources_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1851,
+      "fetched": 1534,
+      "failed": 317,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\media_crawl\\apparel_resources_com_media_crawl_direct20260822\\apparel_resources_com_media_crawl.csv",
+      "status": "completed",
+      "duration_s": 2629.9
+    },
+    "commerce_crawl/diesel_com": {
+      "project": "commerce_crawl",
+      "site": "diesel_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 65.1
+    },
+    "commerce_crawl/dressindia_in": {
+      "project": "commerce_crawl",
+      "site": "dressindia_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 70.4
+    },
+    "commerce_crawl/fabindia_com": {
+      "project": "commerce_crawl",
+      "site": "fabindia_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 123.4
+    },
+    "commerce_crawl/fablestreet_com": {
+      "project": "commerce_crawl",
+      "site": "fablestreet_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 9.4
+    },
+    "commerce_crawl/fastrack_in": {
+      "project": "commerce_crawl",
+      "site": "fastrack_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 57.7
+    },
+    "commerce_crawl/doodlage_in": {
+      "project": "commerce_crawl",
+      "site": "doodlage_in",
+      "schedule_id": "direct20260822",
+      "discovered": 257,
+      "fetched": 144,
+      "failed": 113,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\commerce_crawl\\doodlage_in_commerce_crawl_direct20260822\\doodlage_in_commerce_crawl.csv",
+      "status": "completed",
+      "duration_s": 361.9
+    },
+    "commerce_crawl/freecultr_com": {
+      "project": "commerce_crawl",
+      "site": "freecultr_com",
+      "schedule_id": "direct20260822",
+      "discovered": 10,
+      "fetched": 5,
+      "failed": 5,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\commerce_crawl\\freecultr_com_commerce_crawl_direct20260822\\freecultr_com_commerce_crawl.csv",
+      "status": "completed",
+      "duration_s": 74.1
+    },
+    "commerce_crawl/frontier_raas_com": {
+      "project": "commerce_crawl",
+      "site": "frontier_raas_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 61.6
+    },
+    "commerce_crawl/gap_com": {
+      "project": "commerce_crawl",
+      "site": "gap_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 32.5
+    },
+    "commerce_crawl/global_desi_in": {
+      "project": "commerce_crawl",
+      "site": "global_desi_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 55.5
+    },
+    "commerce_crawl/hm_com": {
+      "project": "commerce_crawl",
+      "site": "hm_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 117.0
+    },
+    "commerce_crawl/house_of_indya_com": {
+      "project": "commerce_crawl",
+      "site": "house_of_indya_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 76.0
+    },
+    "commerce_crawl/house_of_masaba_com": {
+      "project": "commerce_crawl",
+      "site": "house_of_masaba_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 77.3
+    },
+    "commerce_crawl/hrx_com": {
+      "project": "commerce_crawl",
+      "site": "hrx_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 1.3
+    },
+    "commerce_crawl/calvin_klein_in": {
+      "project": "commerce_crawl",
+      "site": "calvin_klein_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 1552.3
+    },
+    "commerce_crawl/hugo_boss_com": {
+      "project": "commerce_crawl",
+      "site": "hugo_boss_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 75.9
+    },
+    "commerce_crawl/jaypore_com": {
+      "project": "commerce_crawl",
+      "site": "jaypore_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 50.4
+    },
+    "commerce_crawl/jockey_in": {
+      "project": "commerce_crawl",
+      "site": "jockey_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 214.3
+    },
+    "commerce_crawl/kalki_fashion_com": {
+      "project": "commerce_crawl",
+      "site": "kalki_fashion_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 191.6
+    },
+    "commerce_crawl/bonkers_corner_com": {
+      "project": "commerce_crawl",
+      "site": "bonkers_corner_com",
+      "schedule_id": "direct20260822",
+      "discovered": 1240,
+      "fetched": 634,
+      "failed": 606,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\commerce_crawl\\bonkers_corner_com_commerce_crawl_direct20260822\\bonkers_corner_com_commerce_crawl.csv",
+      "status": "completed",
+      "duration_s": 2113.5
+    },
+    "commerce_crawl/lenskart_com": {
+      "project": "commerce_crawl",
+      "site": "lenskart_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 33.9
+    },
+    "commerce_crawl/koovs_com": {
+      "project": "commerce_crawl",
+      "site": "koovs_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 246.5
+    },
+    "commerce_crawl/lifestyle_stores_com": {
+      "project": "commerce_crawl",
+      "site": "lifestyle_stores_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 18.3
+    },
+    "commerce_crawl/flipkart_com": {
+      "project": "commerce_crawl",
+      "site": "flipkart_com",
+      "schedule_id": "direct20260822",
+      "discovered": 550,
+      "fetched": 192,
+      "failed": 358,
+      "csv_path": "C:\\Users\\shanj\\OneDrive\\Desktop\\SARA\\scrape_output\\parser_output\\commerce_crawl\\flipkart_com_commerce_crawl_direct20260822\\flipkart_com_commerce_crawl.csv",
+      "status": "completed",
+      "duration_s": 1176.6
+    },
+    "commerce_crawl/libas_in": {
+      "project": "commerce_crawl",
+      "site": "libas_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 253.0
+    },
+    "commerce_crawl/levis_in": {
+      "project": "commerce_crawl",
+      "site": "levis_in",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 332.4
+    },
+    "commerce_crawl/manyavar_com": {
+      "project": "commerce_crawl",
+      "site": "manyavar_com",
+      "schedule_id": "direct20260822",
+      "discovered": 0,
+      "status": "no_urls",
+      "duration_s": 76.8
+    }
+  }
+}
