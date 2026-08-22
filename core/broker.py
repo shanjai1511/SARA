@@ -60,9 +60,12 @@ def get_sync_channel(
     amqp_url: str,
     max_attempts: int = 5,
     base_backoff: float = 2.0,
+    heartbeat: int | None = None,
 ) -> tuple[pika.BlockingConnection, pika.adapters.blocking_connection.BlockingChannel]:
     """Return a pika blocking connection+channel with retry."""
     params = pika.URLParameters(amqp_url)
+    if heartbeat is not None:
+        params.heartbeat = heartbeat
     last_exc: Exception | None = None
     for attempt in range(max_attempts):
         try:

@@ -190,10 +190,9 @@ def _read_raw() -> dict:
 
 def _write_raw(data: dict) -> None:
     _ensure_logs_dir()
-    save = {k: v for k, v in data.items() if k != "current_run"}
     tmp = STATUS_FILE.with_suffix(".tmp")
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(save, f, indent=2)
+        json.dump(data, f, indent=2)
     tmp.replace(STATUS_FILE)
 
 
@@ -273,7 +272,6 @@ def update_progress(
             key  = _run_key(project, site, schedule_id)
             run  = data["current_runs"].get(key)
             if not run:
-                _release_file_lock(fp)
                 return
             if stage is not None:
                 run["stage"] = stage

@@ -8,7 +8,6 @@ from typing import Any, List
 from config.settings import settings as _settings
 
 NUM_DISCOVERY_WORKERS = _settings.NUM_DISCOVERY_WORKERS
-_PUBLISH_BATCH        = 100
 _WORKER_TIMEOUT_SEC   = 60
 
 
@@ -23,7 +22,6 @@ class UrlDiscovery:
         self.collector_dir = ""
         self.project_name  = project_name
         self.site_name     = site_name
-        self.count         = 0
 
     def push_urls_to_queue(self, result_url: List[str], schedule_key: str) -> None:
         if not result_url:
@@ -37,14 +35,13 @@ class UrlDiscovery:
         try:
             connection, channel = sdfFetch.get_rabbitmq_channel()
             channel.queue_declare(queue=queue_name, durable=True)
-            for i in range(0, len(result_url), _PUBLISH_BATCH):
-                for url in result_url[i: i + _PUBLISH_BATCH]:
-                    channel.basic_publish(
-                        exchange="",
-                        routing_key=queue_name,
-                        body=url.encode(),
-                        properties=pika.BasicProperties(delivery_mode=2),
-                    )
+            for url in result_url:
+                channel.basic_publish(
+                    exchange="",
+                    routing_key=queue_name,
+                    body=url.encode(),
+                    properties=pika.BasicProperties(delivery_mode=2),
+                )
             sdfFetch.print_info_message("success", f"Pushed {len(result_url)} URLs to queue {queue_name}")
         except Exception:
             logging.exception("Failed to push URLs to RabbitMQ")
@@ -68,10 +65,10 @@ class UrlDiscovery:
         depth: dict,
         module_instance: Any,
         schedule_key: str,
-    ) -> None:
+    ) -> int:
         if not urls:
             sdfFetch.print_error_message("error", "No seed URLs provided for discovery stage.")
-            return
+            return 0
 
         depth_items = sorted(
             (
@@ -83,6 +80,7 @@ class UrlDiscovery:
         )
 
         pending_urls = list(urls)
+        discovered_count = 0
         for current_level, current_depth in depth_items:
             if not isinstance(current_depth, dict):
                 continue
@@ -91,12 +89,12 @@ class UrlDiscovery:
                 sdfFetch.print_error_message(
                     "error", f"Missing method_name for depth level {current_level}."
                 )
-                return
+                return discovered_count
 
             method_to_call = getattr(module_instance, method_name, None)
             if not callable(method_to_call):
                 logging.warning("No method '%s' found on %s", method_name, module_instance)
-                return
+                return discovered_count
 
             sdfFetch.print_info_message(
                 "info",
@@ -138,11 +136,13 @@ class UrlDiscovery:
 
             if current_level == depth_items[-1][0]:
                 self.push_urls_to_queue(next_urls, schedule_key)
-                self.count += len(next_urls)
+                discovered_count += len(next_urls)
 
             pending_urls = next_urls
 
-    def main_execution(self, schedule_key: str) -> None:
+        return discovered_count
+
+    def main_execution(self, schedule_key: str) -> int:
         sdfFetch.print_info_message(
             "info", f"Starting main execution for {self.project_name}/{self.site_name}"
         )
@@ -161,14 +161,14 @@ class UrlDiscovery:
                 site_instance = getattr(module, class_name)()
             except Exception as e:
                 sdfFetch.print_error_message("error", f"Error importing module from {module_path}: {e}")
-                return
+                return 0
 
             seed_url = depth.get("depth0", {}).get("seed_url")
             if not seed_url:
                 sdfFetch.print_error_message("error", "depth0.seed_url is missing or empty.")
-                return
+                return 0
 
-            self.get_urls_by_depth(seed_url, depth, site_instance, schedule_key)
+            return self.get_urls_by_depth(seed_url, depth, site_instance, schedule_key)
 
         except Exception as e:
             sdfFetch.print_error_message("error", f"Unhandled error during execution: {e}")
@@ -187,14 +187,14 @@ class UrlDiscovery:
         filepath = self.output_dir / f"{self.site_name}_{self.project_name}_{schedule_key}.txt"
         filepath.write_text("")
 
-        self.main_execution(schedule_key)
+        discovered_count = self.main_execution(schedule_key)
         crawl_status.update_progress(
             self.project_name, self.site_name, schedule_key,
-            stage="discovery", discovery_urls=self.count,
+            stage="discovery", discovery_urls=discovered_count,
         )
         sdfFetch.print_info_message(
             "success",
-            f"[discovery] Completed schedule_id={schedule_key} | URLs discovered: {self.count}",
+            f"[discovery] Completed schedule_id={schedule_key} | URLs discovered: {discovered_count}",
         )
 
 

@@ -29,6 +29,12 @@ SaaS / production vars (all optional — enable cloud features when set):
     SARA_API_KEY        Bearer token for FastAPI control plane
     METRICS_PORT        Prometheus /metrics server port (default: 8000)
     CORS_ORIGINS        Comma-separated allowed origins for API CORS
+
+Unblock service (optional — Playwright-backed bot-bypass sidecar):
+    SARA_UNBLOCK_URL      Base URL of the sara-unblock service (unset = disabled)
+    SARA_UNBLOCK_API_KEY  Bearer token for the unblock service
+    UNBLOCK_PORT          Port to auto-start the unblock service on (default: 8888)
+    UNBLOCK_WORKERS       Uvicorn workers for the auto-started service (default: 2)
 """
 from __future__ import annotations
 
@@ -111,6 +117,12 @@ class Settings:
     ELASTICSEARCH_API_KEY: str = field(default_factory=lambda: _optional("ELASTICSEARCH_API_KEY"))
     ELASTICSEARCH_USER: str = field(default_factory=lambda: _optional("ELASTICSEARCH_USER"))
     ELASTICSEARCH_PASSWORD: str = field(default_factory=lambda: _optional("ELASTICSEARCH_PASSWORD"))
+
+    # Unblock service (optional — Playwright-backed bot-bypass sidecar)
+    SARA_UNBLOCK_URL: str = field(default_factory=lambda: _optional("SARA_UNBLOCK_URL").rstrip("/"))
+    SARA_UNBLOCK_API_KEY: str = field(default_factory=lambda: _optional("SARA_UNBLOCK_API_KEY"))
+    UNBLOCK_PORT: int = field(default_factory=lambda: _optional_int("UNBLOCK_PORT", 8888))
+    UNBLOCK_WORKERS: int = field(default_factory=lambda: _optional_int("UNBLOCK_WORKERS", 2))
 
     # Alerting (optional — send failure/success notifications)
     ALERT_EMAIL_TO: str = field(default_factory=lambda: _optional("ALERT_EMAIL_TO"))
