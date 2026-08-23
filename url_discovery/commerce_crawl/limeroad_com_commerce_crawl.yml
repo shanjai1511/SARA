@@ -1,0 +1,21 @@
+depth0:
+  seed_url: [
+    "https://www.limeroad.com/men-t-shirts",
+    "https://www.limeroad.com/t-shirts-for-women",
+    "https://www.limeroad.com/women-kurtas",
+    "https://www.limeroad.com/women-dresses",
+    "https://www.limeroad.com/women-jeans",
+    "https://www.limeroad.com/men-shirts",
+    "https://www.limeroad.com/men-jeans",
+    "https://www.limeroad.com/women-tops",
+    "https://www.limeroad.com/women-ethnic-wear",
+    "https://www.limeroad.com/men-ethnic-wear"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

@@ -1,0 +1,33 @@
+---
+domain: shoppersstop.com
+fields:
+  crawl_timestamp:
+    desc_of_xpath: "Crawl timestamp"
+    standard_nodeset_range: first
+  uniq_id:
+    desc_of_xpath: "Unique id"
+    standard_nodeset_range: first
+  page_url:
+    desc_of_xpath: "Page URL"
+    standard_nodeset_range: first
+  product_name:
+    desc_of_xpath: "Product title from __NEXT_DATA__ or JSON-LD"
+    standard_nodeset_range: first
+  brand:
+    desc_of_xpath: "Brand from __NEXT_DATA__ product.brand[0]"
+    standard_nodeset_range: first
+  sku:
+    desc_of_xpath: "Product uniqueId from __NEXT_DATA__"
+    standard_nodeset_range: first
+  selling_price:
+    desc_of_xpath: "Selling price from __NEXT_DATA__ product.promotionPrice"
+    standard_nodeset_range: first
+  list_price:
+    desc_of_xpath: "MRP from __NEXT_DATA__ product.price"
+    standard_nodeset_range: first
+  rating:
+    desc_of_xpath: "Average rating from __NEXT_DATA__ product.rating"
+    standard_nodeset_range: first
+  image_url:
+    desc_of_xpath: "Product image from __NEXT_DATA__ product.imageUrl[0]"
+    standard_nodeset_range: first

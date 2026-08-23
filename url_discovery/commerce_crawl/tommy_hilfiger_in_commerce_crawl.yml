@@ -1,0 +1,18 @@
+depth0:
+  seed_url: [
+    "https://www.tommyhilfiger.in/men/t-shirts",
+    "https://www.tommyhilfiger.in/women/t-shirts",
+    "https://www.tommyhilfiger.in/men/polos",
+    "https://www.tommyhilfiger.in/men/shirts",
+    "https://www.tommyhilfiger.in/men/jeans",
+    "https://www.tommyhilfiger.in/women/dresses",
+    "https://www.tommyhilfiger.in/men/hoodies-sweatshirts"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

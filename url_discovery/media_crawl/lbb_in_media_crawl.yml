@@ -1,0 +1,15 @@
+depth0:
+  seed_url: [
+    "https://lbb.in/mumbai/fashion/",
+    "https://lbb.in/delhi/fashion/",
+    "https://lbb.in/bangalore/fashion/",
+    "https://lbb.in/mumbai/",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3

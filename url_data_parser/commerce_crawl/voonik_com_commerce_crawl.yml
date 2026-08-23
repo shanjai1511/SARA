@@ -1,0 +1,14 @@
+---
+domain: voonik.com
+fields:
+  crawl_timestamp:
+  uniq_id:
+  page_url:
+  product_name:
+  list_price:
+  selling_price:
+  discount_percentage:
+  color:
+  size:
+  description:
+  sku:

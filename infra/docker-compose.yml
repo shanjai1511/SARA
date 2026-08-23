@@ -1,0 +1,316 @@
+###############################################################################
+# SARA — Full Production Stack
+#
+# Services:
+#   rabbitmq       — Message broker                    :5672 / :15672
+#   redis          — Bloom filter, rate limiter, status :6379
+#   prometheus     — Metrics scraping                  :9090
+#   grafana        — Dashboards                        :3000
+#   sara-api       — FastAPI control plane             :8080 / :8000 (metrics)
+#   sara-dashboard — Streamlit UI                      :8501
+#   sara-scheduler — APScheduler job dispatcher        (no port)
+#   sara-worker    — Crawl workers (scale with --scale) (no port)
+#
+# Usage:
+#   # Infrastructure only (minimal — for local dev)
+#   docker-compose up -d rabbitmq redis
+#
+#   # Full stack
+#   docker-compose up -d
+#
+#   # Scale to 6 parallel crawl workers
+#   docker-compose up -d --scale sara-worker=6
+#
+#   # Scale workers on a remote server (point to cloud RabbitMQ + Redis)
+#   CLOUDAMQP_URL=amqps://... REDIS_URL=redis://... docker-compose up -d --scale sara-worker=8
+#
+# All env vars are loaded from ../.env
+###############################################################################
+
+version: "3.9"
+
+# ── Common environment shared by all SARA app containers ─────────────────────
+x-common-env: &common-env
+  CLOUDAMQP_URL:                    ${CLOUDAMQP_URL}
+  WEBSHARE_PROXY_JSON:              ${WEBSHARE_PROXY_JSON:-[]}
+  DASHBOARD_PASSWORD:               ${DASHBOARD_PASSWORD}
+  REDIS_URL:                        redis://redis:6379/0
+  ELASTICSEARCH_URL:                ${ELASTICSEARCH_URL:-}
+  ELASTICSEARCH_API_KEY:            ${ELASTICSEARCH_API_KEY:-}
+  ELASTICSEARCH_USER:               ${ELASTICSEARCH_USER:-}
+  ELASTICSEARCH_PASSWORD:           ${ELASTICSEARCH_PASSWORD:-}
+  SARA_API_KEY:                     ${SARA_API_KEY:-dev-secret-change-me}
+  NUM_FETCH_WORKERS:                ${NUM_FETCH_WORKERS:-8}
+  NUM_PARSE_WORKERS:                ${NUM_PARSE_WORKERS:-8}
+  NUM_DISCOVERY_WORKERS:            ${NUM_DISCOVERY_WORKERS:-6}
+  FETCH_DELAY:                      ${FETCH_DELAY:-2}
+  FETCH_SLEEP_SEC:                  ${FETCH_SLEEP_SEC:-1}
+  CRAWL_TIMEOUT:                    ${CRAWL_TIMEOUT:-28800}
+  SARA_BASE_DIR:                    /app
+  SARA_S3_BUCKET:                   ${SARA_S3_BUCKET:-}
+  SARA_S3_PREFIX:                   ${SARA_S3_PREFIX:-raw}
+  AWS_DEFAULT_REGION:               ${AWS_DEFAULT_REGION:-us-east-1}
+  AWS_ACCESS_KEY_ID:                ${AWS_ACCESS_KEY_ID:-}
+  AWS_SECRET_ACCESS_KEY:            ${AWS_SECRET_ACCESS_KEY:-}
+  METRICS_PORT:                     ${METRICS_PORT:-8000}
+  ALERT_SLACK_WEBHOOK_URL:          ${ALERT_SLACK_WEBHOOK_URL:-}
+  ALERT_EMAIL_TO:                   ${ALERT_EMAIL_TO:-}
+  ALERT_SMTP_HOST:                  ${ALERT_SMTP_HOST:-}
+  ALERT_SMTP_USER:                  ${ALERT_SMTP_USER:-}
+  ALERT_SMTP_PASSWORD:              ${ALERT_SMTP_PASSWORD:-}
+  ALERT_NOTIFY_SUCCESS:             ${ALERT_NOTIFY_SUCCESS:-false}
+
+# ── Volume mounts shared by all workers ──────────────────────────────────────
+x-worker-volumes: &worker-volumes
+  - ../scrape_output:/app/scrape_output
+  - ../logs:/app/logs
+  - ../url_discovery:/app/url_discovery
+  - ../url_data_parser:/app/url_data_parser
+  - ../url_retriever:/app/url_retriever
+  - ../config:/app/config
+  - ../.env:/app/.env:ro
+
+services:
+
+  # ── Infrastructure ──────────────────────────────────────────────────────────
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: sara-rabbitmq
+    hostname: sara-rabbitmq          # stable hostname for clustering
+    ports:
+      - "5672:5672"                  # AMQP
+      - "15672:15672"                # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-changeme}
+      RABBITMQ_DEFAULT_VHOST: /
+      # Enable plugins for better observability
+      RABBITMQ_ENABLED_PLUGINS_FILE: /etc/rabbitmq/enabled_plugins
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: sara-redis
+    ports:
+      - "6379:6379"
+    command: >
+      redis-server
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+      --save 60 100
+      --appendonly yes
+      --appendfsync everysec
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  # ── Observability ───────────────────────────────────────────────────────────
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: sara-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+      - "--web.enable-admin-api"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: sara-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER:     admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP:     "false"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/sara.json
+      GF_SERVER_ROOT_URL:         http://localhost:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # ── SARA Application Services ───────────────────────────────────────────────
+
+  sara-api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.api
+    container_name: sara-api
+    ports:
+      - "8080:8080"    # REST API
+      - "8000:8000"    # Prometheus /metrics
+    environment:
+      <<: *common-env
+    volumes: *worker-volumes
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  sara-dashboard:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.dashboard
+    container_name: sara-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      <<: *common-env
+      SARA_API_BASE_URL: http://sara-api:8080
+    volumes: *worker-volumes
+    depends_on:
+      - sara-api
+    restart: unless-stopped
+
+  # ── Scheduler (single instance — dispatches jobs, never runs crawls) ────────
+
+  sara-scheduler:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.worker
+    container_name: sara-scheduler
+    command: ["python", "-m", "services.scheduler.worker"]
+    environment:
+      <<: *common-env
+    volumes:
+      - ../config:/app/config          # reads schedules.json
+      - ../logs:/app/logs
+      - ../.env:/app/.env:ro
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── Crawl Workers (scale horizontally with --scale sara-worker=N) ──────────
+  #
+  # Each worker container runs ONE worker process that pulls one job at a time
+  # from sara-crawl-jobs and executes the full crawl pipeline.
+  #
+  # To run multiple parallel jobs per container, start multiple containers:
+  #   docker-compose up -d --scale sara-worker=8
+  #
+  # Each container gets a unique WORKER_ID via the hostname (container index).
+  # Redis heartbeat keys: sara:worker:{hostname}:{worker_id}:heartbeat
+
+  sara-worker:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.worker
+    # No container_name — allows docker-compose to scale with numeric suffixes
+    command: ["python", "-m", "services.worker.main"]
+    environment:
+      <<: *common-env
+      WORKER_ID: "1"    # overridden per-replica by entrypoint if needed
+    volumes: *worker-volumes
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: on-failure
+    deploy:
+      replicas: 3       # default: 3 workers. Override with --scale sara-worker=N
+
+  # ── Unblock Service (anti-bot fetching layer) ─────────────────────────────
+  #
+  # Standalone HTTP service for anti-bot page fetching.
+  # Workers call it when sites return 403/429/block pages.
+  # Scale horizontally: docker-compose up -d --scale sara-unblock=4
+  #
+  # Strategies available:
+  #   0 direct          — realistic browser fingerprint, no proxy
+  #   1 proxy           — rotating proxy + fingerprint
+  #   2 cffi            — Chrome TLS impersonation (curl_cffi)
+  #   3 cffi+proxy      — curl_cffi + rotating proxy
+  #   4 browser         — Playwright headless Chromium (JS rendering)
+  #   5 browser+proxy   — Playwright + proxy (maximum stealth)
+  #
+  # POST http://sara-unblock:8888/fetch
+  # {"url": "https://www.myntra.com/...", "strategy": 0}
+
+  sara-unblock:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.unblock
+    # No container_name — scalable with --scale sara-unblock=N
+    ports:
+      - "8888:8888"    # REST API
+    environment:
+      WEBSHARE_PROXY_JSON:       ${WEBSHARE_PROXY_JSON:-[]}
+      SARA_UNBLOCK_API_KEY:      ${SARA_UNBLOCK_API_KEY:-}
+      SARA_UNBLOCK_MAX_STRATEGY: ${SARA_UNBLOCK_MAX_STRATEGY:-5}
+      UNBLOCK_PORT:              8888
+      UNBLOCK_WORKERS:           ${UNBLOCK_WORKERS:-2}
+      CORS_ORIGINS:              ${CORS_ORIGINS:-*}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    deploy:
+      replicas: 1     # increase if you need higher fetch throughput
+
+  # ── RabbitMQ Prometheus exporter (optional — uncomment to enable) ──────────
+  # rabbitmq-exporter:
+  #   image: kbudde/rabbitmq-exporter:latest
+  #   container_name: sara-rabbitmq-exporter
+  #   ports:
+  #     - "9419:9419"
+  #   environment:
+  #     RABBIT_URL: http://admin:${RABBITMQ_PASSWORD:-changeme}@rabbitmq:15672
+  #   depends_on:
+  #     - rabbitmq
+  #   restart: unless-stopped
+
+  # ── Redis Prometheus exporter (optional — uncomment to enable) ─────────────
+  # redis-exporter:
+  #   image: oliver006/redis_exporter:latest
+  #   container_name: sara-redis-exporter
+  #   ports:
+  #     - "9121:9121"
+  #   environment:
+  #     REDIS_ADDR: redis://redis:6379
+  #   depends_on:
+  #     - redis
+  #   restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:

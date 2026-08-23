@@ -1,0 +1,97 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SARA Unblock Service
+#
+# Multi-stage build:
+#   1. builder  — installs Python deps + Playwright browsers
+#   2. runtime  — lean image with only what's needed to run
+#
+# Optional extras (included by default):
+#   curl_cffi   — Chrome TLS impersonation (strategies 2–3)
+#   playwright  — headless Chromium (strategies 4–5)
+#
+# To build without browser support (lighter image, strategies 0–3 only):
+#   docker build --build-arg NO_BROWSER=1 -f infra/Dockerfile.unblock .
+# ─────────────────────────────────────────────────────────────────────────────
+
+ARG PYTHON_VERSION=3.11
+ARG NO_BROWSER=0
+
+FROM python:${PYTHON_VERSION}-slim AS builder
+
+WORKDIR /build
+
+# System deps needed for curl_cffi native build + Playwright deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        git \
+        libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt* ./
+
+# Core deps
+RUN pip install --no-cache-dir --prefix=/install \
+    fastapi \
+    uvicorn[standard] \
+    pydantic \
+    requests \
+    python-dotenv \
+    aiohttp
+
+# TLS impersonation (curl_cffi) — strategies 2–3
+RUN pip install --no-cache-dir --prefix=/install curl-cffi || \
+    echo "curl_cffi not available on this platform — TLS strategies disabled"
+
+# Playwright — strategies 4–5
+ARG NO_BROWSER
+RUN if [ "$NO_BROWSER" = "0" ]; then \
+        pip install --no-cache-dir --prefix=/install playwright && \
+        PLAYWRIGHT_BROWSERS_PATH=/install/playwright-browsers \
+        /install/bin/playwright install chromium --with-deps || \
+        echo "Playwright install failed — browser strategies disabled"; \
+    fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+FROM python:${PYTHON_VERSION}-slim AS runtime
+
+WORKDIR /app
+
+# Playwright system dependencies (for Chromium)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libnss3 \
+        libatk-bridge2.0-0 \
+        libdrm2 \
+        libxkbcommon0 \
+        libgbm1 \
+        libasound2 \
+        libxrandr2 \
+        libxdamage1 \
+        libxfixes3 \
+        libxcomposite1 \
+        libxext6 \
+        libx11-6 \
+        libxcb1 \
+        fonts-liberation \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Playwright browsers
+ARG NO_BROWSER
+COPY --from=builder /install/playwright-browsers /root/.cache/ms-playwright 2>/dev/null || true
+
+# Copy application source
+COPY . /app
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
+ENV UNBLOCK_PORT=8888
+ENV UNBLOCK_WORKERS=2
+
+EXPOSE 8888
+
+CMD ["python", "-m", "services.unblock.main"]

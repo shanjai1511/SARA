@@ -1,0 +1,14 @@
+depth0:
+  seed_url: [
+    "https://etretail.com/industry/fashion-/-apparel",
+    "https://etretail.com/industry/e-tailing",
+    "https://etretail.com/news/",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3

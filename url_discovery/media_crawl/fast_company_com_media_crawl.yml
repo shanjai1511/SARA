@@ -1,0 +1,14 @@
+depth0:
+  seed_url: [
+    "https://www.fastcompany.com/section/retail/",
+    "https://www.fastcompany.com/section/fashion/",
+    "https://www.fastcompany.com/section/technology/",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3

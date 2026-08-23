@@ -1,0 +1,15 @@
+depth0:
+  seed_url: [
+    "https://yourstory.com/tag/fashion",
+    "https://yourstory.com/tag/ecommerce",
+    "https://yourstory.com/tag/d2c",
+    "https://yourstory.com/tag/retail",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3

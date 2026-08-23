@@ -1,0 +1,86 @@
+{
+  "current_runs": {
+    "media_crawl__just_style_com__20260426001": {
+      "project": "media_crawl",
+      "site": "just_style_com",
+      "schedule_id": "20260426001",
+      "stage": "discovery",
+      "started_at": "2026-04-26T09:45:30Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {},
+      "updated_at": "2026-04-26T09:45:31Z"
+    },
+    "commerce_crawl__flipkart_com__20260426001": {
+      "project": "commerce_crawl",
+      "site": "flipkart_com",
+      "schedule_id": "20260426001",
+      "stage": "discovery",
+      "started_at": "2026-04-26T09:53:49Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {},
+      "updated_at": "2026-04-26T09:53:50Z"
+    }
+  },
+  "last_runs": [
+    {
+      "project": "commerce_crawl",
+      "site": "limeroad_com",
+      "schedule_id": "20260426001",
+      "stage": "parser",
+      "started_at": "2026-04-26T09:13:39Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "retriever_total": 0,
+        "retriever_fetched": 125,
+        "discovery_urls": 1600,
+        "parser_pages": 222,
+        "parser_records": 17,
+        "parser_pages_done": 17
+      },
+      "updated_at": "2026-04-26T09:53:43Z",
+      "completed_at": "2026-04-26T09:53:45Z",
+      "status": "failed"
+    },
+    {
+      "project": "media_crawl",
+      "site": "fibre_2_fashion_com",
+      "schedule_id": "20260426001",
+      "stage": "parser",
+      "started_at": "2026-04-26T09:05:18Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "retriever_total": 0,
+        "retriever_fetched": 142,
+        "discovery_urls": 1962,
+        "parser_pages": 142,
+        "parser_records": 142,
+        "parser_pages_done": 142
+      },
+      "updated_at": "2026-04-26T09:45:27Z",
+      "completed_at": "2026-04-26T09:45:28Z",
+      "status": "completed"
+    },
+    {
+      "project": "commerce_crawl",
+      "site": "shoppersstop_com",
+      "schedule_id": "20260426001",
+      "stage": "parser",
+      "started_at": "2026-04-26T09:08:27Z",
+      "worker_id": "local",
+      "hostname": "Shanjai-R",
+      "progress": {
+        "retriever_fetched": 16,
+        "parser_pages": 20,
+        "parser_records": 16,
+        "parser_pages_done": 20
+      },
+      "updated_at": "2026-04-26T09:13:36Z",
+      "completed_at": "2026-04-26T09:13:36Z",
+      "status": "completed"
+    }
+  ]
+}

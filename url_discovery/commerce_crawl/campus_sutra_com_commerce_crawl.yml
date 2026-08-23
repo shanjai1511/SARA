@@ -1,0 +1,16 @@
+depth0:
+  seed_url: [
+    "https://www.campussutra.com/Men-T-Shirts",
+    "https://www.campussutra.com/Women-T-Shirts",
+    "https://www.campussutra.com/Men-Shirts",
+    "https://www.campussutra.com/Men-Hoodies-Sweatshirts",
+    "https://www.campussutra.com/Women-Hoodies-Sweatshirts"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

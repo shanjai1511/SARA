@@ -1,0 +1,17 @@
+depth0:
+  seed_url: [
+    "https://www.thefashionlaw.com/retail/",
+    "https://www.thefashionlaw.com/law/",
+    "https://www.thefashionlaw.com/business/",
+    "https://www.thefashionlaw.com/global/",
+    "https://www.thefashionlaw.com/sustainability/",
+    "https://www.thefashionlaw.com/luxury/",
+    "https://www.thefashionlaw.com/ip/"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  timeout: 30
+  max_retries: 3

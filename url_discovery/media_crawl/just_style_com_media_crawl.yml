@@ -1,0 +1,18 @@
+depth0:
+  seed_url: [
+    "https://www.just-style.com/news/",
+    "https://www.just-style.com/analysis/",
+    "https://www.just-style.com/apparel/",
+    "https://www.just-style.com/retail/",
+    "https://www.just-style.com/markets/",
+    "https://www.just-style.com/sustainability/",
+    "https://www.just-style.com/manufacturing/"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

@@ -1,0 +1,16 @@
+depth0:
+  seed_url: [
+    "https://www.calvinklein.in/men/tops/t-shirts",
+    "https://www.calvinklein.in/women/tops/t-shirts",
+    "https://www.calvinklein.in/men/bottoms/jeans",
+    "https://www.calvinklein.in/women/bottoms/jeans",
+    "https://www.calvinklein.in/men/underwear"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

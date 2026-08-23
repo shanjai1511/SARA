@@ -1,0 +1,23 @@
+depth0:
+  seed_url: [
+    "https://styleunion.in/collections/mens-t-shirts",
+    "https://styleunion.in/collections/womens-t-shirts",
+    "https://styleunion.in/collections/mens-shirts",
+    "https://styleunion.in/collections/womens-tops",
+    "https://styleunion.in/collections/mens-polo",
+    "https://styleunion.in/collections/womens-dresses",
+    "https://styleunion.in/collections/mens-jeans",
+    "https://styleunion.in/collections/womens-jeans",
+    "https://styleunion.in/collections/mens-sweatshirts",
+    "https://styleunion.in/collections/womens-sweatshirts",
+    "https://styleunion.in/collections/mens-shorts",
+    "https://styleunion.in/collections/womens-kurtas"
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+request_params:
+  proxy: webshare_proxy
+  timeout: 30
+  max_retries: 3

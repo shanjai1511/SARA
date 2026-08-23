@@ -1,0 +1,14 @@
+depth0:
+  seed_url: [
+    "https://www.thevoiceoffashion.com/category/centrestage-3",
+    "https://www.thevoiceoffashion.com/category/fabric-of-india-2",
+    "https://www.thevoiceoffashion.com/category/intersections-5",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3

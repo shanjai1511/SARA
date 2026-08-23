@@ -1,0 +1,14 @@
+depth0:
+  seed_url: [
+    "https://www.wired.com/tag/fashion/",
+    "https://www.wired.com/tag/ecommerce/",
+    "https://www.wired.com/business/",
+  ]
+depth1:
+  method_name: get_pagination_url
+depth2:
+  method_name: get_product_url
+
+request_params:
+  timeout: 30
+  max_retries: 3
