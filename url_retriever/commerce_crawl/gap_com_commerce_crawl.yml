@@ -1,4 +1,0 @@
-request_type: curl
-request_params:
-  max_retries: 3
-  timeout: 30
